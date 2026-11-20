@@ -10,3 +10,5 @@ export { invalidLabels, validateLabel } from "./validate";
 export type { LabelRejection, LabelValidation, MechanicsLabel, SourceField } from "./types";
 export { prelabel } from "./prelabel";
 export type { LabelSuggestion } from "./prelabel";
+export { changedChampions, taggedBaseline } from "./changes";
+export type { TaggedBaseline } from "./changes";
