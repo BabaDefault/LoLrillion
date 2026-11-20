@@ -2,7 +2,7 @@ import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { readApprovedReviews } from "./files";
+import { readApprovedReviewFiles, readApprovedReviews } from "./files";
 import type { ApprovedReview } from "./types";
 
 const approved: ApprovedReview = {
@@ -44,5 +44,23 @@ describe("reading approved reviews for the Builder", () => {
   it("refuses a file whose name doesn't match its Template ID", async () => {
     const root = reviewsDir({ "approved/other.json": approved });
     await expect(readApprovedReviews(root)).rejects.toThrow(/other\.json/);
+  });
+});
+
+describe("reading approved reviews for maintainer scripts", () => {
+  it("keeps going past an inconsistent approval, returning it with its problems", async () => {
+    const bad = { ...approved, templateId: "champions-stun", gem: "champion:Annie" };
+    const root = reviewsDir({ "approved/champions-dash.json": approved, "approved/champions-stun.json": bad });
+    const { valid, invalid } = await readApprovedReviewFiles(root);
+    expect(valid).toEqual({ "champions-dash": approved });
+    expect(Object.keys(invalid)).toEqual(["champions-stun"]);
+    expect(invalid["champions-stun"].review).toEqual(bad);
+    expect(invalid["champions-stun"].problems.join("\n")).toMatch(/Gem champion:Annie/);
+  });
+
+  it("reports a misnamed file as invalid", async () => {
+    const { valid, invalid } = await readApprovedReviewFiles(reviewsDir({ "approved/other.json": approved }));
+    expect(valid).toEqual({});
+    expect(invalid["champions-dash"].problems.join("\n")).toMatch(/other\.json/);
   });
 });

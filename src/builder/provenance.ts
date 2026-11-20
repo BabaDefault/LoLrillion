@@ -24,18 +24,18 @@ export interface PromptExplanation {
   /** The provenance fields that differ (empty without stored provenance). */
   changedInputs: (keyof PromptProvenance)[];
   /** Whether the rebuild gives a different Answer Set or different Tiers. */
-  tiersChanged: boolean;
+  answerSetOrTiersChanged: boolean;
 }
 
 /** Compare a stored Prompt with a rebuild of its Template, naming the inputs that changed. */
 export function explainPrompt(stored: BuiltPrompt, rebuilt: BuiltPrompt): PromptExplanation {
-  const tiersChanged = canonical(stored.answerSet) !== canonical(rebuilt.answerSet);
+  const answerSetOrTiersChanged = canonical(stored.answerSet) !== canonical(rebuilt.answerSet);
   const before = stored.provenance;
   const after = rebuilt.provenance;
-  if (!before || !after) return { status: "no-provenance", changedInputs: [], tiersChanged };
+  if (!before || !after) return { status: "no-provenance", changedInputs: [], answerSetOrTiersChanged };
   const changedInputs = PROVENANCE_FIELDS.filter((k) => canonical(before[k]) !== canonical(after[k]));
-  const same = !tiersChanged && changedInputs.length === 0;
-  return { status: same ? "same" : "changed", changedInputs, tiersChanged };
+  const same = !answerSetOrTiersChanged && changedInputs.length === 0;
+  return { status: same ? "same" : "changed", changedInputs, answerSetOrTiersChanged };
 }
 
 const PROVENANCE_FIELDS: readonly (keyof PromptProvenance)[] = ["dataVersion", "review", "labels", "familiarity", "scoring"];

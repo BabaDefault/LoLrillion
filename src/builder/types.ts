@@ -54,11 +54,11 @@ export interface BuilderInputs {
 /** The constants that turn Priors into Tiers. */
 export interface ScoringConstants {
   /** How much Familiarity weighs in the Prior when it exists; Typicality is the rest. */
-  FAMILIARITY_WEIGHT: number;
+  familiarityWeight: number;
   /** Share of the normally-banded answers in Minion, Kill and Triple Kill; the rest is Quadra Kill. */
-  BAND_SHARES: { readonly minion: number; readonly kill: number; readonly "triple-kill": number };
+  bandShares: { readonly minion: number; readonly kill: number; readonly "triple-kill": number };
   /** Without an approved Gem: position from likeliest (0) to least likely (1) of the default Gem. */
-  DEFAULT_GEM_POSITION: number;
+  defaultGemPosition: number;
 }
 
 /**

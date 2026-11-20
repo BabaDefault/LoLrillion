@@ -27,7 +27,10 @@ export function ArchiveList() {
         <li key={day.puzzleDay}>
           <Link href={`/archive/${day.puzzleDay}`} className="card row">
             <span>
-              LoLrillion #{day.puzzleNumber} <span className="muted">· {day.puzzleDay}</span>
+              LoLrillion <span className="num">#{day.puzzleNumber}</span>{" "}
+              <span className="muted">
+                · <span className="num">{day.puzzleDay}</span>
+              </span>
             </span>
             <span className={day.finished ? "muted" : "chip"}>{day.finished ? "Results" : "Play"}</span>
           </Link>

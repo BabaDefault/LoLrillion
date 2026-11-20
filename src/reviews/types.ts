@@ -54,10 +54,24 @@ export interface ApprovedReview {
   gem: EntityId;
 }
 
-/** A Template waiting for review: never approved, or its Answer Set changed since approval. */
+/** An approved review file that fails today's checks (e.g. a rule added after it was approved). */
+export interface InvalidApproval {
+  /** The file name under `approved/`. */
+  file: string;
+  review: ApprovedReview;
+  /** Why it fails, one line each. */
+  problems: string[];
+}
+
+/**
+ * A Template waiting for review: never approved, its Answer Set changed since approval, or its
+ * approval fails today's checks and must be redone.
+ */
 export interface QueueEntry {
   templateId: string;
-  status: "unreviewed" | "changed";
+  status: "needs re-approval" | "unreviewed" | "changed";
+  /** Why the approval fails today's checks (only with "needs re-approval"). */
+  problems?: string[];
   /** In the current Answer Set but not the approved one (everything, when unreviewed). */
   added: EntityId[];
   /** In the approved Answer Set but no longer in the current one. */

@@ -61,7 +61,7 @@ describe("Prompt provenance", () => {
 
   it("a scoring constant changing changes the scoring field and nothing else", () => {
     const before = buildPrompt(invisible, full).provenance;
-    const scoring = { ...SCORING_CONSTANTS, DEFAULT_GEM_POSITION: 0.5 };
+    const scoring = { ...SCORING_CONSTANTS, defaultGemPosition: 0.5 };
     expect(changedFields(before, buildPrompt(invisible, { ...full, scoring }).provenance)).toEqual(["scoring"]);
   });
 
@@ -77,7 +77,7 @@ describe("explaining a stored Prompt against a rebuild from today's inputs", () 
     expect(explainPrompt(buildPrompt(invisible, full), buildPrompt(invisible, full))).toEqual({
       status: "same",
       changedInputs: [],
-      tiersChanged: false,
+      answerSetOrTiersChanged: false,
     });
   });
 
@@ -87,7 +87,7 @@ describe("explaining a stored Prompt against a rebuild from today's inputs", () 
     expect(explainPrompt(stored, buildPrompt(invisible, { ...full, reviews }))).toEqual({
       status: "changed",
       changedInputs: ["review"],
-      tiersChanged: true,
+      answerSetOrTiersChanged: true,
     });
   });
 
@@ -96,7 +96,7 @@ describe("explaining a stored Prompt against a rebuild from today's inputs", () 
     expect(explainPrompt(stored, buildPrompt(invisible, full))).toEqual({
       status: "no-provenance",
       changedInputs: [],
-      tiersChanged: false,
+      answerSetOrTiersChanged: false,
     });
   });
 });

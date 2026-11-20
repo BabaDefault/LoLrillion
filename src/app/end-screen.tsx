@@ -54,12 +54,12 @@ function DistributionCurve({ results }: { results: PuzzleResultsView }) {
     <>
       {results.percentile === null ? (
         <p data-testid="percentile">
-          That day&apos;s {results.playerCount} {results.playerCount === 1 ? "player" : "players"}
+          That day&apos;s <span className="num">{results.playerCount}</span> {results.playerCount === 1 ? "player" : "players"}
         </p>
       ) : (
         <p data-testid="percentile">
-          Better than <strong>{results.percentile}%</strong> of {results.archive ? "that day's" : "today's"}{" "}
-          {results.playerCount} {results.playerCount === 1 ? "player" : "players"}
+          Better than <strong className="num">{results.percentile}%</strong> of {results.archive ? "that day's" : "today's"}{" "}
+          <span className="num">{results.playerCount}</span> {results.playerCount === 1 ? "player" : "players"}
         </p>
       )}
       <div
@@ -112,7 +112,7 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
     <div className="end-screen">
       <section className="card center">
         <p className="muted">
-          LoLrillion #{results.puzzleNumber}
+          LoLrillion <span className="num">#{results.puzzleNumber}</span>
           {results.archive && (
             <>
               {" "}
@@ -125,7 +125,9 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
             <p className="total" data-testid="total">
               {results.total}
             </p>
-            <p className="muted">out of {results.maxTotal}</p>
+            <p className="muted">
+              out of <span className="num">{results.maxTotal}</span>
+            </p>
             <p className="day-title" data-testid="day-title">
               {results.dayTitle}
             </p>
@@ -168,7 +170,7 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
       {results.prompts.map((prompt, i) => (
         <section className="card reveal" key={i}>
           <p className="muted">
-            Prompt {i + 1} · {prompt.answerType.toUpperCase()}
+            Prompt <span className="num">{i + 1}</span> · {prompt.answerType.toUpperCase()}
           </p>
           <h3>{prompt.text}</h3>
           {prompt.result && (
@@ -177,11 +179,13 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
             >
               {prompt.result.status === "accepted" ? (
                 <>
-                  {TIER_EMOJI[prompt.result.tier]} {prompt.result.entityName}: {TIER_NAMES[prompt.result.tier]} (+
-                  {prompt.result.points})
+                  {TIER_EMOJI[prompt.result.tier]} {prompt.result.entityName}: {TIER_NAMES[prompt.result.tier]}{" "}
+                  <span className="num">(+{prompt.result.points})</span>
                 </>
               ) : (
-                <>⬛ Miss (+0)</>
+                <>
+                  ⬛ Miss <span className="num">(+0)</span>
+                </>
               )}
             </p>
           )}
@@ -195,7 +199,8 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
                     {entry.gem && <span className="gem-label"> Gem</span>}
                   </span>
                   <span className="muted">
-                    {TIER_NAMES[entry.tier]} · {entry.count} chose · {percent(entry.share)}
+                    {TIER_NAMES[entry.tier]} · <span className="num">{entry.count}</span> chose ·{" "}
+                    <span className="num">{percent(entry.share)}</span>
                   </span>
                 </li>
               );

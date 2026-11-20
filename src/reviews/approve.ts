@@ -1,3 +1,4 @@
+import type { EntityId } from "@/engine";
 import type { ApprovedReview, ReviewProposal } from "./types";
 
 /** The most typical an approved Gem may be: the top of the 0.05-0.25 range `/review-template` prefers. */
@@ -22,7 +23,7 @@ export function approveProposal(proposal: ReviewProposal): ApprovedReview {
 /**
  * Problems in an approved review file; empty when consistent. Picks are checked against the Answer
  * Set it was approved on. A later data refresh that drops one is the review queue's concern, and the
- * Builder ignores picks that are no longer answers.
+ * Builder ignores picks that are no longer in the Answer Set.
  */
 export function checkApprovedReview(review: ApprovedReview): string[] {
   const problems: string[] = [];
@@ -50,21 +51,40 @@ function gemObscurityProblems(review: ApprovedReview, tooClever: Set<string>): s
   const value = typicality[gem];
   if (typeof value !== "number") return [`Gem ${gem} has no Typicality, so its obscurity can't be checked`];
   if (value > GEM_MAX_TYPICALITY) {
-    return [`Gem ${gem} has Typicality ${value}, above ${GEM_MAX_TYPICALITY}: pick a rarer answer`];
+    return [`Gem ${gem} has Typicality ${value}, above ${GEM_MAX_TYPICALITY}: pick a rarer Entity`];
   }
-  // Rank the approved Answer Set by Typicality, Too Clever picks left out. Ties go in the Gem's favour.
-  const ranked = Object.entries(typicality).filter(([id]) => id !== gem && !tooClever.has(id) && review.answerSet.includes(id));
-  const likelier = ranked.filter(([, t]) => t >= value).length;
-  const count = ranked.length + 1;
-  if (likelier < Math.floor(count / 2)) {
+  const rank = gemRank(gem, value, { answerSet: review.answerSet, typicality, tooClever });
+  if (rank.inLikeliestHalf) {
     return [
-      `Gem ${gem} is ${ordinal(likelier + 1)} of ${count} by Typicality, in the likeliest half of the Answer Set (Too Clever left out): pick a rarer answer`,
+      `Gem ${gem} is ${ordinal(rank.place)} of ${rank.count} by Typicality, in the likeliest half of the Answer Set (Too Clever left out): pick a rarer Entity`,
     ];
   }
   return [];
 }
 
-function ordinal(n: number): string {
+/**
+ * Where a Gem with Typicality `value` would rank in an Answer Set by Typicality (1 = likeliest), Too
+ * Clever picks and Entities without a Typicality left out, ties in the Gem's favour; and whether
+ * that is in the likeliest half, which an approved Gem may not be (#18). `value` is passed apart
+ * from `typicality` so callers can ask "what if its estimate were a little different?".
+ */
+export function gemRank(
+  gem: EntityId,
+  value: number,
+  set: {
+    answerSet: readonly EntityId[];
+    typicality: Readonly<Record<EntityId, number>>;
+    tooClever: ReadonlySet<EntityId>;
+  },
+): { place: number; count: number; inLikeliestHalf: boolean } {
+  const inSet = new Set(set.answerSet);
+  const ranked = Object.entries(set.typicality).filter(([id]) => id !== gem && !set.tooClever.has(id) && inSet.has(id));
+  const likelier = ranked.filter(([, t]) => t >= value).length;
+  const count = ranked.length + 1;
+  return { place: likelier + 1, count, inLikeliestHalf: likelier < Math.floor(count / 2) };
+}
+
+export function ordinal(n: number): string {
   const suffix = n % 100 >= 11 && n % 100 <= 13 ? "th" : (["th", "st", "nd", "rd"][n % 10] ?? "th");
   return `${n}${suffix}`;
 }

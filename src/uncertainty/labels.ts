@@ -1,6 +1,6 @@
 import type { GameDataSnapshot } from "@/content/game-data/snapshot";
 import { mechanicsTerm, prelabel, validateLabel, type LabelRejection, type MechanicsLabel } from "@/labels";
-import { rankByUncertainty, type Ranked, type Uncertainty } from "./rank";
+import { rankByUncertainty, uncertaintyTally, type Ranked, type Uncertainty } from "./rank";
 
 /** What a label's uncertainty is judged against. */
 export interface LabelUncertaintyInputs {
@@ -29,12 +29,7 @@ export const LABEL_WEIGHTS = {
  * confidence). Assumes the label passes the quote validator; `labelQueue` rejects those that don't.
  */
 export function labelUncertainty(label: MechanicsLabel, inputs: LabelUncertaintyInputs): Uncertainty {
-  const reasons: string[] = [];
-  let score = 0;
-  const raise = (weight: number, reason: string) => {
-    score += weight;
-    reasons.push(reason);
-  };
+  const { raise, result } = uncertaintyTally();
 
   const term = mechanicsTerm(label.term);
   if (!prelabel(inputs.snapshot, [label.entityId]).some((s) => s.term === label.term)) {
@@ -52,7 +47,7 @@ export function labelUncertainty(label: MechanicsLabel, inputs: LabelUncertainty
   if (inputs.changed.includes(label.entityId)) {
     raise(LABEL_WEIGHTS.abilityTextChanged, `${label.entityId}'s ability text changed this patch`);
   }
-  return { score, reasons };
+  return result();
 }
 
 /**

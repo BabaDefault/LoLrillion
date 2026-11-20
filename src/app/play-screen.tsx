@@ -172,9 +172,11 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
     return (
       <section className="card center">
         <p className="muted">
-          Prompt {current.index + 1} of {state.promptCount}
+          Prompt <span className="num">{current.index + 1}</span> of <span className="num">{state.promptCount}</span>
         </p>
-        <p>5 seconds to read, then 25 seconds to answer.</p>
+        <p>
+          <span className="num">5</span> seconds to read, then <span className="num">25</span> seconds to answer.
+        </p>
         <button className="primary" onClick={start} disabled={busy} autoFocus>
           {current.index === 0 ? "Start" : "Show Prompt"}
         </button>
@@ -197,7 +199,7 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
     <section className="card">
       <div className="row">
         <span className="muted">
-          Prompt {live.index + 1} of {state.promptCount}
+          Prompt <span className="num">{live.index + 1}</span> of <span className="num">{state.promptCount}</span>
         </span>
         <span className="badge">{live.answerType.toUpperCase()}</span>
       </div>

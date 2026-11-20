@@ -1,7 +1,7 @@
-import { bandAt } from "@/builder";
+import { bandByPrior } from "@/builder";
 import type { EntityId } from "@/engine";
-import { GEM_MAX_TYPICALITY, type ReviewProposal } from "@/reviews";
-import { rankByUncertainty, type Ranked, type Uncertainty } from "./rank";
+import { GEM_MAX_TYPICALITY, gemRank, ordinal, type ReviewProposal } from "@/reviews";
+import { rankByUncertainty, uncertaintyTally, type Ranked, type Uncertainty } from "./rank";
 
 /** What a Template review proposal's uncertainty is judged against. */
 export interface TemplateUncertaintyInputs {
@@ -25,20 +25,18 @@ export const TEMPLATE_WEIGHTS = {
   olderPatch: 2,
   /** Per Answer Set entry resting on a fact older than the current snapshot. */
   staleFact: 1,
-  /** Per Gem candidate within `TYPICALITY_MARGIN` of `GEM_MAX_TYPICALITY`: the Gem scores 100. */
+  /**
+   * Per Gem candidate within `TYPICALITY_MARGIN` of `GEM_MAX_TYPICALITY`, or in or at the edge of the
+   * likeliest half of the Answer Set (the approval rule, #18): the Gem scores 100.
+   */
   nearGemThreshold: 2,
-  /** Per pair of neighbouring answers across a band edge within `TYPICALITY_MARGIN` of each other. */
+  /** Per pair of neighbouring Entities across a band edge within `TYPICALITY_MARGIN` of each other. */
   nearBandEdge: 1,
 } as const;
 
 /** How likely a `/review-template` proposal is to need correcting, from signals code can check. */
 export function templateUncertainty(proposal: ReviewProposal, inputs: TemplateUncertaintyInputs): Uncertainty {
-  const reasons: string[] = [];
-  let score = 0;
-  const raise = (weight: number, reason: string) => {
-    score += weight;
-    reasons.push(reason);
-  };
+  const { raise, result } = uncertaintyTally();
 
   for (const point of proposal.disputable ?? []) {
     raise(TEMPLATE_WEIGHTS.disputable, `disputable: ${point.entity ?? "(no entity)"} (${point.why})`);
@@ -54,12 +52,32 @@ export function templateUncertainty(proposal: ReviewProposal, inputs: TemplateUn
     if (staleFacts[id]) raise(TEMPLATE_WEIGHTS.staleFact, `stale fact: ${id} (${staleFacts[id]})`);
   }
   const typicality = proposal.typicality ?? {};
+  const set = {
+    answerSet: proposal.answerSet ?? [],
+    typicality: Object.fromEntries(Object.entries(typicality).map(([id, t]) => [id, t.value])),
+    tooClever: new Set((proposal.tooClever ?? []).map((c) => c.entity)),
+  };
   for (const { entity } of proposal.gemCandidates ?? []) {
     const value = typicality[entity]?.value;
-    if (typeof value === "number" && near(value, GEM_MAX_TYPICALITY)) {
+    if (typeof value !== "number") continue;
+    if (near(value, GEM_MAX_TYPICALITY)) {
       raise(
         TEMPLATE_WEIGHTS.nearGemThreshold,
         `Gem candidate ${entity} has Typicality ${value}, near the Gem threshold ${GEM_MAX_TYPICALITY}: a small change decides whether it can be the Gem`,
+      );
+    }
+    const rank = gemRank(entity, value, set);
+    const where = `${ordinal(rank.place)} of ${rank.count} by Typicality`;
+    if (rank.inLikeliestHalf) {
+      raise(
+        TEMPLATE_WEIGHTS.nearGemThreshold,
+        `Gem candidate ${entity} is ${where}, in the likeliest half of the Answer Set (Too Clever left out): it can't be the Gem`,
+      );
+    } else if (gemRank(entity, value + TYPICALITY_MARGIN + 1e-9, set).inLikeliestHalf) {
+      raise(
+        TEMPLATE_WEIGHTS.nearGemThreshold,
+        `Gem candidate ${entity} is ${where}, at the edge of the likeliest half of the Answer Set (Too Clever left out): ` +
+          "a small change decides whether it can be the Gem",
       );
     }
   }
@@ -70,11 +88,11 @@ export function templateUncertainty(proposal: ReviewProposal, inputs: TemplateUn
         `are within ${TYPICALITY_MARGIN}: a small change swaps their Tiers`,
     );
   }
-  return { score, reasons };
+  return result();
 }
 
 /**
- * Neighbouring answers on either side of a band edge whose Typicality estimates are close. Banded
+ * Neighbouring Entities on either side of a band edge whose Typicality estimates are close. Banded
  * as the Builder would with the drafted approval: by estimated Typicality, the first Gem candidate
  * and every Too Clever candidate left out, ties sharing a band.
  */
@@ -82,15 +100,12 @@ function closeBandEdges(proposal: ReviewProposal) {
   const typicality = proposal.typicality ?? {};
   const gem = proposal.gemCandidates?.[0]?.entity;
   const tooClever = new Set((proposal.tooClever ?? []).map((c) => c.entity));
-  const banded = (proposal.answerSet ?? [])
-    .filter((id) => id !== gem && !tooClever.has(id) && typeof typicality[id]?.value === "number")
-    .map((id) => ({ id, value: typicality[id].value }))
-    .sort((a, b) => b.value - a.value || a.id.localeCompare(b.id));
-  let bandStart = 0;
-  const tiered = banded.map((entry, i) => {
-    if (i > 0 && entry.value !== banded[i - 1].value) bandStart = i;
-    return { ...entry, tier: bandAt(bandStart / banded.length) };
-  });
+  const banded = new Map(
+    (proposal.answerSet ?? [])
+      .filter((id) => id !== gem && !tooClever.has(id) && typeof typicality[id]?.value === "number")
+      .map((id) => [id, typicality[id].value]),
+  );
+  const tiered = [...bandByPrior(banded)].map(([id, tier]) => ({ id, value: banded.get(id)!, tier }));
   return tiered
     .slice(1)
     .map((lower, i) => [tiered[i], lower] as const)
@@ -103,7 +118,7 @@ export const TYPICALITY_MARGIN = 0.05;
 const near = (a: number, b: number) => Math.abs(a - b) <= TYPICALITY_MARGIN + 1e-9;
 
 /** Template review proposals, most uncertain first, with reasons. */
-export function reviewUncertaintyQueue(
+export function templateQueue(
   proposals: readonly ReviewProposal[],
   inputs: TemplateUncertaintyInputs,
 ): Ranked<ReviewProposal>[] {
