@@ -50,8 +50,8 @@ function DistributionCurve({ results }: { results: PuzzleResultsView }) {
   return (
     <>
       <p data-testid="percentile">
-        Better than <strong>{results.percentile}%</strong> of today&apos;s {results.playerCount}{" "}
-        {results.playerCount === 1 ? "player" : "players"}
+        Better than <strong>{results.percentile}%</strong> of {results.archive ? "that day's" : "today's"}{" "}
+        {results.playerCount} {results.playerCount === 1 ? "player" : "players"}
       </p>
       <div className="curve" role="img" aria-label="Today's score distribution, with your score highlighted">
         {bins.map((b, i) => (
@@ -68,20 +68,21 @@ function DistributionCurve({ results }: { results: PuzzleResultsView }) {
 }
 
 /** The end-of-day reveal: total, day title, each answer and the full Answer Sets, plus sharing. */
-export function EndScreen() {
+export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
   const [results, setResults] = useState<PuzzleResultsView | null>(null);
   const [error, setError] = useState(false);
   const [order, setOrder] = useState<SortOrder>("most");
   const [copied, setCopied] = useState<"idle" | "copied" | "failed">("idle");
 
   useEffect(() => {
-    fetch("/api/puzzle/results", { cache: "no-store" })
+    const query = archiveDay ? `?day=${encodeURIComponent(archiveDay)}` : "";
+    fetch(`/api/puzzle/results${query}`, { cache: "no-store" })
       .then((res) => res.json() as Promise<ResultsResponse>)
       .then((res) => (res.ok ? setResults(res.results) : setError(true)))
       .catch(() => setError(true));
-  }, []);
+  }, [archiveDay]);
 
-  if (error) return <p className="muted">Couldn&apos;t load today&apos;s results.</p>;
+  if (error) return <p className="muted">Couldn&apos;t load the results.</p>;
   if (!results) return <p className="muted">Loading your results…</p>;
 
   async function share() {
@@ -97,7 +98,15 @@ export function EndScreen() {
   return (
     <div className="end-screen">
       <section className="card center">
-        <p className="muted">LoLrillion #{results.puzzleNumber}</p>
+        <p className="muted">
+          LoLrillion #{results.puzzleNumber}
+          {results.archive && (
+            <>
+              {" "}
+              · <span data-testid="archive-flag">Archive play: not counted on leaderboards or in Answer Share</span>
+            </>
+          )}
+        </p>
         <p className="total" data-testid="total">
           {results.total}
         </p>
