@@ -1,4 +1,5 @@
 import type { GameDataSnapshot } from "@/content/game-data/snapshot";
+import type { FamiliarityFile } from "@/content/familiarity/types";
 import type { AnswerType, EntityId, Tier } from "@/engine";
 
 /** A hand-maintained fact, with where it was checked and on which patch. */
@@ -30,12 +31,8 @@ export interface ApprovedLabel {
   sourceField: string;
 }
 
-/** Familiarity for one patch (#11): `src/content/familiarity/<patch>.json`. */
-export interface FamiliarityData {
-  patch: string;
-  champions: Readonly<Record<EntityId, { mastery: number; pickRate: number }>>;
-  items: Readonly<Record<EntityId, { buildRate: number }>>;
-}
+/** Familiarity for one patch (#11): `src/content/familiarity/<snapshot patch>.json`, shares from 0 to 1. */
+export type FamiliarityData = FamiliarityFile;
 
 /**
  * The approved review of one Template (#10 documents and extends this). Everything is optional:

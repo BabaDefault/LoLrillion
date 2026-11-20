@@ -11,9 +11,11 @@
     "data:fetch": "tsx scripts/fetch-game-data.ts",
     "data:registry": "tsx scripts/fetch-game-data.ts --registry-only",
     "data:overlay": "tsx scripts/fetch-champion-meta.ts",
-    "puzzles:build": "tsx scripts/build-puzzles.ts"
+    "puzzles:build": "tsx scripts/build-puzzles.ts",
+    "data:familiarity": "tsx scripts/fetch-familiarity.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
     "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"

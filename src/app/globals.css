@@ -293,6 +293,28 @@ button.primary:disabled {
   color: var(--accent);
 }
 
+/* Score-distribution curve on the end screen */
+.curve {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: 100%;
+  height: 64px;
+  margin: 12px 0 4px;
+}
+
+.curve .bar {
+  flex: 1;
+  background: var(--muted);
+  opacity: 0.5;
+  border-radius: 2px 2px 0 0;
+}
+
+.curve .bar.you {
+  background: var(--accent);
+  opacity: 1;
+}
+
 .legal {
   padding: 16px;
   font-size: 11px;

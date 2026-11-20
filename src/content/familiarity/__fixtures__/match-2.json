@@ -1,0 +1,6 @@
+{"metadata":{"dataVersion":"2","matchId":"KR_2000000002","participants":["PUUID-B","PUUID-D"]},
+ "info":{"gameVersion":"16.23.715.9999","queueId":420,"gameDuration":1500,"platformId":"KR",
+  "participants":[
+   {"puuid":"PUUID-B","championId":62,"championName":"MonkeyKing","teamPosition":"JUNGLE","item0":3071,"item1":1055,"item2":0,"item3":0,"item4":0,"item5":0,"item6":3364,"win":false},
+   {"puuid":"PUUID-D","championId":266,"championName":"Aatrox","teamPosition":"TOP","item0":0,"item1":3071,"item2":3047,"item3":0,"item4":0,"item5":0,"item6":3340,"win":true}
+  ]}}

@@ -25,5 +25,11 @@ export {
 } from "./play";
 export type { Candidate } from "./resolve";
 export { puzzleProgress, type PuzzleProgress, type PromptProgress } from "./progress";
+export {
+  percentileBetterThan,
+  scoreDistribution,
+  type DistributionBin,
+  type ScoreDistribution,
+} from "./stats";
 export { dayTitle, shareLine, type DayTitle, type ShareLineInput } from "./results";
 export { PUZZLE_TIME_ZONE, puzzleDayOf, puzzleNumberOf, daysBetween, addDays } from "./puzzle-day";
