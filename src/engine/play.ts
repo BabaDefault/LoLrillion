@@ -1,4 +1,4 @@
-import { matchGuess } from "./resolve";
+import { readGuess, type Candidate } from "./resolve";
 import { MISS_POINTS, pointsFor } from "./scoring";
 import type { Entity, EntityId, PromptDefinition, Tier } from "./types";
 
@@ -30,7 +30,16 @@ export interface RejectedResult {
   reason: RejectionReason;
 }
 
-export type AttemptResult = AcceptedResult | RejectedResult;
+/**
+ * The Guess wasn't an exact name or Alias but is close to these Entities of the Answer Type.
+ * Not an Attempt: the player confirms one (by Entity ID) or goes back to editing.
+ */
+export interface DidYouMeanResult {
+  kind: "did-you-mean";
+  candidates: Candidate[];
+}
+
+export type AttemptResult = AcceptedResult | RejectedResult | DidYouMeanResult;
 
 /** A player's progress on one Prompt: when its answer window opened, and the Accepted Guess, if any. */
 export interface PromptPlay {
@@ -85,8 +94,12 @@ export function submitAttempt({ prompt, entities, play, guess, now }: AttemptInp
   if (play.accepted) return reject("locked");
   if (now < play.windowOpenAt) return reject("read-window");
   if (now >= acceptsAttemptsUntil(play)) return reject("window-closed");
-  const match = matchGuess(guess, prompt.answerType, entities);
-  if (!match) return reject("no-match");
+  const reading = readGuess(guess, prompt.answerType, entities);
+  if (reading.kind === "did-you-mean") {
+    return { result: { kind: "did-you-mean", candidates: reading.candidates }, play };
+  }
+  if (reading.kind === "none") return reject("no-match");
+  const match = reading.entity;
   const tier = prompt.answerSet[match.id];
   if (!tier) return reject("not-in-answer-set");
   const result: AcceptedResult = {

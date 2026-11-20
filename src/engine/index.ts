@@ -15,7 +15,9 @@ export {
   type AttemptResult,
   type AcceptedResult,
   type RejectedResult,
+  type DidYouMeanResult,
   type RejectionReason,
   type PromptPlay,
 } from "./play";
+export type { Candidate } from "./resolve";
 export { puzzleProgress, type PuzzleProgress, type PromptProgress } from "./progress";

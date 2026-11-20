@@ -16,6 +16,10 @@ const entities: Entity[] = [
   { id: "twistedfate", name: "Twisted Fate", answerType: "champion", aliases: ["TF"] },
   { id: "teemo", name: "Teemo", answerType: "champion", aliases: [] },
   { id: "garen", name: "Garen", answerType: "champion", aliases: [] },
+  { id: "kassadin", name: "Kassadin", answerType: "champion", aliases: [] },
+  { id: "kayle", name: "Kayle", answerType: "champion", aliases: [] },
+  { id: "kayn", name: "Kayn", answerType: "champion", aliases: [] },
+  { id: "zac", name: "Zac", answerType: "champion", aliases: [] },
 ];
 
 const bilgewater: PromptDefinition = {
@@ -197,5 +201,41 @@ describe("retries and locking", () => {
     const third = submitAttempt({ prompt: bilgewater, entities, play, guess: "TF", now: answering + 2 });
     expect(third.result).toMatchObject({ kind: "rejected", reason: "locked" });
     expect(third.play.accepted).toMatchObject({ entityId: "missfortune", points: 10 });
+  });
+});
+
+describe("Did you mean", () => {
+  it("suggests a real Entity of the Answer Type for a near-miss, even one outside the Answer Set", () => {
+    expect(attempt("Kassadn")).toEqual({
+      kind: "did-you-mean",
+      candidates: [{ id: "kassadin", name: "Kassadin" }],
+    });
+  });
+
+  it("suggests Miss Fortune for 'Miss Fortun'", () => {
+    expect(attempt("Miss Fortun")).toEqual({
+      kind: "did-you-mean",
+      candidates: [{ id: "missfortune", name: "Miss Fortune" }],
+    });
+  });
+
+  it("lists every close Entity when several are near", () => {
+    expect(attempt("Kayne")).toEqual({
+      kind: "did-you-mean",
+      candidates: [
+        { id: "kayle", name: "Kayle" },
+        { id: "kayn", name: "Kayn" },
+      ],
+    });
+  });
+
+  it("never suggests for Guesses of 4 characters or fewer", () => {
+    expect(attempt("Zak")).toEqual({ kind: "rejected", reason: "no-match" });
+  });
+
+  it("does not use up an Attempt or touch the Prompt's state", () => {
+    const play = openPrompt(T0);
+    const out = submitAttempt({ prompt: bilgewater, entities, play, guess: "Kassadn", now: answering });
+    expect(out.play).toEqual(play);
   });
 });
