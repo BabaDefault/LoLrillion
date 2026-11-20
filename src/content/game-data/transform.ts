@@ -62,8 +62,13 @@ function skins(cdSkins: Json, championFull: Json): SnapshotSkin[] {
     .sort((a, b) => a.id - b.id);
 }
 
+/** Transformed items whose source Data Dragon doesn't give as a specialRecipe, by id. */
+const TRANSFORMED_FROM: Record<string, string> = {
+  "2421": "2420", // Shattered Armguard <- Seeker's Armguard (Time Stop)
+};
+
 /**
- * Items currently purchasable in the Summoner's Rift shop. Data Dragon also lists mode-specific copies
+ * Items currently purchasable in the Summoner's Rift shop, plus the items they turn into in game. Data Dragon also lists mode-specific copies
  * (6-digit ids, some still flagged for map 11), champion-only items and hidden items; those are dropped.
  * Some items appear twice under one name (jungle pets): keep the lowest id.
  */
@@ -72,16 +77,26 @@ function shopItems(itemJson: Json): SnapshotItem[] {
   const field = (item: Json, name: string) => item[name] ?? basic[name];
   const byName = new Map<string, SnapshotItem>();
   const entries = Object.entries<Json>(itemJson.data).sort(([a], [b]) => Number(a) - Number(b));
+  const onRift = (id: string, item: Json) =>
+    id.length <= 4 &&
+    item.maps?.["11"] === true &&
+    !field(item, "requiredChampion") &&
+    !field(item, "requiredAlly");
+  const inShop = (id: string, item: Json) =>
+    onRift(id, item) &&
+    item.gold?.purchasable === true &&
+    field(item, "inStore") !== false &&
+    !field(item, "hideFromAll");
+  // Items a shop item turns into in game: Data Dragon's specialRecipe (Muramana from Manamune), plus
+  // chains (World Atlas -> Runic Compass -> Bounty of Worlds), and transformations it doesn't record that way (Seeker's Armguard becomes Shattered Armguard after Time Stop).
+  const transformed = (id: string, item: Json, depth = 0): boolean => {
+    if (depth > 5 || !onRift(id, item)) return false;
+    const source = item.specialRecipe !== undefined ? String(item.specialRecipe) : TRANSFORMED_FROM[id];
+    const from = source === undefined ? undefined : itemJson.data[source];
+    return from !== undefined && (inShop(source!, from) || transformed(source!, from, depth + 1));
+  };
   for (const [id, item] of entries) {
-    const inShop =
-      id.length <= 4 &&
-      item.maps?.["11"] === true &&
-      item.gold?.purchasable === true &&
-      field(item, "inStore") !== false &&
-      !field(item, "hideFromAll") &&
-      !field(item, "requiredChampion") &&
-      !field(item, "requiredAlly");
-    if (!inShop) continue;
+    if (!inShop(id, item) && !transformed(id, item)) continue;
     const name = stripTags(item.name);
     if (byName.has(name)) continue;
     byName.set(name, {

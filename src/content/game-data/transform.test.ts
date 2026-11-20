@@ -101,6 +101,29 @@ describe("snapshotFromRaw: items", () => {
     },
   };
 
+  it("also keeps items a shop item turns into in game (Muramana, Shattered Armguard), but not other hidden items", () => {
+    const withTransforms = {
+      ...items,
+      data: {
+        ...items.data,
+        "3004": shopItem("Manamune"),
+        "3042": shopItem("Muramana", { gold: { purchasable: false, total: 0 }, specialRecipe: 3004 }),
+        "2420": shopItem("Seeker's Armguard"),
+        "2421": shopItem("Shattered Armguard", { hideFromAll: true }),
+        "3865": shopItem("World Atlas"),
+        "3866": shopItem("Runic Compass", { gold: { purchasable: false, total: 0 }, specialRecipe: 3865 }),
+        "3867": shopItem("Bounty of Worlds", { gold: { purchasable: false, total: 0 }, specialRecipe: 3866 }),
+        "664403": shopItem("The Golden Spatula", { gold: { purchasable: false, total: 0 }, specialRecipe: 3004 }),
+      },
+    };
+    const names = snapshotFromRaw(raw({ items: withTransforms })).items.map((i) => i.name);
+    expect(names).toContain("Muramana");
+    expect(names).toContain("Shattered Armguard");
+    expect(names).toContain("Bounty of Worlds");
+    expect(names).not.toContain("The Golden Spatula");
+    expect(names).not.toContain("Your Cut");
+  });
+
   it("keeps only items currently in the Summoner's Rift shop, one per name (lowest id)", () => {
     const snapshot = snapshotFromRaw(raw({ items }));
     expect(snapshot.items.map((i) => [i.id, i.name])).toEqual([
