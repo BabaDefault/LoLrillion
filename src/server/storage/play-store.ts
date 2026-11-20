@@ -7,9 +7,9 @@ export interface PlayKey {
   puzzleDay: string;
   /**
    * An archive play: a past Puzzle replayed after its day. Kept apart from the counted play
-   * and excluded from Answer Share, percentiles and leaderboards. Defaults to false.
+   * and excluded from Answer Share, percentiles and leaderboards.
    */
-  archive?: boolean;
+  archive: boolean;
 }
 
 export interface AttemptLogEntry extends PlayKey {

@@ -76,7 +76,7 @@ export class InMemoryPlayStore implements PlayStore {
       .filter(({ key }) => key.deviceId === deviceId)
       .map(({ key, promptIndex, play }) => ({
         puzzleDay: key.puzzleDay,
-        archive: key.archive ?? false,
+        archive: key.archive,
         promptIndex,
         play,
       }));

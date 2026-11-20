@@ -83,14 +83,14 @@ export function describePlayerStoreContract(name: string, makeStores: () => Play
       const { plays, players } = makeStores();
       const puzzleDay = freshDay();
       await players.setNickname(device("s1"), "Ana");
-      await playRun(plays, { deviceId: device("s1"), puzzleDay }, [30, null]);
-      await playRun(plays, { deviceId: device("s2"), puzzleDay }, [60, 100]);
+      await playRun(plays, { deviceId: device("s1"), puzzleDay, archive: false }, [30, null]);
+      await playRun(plays, { deviceId: device("s2"), puzzleDay, archive: false }, [60, 100]);
       // Still on the first Prompt: not on the leaderboard yet.
-      await playRun(plays, { deviceId: device("s3"), puzzleDay }, [85]);
+      await playRun(plays, { deviceId: device("s3"), puzzleDay, archive: false }, [85]);
       // Archive run: never counted.
       await playRun(plays, { deviceId: device("s4"), puzzleDay, archive: true }, [100, 100]);
       // Another day.
-      await playRun(plays, { deviceId: device("s1"), puzzleDay: freshDay() }, [10, 10]);
+      await playRun(plays, { deviceId: device("s1"), puzzleDay: freshDay(), archive: false }, [10, 10]);
 
       const scores = await players.getDayScores(puzzleDay, 2, LATER);
       expect(scores.sort((x, y) => x.total - y.total)).toEqual([
@@ -105,7 +105,7 @@ export function describePlayerStoreContract(name: string, makeStores: () => Play
       const code = generateGroupCode();
       await players.createGroup(device("m1"), { code, name: "Friends" });
       await players.joinGroup(device("m2"), code);
-      for (const n of ["m1", "m2", "outsider"]) await playRun(plays, { deviceId: device(n), puzzleDay }, [30]);
+      for (const n of ["m1", "m2", "outsider"]) await playRun(plays, { deviceId: device(n), puzzleDay, archive: false }, [30]);
 
       const scores = await players.getDayScores(puzzleDay, 1, LATER, code);
       expect(scores.map((s) => s.playerKey).sort()).toEqual([device("m1"), device("m2")]);
@@ -114,8 +114,8 @@ export function describePlayerStoreContract(name: string, makeStores: () => Play
     it("leaves a run off the leaderboard while its last Prompt is still open", async () => {
       const { plays, players } = makeStores();
       const puzzleDay = freshDay();
-      await playRun(plays, { deviceId: device("o1"), puzzleDay }, [30, null]);
-      await playRun(plays, { deviceId: device("o2"), puzzleDay }, [60, 100]);
+      await playRun(plays, { deviceId: device("o1"), puzzleDay, archive: false }, [30, null]);
+      await playRun(plays, { deviceId: device("o2"), puzzleDay, archive: false }, [60, 100]);
 
       const answering = openPrompt(T0).windowOpenAt + 1_000;
       expect((await players.getDayScores(puzzleDay, 2, answering)).map((s) => s.playerKey)).toEqual([device("o2")]);

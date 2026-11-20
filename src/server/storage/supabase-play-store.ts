@@ -67,7 +67,7 @@ export class SupabasePlayStore implements PlayStore {
         )
         .eq("players.device_id", key.deviceId)
         .eq("puzzle_day", key.puzzleDay)
-        .eq("is_archive", key.archive ?? false),
+        .eq("is_archive", key.archive),
       "getPromptPlays",
     ) as unknown as PromptPlayRow[];
     const plays: Array<PromptPlay | null> = Array.from({ length: promptCount }, () => null);
@@ -83,7 +83,7 @@ export class SupabasePlayStore implements PlayStore {
         p_device_id: key.deviceId,
         p_puzzle_day: key.puzzleDay,
         p_prompt_index: promptIndex,
-        p_is_archive: key.archive ?? false,
+        p_is_archive: key.archive,
         p_window_open_at: new Date(play.windowOpenAt).toISOString(),
       }),
       "start_prompt_play",
@@ -99,7 +99,7 @@ export class SupabasePlayStore implements PlayStore {
         p_device_id: key.deviceId,
         p_puzzle_day: key.puzzleDay,
         p_prompt_index: promptIndex,
-        p_is_archive: key.archive ?? false,
+        p_is_archive: key.archive,
         p_entity_id: play.accepted.entityId,
         p_entity_name: play.accepted.entityName,
         p_tier: play.accepted.tier,
@@ -116,7 +116,7 @@ export class SupabasePlayStore implements PlayStore {
         player_id: await this.playerId(entry.deviceId),
         puzzle_day: entry.puzzleDay,
         prompt_index: entry.promptIndex,
-        is_archive: entry.archive ?? false,
+        is_archive: entry.archive,
         guess: entry.guess,
         confirmed_entity_id: entry.confirmedEntityId ?? null,
         result: result.kind,
@@ -139,7 +139,7 @@ export class SupabasePlayStore implements PlayStore {
           player_id: playerId,
           puzzle_day: key.puzzleDay,
           prompt_index: promptIndex,
-          is_archive: key.archive ?? false,
+          is_archive: key.archive,
           entity_id: entityId,
         })),
         { onConflict: "player_id,puzzle_day,prompt_index,is_archive,entity_id", ignoreDuplicates: true },
@@ -156,7 +156,7 @@ export class SupabasePlayStore implements PlayStore {
         .eq("player_id", await this.playerId(key.deviceId))
         .eq("puzzle_day", key.puzzleDay)
         .eq("prompt_index", promptIndex)
-        .eq("is_archive", key.archive ?? false),
+        .eq("is_archive", key.archive),
       "getOfferedCandidates",
     ) as Array<{ entity_id: string }>;
     return rows.map((r) => r.entity_id);

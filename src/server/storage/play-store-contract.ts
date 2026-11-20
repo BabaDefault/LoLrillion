@@ -32,7 +32,7 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
 
     it("keeps the first window-open time when a Prompt is started twice (reload)", async () => {
       const store = makeStore();
-      const key = { deviceId: device("reload"), puzzleDay: freshDay() };
+      const key = { deviceId: device("reload"), puzzleDay: freshDay(), archive: false };
       await store.createPromptPlay(key, 0, openPrompt(T0));
       const second = await store.createPromptPlay(key, 0, openPrompt(T0 + 60_000));
       expect(second.windowOpenAt).toBe(openPrompt(T0).windowOpenAt);
@@ -44,12 +44,12 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
     it("counts how many players' Accepted Guess was each Entity, per Prompt", async () => {
       const store = makeStore();
       const puzzleDay = freshDay();
-      await acceptOn(store, { deviceId: device("a"), puzzleDay }, 0, "teemo");
-      await acceptOn(store, { deviceId: device("b"), puzzleDay }, 0, "teemo");
-      await acceptOn(store, { deviceId: device("c"), puzzleDay }, 0, "garen");
-      await acceptOn(store, { deviceId: device("a"), puzzleDay }, 1, "garen");
+      await acceptOn(store, { deviceId: device("a"), puzzleDay, archive: false }, 0, "teemo");
+      await acceptOn(store, { deviceId: device("b"), puzzleDay, archive: false }, 0, "teemo");
+      await acceptOn(store, { deviceId: device("c"), puzzleDay, archive: false }, 0, "garen");
+      await acceptOn(store, { deviceId: device("a"), puzzleDay, archive: false }, 1, "garen");
       // A player who started but hasn't been Accepted yet still counts as one of today's players.
-      await store.createPromptPlay({ deviceId: device("d"), puzzleDay }, 0, openPrompt(T0));
+      await store.createPromptPlay({ deviceId: device("d"), puzzleDay, archive: false }, 0, openPrompt(T0));
       const counts = await store.getAnswerCounts(puzzleDay, 3);
       expect(counts.players).toBe(4);
       expect(counts.byPrompt[0]).toEqual({ teemo: 2, garen: 1 });
@@ -59,7 +59,7 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
 
     it("counts a player's Accepted Guess once, even if the play is saved again", async () => {
       const store = makeStore();
-      const key = { deviceId: device("twice"), puzzleDay: freshDay() };
+      const key = { deviceId: device("twice"), puzzleDay: freshDay(), archive: false };
       await acceptOn(store, key, 0, "teemo");
       const [play] = await store.getPromptPlays(key, 1);
       await store.updatePromptPlay(key, 0, play!);
@@ -68,7 +68,7 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
 
     it("remembers every 'Did you mean' candidate offered for a Prompt", async () => {
       const store = makeStore();
-      const key = { deviceId: device("dym"), puzzleDay: freshDay() };
+      const key = { deviceId: device("dym"), puzzleDay: freshDay(), archive: false };
       await store.createPromptPlay(key, 0, openPrompt(T0));
       expect(await store.getOfferedCandidates(key, 0)).toEqual([]);
       await store.addOfferedCandidates(key, 0, ["teemo", "garen"]);
@@ -81,15 +81,15 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       const store = makeStore();
       const puzzleDay = freshDay();
       // Finished: 30 + 0 (a Miss leaves the play un-accepted).
-      const p1 = { deviceId: device("t1"), puzzleDay };
+      const p1 = { deviceId: device("t1"), puzzleDay, archive: false };
       await acceptOn(store, p1, 0, "teemo", 30);
       await store.createPromptPlay(p1, 1, openPrompt(T0));
       // Finished: 60 + 100.
-      const p2 = { deviceId: device("t2"), puzzleDay };
+      const p2 = { deviceId: device("t2"), puzzleDay, archive: false };
       await acceptOn(store, p2, 0, "garen", 60);
       await acceptOn(store, p2, 1, "teemo", 100);
       // Still on the first Prompt: not counted.
-      await acceptOn(store, { deviceId: device("t3"), puzzleDay }, 0, "teemo", 85);
+      await acceptOn(store, { deviceId: device("t3"), puzzleDay, archive: false }, 0, "teemo", 85);
       // Archive run: not counted.
       const p4 = { deviceId: device("t4"), puzzleDay, archive: true };
       await acceptOn(store, p4, 0, "teemo", 10);
@@ -102,11 +102,11 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       const store = makeStore();
       const puzzleDay = freshDay();
       // Started the last Prompt, no Accepted Guess yet: not finished while its window is open.
-      const open = { deviceId: device("open"), puzzleDay };
+      const open = { deviceId: device("open"), puzzleDay, archive: false };
       await acceptOn(store, open, 0, "teemo", 30);
       await store.createPromptPlay(open, 1, openPrompt(T0));
       // Accepted on the last Prompt: finished even though the window is still open.
-      const done = { deviceId: device("done"), puzzleDay };
+      const done = { deviceId: device("done"), puzzleDay, archive: false };
       await acceptOn(store, done, 0, "teemo", 60);
       await acceptOn(store, done, 1, "garen", 100);
 
@@ -118,7 +118,7 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
     it("keeps archive plays apart from the counted play and out of Answer Share", async () => {
       const store = makeStore();
       const puzzleDay = freshDay();
-      const live = { deviceId: device("arch"), puzzleDay };
+      const live = { deviceId: device("arch"), puzzleDay, archive: false };
       const archive = { ...live, archive: true };
       await acceptOn(store, live, 0, "teemo");
       await acceptOn(store, archive, 0, "garen");
@@ -132,11 +132,11 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       const day1 = freshDay();
       const day2 = freshDay();
       const me = device("stats");
-      await acceptOn(store, { deviceId: me, puzzleDay: day1 }, 0, "teemo", 30);
-      await store.createPromptPlay({ deviceId: me, puzzleDay: day1 }, 1, openPrompt(T0));
+      await acceptOn(store, { deviceId: me, puzzleDay: day1, archive: false }, 0, "teemo", 30);
+      await store.createPromptPlay({ deviceId: me, puzzleDay: day1, archive: false }, 1, openPrompt(T0));
       await acceptOn(store, { deviceId: me, puzzleDay: day2, archive: true }, 0, "garen", 100);
       // Someone else's play is not listed.
-      await acceptOn(store, { deviceId: device("other"), puzzleDay: day1 }, 0, "lulu", 60);
+      await acceptOn(store, { deviceId: device("other"), puzzleDay: day1, archive: false }, 0, "lulu", 60);
 
       const plays = await store.getDevicePlays(me);
       const summary = plays

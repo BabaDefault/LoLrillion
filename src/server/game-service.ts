@@ -197,7 +197,7 @@ export function createGameService({
     const now = clock.now();
     if (archiveDay === undefined) {
       const served = await puzzles.forDay(puzzleDayOf(now));
-      const key: PlayKey = { deviceId, puzzleDay: served.puzzleDay };
+      const key: PlayKey = { deviceId, puzzleDay: served.puzzleDay, archive: false };
       const promptCount = served.puzzle.prompts.length;
       const plays = await store.getPromptPlays(key, promptCount);
       return { now, served, key, promptCount, plays };
@@ -206,7 +206,7 @@ export function createGameService({
     const served = archiveDay < puzzleDayOf(now) ? await puzzles.forDay(archiveDay) : null;
     if (!served?.generated) throw new ArchiveUnavailableError(archiveDay);
     const promptCount = served.puzzle.prompts.length;
-    const liveKey: PlayKey = { deviceId, puzzleDay: served.puzzleDay };
+    const liveKey: PlayKey = { deviceId, puzzleDay: served.puzzleDay, archive: false };
     const livePlays = await store.getPromptPlays(liveKey, promptCount);
     if (puzzleProgress(promptCount, livePlays, now).finished) {
       return { now, served, key: liveKey, promptCount, plays: livePlays };
@@ -240,7 +240,7 @@ export function createGameService({
     }
     return {
       puzzleDay: served.puzzleDay,
-      archive: ctx.key.archive ?? false,
+      archive: ctx.key.archive,
       promptCount,
       serverNow: now,
       current,
@@ -323,7 +323,7 @@ export function createGameService({
         const result = played ? (toResultView(progress.outcomes[i]) ?? { status: "missed", points: 0 }) : null;
         return { text: prompt.text, answerType: prompt.answerType, result, answerSet };
       });
-      const archive = key.archive ?? false;
+      const archive = key.archive;
       // An archive run isn't among the day's counted totals; compare it as if it were.
       const compared = archive && played ? [...dayTotals, progress.total] : dayTotals;
       const total = played ? progress.total : null;
