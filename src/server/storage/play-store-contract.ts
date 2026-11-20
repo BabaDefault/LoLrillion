@@ -107,5 +107,31 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       expect((await store.getPromptPlays(live, 1))[0]?.accepted?.entityId).toBe("teemo");
       expect((await store.getPromptPlays(archive, 1))[0]?.accepted?.entityId).toBe("garen");
     });
+
+    it("lists every play of one device, live and archive, for personal stats", async () => {
+      const store = makeStore();
+      const day1 = freshDay();
+      const day2 = freshDay();
+      const me = device("stats");
+      await acceptOn(store, { deviceId: me, puzzleDay: day1 }, 0, "teemo", 30);
+      await store.createPromptPlay({ deviceId: me, puzzleDay: day1 }, 1, openPrompt(T0));
+      await acceptOn(store, { deviceId: me, puzzleDay: day2, archive: true }, 0, "garen", 100);
+      // Someone else's play is not listed.
+      await acceptOn(store, { deviceId: device("other"), puzzleDay: day1 }, 0, "lulu", 60);
+
+      const plays = await store.getDevicePlays(me);
+      const summary = plays
+        .map((p) => [p.puzzleDay, p.archive, p.promptIndex, p.play.accepted?.entityId ?? null, p.play.accepted?.points ?? 0])
+        .sort((a, b) => `${a[0]}${a[2]}`.localeCompare(`${b[0]}${b[2]}`));
+      expect(summary).toEqual(
+        [
+          [day1, false, 0, "teemo", 30],
+          [day1, false, 1, null, 0],
+          [day2, true, 0, "garen", 100],
+        ].sort((a, b) => `${a[0]}${a[2]}`.localeCompare(`${b[0]}${b[2]}`)),
+      );
+      expect(plays.find((p) => p.play.accepted)?.play.accepted?.tier).toBe("kill");
+      expect(await store.getDevicePlays(device("nobody"))).toEqual([]);
+    });
   });
 }

@@ -1,6 +1,6 @@
 import type { EntityId, PromptPlay } from "@/engine";
 import type { AnswerCounts } from "./answer-counts";
-import type { AttemptLogEntry, PlayKey, PlayStore } from "./play-store";
+import type { AttemptLogEntry, DevicePlay, PlayKey, PlayStore } from "./play-store";
 
 interface StoredPlay {
   key: PlayKey;
@@ -69,6 +69,17 @@ export class InMemoryPlayStore implements PlayStore {
         ...this.answerCounts.get(`${puzzleDay}|${i}`),
       })),
     };
+  }
+
+  async getDevicePlays(deviceId: string): Promise<DevicePlay[]> {
+    return [...this.plays.values()]
+      .filter(({ key }) => key.deviceId === deviceId)
+      .map(({ key, promptIndex, play }) => ({
+        puzzleDay: key.puzzleDay,
+        archive: key.archive ?? false,
+        promptIndex,
+        play,
+      }));
   }
 
   async getDayTotals(puzzleDay: string, promptCount: number): Promise<number[]> {

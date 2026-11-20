@@ -19,6 +19,14 @@ export interface AttemptLogEntry extends PlayKey {
   at: number;
 }
 
+/** One stored PromptPlay of a device, as listed for personal stats. */
+export interface DevicePlay {
+  puzzleDay: string;
+  archive: boolean;
+  promptIndex: number;
+  play: PromptPlay;
+}
+
 /**
  * Runtime state for plays. The in-memory implementation is for local dev and tests;
  * a Supabase implementation replaces it without changing the Game Engine or routes.
@@ -53,4 +61,6 @@ export interface PlayStore extends AnswerCountSource {
    * `promptCount` Prompts are included.
    */
   getDayTotals(puzzleDay: string, promptCount: number): Promise<number[]>;
+  /** Every PromptPlay a device has started, live and archive, on any day (personal stats). */
+  getDevicePlays(deviceId: string): Promise<DevicePlay[]>;
 }
