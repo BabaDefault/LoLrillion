@@ -67,7 +67,10 @@ describe("end-of-day results", () => {
     expect(results).toMatchObject({ puzzleNumber: 4, total: 350, maxTotal: 700, dayTitle: "Gold" });
     expect(results.prompts).toHaveLength(7);
     expect(results.prompts[0].text).toBe("Name a Yordle 1");
-    expect(results.prompts[0].result).toEqual({ status: "accepted", entityName: "Amumu", tier: "pentakill", points: 100 });
+    expect(results.prompts[0].result).toEqual({
+      status: "accepted",
+      entityId: "amumu",
+      entityName: "Amumu", tier: "pentakill", points: 100 });
     expect(results.prompts[2].result).toEqual({ status: "missed", points: 0 });
     expect(results.prompts[0].answerSet).toEqual(
       expect.arrayContaining([

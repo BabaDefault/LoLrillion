@@ -1,11 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import type { AttemptResponse, PuzzleStateView } from "@/server/game-service";
+import type { AttemptResponse, PromptResultView, PuzzleStateView } from "@/server/game-service";
+import { EndScreen } from "./end-screen";
+import { ScoreInterlude } from "./score-interlude";
 
 const GRACE_MS = 2_000;
 
-type Interlude = { index: number; text: string } | null;
+type Interlude = { index: number; result: PromptResultView } | null;
 
 async function api<T>(path: string, body?: unknown): Promise<T> {
   const res = await fetch(path, {
@@ -66,7 +68,8 @@ export function PlayScreen() {
     missCheckFor.current = live.index;
     const index = live.index;
     api<PuzzleStateView>("/api/puzzle/state").then((next) => {
-      if (next.results[index]?.status === "missed") setInterlude({ index, text: "Miss: time's up." });
+      const result = next.results[index];
+      if (result?.status === "missed") setInterlude({ index, result });
       receive(next);
     });
   }, [live, serverNow, receive]);
@@ -87,8 +90,9 @@ export function PlayScreen() {
     setBusy(true);
     try {
       const res = await api<AttemptResponse>("/api/puzzle/attempt", { promptIndex: live.index, guess });
-      if (res.ok && res.result.kind === "accepted") {
-        setInterlude({ index: live.index, text: `Locked in: ${res.result.entityName}` });
+      const result = res.state.results[live.index];
+      if (res.ok && res.result.kind === "accepted" && result) {
+        setInterlude({ index: live.index, result });
       } else {
         setShake((n) => n + 1);
       }
@@ -102,29 +106,17 @@ export function PlayScreen() {
 
   if (interlude) {
     return (
-      <section className="card">
-        <p className="muted">
-          Prompt {interlude.index + 1} of {state.promptCount}
-        </p>
-        <h2>{interlude.text}</h2>
-        <button className="primary" onClick={() => setInterlude(null)} autoFocus>
-          {state.finished ? "See your total" : "Next Prompt"}
-        </button>
-      </section>
+      <ScoreInterlude
+        index={interlude.index}
+        promptCount={state.promptCount}
+        result={interlude.result}
+        finished={state.finished}
+        onContinue={() => setInterlude(null)}
+      />
     );
   }
 
-  if (state.finished) {
-    return (
-      <section className="card center">
-        <p className="muted">Today&apos;s total</p>
-        <p className="total" data-testid="total">
-          {state.total}
-        </p>
-        <p className="muted">out of {state.promptCount * 100}</p>
-      </section>
-    );
-  }
+  if (state.finished) return <EndScreen />;
 
   if (!current) return null;
 

@@ -36,7 +36,7 @@ export type CurrentPromptView =
 
 /** A finished Prompt's result as the client sees it. */
 export type PromptResultView =
-  | { status: "accepted"; entityName: string; tier: Tier; points: number }
+  | { status: "accepted"; entityId: EntityId; entityName: string; tier: Tier; points: number }
   | { status: "missed"; points: number };
 
 export interface PuzzleStateView {
@@ -107,7 +107,7 @@ export interface GameService {
 
 function toResultView(o: PromptProgress): PromptResultView | null {
   if (o.status === "accepted") {
-    return { status: "accepted", entityName: o.entityName, tier: o.tier, points: o.points };
+    return { status: "accepted", entityId: o.entityId, entityName: o.entityName, tier: o.tier, points: o.points };
   }
   if (o.status === "missed") return { status: "missed", points: o.points };
   return null;
