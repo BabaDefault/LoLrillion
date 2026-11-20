@@ -118,6 +118,7 @@ export class SupabasePlayStore implements PlayStore {
         prompt_index: entry.promptIndex,
         is_archive: entry.archive ?? false,
         guess: entry.guess,
+        confirmed_entity_id: entry.confirmedEntityId ?? null,
         result: result.kind,
         reason: result.kind === "rejected" ? result.reason : null,
         entity_id: result.kind === "accepted" ? result.entityId : null,

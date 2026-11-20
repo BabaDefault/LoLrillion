@@ -58,6 +58,23 @@ describe("Did you mean, through the Game Service", () => {
     expect(yes).toMatchObject({ ok: true, result: { kind: "accepted", entityId: "missfortune" } });
   });
 
+  it("logs a confirmation as the confirmed Entity, with the typed Guess, not as a Guess of the Entity ID", async () => {
+    const store = new InMemoryPlayStore();
+    game = createGameService({ clock, store, puzzles });
+    await game.startPrompt(DEVICE);
+    clock.advance(READ_WINDOW_MS + 1_000);
+    await game.submitAttempt(DEVICE, 0, "Miss Fortun");
+    await game.confirmSuggestion(DEVICE, 0, "twistedfate");
+    await game.confirmSuggestion(DEVICE, 0, "missfortune", undefined, "Miss Fortun");
+
+    const confirmations = store.attempts.filter((a) => a.confirmedEntityId !== undefined);
+    expect(confirmations.map((a) => [a.guess, a.confirmedEntityId])).toEqual([
+      [null, "twistedfate"],
+      ["Miss Fortun", "missfortune"],
+    ]);
+    expect(store.attempts.some((a) => a.guess === "missfortune" || a.guess === "twistedfate")).toBe(false);
+  });
+
   it("rejects a confirmed Entity ID that wasn't among the offered candidates", async () => {
     await game.submitAttempt(DEVICE, 0, "Kassadn");
     const out = await game.confirmSuggestion(DEVICE, 0, "twistedfate");

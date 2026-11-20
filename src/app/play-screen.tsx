@@ -100,7 +100,7 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
     }
   }
 
-  async function send(body: { guess: string } | { entityId: string }) {
+  async function send(body: { guess: string } | { entityId: string; guess: string }) {
     if (!live || !answering || busy) return;
     setBusy(true);
     setNotice(null);
@@ -215,7 +215,7 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
               <button
                 key={c.id}
                 className="primary"
-                onClick={() => send({ entityId: c.id })}
+                onClick={() => send({ entityId: c.id, guess })}
                 disabled={busy}
                 autoFocus={i === 0}
               >

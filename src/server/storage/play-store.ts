@@ -14,7 +14,13 @@ export interface PlayKey {
 
 export interface AttemptLogEntry extends PlayKey {
   promptIndex: number;
-  guess: string;
+  /**
+   * The typed Guess. For a confirmed "Did you mean", the Guess that brought up the popup, or
+   * null when it isn't known.
+   */
+  guess: string | null;
+  /** The Entity confirmed from a "Did you mean" popup, when this Attempt is a confirmation. */
+  confirmedEntityId?: EntityId;
   result: AttemptResult;
   at: number;
 }

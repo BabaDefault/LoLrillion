@@ -145,12 +145,16 @@ export interface GameService {
   /** Start the current Prompt (records its window-open time). Idempotent. */
   startPrompt(deviceId: string, archiveDay?: string): Promise<PuzzleStateView>;
   submitAttempt(deviceId: string, promptIndex: number, guess: string, archiveDay?: string): Promise<AttemptResponse>;
-  /** "Yes" on a "Did you mean": rejected unless the Entity was offered for this Prompt. */
+  /**
+   * "Yes" on a "Did you mean": rejected unless the Entity was offered for this Prompt.
+   * `typedGuess` is the Guess that brought up the popup, if the client sent it (for the log).
+   */
   confirmSuggestion(
     deviceId: string,
     promptIndex: number,
     entityId: string,
     archiveDay?: string,
+    typedGuess?: string,
   ): Promise<AttemptResponse>;
   /**
    * The end-screen reveal, including Answer Sets, Answer Share, percentile and the distribution
@@ -263,7 +267,7 @@ export function createGameService({
     },
 
     submitAttempt(deviceId, promptIndex, guess, archiveDay) {
-      return attempt(deviceId, archiveDay, promptIndex, guess, (ctx, play) =>
+      return attempt(deviceId, archiveDay, promptIndex, { guess }, (ctx, play) =>
         engineSubmitAttempt({
           prompt: ctx.served.puzzle.prompts[promptIndex],
           entities: ctx.served.entities,
@@ -274,8 +278,9 @@ export function createGameService({
       );
     },
 
-    confirmSuggestion(deviceId, promptIndex, entityId, archiveDay) {
-      return attempt(deviceId, archiveDay, promptIndex, entityId, async (ctx, play) =>
+    confirmSuggestion(deviceId, promptIndex, entityId, archiveDay, typedGuess) {
+      const logged = { guess: typedGuess ?? null, confirmedEntityId: entityId };
+      return attempt(deviceId, archiveDay, promptIndex, logged, async (ctx, play) =>
         engineConfirmSuggestion({
           prompt: ctx.served.puzzle.prompts[promptIndex],
           entities: ctx.served.entities,
@@ -379,7 +384,8 @@ export function createGameService({
     deviceId: string,
     archiveDay: string | undefined,
     promptIndex: number,
-    logged: string,
+    /** What the Attempt log records: the typed Guess, and the confirmed Entity for a "Did you mean". */
+    logged: { guess: string | null; confirmedEntityId?: EntityId },
     step: (ctx: Awaited<ReturnType<typeof load>>, play: PromptPlay) => AttemptOutcome | Promise<AttemptOutcome>,
   ): Promise<AttemptResponse> {
     const ctx = await load(deviceId, archiveDay);
@@ -399,7 +405,7 @@ export function createGameService({
       );
     }
     if (outcome.play !== play) await store.updatePromptPlay(ctx.key, promptIndex, outcome.play);
-    await store.logAttempt({ ...ctx.key, promptIndex, guess: logged, result: outcome.result, at: ctx.now });
+    await store.logAttempt({ ...ctx.key, promptIndex, ...logged, result: outcome.result, at: ctx.now });
 
     const plays = ctx.plays.slice();
     plays[promptIndex] = outcome.play;
