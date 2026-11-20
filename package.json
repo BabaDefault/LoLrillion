@@ -8,6 +8,7 @@
     "start": "next start",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:smoke": "playwright test",
     "data:fetch": "tsx scripts/fetch-game-data.ts",
     "data:registry": "tsx scripts/fetch-game-data.ts --registry-only",
     "data:overlay": "tsx scripts/fetch-champion-meta.ts",
@@ -29,6 +30,7 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

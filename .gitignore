@@ -13,3 +13,8 @@ src/content/labels/proposals/worklist.json
 
 # Regenerable review work files
 src/content/reviews/proposals/*.worklist.json
+
+# Playwright output
+test-results/
+playwright-report/
+blob-report/
