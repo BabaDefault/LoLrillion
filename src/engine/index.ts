@@ -31,5 +31,6 @@ export {
   type DistributionBin,
   type ScoreDistribution,
 } from "./stats";
+export { personalStats, type FinishedGame, type PersonalStats } from "./personal-stats";
 export { dayTitle, shareLine, type DayTitle, type ShareLineInput } from "./results";
 export { PUZZLE_TIME_ZONE, puzzleDayOf, puzzleNumberOf, daysBetween, addDays } from "./puzzle-day";
