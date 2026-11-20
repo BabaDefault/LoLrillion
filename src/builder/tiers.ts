@@ -18,7 +18,11 @@ export const BAND_SHARES = { minion: 0.3, kill: 0.3, "triple-kill": 0.25 } as co
 export const DEFAULT_GEM_POSITION = 0.8;
 
 /** The scoring constants the Builder uses unless `BuilderInputs.scoring` overrides them. */
-export const SCORING_CONSTANTS: ScoringConstants = { FAMILIARITY_WEIGHT, BAND_SHARES, DEFAULT_GEM_POSITION };
+export const SCORING_CONSTANTS: ScoringConstants = {
+  familiarityWeight: FAMILIARITY_WEIGHT,
+  bandShares: BAND_SHARES,
+  defaultGemPosition: DEFAULT_GEM_POSITION,
+};
 
 /**
  * Build one Prompt: the Template's Answer Set, with a Tier per Entity from the Prior and the
@@ -28,7 +32,7 @@ export function buildPrompt(template: TemplateDefinition, inputs: BuilderInputs)
   const scoring = inputs.scoring ?? SCORING_CONSTANTS;
   const entities = answerSetOf(template, inputs);
   const review = inputs.reviews?.[template.id];
-  const prior = priorOf(entities, inputs, review?.typicality ?? {}, scoring.FAMILIARITY_WEIGHT);
+  const prior = priorOf(entities, inputs, review?.typicality ?? {}, scoring.familiarityWeight);
   // Likeliest first; Entity ID keeps the order deterministic.
   const byPrior = [...entities].sort((a, b) => prior.get(b)! - prior.get(a)! || a.localeCompare(b));
 
@@ -40,16 +44,11 @@ export function buildPrompt(template: TemplateDefinition, inputs: BuilderInputs)
   const gem =
     review?.gem && inSet.has(review.gem) && !tooClever.has(review.gem)
       ? review.gem
-      : candidates[Math.floor((candidates.length - 1) * scoring.DEFAULT_GEM_POSITION)];
+      : candidates[Math.floor((candidates.length - 1) * scoring.defaultGemPosition)];
 
   const answerSet: Record<EntityId, Tier> = {};
-  const banded = byPrior.filter((id) => id !== gem && !tooClever.has(id));
-  let bandStart = 0;
-  banded.forEach((id, i) => {
-    // Equal Priors share a band: band by the first position of the tie.
-    if (i > 0 && prior.get(id) !== prior.get(banded[i - 1])) bandStart = i;
-    answerSet[id] = bandAt(bandStart / banded.length, scoring.BAND_SHARES);
-  });
+  const banded = new Map(byPrior.filter((id) => id !== gem && !tooClever.has(id)).map((id) => [id, prior.get(id)!]));
+  for (const [id, tier] of bandByPrior(banded, scoring.bandShares)) answerSet[id] = tier;
   for (const id of tooClever) answerSet[id] = "too-clever";
   if (gem) answerSet[gem] = "pentakill";
 
@@ -63,8 +62,28 @@ export function buildPrompt(template: TemplateDefinition, inputs: BuilderInputs)
   };
 }
 
+/**
+ * Band the normally-banded answers (not the Gem or Too Clever) by Prior: likeliest first (Entity ID
+ * breaks ties in order), split into Minion, Kill, Triple Kill and Quadra Kill by `shares`. Equal
+ * Priors share a band, the band of the tie's first position. Returns each Entity's Tier, likeliest
+ * first. The one banding rule: anything that predicts Tiers (e.g. the review queue) calls this.
+ */
+export function bandByPrior(
+  prior: ReadonlyMap<EntityId, number>,
+  shares: ScoringConstants["bandShares"] = BAND_SHARES,
+): Map<EntityId, Tier> {
+  const ordered = [...prior.keys()].sort((a, b) => prior.get(b)! - prior.get(a)! || a.localeCompare(b));
+  const tiers = new Map<EntityId, Tier>();
+  let bandStart = 0;
+  ordered.forEach((id, i) => {
+    if (i > 0 && prior.get(id) !== prior.get(ordered[i - 1])) bandStart = i;
+    tiers.set(id, bandAt(bandStart / ordered.length, shares));
+  });
+  return tiers;
+}
+
 /** The Tier at a position among the normally-banded answers, from likeliest (0) to least likely (1). */
-export function bandAt(position: number, shares: ScoringConstants["BAND_SHARES"] = BAND_SHARES): Tier {
+function bandAt(position: number, shares: ScoringConstants["bandShares"]): Tier {
   let edge = shares.minion;
   if (position < edge) return "minion";
   if (position < (edge += shares.kill)) return "kill";

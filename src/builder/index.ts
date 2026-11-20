@@ -3,7 +3,7 @@
 export * from "./types";
 export { answerSetOf } from "./answer-set";
 export { explainPrompt, type PromptExplanation } from "./provenance";
-export { bandAt, buildPrompt, FAMILIARITY_WEIGHT, BAND_SHARES, DEFAULT_GEM_POSITION, SCORING_CONSTANTS } from "./tiers";
+export { bandByPrior, buildPrompt, FAMILIARITY_WEIGHT, BAND_SHARES, DEFAULT_GEM_POSITION, SCORING_CONSTANTS } from "./tiers";
 export {
   generatePuzzles,
   GENERATOR_DEFAULTS,

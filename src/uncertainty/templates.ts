@@ -1,7 +1,7 @@
-import { bandAt } from "@/builder";
+import { bandByPrior } from "@/builder";
 import type { EntityId } from "@/engine";
 import { GEM_MAX_TYPICALITY, type ReviewProposal } from "@/reviews";
-import { rankByUncertainty, type Ranked, type Uncertainty } from "./rank";
+import { rankByUncertainty, uncertaintyTally, type Ranked, type Uncertainty } from "./rank";
 
 /** What a Template review proposal's uncertainty is judged against. */
 export interface TemplateUncertaintyInputs {
@@ -33,12 +33,7 @@ export const TEMPLATE_WEIGHTS = {
 
 /** How likely a `/review-template` proposal is to need correcting, from signals code can check. */
 export function templateUncertainty(proposal: ReviewProposal, inputs: TemplateUncertaintyInputs): Uncertainty {
-  const reasons: string[] = [];
-  let score = 0;
-  const raise = (weight: number, reason: string) => {
-    score += weight;
-    reasons.push(reason);
-  };
+  const { raise, result } = uncertaintyTally();
 
   for (const point of proposal.disputable ?? []) {
     raise(TEMPLATE_WEIGHTS.disputable, `disputable: ${point.entity ?? "(no entity)"} (${point.why})`);
@@ -70,7 +65,7 @@ export function templateUncertainty(proposal: ReviewProposal, inputs: TemplateUn
         `are within ${TYPICALITY_MARGIN}: a small change swaps their Tiers`,
     );
   }
-  return { score, reasons };
+  return result();
 }
 
 /**
@@ -82,15 +77,12 @@ function closeBandEdges(proposal: ReviewProposal) {
   const typicality = proposal.typicality ?? {};
   const gem = proposal.gemCandidates?.[0]?.entity;
   const tooClever = new Set((proposal.tooClever ?? []).map((c) => c.entity));
-  const banded = (proposal.answerSet ?? [])
-    .filter((id) => id !== gem && !tooClever.has(id) && typeof typicality[id]?.value === "number")
-    .map((id) => ({ id, value: typicality[id].value }))
-    .sort((a, b) => b.value - a.value || a.id.localeCompare(b.id));
-  let bandStart = 0;
-  const tiered = banded.map((entry, i) => {
-    if (i > 0 && entry.value !== banded[i - 1].value) bandStart = i;
-    return { ...entry, tier: bandAt(bandStart / banded.length) };
-  });
+  const banded = new Map(
+    (proposal.answerSet ?? [])
+      .filter((id) => id !== gem && !tooClever.has(id) && typeof typicality[id]?.value === "number")
+      .map((id) => [id, typicality[id].value]),
+  );
+  const tiered = [...bandByPrior(banded)].map(([id, tier]) => ({ id, value: banded.get(id)!, tier }));
   return tiered
     .slice(1)
     .map((lower, i) => [tiered[i], lower] as const)

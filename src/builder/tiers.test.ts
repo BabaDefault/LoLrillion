@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Tier } from "@/engine";
 import { fixtureInputs } from "./fixtures";
-import { buildPrompt, type BuilderInputs, type TemplateDefinition } from "./index";
+import { bandByPrior, buildPrompt, type BuilderInputs, type TemplateDefinition } from "./index";
 
 const RANK: Record<Tier, number> = {
   minion: 0,
@@ -87,5 +87,42 @@ describe("Tiers", () => {
     const { answerSet } = buildPrompt(mr, { ...inputs, familiarity, reviews: { [mr.id]: review } });
     expect(answerSet[ids[11]]).toBe("minion");
     expect(answerSet[ids[1]]).toBe("quadra-kill");
+  });
+});
+
+describe("banding by Prior", () => {
+  it("bands likeliest first: 30% Minion, 30% Kill, 25% Triple Kill, the rest Quadra Kill", () => {
+    const prior = new Map(Array.from({ length: 10 }, (_, i) => [`e${i}`, 1 - i / 10] as const));
+    expect([...bandByPrior(prior).values()]).toEqual([
+      ...Array(3).fill("minion"),
+      ...Array(3).fill("kill"),
+      ...Array(3).fill("triple-kill"),
+      "quadra-kill",
+    ]);
+  });
+
+  it("puts equal Priors in the same band, the band of the tie's first position", () => {
+    const tiers = bandByPrior(
+      new Map([
+        ["d", 0.1],
+        ["c", 0.5],
+        ["a", 0.9],
+        ["b", 0.5],
+      ]),
+    );
+    expect([...tiers]).toEqual([
+      ["a", "minion"],
+      ["b", "minion"],
+      ["c", "minion"],
+      ["d", "triple-kill"],
+    ]);
+  });
+
+  it("uses the band shares it is given", () => {
+    const prior = new Map([
+      ["a", 0.9],
+      ["b", 0.5],
+    ]);
+    expect([...bandByPrior(prior, { minion: 0.5, kill: 0.5, "triple-kill": 0 }).values()]).toEqual(["minion", "kill"]);
   });
 });

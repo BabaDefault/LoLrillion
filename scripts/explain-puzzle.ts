@@ -52,8 +52,8 @@ async function main() {
       console.log("  rebuild: Template no longer exists");
       continue;
     }
-    const { status, changedInputs, tiersChanged } = explainPrompt(stored, buildPrompt(template, inputs));
-    const tiers = tiersChanged ? "Answer Set or Tiers differ" : "same Answer Set and Tiers";
+    const { status, changedInputs, answerSetOrTiersChanged } = explainPrompt(stored, buildPrompt(template, inputs));
+    const tiers = answerSetOrTiersChanged ? "Answer Set or Tiers differ" : "same Answer Set and Tiers";
     if (status === "same") console.log("  rebuild: same");
     else if (status === "no-provenance") console.log(`  rebuild: ${tiers}`);
     else console.log(`  rebuild: changed (${changedInputs.join(", ") || "no recorded input"}); ${tiers}`);
