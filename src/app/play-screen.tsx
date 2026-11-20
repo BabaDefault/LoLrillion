@@ -1,11 +1,19 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import type { AttemptResponse, PuzzleStateView } from "@/server/game-service";
+import type { AttemptResponse, PromptResultView, PuzzleStateView } from "@/server/game-service";
+import { EndScreen } from "./end-screen";
+import { ScoreInterlude } from "./score-interlude";
 
 const GRACE_MS = 2_000;
 
-type Interlude = { index: number; text: string } | null;
+type Interlude = { index: number; result: PromptResultView } | null;
+
+/** A popup that isn't an Attempt: the answer window keeps counting down while it's shown. */
+type Notice =
+  | { kind: "did-you-mean"; candidates: Array<{ id: string; name: string }> }
+  | { kind: "wrong-answer-type"; expected: string }
+  | null;
 
 async function api<T>(path: string, body?: unknown): Promise<T> {
   const res = await fetch(path, {
@@ -25,6 +33,7 @@ export function PlayScreen() {
   const [shake, setShake] = useState(0);
   const [busy, setBusy] = useState(false);
   const [interlude, setInterlude] = useState<Interlude>(null);
+  const [notice, setNotice] = useState<Notice>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const receive = useCallback((next: PuzzleStateView) => {
@@ -66,7 +75,8 @@ export function PlayScreen() {
     missCheckFor.current = live.index;
     const index = live.index;
     api<PuzzleStateView>("/api/puzzle/state").then((next) => {
-      if (next.results[index]?.status === "missed") setInterlude({ index, text: "Miss: time's up." });
+      const result = next.results[index];
+      if (result?.status === "missed") setInterlude({ index, result });
       receive(next);
     });
   }, [live, serverNow, receive]);
@@ -81,14 +91,17 @@ export function PlayScreen() {
     }
   }
 
-  async function submit(e: FormEvent) {
-    e.preventDefault();
-    if (!live || !answering || busy || guess.trim() === "") return;
+  async function send(body: { guess: string } | { entityId: string }) {
+    if (!live || !answering || busy) return;
     setBusy(true);
+    setNotice(null);
     try {
-      const res = await api<AttemptResponse>("/api/puzzle/attempt", { promptIndex: live.index, guess });
-      if (res.ok && res.result.kind === "accepted") {
-        setInterlude({ index: live.index, text: `Locked in: ${res.result.entityName}` });
+      const res = await api<AttemptResponse>("/api/puzzle/attempt", { promptIndex: live.index, ...body });
+      const result = res.state.results[live.index];
+      if (res.ok && res.result.kind === "accepted" && result) {
+        setInterlude({ index: live.index, result });
+      } else if (res.ok && (res.result.kind === "did-you-mean" || res.result.kind === "wrong-answer-type")) {
+        setNotice(res.result);
       } else {
         setShake((n) => n + 1);
       }
@@ -98,33 +111,31 @@ export function PlayScreen() {
     }
   }
 
+  function submit(e: FormEvent) {
+    e.preventDefault();
+    if (guess.trim() !== "") send({ guess });
+  }
+
+  function backToEditing() {
+    setNotice(null);
+    inputRef.current?.focus();
+  }
+
   if (!state) return <p className="muted">Loading today&apos;s Puzzle…</p>;
 
   if (interlude) {
     return (
-      <section className="card">
-        <p className="muted">
-          Prompt {interlude.index + 1} of {state.promptCount}
-        </p>
-        <h2>{interlude.text}</h2>
-        <button className="primary" onClick={() => setInterlude(null)} autoFocus>
-          {state.finished ? "See your total" : "Next Prompt"}
-        </button>
-      </section>
+      <ScoreInterlude
+        index={interlude.index}
+        promptCount={state.promptCount}
+        result={interlude.result}
+        finished={state.finished}
+        onContinue={() => setInterlude(null)}
+      />
     );
   }
 
-  if (state.finished) {
-    return (
-      <section className="card center">
-        <p className="muted">Today&apos;s total</p>
-        <p className="total" data-testid="total">
-          {state.total}
-        </p>
-        <p className="muted">out of {state.promptCount * 100}</p>
-      </section>
-    );
-  }
+  if (state.finished) return <EndScreen />;
 
   if (!current) return null;
 
@@ -165,7 +176,10 @@ export function PlayScreen() {
           ref={inputRef}
           className={shake > 0 ? "shake" : ""}
           value={guess}
-          onChange={(e) => setGuess(e.target.value)}
+          onChange={(e) => {
+            setGuess(e.target.value);
+            setNotice(null);
+          }}
           disabled={!answering}
           placeholder={reading ? "Get ready…" : "Type your Guess"}
           autoComplete="off"
@@ -175,6 +189,30 @@ export function PlayScreen() {
           aria-label="Guess"
         />
       </form>
+      {answering && notice?.kind === "did-you-mean" && (
+        <div className="notice" role="dialog" aria-label="Did you mean">
+          <p>Did you mean…</p>
+          <div className="choices">
+            {notice.candidates.map((c, i) => (
+              <button
+                key={c.id}
+                className="primary"
+                onClick={() => send({ entityId: c.id })}
+                disabled={busy}
+                autoFocus={i === 0}
+              >
+                {notice.candidates.length === 1 ? `Yes, ${c.name}` : c.name}
+              </button>
+            ))}
+            <button onClick={backToEditing}>No</button>
+          </div>
+        </div>
+      )}
+      {answering && notice?.kind === "wrong-answer-type" && (
+        <p className="notice" role="status">
+          This asks for {/^[aeiou]/.test(notice.expected) ? "an" : "a"} {notice.expected}.
+        </p>
+      )}
     </section>
   );
 }

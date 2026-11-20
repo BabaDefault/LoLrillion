@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  confirmSuggestion,
   normalizeGuess,
   openPrompt,
   promptOutcome,
@@ -16,6 +17,11 @@ const entities: Entity[] = [
   { id: "twistedfate", name: "Twisted Fate", answerType: "champion", aliases: ["TF"] },
   { id: "teemo", name: "Teemo", answerType: "champion", aliases: [] },
   { id: "garen", name: "Garen", answerType: "champion", aliases: [] },
+  { id: "kassadin", name: "Kassadin", answerType: "champion", aliases: [] },
+  { id: "kayle", name: "Kayle", answerType: "champion", aliases: [] },
+  { id: "kayn", name: "Kayn", answerType: "champion", aliases: [] },
+  { id: "zac", name: "Zac", answerType: "champion", aliases: [] },
+  { id: "mf-arcade", name: "Arcade Miss Fortune", answerType: "skin", aliases: [] },
 ];
 
 const bilgewater: PromptDefinition = {
@@ -197,5 +203,73 @@ describe("retries and locking", () => {
     const third = submitAttempt({ prompt: bilgewater, entities, play, guess: "TF", now: answering + 2 });
     expect(third.result).toMatchObject({ kind: "rejected", reason: "locked" });
     expect(third.play.accepted).toMatchObject({ entityId: "missfortune", points: 10 });
+  });
+});
+
+describe("Did you mean", () => {
+  it("suggests a real Entity of the Answer Type for a near-miss, even one outside the Answer Set", () => {
+    expect(attempt("Kassadn")).toEqual({
+      kind: "did-you-mean",
+      candidates: [{ id: "kassadin", name: "Kassadin" }],
+    });
+  });
+
+  it("suggests Miss Fortune for 'Miss Fortun'", () => {
+    expect(attempt("Miss Fortun")).toEqual({
+      kind: "did-you-mean",
+      candidates: [{ id: "missfortune", name: "Miss Fortune" }],
+    });
+  });
+
+  it("lists every close Entity when several are near", () => {
+    expect(attempt("Kayne")).toEqual({
+      kind: "did-you-mean",
+      candidates: [
+        { id: "kayle", name: "Kayle" },
+        { id: "kayn", name: "Kayn" },
+      ],
+    });
+  });
+
+  it("never suggests for Guesses of 4 characters or fewer", () => {
+    expect(attempt("Zak")).toEqual({ kind: "rejected", reason: "no-match" });
+  });
+
+  it("tells the player a SKIN Prompt asks for a skin when they type a champion", () => {
+    const skins: PromptDefinition = {
+      text: "Name a Miss Fortune skin",
+      answerType: "skin",
+      rule: "Skins for Miss Fortune.",
+      answerSet: { "mf-arcade": "kill" },
+    };
+    const out = submitAttempt({ prompt: skins, entities, play: openPrompt(T0), guess: "Miss Fortune", now: answering });
+    expect(out.result).toEqual({ kind: "wrong-answer-type", expected: "skin" });
+    expect(out.play).toEqual(openPrompt(T0));
+  });
+
+  it("confirming an offered suggestion submits that Entity as the Attempt", () => {
+    const yes = (entityId: string) =>
+      confirmSuggestion({ prompt: bilgewater, entities, play: openPrompt(T0), entityId, offered: ["missfortune", "kassadin"], now: answering });
+    expect(yes("missfortune").result).toMatchObject({ kind: "accepted", entityId: "missfortune", points: 10 });
+    expect(yes("missfortune").play.accepted).toMatchObject({ entityId: "missfortune" });
+    expect(yes("kassadin").result).toEqual({ kind: "rejected", reason: "not-in-answer-set" });
+  });
+
+  it("rejects a confirmed Entity ID that wasn't among the offered candidates", () => {
+    const out = confirmSuggestion({
+      prompt: bilgewater,
+      entities,
+      play: openPrompt(T0),
+      entityId: "twistedfate",
+      offered: ["missfortune"],
+      now: answering,
+    });
+    expect(out.result).toEqual({ kind: "rejected", reason: "not-offered" });
+  });
+
+  it("does not use up an Attempt or touch the Prompt's state", () => {
+    const play = openPrompt(T0);
+    const out = submitAttempt({ prompt: bilgewater, entities, play, guess: "Kassadn", now: answering });
+    expect(out.play).toEqual(play);
   });
 });
