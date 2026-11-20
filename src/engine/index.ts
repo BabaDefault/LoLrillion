@@ -4,8 +4,13 @@ export * from "./types";
 export { TIER_POINTS, TIER_NAMES, MISS_POINTS } from "./scoring";
 export {
   READ_WINDOW_MS,
+  ANSWER_WINDOW_MS,
+  NETWORK_GRACE_MS,
   openPrompt,
+  promptOutcome,
+  promptWindow,
   submitAttempt,
+  type PromptOutcome,
   type AttemptInput,
   type AttemptResult,
   type AcceptedResult,

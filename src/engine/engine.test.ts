@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   normalizeGuess,
   openPrompt,
+  promptOutcome,
+  promptWindow,
   submitAttempt,
   type Entity,
   type PromptDefinition,
@@ -94,6 +96,46 @@ describe("Tier → Points", () => {
   it("the Gem (Pentakill) scores 100", () => {
     const gem = { ...bilgewater, answerSet: { teemo: "pentakill" as const } };
     expect(attempt("Teemo", gem)).toMatchObject({ tier: "pentakill", points: 100 });
+  });
+});
+
+describe("window timing", () => {
+  const opened = T0 + 5_000; // the answer window opens after the 5s read window
+
+  it("rejects Attempts during the 5s read window", () => {
+    expect(attempt("MF", bilgewater, T0 + 4_999)).toMatchObject({ kind: "rejected", reason: "read-window" });
+    expect(attempt("MF", bilgewater, opened)).toMatchObject({ kind: "accepted" });
+  });
+
+  it("accepts Attempts up to 25s plus ~2s network grace after the answer window opens", () => {
+    expect(attempt("MF", bilgewater, opened + 25_000 + 1_999)).toMatchObject({ kind: "accepted" });
+  });
+
+  it("rejects Attempts once the answer window and grace have closed", () => {
+    expect(attempt("MF", bilgewater, opened + 27_000)).toMatchObject({
+      kind: "rejected",
+      reason: "window-closed",
+    });
+  });
+
+  it("reports the Prompt's status as reading, answering, then missed with 0 Points", () => {
+    const play = openPrompt(T0);
+    expect(promptOutcome(play, T0 + 1_000)).toEqual({ status: "reading" });
+    expect(promptOutcome(play, opened + 10_000)).toEqual({ status: "answering" });
+    expect(promptOutcome(play, opened + 27_000)).toEqual({ status: "missed", points: 0 });
+  });
+
+  it("reports an Accepted Prompt as accepted, even after its window closes", () => {
+    const { play } = submitAttempt({ prompt: bilgewater, entities, play: openPrompt(T0), guess: "TF", now: opened });
+    expect(promptOutcome(play, opened + 60_000)).toMatchObject({
+      status: "accepted",
+      tier: "kill",
+      points: 30,
+    });
+  });
+
+  it("exposes when the read window ends and the answer window closes (for countdowns)", () => {
+    expect(promptWindow(openPrompt(T0))).toEqual({ answerOpensAt: opened, answerClosesAt: opened + 25_000 });
   });
 });
 
