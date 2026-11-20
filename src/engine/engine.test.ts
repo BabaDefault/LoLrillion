@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  confirmSuggestion,
   normalizeGuess,
   openPrompt,
   promptOutcome,
@@ -244,6 +245,26 @@ describe("Did you mean", () => {
     const out = submitAttempt({ prompt: skins, entities, play: openPrompt(T0), guess: "Miss Fortune", now: answering });
     expect(out.result).toEqual({ kind: "wrong-answer-type", expected: "skin" });
     expect(out.play).toEqual(openPrompt(T0));
+  });
+
+  it("confirming an offered suggestion submits that Entity as the Attempt", () => {
+    const yes = (entityId: string) =>
+      confirmSuggestion({ prompt: bilgewater, entities, play: openPrompt(T0), entityId, offered: ["missfortune", "kassadin"], now: answering });
+    expect(yes("missfortune").result).toMatchObject({ kind: "accepted", entityId: "missfortune", points: 10 });
+    expect(yes("missfortune").play.accepted).toMatchObject({ entityId: "missfortune" });
+    expect(yes("kassadin").result).toEqual({ kind: "rejected", reason: "not-in-answer-set" });
+  });
+
+  it("rejects a confirmed Entity ID that wasn't among the offered candidates", () => {
+    const out = confirmSuggestion({
+      prompt: bilgewater,
+      entities,
+      play: openPrompt(T0),
+      entityId: "twistedfate",
+      offered: ["missfortune"],
+      now: answering,
+    });
+    expect(out.result).toEqual({ kind: "rejected", reason: "not-offered" });
   });
 
   it("does not use up an Attempt or touch the Prompt's state", () => {
