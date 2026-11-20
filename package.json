@@ -21,7 +21,8 @@
     "reviews:worklist": "tsx scripts/review-template.ts worklist",
     "reviews:validate": "tsx scripts/review-template.ts validate",
     "reviews:approve": "tsx scripts/review-template.ts approve",
-    "reviews:share": "tsx scripts/answer-share.ts"
+    "reviews:share": "tsx scripts/answer-share.ts",
+    "reports:unmatched": "tsx scripts/unmatched-guesses.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.2",

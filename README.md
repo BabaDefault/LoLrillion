@@ -119,7 +119,15 @@ npm run reviews:worklist -- <templateId>  # work file for /review-template
 npm run reviews:validate -- <templateId>  # check the proposal
 npm run reviews:approve -- <templateId>   # draft the approved file from the proposal, then edit and commit it
 npm run reviews:share                     # Answer Share per Template (needs the Supabase variables)
+npm run reports:unmatched                 # Rejected Guesses per Template (needs the Supabase variables)
 ```
+
+`reports:unmatched` groups every Guess Rejected as an answer by its normalized text, with counts and distinct
+players, most frequent first (`--day YYYY-MM-DD`, `--template <templateId>`, `--json`). `-> ENTITY` marks a Guess
+naming an Entity of the Answer Type outside the Answer Set: a likely missing answer or disputable Rule, for
+`/review-template`. `-> ?` marks one naming no Entity: a likely missing Alias (add it to
+`src/content/game-data/nicknames.ts`, then `npm run data:registry`) or a typo. Did-you-mean and wrong-Answer-Type
+results are not Attempts and never appear.
 
 Run `/review-template <templateId>` in Claude Code: it proposes missing/disputable answers, wording fixes, Aliases,
 a fun check, Typicality per Entity, Too Clever and Gem candidates into `src/content/reviews/proposals/`. Only
