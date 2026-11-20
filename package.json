@@ -12,6 +12,7 @@
     "data:fetch": "tsx scripts/fetch-game-data.ts",
     "data:registry": "tsx scripts/fetch-game-data.ts --registry-only",
     "puzzles:build": "tsx scripts/build-puzzles.ts",
+    "puzzles:explain": "tsx scripts/explain-puzzle.ts",
     "data:familiarity": "tsx scripts/fetch-familiarity.ts",
     "labels:prelabel": "tsx scripts/prelabel.ts",
     "labels:worklist": "tsx scripts/tag-patch-worklist.ts",

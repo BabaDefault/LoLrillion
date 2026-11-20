@@ -149,3 +149,34 @@ describe("archive play", () => {
     expect(results).toMatchObject({ ok: true, results: { archive: false, total: 60 } });
   });
 });
+
+describe("Puzzle provenance", () => {
+  const provenance = {
+    dataVersion: "16.23.1",
+    review: "sha256:0123456789abcdef",
+    labels: "unused",
+    familiarity: "none" as const,
+    scoring: "sha256:fedcba9876543210",
+  };
+
+  it("never reaches a state, play or results response, mid-play or after", async () => {
+    const clock = new ManualClock(NOV_22_NOON);
+    const withProvenance = dated("2026-11-22", 3);
+    withProvenance.prompts = withProvenance.prompts.map((p) => ({ ...p, provenance }));
+    const puzzles = createDatedPuzzleSource({ puzzles: { "2026-11-22": withProvenance }, entities, fallback: samplePuzzleSource });
+    const game = createGameService({ clock, store: new InMemoryPlayStore(), puzzles });
+    const leaks = (response: unknown) => /provenance|sha256:/.test(JSON.stringify(response));
+
+    for (let i = 0; i < 2; i++) {
+      expect(leaks(await game.getState("player"))).toBe(false);
+      expect(leaks(await game.startPrompt("player"))).toBe(false);
+      clock.advance(6_000);
+      expect(leaks(await game.submitAttempt("player", i, "Amumu"))).toBe(false);
+      clock.advance(1_000);
+    }
+    const results = await game.getResults("player");
+    expect(results.ok).toBe(true);
+    expect(leaks(results)).toBe(false);
+    expect(leaks(await game.getState("player"))).toBe(false);
+  });
+});
