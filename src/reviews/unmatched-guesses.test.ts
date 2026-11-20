@@ -60,4 +60,19 @@ describe("unmatched Guess report", () => {
       },
     ]);
   });
+
+  it("counts only Guesses rejected as answers: not Did-you-mean, wrong Answer Type, closed windows, or days with no dated Puzzle", () => {
+    const report = unmatchedGuessReport([puzzle("2026-11-20", [yordles])], entities, [
+      rejection({ guess: "Tristanna" }),
+      rejection({ guess: "Tristan", result: "did-you-mean", reason: null }),
+      rejection({ guess: "Zhonyas", result: "wrong-answer-type", reason: null }),
+      rejection({ guess: "Teemo", result: "accepted", reason: null }),
+      rejection({ guess: "Late", reason: "window-closed" }),
+      rejection({ guess: "Early", reason: "read-window" }),
+      rejection({ guess: "Again", reason: "locked" }),
+      rejection({ guess: "Smoke", puzzleDay: "2027-01-15" }),
+      rejection({ guess: "Beyond", promptIndex: 5 }),
+    ]);
+    expect(report.map((r) => r.guesses.map((g) => g.normalized))).toEqual([["tristanna"]]);
+  });
 });

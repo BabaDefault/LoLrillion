@@ -1,5 +1,5 @@
 import type { GeneratedPuzzle } from "@/builder";
-import { normalizeGuess, type AnswerType, type Entity, type EntityId } from "@/engine";
+import { normalizeGuess, type AnswerType, type Entity, type EntityId, type RejectionReason } from "@/engine";
 
 /** An `attempts` row, as far as the unmatched Guess report reads it. */
 export interface LoggedAttempt {
@@ -41,6 +41,9 @@ export interface TemplateUnmatchedGuesses {
   guesses: UnmatchedGuess[];
 }
 
+/** Rejection reasons that say something about the answers, not about timing. */
+const ANSWER_REJECTIONS: ReadonlySet<string> = new Set<RejectionReason>(["no-match", "not-in-answer-set"]);
+
 type Tally = { normalized: string; spellings: string[]; count: number; players: Set<string> };
 
 /**
@@ -58,6 +61,7 @@ export function unmatchedGuessReport(
   const byTemplate = new Map<string, { prompt: string; answerType: AnswerType; days: Set<string>; tallies: Map<string, Tally> }>();
 
   for (const attempt of attempts) {
+    if (attempt.result !== "rejected" || !ANSWER_REJECTIONS.has(attempt.reason ?? "")) continue;
     const prompt = byDay.get(attempt.puzzleDay)?.prompts[attempt.promptIndex];
     if (!prompt || attempt.guess === null) continue;
     const entry = byTemplate.get(prompt.templateId) ?? {
