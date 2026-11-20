@@ -18,10 +18,10 @@ const dated = (puzzleDay: string, puzzleNumber: number): GeneratedPuzzle => ({
   puzzleNumber,
   dataVersion: "16.23.1",
   prompts: [0, 1].map((i) => ({
-    templateId: "champions-yordle",
-    text: `Name a Yordle ${i + 1}`,
+    templateId: "champions-dash",
+    text: `Name a champion with a dash ${i + 1}`,
     answerType: "champion" as const,
-    rule: "Yordles.",
+    rule: "Dashes.",
     answerSet: { teemo: "minion" as const, tristana: "kill" as const, amumu: "pentakill" as const },
   })),
 });

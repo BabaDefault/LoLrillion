@@ -21,7 +21,7 @@ describe("the sample Puzzle", () => {
 
   it("accepts a typed Guess for every Prompt", async () => {
     const { puzzle, entities } = await samplePuzzleSource.forDay("2026-11-20");
-    const guesses = ["Teemo", "MF", "Twitch", "mercs", "Kha'Zix", "vi", "garen"];
+    const guesses = ["Yasuo", "Thresh", "Twitch", "mercs", "Thornmail", "vi", "karthus"];
     puzzle.prompts.forEach((prompt, i) => {
       const { result } = submitAttempt({ prompt, entities, play: openPrompt(0), guess: guesses[i], now: 6_000 });
       expect(result.kind, `${prompt.text}: ${guesses[i]}`).toBe("accepted");

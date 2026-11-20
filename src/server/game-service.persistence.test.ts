@@ -11,13 +11,13 @@ const entities = [champ("Teemo"), champ("Lulu"), champ("Garen"), champ("Darius")
 const puzzle: Puzzle = {
   prompts: [
     {
-      text: "Name a Yordle",
+      text: "Name a ranged champion",
       answerType: "champion",
       rule: "",
       answerSet: { Teemo: "minion", Lulu: "pentakill" }, // 10, 100
     },
     {
-      text: "Name a Demacian or Noxian",
+      text: "Name a melee champion",
       answerType: "champion",
       rule: "",
       answerSet: { Garen: "minion", Darius: "kill" }, // 10, 30

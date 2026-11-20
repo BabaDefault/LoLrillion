@@ -12,10 +12,10 @@ const dated = (puzzleDay: string, puzzleNumber: number): GeneratedPuzzle => ({
   dataVersion: "16.23.1",
   prompts: [
     {
-      templateId: "champions-yordle",
-      text: `Name a Yordle (${puzzleDay})`,
+      templateId: "champions-dash",
+      text: `Name a champion with a dash (${puzzleDay})`,
       answerType: "champion",
-      rule: "Yordles.",
+      rule: "Dashes.",
       answerSet: { "champion:Teemo": "pentakill" },
     },
   ],
@@ -42,9 +42,9 @@ describe("dated Puzzle source", () => {
     const served = await source.forDay(puzzleDayOf(Date.parse("2026-11-20T13:30:00Z")));
     expect(served).toMatchObject({ puzzleDay: "2026-11-21", puzzleNumber: 2, entities, generated: true });
     expect(served.puzzle.prompts[0]).toEqual({
-      text: "Name a Yordle (2026-11-21)",
+      text: "Name a champion with a dash (2026-11-21)",
       answerType: "champion",
-      rule: "Yordles.",
+      rule: "Dashes.",
       answerSet: { "champion:Teemo": "pentakill" },
     });
   });
@@ -78,7 +78,7 @@ describe("dated Puzzle source: the archive", () => {
   it("serves a Puzzle by its day, and the fallback for a day with no generated Puzzle", async () => {
     const served = await three.forDay("2026-11-20");
     expect(served).toMatchObject({ puzzleDay: "2026-11-20", puzzleNumber: 1, entities, generated: true });
-    expect(served.puzzle.prompts[0].text).toBe("Name a Yordle (2026-11-20)");
+    expect(served.puzzle.prompts[0].text).toBe("Name a champion with a dash (2026-11-20)");
     expect(await three.forDay("2025-01-01")).toMatchObject({ generated: false });
   });
 });

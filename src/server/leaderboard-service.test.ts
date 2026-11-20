@@ -19,9 +19,9 @@ const entities: Entity[] = [
 ];
 
 const prompt: PromptDefinition = {
-  text: "Name a Yordle",
+  text: "Name a champion with a dash",
   answerType: "champion",
-  rule: "Yordles.",
+  rule: "Dashes.",
   answerSet: { teemo: "minion", tristana: "kill", amumu: "pentakill" },
 };
 

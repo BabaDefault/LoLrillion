@@ -3,7 +3,7 @@
  *
  *   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npm run reports:unmatched
  *   npm run reports:unmatched -- --day 2026-11-21                one Puzzle Day
- *   npm run reports:unmatched -- --template champions-yordle     one Template
+ *   npm run reports:unmatched -- --template champions-dash     one Template
  *   npm run reports:unmatched -- --json                          machine-readable
  *
  * Reads the logged Attempts Rejected as answers (no Entity matched, or an Entity outside the Answer

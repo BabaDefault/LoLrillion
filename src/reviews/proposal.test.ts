@@ -1,29 +1,29 @@
 import { describe, expect, it } from "vitest";
 import { checkProposal, type ReviewProposal } from "./index";
 
-const answerSet = ["champion:Teemo", "champion:Tristana", "champion:Lulu", "champion:Gnar", "champion:Kled"];
+const answerSet = ["champion:Yasuo", "champion:Ahri", "champion:Riven", "champion:Kindred", "champion:Rell"];
 
 const proposal = (overrides: Partial<ReviewProposal> = {}): ReviewProposal => ({
-  templateId: "champions-yordle",
+  templateId: "champions-dash",
   dataVersion: "16.23.1",
   answerSet,
   missing: [],
-  disputable: [{ entity: "champion:Gnar", why: "Mega Gnar is not small." }],
+  disputable: [{ entity: "champion:Kindred", why: "Dance of Arrows is a short hop; some won't call it a dash." }],
   wording: [],
   aliases: [],
   fun: { verdict: "fun", why: "Everyone knows a few; few know them all." },
   typicality: {
-    "champion:Teemo": { value: 0.95, why: "The Yordle." },
-    "champion:Tristana": { value: 0.6, why: "Classic." },
-    "champion:Lulu": { value: 0.6, why: "Classic." },
-    "champion:Gnar": { value: 0.3, why: "Forgotten." },
-    "champion:Kled": { value: 0.2, why: "Forgotten." },
+    "champion:Yasuo": { value: 0.95, why: "The first dash anyone names." },
+    "champion:Ahri": { value: 0.6, why: "Classic." },
+    "champion:Riven": { value: 0.6, why: "Classic." },
+    "champion:Kindred": { value: 0.3, why: "Forgotten." },
+    "champion:Rell": { value: 0.2, why: "Forgotten." },
   },
-  tooClever: [{ entity: "champion:Gnar", why: "The 'gotcha' Yordle everyone picks." }],
+  tooClever: [{ entity: "champion:Kindred", why: "The 'gotcha' dash everyone picks." }],
   gemCandidates: [
-    { entity: "champion:Kled", why: "Rarely remembered as a Yordle." },
-    { entity: "champion:Lulu", why: "" },
-    { entity: "champion:Tristana", why: "x" },
+    { entity: "champion:Rell", why: "Rarely remembered as a dash." },
+    { entity: "champion:Riven", why: "" },
+    { entity: "champion:Ahri", why: "x" },
   ],
   ...overrides,
 });
@@ -40,36 +40,36 @@ describe("proposal check", () => {
   });
 
   it("needs a Typicality between 0 and 1 for every Entity, and nothing outside the set", () => {
-    const typicality = { ...proposal().typicality, "champion:Teemo": { value: 1.5, why: "x" }, "champion:Garen": { value: 0.1, why: "x" } };
-    delete (typicality as Record<string, unknown>)["champion:Kled"];
+    const typicality = { ...proposal().typicality, "champion:Yasuo": { value: 1.5, why: "x" }, "champion:Garen": { value: 0.1, why: "x" } };
+    delete (typicality as Record<string, unknown>)["champion:Rell"];
     const problems = checkProposal(proposal({ typicality }), answerSet).join("\n");
-    expect(problems).toMatch(/champion:Teemo/);
+    expect(problems).toMatch(/champion:Yasuo/);
     expect(problems).toMatch(/champion:Garen/);
-    expect(problems).toMatch(/champion:Kled/);
+    expect(problems).toMatch(/champion:Rell/);
   });
 
   it("needs exactly three distinct Gem candidates from the Answer Set, none of them Too Clever, each with a reason", () => {
-    const two = proposal({ gemCandidates: [{ entity: "champion:Kled", why: "a" }, { entity: "champion:Lulu", why: "b" }] });
+    const two = proposal({ gemCandidates: [{ entity: "champion:Rell", why: "a" }, { entity: "champion:Riven", why: "b" }] });
     expect(checkProposal(two, answerSet).join("\n")).toMatch(/exactly 3 Gem candidates/);
     const problems = checkProposal(
       proposal({
         gemCandidates: [
-          { entity: "champion:Gnar", why: "a" },
-          { entity: "champion:Veigar", why: "b" },
-          { entity: "champion:Lulu", why: "" },
+          { entity: "champion:Kindred", why: "a" },
+          { entity: "champion:Annie", why: "b" },
+          { entity: "champion:Riven", why: "" },
         ],
       }),
       answerSet,
     ).join("\n");
-    expect(problems).toMatch(/champion:Gnar.*Too Clever/);
-    expect(problems).toMatch(/champion:Veigar/);
-    expect(problems).toMatch(/champion:Lulu.*reason/);
+    expect(problems).toMatch(/champion:Kindred.*Too Clever/);
+    expect(problems).toMatch(/champion:Annie/);
+    expect(problems).toMatch(/champion:Riven.*reason/);
   });
 
   it("Too Clever candidates must be in the Answer Set", () => {
-    const problems = checkProposal(proposal({ tooClever: [{ entity: "champion:Veigar", why: "x" }], gemCandidates: [
-      { entity: "champion:Kled", why: "a" }, { entity: "champion:Lulu", why: "b" }, { entity: "champion:Tristana", why: "c" },
+    const problems = checkProposal(proposal({ tooClever: [{ entity: "champion:Annie", why: "x" }], gemCandidates: [
+      { entity: "champion:Rell", why: "a" }, { entity: "champion:Riven", why: "b" }, { entity: "champion:Ahri", why: "c" },
     ] }), answerSet);
-    expect(problems).toEqual(["Too Clever candidate champion:Veigar is not in the Answer Set"]);
+    expect(problems).toEqual(["Too Clever candidate champion:Annie is not in the Answer Set"]);
   });
 });

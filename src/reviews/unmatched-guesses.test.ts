@@ -25,7 +25,7 @@ const entities: Entity[] = [
   { id: "item:3157", name: "Zhonya's Hourglass", answerType: "item", aliases: [] },
 ];
 
-const yordles = prompt("yordles", "champion", { "champion:Teemo": "minion" });
+const dashes = prompt("dashes", "champion", { "champion:Teemo": "minion" });
 const items = prompt("items", "item", { "item:3157": "minion" });
 
 const rejection = (over: Partial<LoggedAttempt>): LoggedAttempt => ({
@@ -41,7 +41,7 @@ const rejection = (over: Partial<LoggedAttempt>): LoggedAttempt => ({
 
 describe("unmatched Guess report", () => {
   it("groups a Template's Rejected Guesses by normalized text, with counts and distinct players, most frequent first", () => {
-    const report = unmatchedGuessReport([puzzle("2026-11-20", [yordles])], entities, [
+    const report = unmatchedGuessReport([puzzle("2026-11-20", [dashes])], entities, [
       rejection({ playerId: "p1", guess: "Tristanna" }),
       rejection({ playerId: "p2", guess: "Smolder" }),
       rejection({ playerId: "p3", guess: "tristanna " }),
@@ -49,8 +49,8 @@ describe("unmatched Guess report", () => {
     ]);
     expect(report).toEqual([
       {
-        templateId: "yordles",
-        prompt: "Prompt yordles",
+        templateId: "dashes",
+        prompt: "Prompt dashes",
         answerType: "champion",
         days: ["2026-11-20"],
         guesses: [
@@ -62,7 +62,7 @@ describe("unmatched Guess report", () => {
   });
 
   it("counts only Guesses rejected as answers: not Did-you-mean, wrong Answer Type, closed windows, or days with no dated Puzzle", () => {
-    const report = unmatchedGuessReport([puzzle("2026-11-20", [yordles])], entities, [
+    const report = unmatchedGuessReport([puzzle("2026-11-20", [dashes])], entities, [
       rejection({ guess: "Tristanna" }),
       rejection({ guess: "Tristan", result: "did-you-mean", reason: null }),
       rejection({ guess: "Zhonyas", result: "wrong-answer-type", reason: null }),
@@ -77,7 +77,7 @@ describe("unmatched Guess report", () => {
   });
 
   it("marks Guesses that name an Entity of the Answer Type (by name, Alias or confirmed Entity) apart from those that name none", () => {
-    const report = unmatchedGuessReport([puzzle("2026-11-20", [yordles, items])], entities, [
+    const report = unmatchedGuessReport([puzzle("2026-11-20", [dashes, items])], entities, [
       rejection({ guess: "gnar", reason: "not-in-answer-set" }),
       rejection({ guess: "Monkey King", reason: "not-in-answer-set" }),
       rejection({ guess: null, reason: "not-in-answer-set", confirmedEntityId: "champion:MonkeyKing", playerId: "p2" }),
@@ -85,7 +85,7 @@ describe("unmatched Guess report", () => {
       // An Entity of another Answer Type is not a likely missing answer here.
       rejection({ guess: "Teemo", promptIndex: 1 }),
     ]);
-    expect(report.find((r) => r.templateId === "yordles")!.guesses).toEqual([
+    expect(report.find((r) => r.templateId === "dashes")!.guesses).toEqual([
       { normalized: "gnar", spellings: ["gnar"], count: 1, players: 1, entity: { id: "champion:Gnar", name: "Gnar" } },
       { normalized: "gnarr", spellings: ["Gnarr"], count: 1, players: 1, entity: { id: "champion:Gnar", name: "Gnar" } },
       { normalized: "monkeyking", spellings: ["Monkey King"], count: 1, players: 1, entity: { id: "champion:MonkeyKing", name: "Wukong" } },

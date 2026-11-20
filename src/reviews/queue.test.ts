@@ -12,23 +12,23 @@ const approved = (templateId: string, answerSet: string[]): ApprovedReview => ({
 
 describe("review queue (Answer Set diff)", () => {
   const current = {
-    yordles: ["champion:Teemo", "champion:Lulu", "champion:Gnar"],
-    bandle: ["champion:Teemo", "champion:Yuumi"],
+    stuns: ["champion:Yasuo", "champion:Riven", "champion:Kindred"],
+    knockups: ["champion:Yasuo", "champion:Thresh"],
     mr: ["item:1057"],
   };
 
   it("leaves out Templates whose Answer Set is unchanged since approval, in any order", () => {
-    const queue = reviewQueue(current, { yordles: approved("yordles", ["champion:Gnar", "champion:Teemo", "champion:Lulu"]) });
-    expect(queue.map((e) => e.templateId)).not.toContain("yordles");
+    const queue = reviewQueue(current, { stuns: approved("stuns", ["champion:Kindred", "champion:Yasuo", "champion:Riven"]) });
+    expect(queue.map((e) => e.templateId)).not.toContain("stuns");
   });
 
   it("lists a Template whose Answer Set changed, with the Entities added and removed", () => {
     const queue = reviewQueue(current, {
-      yordles: approved("yordles", ["champion:Gnar", "champion:Teemo", "champion:Lulu"]),
-      bandle: approved("bandle", ["champion:Teemo", "champion:Tristana"]),
+      stuns: approved("stuns", ["champion:Kindred", "champion:Yasuo", "champion:Riven"]),
+      knockups: approved("knockups", ["champion:Yasuo", "champion:Ahri"]),
     });
     expect(queue).toEqual([
-      { templateId: "bandle", status: "changed", added: ["champion:Yuumi"], removed: ["champion:Tristana"] },
+      { templateId: "knockups", status: "changed", added: ["champion:Thresh"], removed: ["champion:Ahri"] },
       { templateId: "mr", status: "unreviewed", added: ["item:1057"], removed: [] },
     ]);
   });
@@ -36,9 +36,9 @@ describe("review queue (Answer Set diff)", () => {
   it("lists Templates that have never been approved", () => {
     const queue = reviewQueue(current, {});
     expect(queue.map((e) => [e.templateId, e.status])).toEqual([
-      ["bandle", "unreviewed"],
+      ["knockups", "unreviewed"],
       ["mr", "unreviewed"],
-      ["yordles", "unreviewed"],
+      ["stuns", "unreviewed"],
     ]);
   });
 });

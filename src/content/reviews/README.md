@@ -15,7 +15,7 @@ approved/<templateId>.json             the maintainer's approval: the only revie
    (the Answer Set differs from the one it was approved on, after a data refresh; shown with `+added -removed`).
 2. In Claude Code, run `/review-template <templateId>`. It runs `npm run reviews:worklist -- <templateId>`,
    writes `proposals/<templateId>.json`, and checks it with `npm run reviews:validate -- <templateId>`.
-3. Read the proposal. Fix the data it flags (labels, overlay, Template filter, Rule wording, nicknames) where
+3. Read the proposal. Fix the data it flags (labels, Template filter, Rule wording, nicknames) where
    you agree; those are separate commits through their own workflows.
 4. `npm run reviews:approve -- <templateId>` drafts `approved/<templateId>.json` from the proposal (Gem = first
    candidate, every Too Clever candidate, every Typicality estimate). Edit it to your picks, commit it, then
@@ -29,20 +29,20 @@ Type: `ReviewProposal` in `src/reviews/types.ts`. Every point carries a `why`.
 
 ```json
 {
-  "templateId": "champions-yordle",
+  "templateId": "champions-pull",
   "dataVersion": "16.23.1",
-  "answerSet": ["champion:Corki", "champion:Fizz", "..."],
-  "missing": [{ "entity": "Yuumi", "why": "Players think she's a Yordle; the Rule already says she's a cat, so not missing." }],
-  "disputable": [{ "entity": "champion:Gnar", "why": "..." }],
-  "wording": [{ "why": "\"Yordle\" vs \"yordle\"", "suggestion": "Name a Yordle champion" }],
-  "aliases": [{ "entity": "champion:Heimerdinger", "alias": "heimer", "why": "Common short form." }],
+  "answerSet": ["champion:Blitzcrank", "champion:Darius", "..."],
+  "missing": [{ "entity": "Poppy", "why": "Players remember Heroic Charge moving enemies, but it pushes them away, so not missing." }],
+  "disputable": [{ "entity": "champion:Sett", "why": "..." }],
+  "wording": [{ "why": "\"pull\" could read as pulling minions", "suggestion": "Name a champion who can pull an enemy champion" }],
+  "aliases": [{ "entity": "champion:Blitzcrank", "alias": "blitz", "why": "Common short form." }],
   "fun": { "verdict": "fun", "why": "..." },
-  "typicality": { "champion:Teemo": { "value": 0.95, "why": "The face of the Yordles." } },
-  "tooClever": [{ "entity": "champion:Gnar", "why": "..." }],
+  "typicality": { "champion:Blitzcrank": { "value": 0.95, "why": "Rocket Grab is the hook everyone knows." } },
+  "tooClever": [{ "entity": "champion:Nautilus", "why": "..." }],
   "gemCandidates": [
-    { "entity": "champion:Kled", "why": "..." },
-    { "entity": "champion:Vex", "why": "..." },
-    { "entity": "champion:Corki", "why": "..." }
+    { "entity": "champion:Skarner", "why": "..." },
+    { "entity": "champion:Urgot", "why": "..." },
+    { "entity": "champion:Zac", "why": "..." }
   ]
 }
 ```
@@ -60,12 +60,12 @@ Type: `ApprovedReview` in `src/reviews/types.ts`. The file name must be `<templa
 
 ```json
 {
-  "templateId": "champions-yordle",
+  "templateId": "champions-pull",
   "dataVersion": "16.23.1",
-  "answerSet": ["champion:Corki", "champion:Fizz", "..."],
-  "typicality": { "champion:Teemo": 0.95, "champion:Kled": 0.15 },
-  "tooClever": ["champion:Gnar"],
-  "gem": "champion:Kled"
+  "answerSet": ["champion:Blitzcrank", "champion:Darius", "..."],
+  "typicality": { "champion:Blitzcrank": 0.95, "champion:Skarner": 0.15 },
+  "tooClever": ["champion:Nautilus"],
+  "gem": "champion:Skarner"
 }
 ```
 

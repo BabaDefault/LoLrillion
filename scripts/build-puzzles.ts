@@ -13,7 +13,6 @@
  *
  * Reads (optional inputs may be absent):
  *   src/content/game-data/snapshot.json                the data snapshot (its patch is the data version)
- *   src/content/overlay/champions.json                 champion meta overlay (npm run data:overlay)
  *   src/content/templates/templates.json               Template definitions
  *   src/content/labels/approved.json                   approved mechanics labels (#9)
  *   src/content/familiarity/<snapshot patch>.json      Familiarity (#11); without it, Typicality only
@@ -33,7 +32,6 @@ import { fileURLToPath } from "node:url";
 import {
   buildPrompt,
   generatePuzzles,
-  type ChampionMetaOverlay,
   type FamiliarityData,
   type GeneratedPuzzle,
   type TemplateDefinition,
@@ -103,7 +101,6 @@ async function main() {
   const allTemplates = await readJson<TemplateDefinition[]>(content("templates/templates.json"));
   const inputs = {
     snapshot,
-    overlay: await readJson<ChampionMetaOverlay>(content("overlay/champions.json")),
     templates: puzzleTemplates(allTemplates, reviews, { includeUnreviewed }),
     labels: approvedLabels,
     familiarity,

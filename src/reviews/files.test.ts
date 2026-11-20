@@ -6,12 +6,12 @@ import { readApprovedReviews } from "./files";
 import type { ApprovedReview } from "./types";
 
 const approved: ApprovedReview = {
-  templateId: "champions-yordle",
+  templateId: "champions-dash",
   dataVersion: "16.23.1",
-  answerSet: ["champion:Kled", "champion:Teemo"],
-  typicality: { "champion:Teemo": 0.9, "champion:Kled": 0.1 },
+  answerSet: ["champion:Rell", "champion:Yasuo"],
+  typicality: { "champion:Yasuo": 0.9, "champion:Rell": 0.1 },
   tooClever: [],
-  gem: "champion:Kled",
+  gem: "champion:Rell",
 };
 
 function reviewsDir(files: Record<string, unknown>): string {
@@ -26,10 +26,10 @@ function reviewsDir(files: Record<string, unknown>): string {
 describe("reading approved reviews for the Builder", () => {
   it("reads only approved files, keyed by Template; proposals never reach the Builder", async () => {
     const root = reviewsDir({
-      "approved/champions-yordle.json": approved,
-      "proposals/champions-region-ionia.json": { templateId: "champions-region-ionia", gemCandidates: [] },
+      "approved/champions-dash.json": approved,
+      "proposals/champions-stun.json": { templateId: "champions-stun", gemCandidates: [] },
     });
-    expect(await readApprovedReviews(root)).toEqual({ "champions-yordle": approved });
+    expect(await readApprovedReviews(root)).toEqual({ "champions-dash": approved });
   });
 
   it("is empty when nothing is approved yet", async () => {
@@ -37,8 +37,8 @@ describe("reading approved reviews for the Builder", () => {
   });
 
   it("refuses to build from an inconsistent approved file", async () => {
-    const root = reviewsDir({ "approved/champions-yordle.json": { ...approved, gem: "champion:Veigar" } });
-    await expect(readApprovedReviews(root)).rejects.toThrow(/champions-yordle.*Gem champion:Veigar/s);
+    const root = reviewsDir({ "approved/champions-dash.json": { ...approved, gem: "champion:Annie" } });
+    await expect(readApprovedReviews(root)).rejects.toThrow(/champions-dash.*Gem champion:Annie/s);
   });
 
   it("refuses a file whose name doesn't match its Template ID", async () => {

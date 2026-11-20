@@ -7,7 +7,7 @@ argument-hint: <templateId>
 
 # /review-template
 
-You are a **reviewer**, not a decider: you write a proposal file, and the human approves it. Approved reviews in `src/content/reviews/approved/` are the only review files the Builder reads; you never create or edit them, and you never edit Templates, labels, the overlay or nicknames.
+You are a **reviewer**, not a decider: you write a proposal file, and the human approves it. Approved reviews in `src/content/reviews/approved/` are the only review files the Builder reads; you never create or edit them, and you never edit Templates, labels or nicknames.
 
 Formats and the whole workflow: `src/content/reviews/README.md`. Vocabulary: `GLOSSARY.md` ("Prompt" is the player-facing question, never AI instructions).
 
@@ -25,12 +25,12 @@ Judge the Answer Set against the **Rule**, not the Prompt's everyday meaning. Sc
 
 Work through every section; each point needs a `why` a maintainer can check:
 
-- **missing**: Entities in `notInAnswerSet` that a reasonable player would say fit the Rule. Name them by `name` (they have no place in the set yet). Say whether the fix is data (a label, overlay fact, nickname) or the Rule.
+- **missing**: Entities in `notInAnswerSet` that a reasonable player would say fit the Rule. Name them by `name` (they have no place in the set yet). Say whether the fix is data (a label, nickname) or the Rule.
 - **disputable**: Entities in the Answer Set whose membership players would argue about.
 - **wording**: ambiguity in the Prompt text or Rule, with a `suggestion`.
 - **aliases**: spellings players would actually type (nicknames, old names, abbreviations) that aren't in the Entity's `aliases`. Skip anything already there or that only differs by case, spaces or punctuation.
 - **fun**: `fun`, `ok` or `dull`, and why. A Prompt is fun when most players can name a few and few can name them all.
-- **typicality**: simulate about 100 varied players (new to veteran, every role) each giving their first answer within 25 seconds. For **every** Entity in the Answer Set, `value` is how readily it comes to mind for this Prompt, from 0 (nobody) to 1 (everyone's first answer). It's about this Prompt, not general popularity: Teemo is typical for "Yordle" but not for "has a dash".
+- **typicality**: simulate about 100 varied players (new to veteran, every role) each giving their first answer within 25 seconds. For **every** Entity in the Answer Set, `value` is how readily it comes to mind for this Prompt, from 0 (nobody) to 1 (everyone's first answer). It's about this Prompt, not general popularity: Thresh is typical for "can pull an enemy" but not for "has a dash".
 - **tooClever**: Entities that seem obscure but that players reach for *because* they seem obscure (the "everyone thinks they're clever" pick). Usually zero to three.
 - **gemCandidates**: exactly three, best first, from the Answer Set, none Too Clever. A Gem is satisfying to find when revealed ("oh, of course!"), not merely the rarest. Like Krillion's, it is "something at least a few players actually get": prefer Typicality of roughly 0.05-0.25, and never a deep cut almost nobody would type. Approval enforces a hard floor on obscurity: an approved Gem with Typicality above 0.25, or in the likeliest half of the Answer Set by Typicality (Too Clever left out), fails `npm test` and `puzzles:build`. So every candidate must clear both with your own estimates; above that threshold, pick the one that's most fun.
 

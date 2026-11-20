@@ -5,20 +5,14 @@ import type { BuilderInputs, TemplateDefinition, TemplateFilter } from "./types"
 
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-/** The Entities a Template's filter selects from the game data, overlay and approved labels. */
+/** The Entities a Template's filter selects from the game data and approved labels. */
 export function answerSetOf(template: TemplateDefinition, inputs: BuilderInputs): EntityId[] {
   return select(template.filter, inputs);
 }
 
-function select(filter: TemplateFilter, { snapshot, overlay, labels = [] }: BuilderInputs): EntityId[] {
+function select(filter: TemplateFilter, { snapshot, labels = [] }: BuilderInputs): EntityId[] {
   const champions = snapshot.champions;
   switch (filter.kind) {
-    case "champion-region":
-      return champions
-        .filter((c) => overlay.champions[c.id]?.region.value === filter.region)
-        .map((c) => championEntityId(c.id));
-    case "champion-yordle":
-      return champions.filter((c) => overlay.champions[c.id]?.yordle.value === true).map((c) => championEntityId(c.id));
     case "champion-label": {
       const labelled = new Set(entitiesWithTerm(labels, filter.term));
       return champions.map((c) => championEntityId(c.id)).filter((id) => labelled.has(id));

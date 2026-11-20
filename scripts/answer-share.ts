@@ -2,7 +2,7 @@
  * Maintainer script: the per-Template Answer Share report, for re-tiering a Template by hand.
  *
  *   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npm run reviews:share
- *   npm run reviews:share -- --template champions-yordle    one Template
+ *   npm run reviews:share -- --template champions-dash    one Template
  *   npm run reviews:share -- --json                         machine-readable
  *
  * For every dated Puzzle up to today (Sydney), reads that Puzzle Day's Answer Counts (counted plays,

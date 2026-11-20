@@ -18,10 +18,10 @@ const dated = (puzzleDay: string, puzzleNumber: number): GeneratedPuzzle => ({
   puzzleNumber,
   dataVersion: "16.23.1",
   prompts: [0, 1].map((i) => ({
-    templateId: "champions-yordle",
-    text: `Name a Yordle ${i + 1} (${puzzleDay})`,
+    templateId: "champions-dash",
+    text: `Name a champion with a dash ${i + 1} (${puzzleDay})`,
     answerType: "champion" as const,
-    rule: "Yordles.",
+    rule: "Dashes.",
     answerSet: { teemo: "minion" as const, tristana: "kill" as const, amumu: "pentakill" as const },
   })),
 });
@@ -75,7 +75,7 @@ describe("archive play", () => {
       archive: true,
       total: 200,
     });
-    expect(response.results.prompts[0].text).toBe("Name a Yordle 1 (2026-11-20)");
+    expect(response.results.prompts[0].text).toBe("Name a champion with a dash 1 (2026-11-20)");
     // Today's run is untouched by the archive run.
     expect(await game.getState("archivist")).toMatchObject({ puzzleDay: "2026-11-22", archive: false, finished: false });
   });

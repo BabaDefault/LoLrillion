@@ -15,7 +15,7 @@
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { answerSetOf, buildPrompt, type BuilderInputs, type ChampionMetaOverlay, type TemplateDefinition } from "../src/builder";
+import { answerSetOf, buildPrompt, type BuilderInputs, type TemplateDefinition } from "../src/builder";
 import { entityRegistry } from "../src/content/game-data";
 import { gameDataSnapshot } from "../src/content/game-data/snapshot-data";
 import { approvedLabels } from "../src/content/labels";
@@ -31,9 +31,8 @@ const json = (value: unknown) => JSON.stringify(value, null, 2) + "\n";
 
 async function loadInputs() {
   const templates = JSON.parse(await readFile(content("templates/templates.json"), "utf8")) as TemplateDefinition[];
-  const overlay = JSON.parse(await readFile(content("overlay/champions.json"), "utf8")) as ChampionMetaOverlay;
   const reviews = await readApprovedReviews(REVIEWS_DIR);
-  const inputs: BuilderInputs = { snapshot: gameDataSnapshot, overlay, labels: approvedLabels, reviews };
+  const inputs: BuilderInputs = { snapshot: gameDataSnapshot, labels: approvedLabels, reviews };
   const answerSets = Object.fromEntries(templates.map((t) => [t.id, answerSetOf(t, inputs).sort()]));
   return { templates, inputs, reviews, answerSets };
 }
