@@ -4,6 +4,7 @@ import {
   openPrompt,
   promptOutcome,
   promptWindow,
+  puzzleProgress,
   submitAttempt,
   type Entity,
   type PromptDefinition,
@@ -136,6 +137,49 @@ describe("window timing", () => {
 
   it("exposes when the read window ends and the answer window closes (for countdowns)", () => {
     expect(promptWindow(openPrompt(T0))).toEqual({ answerOpensAt: opened, answerClosesAt: opened + 25_000 });
+  });
+});
+
+describe("Puzzle progress and the daily total", () => {
+  const promptOpenedAt = (i: number) => T0 + i * 60_000;
+  const acceptedPlay = (i: number, guess: string, prompt = bilgewater) =>
+    submitAttempt({ prompt, entities, play: openPrompt(promptOpenedAt(i)), guess, now: promptOpenedAt(i) + 6_000 })
+      .play;
+  const gemPrompt: PromptDefinition = { ...bilgewater, answerSet: { teemo: "pentakill" } };
+
+  it("starts at the first Prompt with nothing scored", () => {
+    const progress = puzzleProgress(7, [], T0);
+    expect(progress).toMatchObject({ currentIndex: 0, finished: false, total: 0 });
+    expect(progress.outcomes[0]).toEqual({ status: "not-started" });
+  });
+
+  it("moves to the next Prompt once one is Accepted or Missed", () => {
+    const plays = [acceptedPlay(0, "TF"), openPrompt(promptOpenedAt(1))];
+    const missedSecond = promptOpenedAt(1) + 5_000 + 27_000;
+    expect(puzzleProgress(7, plays, promptOpenedAt(1) + 1_000)).toMatchObject({ currentIndex: 1, total: 30 });
+    expect(puzzleProgress(7, plays, missedSecond)).toMatchObject({ currentIndex: 2, total: 30 });
+  });
+
+  it("finishes after seven Prompts with the sum of their Points", () => {
+    const plays = [
+      acceptedPlay(0, "MF"), // 10
+      acceptedPlay(1, "TF"), // 30
+      openPrompt(promptOpenedAt(2)), // Miss
+      acceptedPlay(3, "Teemo", gemPrompt), // 100
+      acceptedPlay(4, "Teemo", gemPrompt), // 100
+      acceptedPlay(5, "MF"), // 10
+      acceptedPlay(6, "Teemo", gemPrompt), // 100
+    ];
+    expect(puzzleProgress(7, plays, promptOpenedAt(10))).toMatchObject({
+      currentIndex: null,
+      finished: true,
+      total: 350,
+    });
+  });
+
+  it("totals 700 when every Prompt finds the Gem", () => {
+    const plays = Array.from({ length: 7 }, (_, i) => acceptedPlay(i, "Teemo", gemPrompt));
+    expect(puzzleProgress(7, plays, promptOpenedAt(10)).total).toBe(700);
   });
 });
 

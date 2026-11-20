@@ -18,3 +18,4 @@ export {
   type RejectionReason,
   type PromptPlay,
 } from "./play";
+export { puzzleProgress, type PuzzleProgress, type PromptProgress } from "./progress";
