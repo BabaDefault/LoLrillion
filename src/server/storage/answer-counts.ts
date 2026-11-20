@@ -8,14 +8,7 @@ export interface AnswerCounts {
   byPrompt: ReadonlyArray<Readonly<Record<EntityId, number>> | undefined>;
 }
 
-/** Supplies Answer Counts for the end screen. The persistent store implements this. */
+/** Supplies Answer Counts for the end screen. Every PlayStore implements this. */
 export interface AnswerCountSource {
   getAnswerCounts(puzzleDay: string, promptCount: number): Promise<AnswerCounts>;
 }
-
-/** Placeholder until counts are persisted: every count is zero. */
-export const noAnswerCounts: AnswerCountSource = {
-  async getAnswerCounts() {
-    return { players: 0, byPrompt: [] };
-  },
-};

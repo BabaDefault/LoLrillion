@@ -43,6 +43,30 @@ function percent(share: number): string {
   return `${Math.round(share * 100)}%`;
 }
 
+/** "Better than X% of today's players" and the day's score curve with the player's bin highlighted. */
+function DistributionCurve({ results }: { results: PuzzleResultsView }) {
+  const { bins, yourBin } = results.distribution;
+  const peak = Math.max(1, ...bins.map((b) => b.count));
+  return (
+    <>
+      <p data-testid="percentile">
+        Better than <strong>{results.percentile}%</strong> of today&apos;s {results.playerCount}{" "}
+        {results.playerCount === 1 ? "player" : "players"}
+      </p>
+      <div className="curve" role="img" aria-label="Today's score distribution, with your score highlighted">
+        {bins.map((b, i) => (
+          <div
+            key={b.from}
+            className={i === yourBin ? "bar you" : "bar"}
+            style={{ height: `${Math.max(4, (b.count / peak) * 100)}%` }}
+            title={`${b.from}–${b.to}: ${b.count}`}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
 /** The end-of-day reveal: total, day title, each answer and the full Answer Sets, plus sharing. */
 export function EndScreen() {
   const [results, setResults] = useState<PuzzleResultsView | null>(null);
@@ -81,6 +105,7 @@ export function EndScreen() {
         <p className="day-title" data-testid="day-title">
           {results.dayTitle}
         </p>
+        <DistributionCurve results={results} />
         <button className="primary" onClick={share}>
           {copied === "copied" ? "Copied!" : "Share"}
         </button>

@@ -72,12 +72,14 @@ describe("end-of-day results", () => {
       entityId: "amumu",
       entityName: "Amumu", tier: "pentakill", points: 100 });
     expect(results.prompts[2].result).toEqual({ status: "missed", points: 0 });
+    // The only player today is this one, so their own pick is the whole Answer Share.
     expect(results.prompts[0].answerSet).toEqual(
       expect.arrayContaining([
         { entityId: "teemo", name: "Teemo", tier: "minion", points: 10, gem: false, count: 0, share: 0 },
-        { entityId: "amumu", name: "Amumu", tier: "pentakill", points: 100, gem: true, count: 0, share: 0 },
+        { entityId: "amumu", name: "Amumu", tier: "pentakill", points: 100, gem: true, count: 1, share: 1 },
       ]),
     );
+    expect(results).toMatchObject({ playerCount: 1, percentile: 0 });
     expect(results.prompts[0].answerSet).toHaveLength(3);
   });
 
