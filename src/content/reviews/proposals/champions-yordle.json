@@ -1,0 +1,93 @@
+{
+  "templateId": "champions-yordle",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Corki",
+    "champion:Fizz",
+    "champion:Gnar",
+    "champion:Heimerdinger",
+    "champion:Kennen",
+    "champion:Kled",
+    "champion:Lulu",
+    "champion:Poppy",
+    "champion:Rumble",
+    "champion:Teemo",
+    "champion:Tristana",
+    "champion:Veigar",
+    "champion:Vex",
+    "champion:Ziggs"
+  ],
+  "missing": [
+    {
+      "entity": "Amumu",
+      "why": "Riot writers have called Amumu a yordle outside the game, and some players will try him. His Universe biography doesn't say so, so under the Rule he's correctly out; consider naming him in the Rule so the end-screen reveal doesn't feel like a mistake."
+    },
+    {
+      "entity": "Yuumi",
+      "why": "The most common wrong answer (she lives with the yordle Norra in Bandle City). The Rule already says she's a cat, so not missing."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Fizz",
+      "why": "Many players think of Fizz as a fish-like sea creature rather than a yordle, but his bio calls him a yordle, so he belongs."
+    },
+    {
+      "entity": "champion:Gnar",
+      "why": "A prehistoric yordle who turns into a giant beast; his bio says yordle, so he belongs, but some players argue he's a 'missing link' creature."
+    }
+  ],
+  "wording": [
+    {
+      "why": "The Rule names Yuumi but not Amumu, the other common argument.",
+      "suggestion": "Champions whose official Universe biography says they are a yordle. Yuumi is a cat; Amumu is a mummy."
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:Kled",
+      "alias": "Skaarl",
+      "why": "Kled's lizard mount; players type the pair's other half. Optional: Skaarl is not herself a yordle, so only add if you want it accepted."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone can name Teemo and a couple more in 25 seconds, but almost no one names all 14; Corki, Kled and Vex reward players who know the roster."
+  },
+  "typicality": {
+    "champion:Teemo": { "value": 0.95, "why": "The face of the yordles; most players' first answer." },
+    "champion:Tristana": { "value": 0.55, "why": "Popular ADC and well-known yordle." },
+    "champion:Veigar": { "value": 0.55, "why": "The tiny master of evil; strongly yordle-coded." },
+    "champion:Lulu": { "value": 0.5, "why": "Iconic yordle support with Pix." },
+    "champion:Heimerdinger": { "value": 0.45, "why": "The yordle scientist; well known even to new players." },
+    "champion:Poppy": { "value": 0.45, "why": "Yordle with a giant hammer; often named early." },
+    "champion:Ziggs": { "value": 0.35, "why": "Clearly a yordle on sight, mid-popular." },
+    "champion:Kennen": { "value": 0.35, "why": "Yordle ninja; top/mid players think of him readily." },
+    "champion:Rumble": { "value": 0.3, "why": "Yordle in a mech; the mech hides him a little." },
+    "champion:Gnar": { "value": 0.3, "why": "Known yordle but the transformation makes some hesitate." },
+    "champion:Fizz": { "value": 0.3, "why": "Many don't think of him as a yordle first." },
+    "champion:Corki": { "value": 0.2, "why": "Hidden in his plane; often forgotten." },
+    "champion:Kled": { "value": 0.2, "why": "Low play rate and riding Skaarl; forgotten by many." },
+    "champion:Vex": { "value": 0.15, "why": "Newer, niche mid-laner; few remember she's a yordle." }
+  },
+  "tooClever": [
+    {
+      "entity": "champion:Gnar",
+      "why": "The 'trick' yordle that players who want to look clever reach for, so it ends up chosen much more than its first-thought rate."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "champion:Corki",
+      "why": "The classic 'oh, of course!' answer: everyone knows Corki but forgets the yordle in the plane."
+    },
+    {
+      "entity": "champion:Kled",
+      "why": "Unmistakably a yordle once revealed, but rarely named because of Skaarl and his low play rate."
+    },
+    {
+      "entity": "champion:Vex",
+      "why": "Rarest by recall; satisfying for players who know newer champions, but less of an 'of course' moment."
+    }
+  ]
+}

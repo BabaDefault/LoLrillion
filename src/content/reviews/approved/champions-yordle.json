@@ -1,0 +1,40 @@
+{
+  "templateId": "champions-yordle",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Corki",
+    "champion:Fizz",
+    "champion:Gnar",
+    "champion:Heimerdinger",
+    "champion:Kennen",
+    "champion:Kled",
+    "champion:Lulu",
+    "champion:Poppy",
+    "champion:Rumble",
+    "champion:Teemo",
+    "champion:Tristana",
+    "champion:Veigar",
+    "champion:Vex",
+    "champion:Ziggs"
+  ],
+  "typicality": {
+    "champion:Teemo": 0.95,
+    "champion:Tristana": 0.55,
+    "champion:Veigar": 0.55,
+    "champion:Lulu": 0.5,
+    "champion:Heimerdinger": 0.45,
+    "champion:Poppy": 0.45,
+    "champion:Ziggs": 0.35,
+    "champion:Kennen": 0.35,
+    "champion:Rumble": 0.3,
+    "champion:Gnar": 0.3,
+    "champion:Fizz": 0.3,
+    "champion:Corki": 0.2,
+    "champion:Kled": 0.2,
+    "champion:Vex": 0.15
+  },
+  "tooClever": [
+    "champion:Gnar"
+  ],
+  "gem": "champion:Corki"
+}
