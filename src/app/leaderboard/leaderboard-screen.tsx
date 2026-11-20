@@ -49,8 +49,8 @@ function Board({ board }: { board: LeaderboardView }) {
   return (
     <>
       <p className="muted">
-        LoLrillion #{board.puzzleNumber} · {board.puzzleDay} ·{" "}
-        {board.phase === "final" ? "Final" : "Live"} · {board.playerCount}{" "}
+        LoLrillion <span className="num">#{board.puzzleNumber}</span> · <span className="num">{board.puzzleDay}</span> ·{" "}
+        {board.phase === "final" ? "Final" : "Live"} · <span className="num">{board.playerCount}</span>{" "}
         {board.playerCount === 1 ? "player" : "players"}
       </p>
       {board.entries.length === 0 ? (

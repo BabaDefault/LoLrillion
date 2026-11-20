@@ -48,7 +48,9 @@ export function StatsView() {
         </div>
         <div>
           <p className="stat" data-testid="best-day">{stats.bestDay?.total ?? 0}</p>
-          <p className="muted">Best day{stats.bestDay ? ` (${stats.bestDay.puzzleDay})` : ""}</p>
+          <p className="muted">
+            Best day{stats.bestDay && <> (<span className="num">{stats.bestDay.puzzleDay}</span>)</>}
+          </p>
         </div>
       </section>
       <section className="card">
@@ -59,12 +61,12 @@ export function StatsView() {
               <span>
                 {TIER_EMOJI[tier]} {TIER_NAMES[tier]}
               </span>
-              <span>{stats.tierCounts[tier]}</span>
+              <span className="num">{stats.tierCounts[tier]}</span>
             </li>
           ))}
           <li className="tone-miss">
             <span>{MISS_EMOJI} Miss</span>
-            <span>{stats.tierCounts.miss}</span>
+            <span className="num">{stats.tierCounts.miss}</span>
           </li>
         </ul>
       </section>

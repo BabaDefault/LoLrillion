@@ -135,11 +135,22 @@ h1,
 .stat,
 .rank,
 .leaderboard .score,
-.group-code {
+.group-code,
+.num {
   font-family: var(--font-display);
   font-weight: 400;
   -webkit-font-smoothing: none;
   letter-spacing: 0;
+}
+
+/*
+ * Numbers inside body text (Points, counts, percentages, dates, Puzzle numbers). The body face's "5"
+ * reads as "S", so every number players read is set in the display face, scaled down to sit beside
+ * the body face's x-height.
+ */
+.num {
+  font-size: 0.72em;
+  white-space: nowrap;
 }
 
 a {

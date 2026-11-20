@@ -24,7 +24,7 @@ export function ScoreInterlude({
   return (
     <section className="card center">
       <p className="muted">
-        Prompt {index + 1} of {promptCount}
+        Prompt <span className="num">{index + 1}</span> of <span className="num">{promptCount}</span>
       </p>
       <div className={`score-pop tone-${tierTone(accepted ? result.tier : null)}`} key={index} aria-live="polite">
         <span className="score-emoji" aria-hidden="true">
