@@ -17,6 +17,7 @@
     "labels:prelabel": "tsx scripts/prelabel.ts",
     "labels:worklist": "tsx scripts/tag-patch-worklist.ts",
     "labels:validate": "tsx scripts/validate-labels.ts",
+    "labels:queue": "tsx scripts/label-queue.ts",
     "reviews:queue": "tsx scripts/review-template.ts queue",
     "reviews:worklist": "tsx scripts/review-template.ts worklist",
     "reviews:validate": "tsx scripts/review-template.ts validate",

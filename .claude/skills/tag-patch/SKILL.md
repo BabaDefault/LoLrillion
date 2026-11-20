@@ -53,4 +53,6 @@ Done when the validator exits 0.
 
 ## 4. Hand off
 
-Report to the human: champions tagged, labels added / removed versus `approved.json`, and every `notes` entry. Approval is theirs: they merge the proposals into `approved.json`, run `npm test`, then `npm run labels:worklist -- --mark-tagged` to record the patch as tagged.
+Run `npm run labels:queue -- src/content/labels/proposals/<patch>.json`. It lists every proposed label **most uncertain first**, with the reasons code found (no keyword evidence from the pre-labeller, a quote without the term's keyword or from the short `description`, a borderline term such as dash vs blink, ability text that changed this patch). It never asks you how sure you are: don't add confidence ratings to the proposals.
+
+Report to the human: champions tagged, labels added / removed versus `approved.json`, every `notes` entry, and the queue's top entries with their reasons. Tell them to **work through the queue top-down**: the top labels are the likeliest to be wrong. Approval is theirs: they merge the proposals into `approved.json`, run `npm test`, then `npm run labels:worklist -- --mark-tagged` to record the patch as tagged.

@@ -13,6 +13,20 @@ approved/<templateId>.json             the maintainer's approval: the only revie
 
 1. `npm run reviews:queue` lists Templates that need review: `unreviewed` (never approved) or `changed`
    (the Answer Set differs from the one it was approved on, after a data refresh; shown with `+added -removed`).
+   Templates with a proposal waiting come first, **most uncertain first**, each with its score and reasons; work
+   through them **top-down**. Templates with no proposal yet follow. The score is computed by code
+   (`src/uncertainty`), never by asking the AI how sure it is:
+
+   | Signal | Adds |
+   | --- | --- |
+   | each `disputable` entry | 2 |
+   | each `missing` entry | 2 |
+   | proposal reviewed on an older patch than the current snapshot | 2 |
+   | a Gem candidate's Typicality within 0.05 of the Gem threshold (0.25) | 2 each |
+   | an Answer Set entry resting on a mechanics label checked (`tagged.json`) before its ability text changed | 1 each |
+   | neighbouring answers across a band edge with Typicality within 0.05 (banded as the drafted approval would be) | 1 per pair |
+
+   Mechanics labels have the same kind of queue: `npm run labels:queue` (see `/tag-patch`).
 2. In Claude Code, run `/review-template <templateId>`. It runs `npm run reviews:worklist -- <templateId>`,
    writes `proposals/<templateId>.json`, and checks it with `npm run reviews:validate -- <templateId>`.
 3. Read the proposal. Fix the data it flags (labels, overlay, Template filter, Rule wording, nicknames) where

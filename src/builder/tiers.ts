@@ -48,7 +48,8 @@ export function buildPrompt(template: TemplateDefinition, inputs: BuilderInputs)
   return { templateId: template.id, text: template.text, answerType: template.answerType, rule: template.rule, answerSet };
 }
 
-function bandAt(position: number): Tier {
+/** The Tier at a position among the normally-banded answers, from likeliest (0) to least likely (1). */
+export function bandAt(position: number): Tier {
   let edge = BAND_SHARES.minion;
   if (position < edge) return "minion";
   if (position < (edge += BAND_SHARES.kill)) return "kill";

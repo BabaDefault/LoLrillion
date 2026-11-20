@@ -1,7 +1,8 @@
 /**
  * Maintainer script: the review queue and the steps around `/review-template`.
  *
- *   npm run reviews:queue                       Templates to review: never approved, or Answer Set changed
+ *   npm run reviews:queue                       Templates to review: never approved, or Answer Set changed;
+ *                                               those with a proposal first, most uncertain first, with reasons
  *   npm run reviews:worklist -- <templateId>    write the work file /review-template reads
  *   npm run reviews:validate -- <templateId>    check src/content/reviews/proposals/<templateId>.json
  *   npm run reviews:approve -- <templateId>     draft src/content/reviews/approved/<templateId>.json from
@@ -19,9 +20,10 @@ import { answerSetOf, buildPrompt, type BuilderInputs, type ChampionMetaOverlay,
 import { entityRegistry } from "../src/content/game-data";
 import { gameDataSnapshot } from "../src/content/game-data/snapshot-data";
 import { approvedLabels } from "../src/content/labels";
-import { mechanicsTerm } from "../src/labels";
+import { changedChampions, mechanicsTerm, type TaggedBaseline } from "../src/labels";
 import { approveProposal, checkProposal, reviewQueue, type ReviewProposal } from "../src/reviews";
 import { readApprovedReviews } from "../src/reviews/files";
+import { reviewUncertaintyQueue } from "../src/uncertainty";
 
 const content = (path: string) => fileURLToPath(new URL(`../src/content/${path}`, import.meta.url));
 const REVIEWS_DIR = content("reviews");
@@ -44,13 +46,49 @@ function template(templates: TemplateDefinition[], id: string | undefined): Temp
   return found;
 }
 
+/**
+ * Answer Set entries resting on a fact older than the snapshot: kit Template members whose mechanics
+ * label was last checked (`tagged.json`) before their ability text changed.
+ */
+async function staleFactsFor(t: TemplateDefinition, answerSet: readonly string[]): Promise<Record<string, string>> {
+  if (t.filter.kind !== "champion-label") return {};
+  const baseline = JSON.parse(await readFile(content("labels/tagged.json"), "utf8")) as TaggedBaseline;
+  if (!baseline.patch) return {};
+  const changed = new Set(changedChampions(gameDataSnapshot, baseline));
+  const term = t.filter.term;
+  return Object.fromEntries(
+    answerSet
+      .filter((id) => changed.has(id))
+      .map((id) => [id, `its ${term} label was checked on ${baseline.patch}; its ability text changed since`]),
+  );
+}
+
 async function queue() {
-  const { answerSets, reviews } = await loadInputs();
+  const { templates, answerSets, reviews } = await loadInputs();
   const entries = reviewQueue(answerSets, reviews);
-  for (const e of entries) {
+  const describe = (e: (typeof entries)[number]) => {
     const diff = e.status === "changed" ? ` +${e.added.join(" +")} -${e.removed.join(" -")}`.replace(/ [+-](?= |$)/g, "") : "";
-    console.log(`${e.status.padEnd(10)} ${e.templateId.padEnd(36)} ${answerSets[e.templateId].length} answers${diff}`);
+    return `${e.status.padEnd(10)} ${e.templateId.padEnd(36)} ${answerSets[e.templateId].length} answers${diff}`;
+  };
+
+  // Templates with a proposal waiting: most uncertain first, so approval effort goes to likely mistakes.
+  const proposals: ReviewProposal[] = [];
+  const staleFacts: Record<string, Record<string, string>> = {};
+  for (const e of entries) {
+    if (!existsSync(proposalFile(e.templateId))) continue;
+    proposals.push(await readProposal(e.templateId));
+    staleFacts[e.templateId] = await staleFactsFor(template(templates, e.templateId), answerSets[e.templateId]);
   }
+  const ranked = reviewUncertaintyQueue(proposals, { patch: gameDataSnapshot.patch, staleFacts });
+  if (ranked.length) console.log("Proposals to approve, most uncertain first (work top-down):");
+  for (const { item, score, reasons } of ranked) {
+    console.log(`${String(score).padStart(3)}  ${describe(entries.find((e) => e.templateId === item.templateId)!)}`);
+    for (const reason of reasons) console.log(`       - ${reason}`);
+  }
+
+  const unproposed = entries.filter((e) => !existsSync(proposalFile(e.templateId)));
+  if (unproposed.length) console.log("No proposal yet (run /review-template <templateId>):");
+  for (const e of unproposed) console.log(`     ${describe(e)}`);
   console.log(`${entries.length} of ${Object.keys(answerSets).length} Templates need review; ${Object.keys(reviews).length} approved.`);
 }
 

@@ -15,6 +15,11 @@ export interface MechanicsTerm {
   excludes: string;
   /** Ability-text keywords the pre-label script looks for. Suggestions only. */
   keywords: RegExp;
+  /**
+   * Set when the term sits next to a look-alike mechanic that labellers often confuse it with
+   * (e.g. dash vs blink). Labels for it rank higher in the label review queue.
+   */
+  borderline?: string;
 }
 
 export const MECHANICS_TERMS = [
@@ -34,6 +39,7 @@ export const MECHANICS_TERMS = [
       "One of the champion's own abilities moves them quickly across the ground or through the air to a location or target: dashes, leaps, lunges and hops all count.",
     excludes: "Blinks and teleports (instant relocation), Flash, and Move Speed boosts.",
     keywords: /\b(dash(?:es|ing|ed)?|leap(?:s|ing|ed)?|lunge(?:s|d)?|hop(?:s|ping)?)\b/gi,
+    borderline: "dash vs blink or teleport",
   },
   {
     id: "pull",
@@ -43,6 +49,7 @@ export const MECHANICS_TERMS = [
     excludes:
       "Pulling the champion themselves to a target (that's a dash), knock-backs or tosses in any direction, and effects that only draw back a curse or projectile without moving the enemy.",
     keywords: /\b(pull(?:s|ing|ed)?|drag(?:s|ging|ged)?|hook(?:s|ed)?|yank(?:s|ed)?)\b/gi,
+    borderline: "pull vs knock-back, or a self-pull (a dash)",
   },
   {
     id: "stun",
@@ -57,6 +64,7 @@ export const MECHANICS_TERMS = [
     definition: "One of the champion's own abilities Knocks Up (airborne in place or lifted) an enemy.",
     excludes: "Knock-backs and knock-asides, pulls, and the champion leaping into the air themselves.",
     keywords: /\bknock(?:s|ing|ed)?[ -]up\b/gi,
+    borderline: "knock-up vs knock-back",
   },
   {
     id: "global-ult",

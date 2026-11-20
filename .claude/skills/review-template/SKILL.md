@@ -44,4 +44,8 @@ Done when the validator exits 0.
 
 ## 4. Hand off
 
-Report to the human: the fun verdict, every missing / disputable / wording point, suggested Aliases, the Too Clever candidates and the three Gem candidates with their reasons, and the five most and least typical answers. Approval is theirs: they run `npm run reviews:approve -- <templateId>`, edit the drafted approved file to their picks, commit it, then run `npm test` and `npm run puzzles:build`.
+Report to the human: the fun verdict, every missing / disputable / wording point, suggested Aliases, the Too Clever candidates and the three Gem candidates with their reasons, and the five most and least typical answers.
+
+Then run `npm run reviews:queue` and show where this proposal now sits. Proposals are listed **most uncertain first**, with reasons computed from the proposal (each disputable and missing entry, a review on an older patch, answers resting on a label checked before their ability text changed, Typicality estimates near a band edge or Gem candidates near the 0.25 Gem threshold). Tell the human to **approve top-down**: the top proposals are the likeliest to need correcting. Never add your own confidence rating; the queue doesn't use one.
+
+Approval is theirs: they run `npm run reviews:approve -- <templateId>`, edit the drafted approved file to their picks, commit it, then run `npm test` and `npm run puzzles:build`.

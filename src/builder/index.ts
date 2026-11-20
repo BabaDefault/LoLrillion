@@ -2,7 +2,7 @@
 // tiered Answer Sets and dated Puzzles. Run by maintainer scripts, never by the live app.
 export * from "./types";
 export { answerSetOf } from "./answer-set";
-export { buildPrompt, FAMILIARITY_WEIGHT, BAND_SHARES } from "./tiers";
+export { bandAt, buildPrompt, FAMILIARITY_WEIGHT, BAND_SHARES } from "./tiers";
 export {
   generatePuzzles,
   GENERATOR_DEFAULTS,
