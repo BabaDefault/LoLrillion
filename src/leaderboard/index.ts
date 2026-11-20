@@ -79,14 +79,18 @@ export function momentOnPuzzleDay(puzzleDay: string): number {
   return Date.parse(`${puzzleDay}T02:00:00Z`);
 }
 
-/** Rank a Puzzle Day's runs by total, highest first. Ties share a rank and are listed by nickname. */
+/**
+ * Rank a Puzzle Day's runs by total, highest first. Ties share a rank and are listed by
+ * nickname, players without one last.
+ */
 export function rankLeaderboard(scores: readonly DayScore[]): RankedEntry[] {
   const ordered = scores
     .slice()
     .sort(
       (a, b) =>
         b.total - a.total ||
-        (a.nickname ?? "").localeCompare(b.nickname ?? "") ||
+        Number(a.nickname === null) - Number(b.nickname === null) ||
+        (a.nickname ?? "").localeCompare(b.nickname ?? "", "en", { sensitivity: "base" }) ||
         a.playerKey.localeCompare(b.playerKey),
     );
   return ordered.map((score, i) => {

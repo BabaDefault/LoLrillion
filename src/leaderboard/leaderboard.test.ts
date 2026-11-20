@@ -25,6 +25,16 @@ describe("ranking a Puzzle Day's leaderboard", () => {
       [4, "Ana", 120],
     ]);
   });
+
+  it("lists tied players by nickname, with players who have no nickname last", () => {
+    const ranked = rankLeaderboard([
+      { playerKey: "x", nickname: null, total: 50 },
+      { playerKey: "z", nickname: "Zed", total: 50 },
+      { playerKey: "a", nickname: "ana", total: 50 },
+    ]);
+    expect(ranked.map((r) => r.nickname)).toEqual(["ana", "Zed", null]);
+    expect(ranked.every((r) => r.rank === 1)).toBe(true);
+  });
 });
 
 describe("nicknames", () => {

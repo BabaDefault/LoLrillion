@@ -128,3 +128,94 @@ describe("friend groups", () => {
     expect(await social.createGroup("me", "   ")).toEqual({ ok: false, error: "empty" });
   });
 });
+
+describe("leaderboards", () => {
+  it("ranks today's finished players by total, marking you, with no device IDs sent", async () => {
+    const { social, playDay } = setup();
+    await social.setNickname("ana", "Ana");
+    await social.setNickname("bo", "Bo");
+    await playDay("ana", ["Teemo", "Tristana"]); // 10 + 30
+    await playDay("bo", ["Amumu", null]); // 100 + 0
+    await playDay("cy", ["Tristana", "Teemo"]); // 30 + 10, no nickname
+
+    const response = await social.getLeaderboard("ana", {});
+    if (!response.ok) throw new Error(response.error);
+    const board = response.leaderboard;
+    expect(board).toMatchObject({ puzzleDay: "2026-11-20", puzzleNumber: 1, phase: "live", scope: { kind: "global" } });
+    expect(board.playerCount).toBe(3);
+    expect(board.entries).toEqual([
+      { rank: 1, nickname: "Bo", total: 100, dayTitle: "Iron", you: false },
+      { rank: 2, nickname: "Ana", total: 40, dayTitle: "Iron", you: true },
+      { rank: 2, nickname: null, total: 40, dayTitle: "Iron", you: false },
+    ]);
+    expect(board.you).toEqual({ rank: 2, nickname: "Ana", total: 40, dayTitle: "Iron", you: true });
+    expect(JSON.stringify(board)).not.toMatch(/"(ana|bo|cy)"/);
+  });
+
+  it("leaves off players who haven't finished, and has no 'you' until you have", async () => {
+    const { social, playDay } = setup();
+    await playDay("done", ["Teemo", "Teemo"]);
+    await playDay("me", ["Teemo"]);
+    const response = await social.getLeaderboard("me", {});
+    if (!response.ok) throw new Error(response.error);
+    expect(response.leaderboard.entries.map((e) => e.total)).toEqual([20]);
+    expect(response.leaderboard.you).toBeNull();
+  });
+
+  it("shows a group's leaderboard to its members, with only its members", async () => {
+    const { social, playDay } = setup();
+    await social.setNickname("ana", "Ana");
+    await social.setNickname("bo", "Bo");
+    const created = await social.createGroup("ana", "Friends");
+    if (!created.ok) throw new Error(created.error);
+    await social.joinGroup("bo", created.group.code);
+    await playDay("ana", ["Teemo", "Teemo"]);
+    await playDay("bo", ["Amumu", "Amumu"]);
+    await playDay("stranger", ["Tristana", "Tristana"]);
+
+    const response = await social.getLeaderboard("bo", { group: created.group.code.toLowerCase() });
+    if (!response.ok) throw new Error(response.error);
+    expect(response.leaderboard.scope).toEqual({ kind: "group", group: created.group });
+    expect(response.leaderboard.entries.map((e) => e.nickname)).toEqual(["Bo", "Ana"]);
+    expect(response.leaderboard.playerCount).toBe(2);
+  });
+
+  it("keeps a group's leaderboard from non-members", async () => {
+    const { social } = setup();
+    await social.setNickname("ana", "Ana");
+    const created = await social.createGroup("ana", "Friends");
+    if (!created.ok) throw new Error(created.error);
+    expect(await social.getLeaderboard("stranger", { group: created.group.code })).toEqual({
+      ok: false,
+      error: "not-a-member",
+    });
+    expect(await social.getLeaderboard("ana", { group: "nope" })).toEqual({ ok: false, error: "not-a-member" });
+  });
+
+  it("freezes a past Puzzle Day's leaderboard: final, and unchanged by the next day's plays", async () => {
+    const { clock, social, playDay } = setup();
+    await social.setNickname("ana", "Ana");
+    await playDay("ana", ["Amumu", "Teemo"]);
+    const during = await social.getLeaderboard("ana", { day: "2026-11-20" });
+
+    clock.advance(DAY_MS);
+    await playDay("ana", ["Teemo", "Teemo"]);
+    await playDay("late", ["Amumu", "Amumu"]);
+
+    const after = await social.getLeaderboard("ana", { day: "2026-11-20" });
+    if (!during.ok || !after.ok) throw new Error("expected leaderboards");
+    expect(after.leaderboard.phase).toBe("final");
+    expect(after.leaderboard.entries).toEqual(during.leaderboard.entries);
+
+    const today = await social.getLeaderboard("ana", {});
+    if (!today.ok) throw new Error(today.error);
+    expect(today.leaderboard).toMatchObject({ puzzleDay: "2026-11-21", puzzleNumber: 2, phase: "live" });
+    expect(today.leaderboard.entries.map((e) => e.total)).toEqual([200, 20]);
+  });
+
+  it("refuses a Puzzle Day that hasn't started, or isn't a date", async () => {
+    const { social } = setup();
+    expect(await social.getLeaderboard("me", { day: "2026-11-21" })).toEqual({ ok: false, error: "future-day" });
+    expect(await social.getLeaderboard("me", { day: "yesterday" })).toEqual({ ok: false, error: "invalid-day" });
+  });
+});

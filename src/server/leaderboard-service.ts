@@ -1,4 +1,14 @@
-import { generateGroupCode, parseGroupCode, validateGroupName, validateNickname } from "@/leaderboard";
+import { dayTitle, puzzleDayOf, type DayTitle } from "@/engine";
+import {
+  generateGroupCode,
+  leaderboardPhase,
+  momentOnPuzzleDay,
+  parseGroupCode,
+  rankLeaderboard,
+  validateGroupName,
+  validateNickname,
+  type RankedEntry,
+} from "@/leaderboard";
 import type { Clock } from "./clock";
 import type { PuzzleSource } from "./puzzle-source";
 import type { GroupInfo, PlayerStore } from "./storage/player-store";
@@ -34,12 +44,67 @@ export interface LeaderboardService {
   createGroup(deviceId: string, typedName: string): Promise<CreateGroupResponse>;
   /** Join a group by its code, typed in any case or spacing. Needs a nickname first. */
   joinGroup(deviceId: string, typedCode: string): Promise<JoinGroupResponse>;
+  /**
+   * A Puzzle Day's leaderboard (today's when no day is given): global, or a group's for its
+   * members. Past days are final; archive plays never count.
+   */
+  getLeaderboard(deviceId: string, query: LeaderboardQuery): Promise<LeaderboardResponse>;
 }
+
+export interface LeaderboardQuery {
+  /** `YYYY-MM-DD` Puzzle Day; today's when omitted. */
+  day?: string;
+  /** A group code, for that group's leaderboard; global when omitted. */
+  group?: string;
+}
+
+export type LeaderboardScope = { kind: "global" } | { kind: "group"; group: GroupInfo };
+
+/** One row of a leaderboard. Never carries the player's device ID. */
+export interface LeaderboardEntryView {
+  rank: number;
+  /** Null for a player who hasn't picked a nickname. */
+  nickname: string | null;
+  total: number;
+  dayTitle: DayTitle;
+  /** True for the player asking. */
+  you: boolean;
+}
+
+export interface LeaderboardView {
+  puzzleDay: string;
+  puzzleNumber: number;
+  /** "live" during the Puzzle Day, "final" (frozen) once it has passed. */
+  phase: "live" | "final";
+  scope: LeaderboardScope;
+  /** Players who finished the day's Puzzle (in this scope). */
+  playerCount: number;
+  /** The top of the leaderboard, best first. */
+  entries: LeaderboardEntryView[];
+  /** The asking player's own row, even if outside the top; null until they finish. */
+  you: LeaderboardEntryView | null;
+}
+
+export type LeaderboardResponse =
+  | { ok: true; leaderboard: LeaderboardView }
+  | { ok: false; error: "invalid-day" | "future-day" | "not-a-member" };
+
+/** Rows shown at the top of a leaderboard. */
+export const LEADERBOARD_SIZE = 100;
 
 /** New codes to try before giving up when each one is already taken. */
 const CODE_ATTEMPTS = 8;
 
+/** True for a real `YYYY-MM-DD` calendar date. */
+function isCalendarDate(day: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return false;
+  const ms = Date.parse(`${day}T00:00:00Z`);
+  return !Number.isNaN(ms) && new Date(ms).toISOString().slice(0, 10) === day;
+}
+
 export function createLeaderboardService({
+  clock,
+  puzzles,
   players,
   random = Math.random,
 }: LeaderboardServiceDeps): LeaderboardService {
@@ -65,6 +130,51 @@ export function createLeaderboardService({
         if (await players.createGroup(deviceId, group)) return { ok: true, group };
       }
       return { ok: false, error: "no-free-code" };
+    },
+
+    async getLeaderboard(deviceId, { day, group }) {
+      const now = clock.now();
+      const today = puzzleDayOf(now);
+      const puzzleDay = day ?? today;
+      if (!isCalendarDate(puzzleDay)) return { ok: false, error: "invalid-day" };
+      const phase = leaderboardPhase(puzzleDay, today);
+      if (phase === "future") return { ok: false, error: "future-day" };
+
+      let scope: LeaderboardScope = { kind: "global" };
+      if (group !== undefined) {
+        const code = parseGroupCode(group);
+        const mine = code ? (await players.getGroups(deviceId)).find((g) => g.code === code) : undefined;
+        if (!mine) return { ok: false, error: "not-a-member" };
+        scope = { kind: "group", group: mine };
+      }
+
+      const daily = await puzzles.current(phase === "live" ? now : momentOnPuzzleDay(puzzleDay));
+      const scores = await players.getDayScores(
+        puzzleDay,
+        daily.puzzle.prompts.length,
+        scope.kind === "group" ? scope.group.code : undefined,
+      );
+      const ranked = rankLeaderboard(scores);
+      const toView = (r: RankedEntry): LeaderboardEntryView => ({
+        rank: r.rank,
+        nickname: r.nickname,
+        total: r.total,
+        dayTitle: dayTitle(r.total),
+        you: r.playerKey === deviceId,
+      });
+      const yours = ranked.find((r) => r.playerKey === deviceId);
+      return {
+        ok: true,
+        leaderboard: {
+          puzzleDay,
+          puzzleNumber: daily.puzzleNumber,
+          phase,
+          scope,
+          playerCount: ranked.length,
+          entries: ranked.slice(0, LEADERBOARD_SIZE).map(toView),
+          you: yours ? toView(yours) : null,
+        },
+      };
     },
 
     async joinGroup(deviceId, typedCode) {
