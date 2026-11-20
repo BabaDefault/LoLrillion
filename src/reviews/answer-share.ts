@@ -21,14 +21,15 @@ export function answerShareReport(
   puzzles: readonly GeneratedPuzzle[],
   countsByDay: Readonly<Record<string, AnswerCounts>>,
 ): TemplateAnswerShare[] {
-  const byTemplate = new Map<string, { days: string[]; players: number; tiers: Record<EntityId, Tier>; counts: Map<EntityId, number> }>();
+  type Tally = { days: string[]; players: number; tiers: Readonly<Record<EntityId, Tier>>; counts: Map<EntityId, number> };
+  const byTemplate = new Map<string, Tally>();
   const ordered = [...puzzles].sort((a, b) => a.puzzleDay.localeCompare(b.puzzleDay));
 
   for (const puzzle of ordered) {
     const counts = countsByDay[puzzle.puzzleDay];
     if (!counts) continue;
     puzzle.prompts.forEach((prompt, index) => {
-      const entry = byTemplate.get(prompt.templateId) ?? { days: [], players: 0, tiers: {}, counts: new Map() };
+      const entry: Tally = byTemplate.get(prompt.templateId) ?? { days: [], players: 0, tiers: {}, counts: new Map() };
       byTemplate.set(prompt.templateId, entry);
       entry.days.push(puzzle.puzzleDay);
       entry.players += counts.players;
