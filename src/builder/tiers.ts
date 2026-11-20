@@ -107,12 +107,17 @@ const SKIN_RARITY_WEIGHT: Record<string, number> = {
 
 /**
  * Placeholder Typicality until a Template's review is approved, so the pipeline runs end-to-end.
- * Crude proxies: older champions (lower key), pricier items and rarer skin tiers come to mind first.
+ * Crude proxies: older champions (lower key), pricier items, and skins of a rarer tier on an older
+ * champion come to mind first. Small tie-breakers keep big Answer Sets from collapsing into one band.
  */
 function defaultTypicality(entities: readonly EntityId[], snapshot: GameDataSnapshot): Map<EntityId, number> {
+  const championKey = new Map(snapshot.champions.map((c) => [c.id, c.key]));
   const signal = new Map<EntityId, number>();
   for (const c of snapshot.champions) signal.set(championEntityId(c.id), -c.key);
-  for (const i of snapshot.items) signal.set(itemEntityId(i.id), i.goldTotal);
-  for (const s of snapshot.skins) signal.set(skinEntityId(s.id), SKIN_RARITY_WEIGHT[s.rarity] ?? 0);
+  for (const i of snapshot.items) signal.set(itemEntityId(i.id), i.goldTotal - Number(i.id) / 1e6);
+  for (const s of snapshot.skins) {
+    const rarity = SKIN_RARITY_WEIGHT[s.rarity] ?? 0;
+    signal.set(skinEntityId(s.id), rarity * 1e4 - (championKey.get(s.championId) ?? 9999) - (s.id % 1000) / 1e3);
+  }
   return rankPercentiles(new Map(entities.map((id) => [id, signal.get(id) ?? 0])));
 }
