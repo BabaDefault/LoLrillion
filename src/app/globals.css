@@ -30,6 +30,122 @@ main {
   padding: 32px 16px;
 }
 
+.title {
+  margin: 0 0 24px;
+  font-size: 28px;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.card {
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.center {
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.rule {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.countdown {
+  font-size: 40px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin: 16px 0;
+}
+
+.countdown.reading {
+  font-size: 20px;
+  color: var(--muted);
+}
+
+input {
+  width: 100%;
+  font-size: 18px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #2c365a;
+  background: var(--bg);
+  color: var(--text);
+}
+
+input:disabled {
+  opacity: 0.5;
+}
+
+button.primary {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: var(--bg);
+  cursor: pointer;
+}
+
+button.primary:disabled {
+  opacity: 0.6;
+}
+
+.total {
+  font-size: 64px;
+  font-weight: 800;
+  margin: 8px 0;
+}
+
+.shake {
+  animation: shake 0.35s;
+  border-color: var(--bad);
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  50% {
+    transform: translateX(8px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shake {
+    animation: none;
+  }
+}
+
 .legal {
   padding: 16px;
   font-size: 11px;

@@ -12,16 +12,21 @@ import type { Clock } from "./clock";
 import type { PuzzleSource } from "./puzzle-source";
 import type { PlayStore } from "./storage/play-store";
 
-/** What the client sees of the current Prompt. Never includes the Answer Set. */
-export interface CurrentPromptView {
-  index: number;
-  text: string;
-  answerType: AnswerType;
-  rule: string;
-  status: "not-started" | "reading" | "answering";
-  answerOpensAt: number | null;
-  answerClosesAt: number | null;
-}
+/**
+ * What the client sees of the current Prompt. Never includes the Answer Set, and the Prompt
+ * itself is withheld until the player starts it (so it can't be read ahead of the read window).
+ */
+export type CurrentPromptView =
+  | { index: number; status: "not-started" }
+  | {
+      index: number;
+      status: "reading" | "answering";
+      text: string;
+      answerType: AnswerType;
+      rule: string;
+      answerOpensAt: number;
+      answerClosesAt: number;
+    };
 
 /** A finished Prompt's result as the client sees it. */
 export type PromptResultView =
@@ -81,18 +86,21 @@ export function createGameService({ clock, store, puzzles }: GameServiceDeps): G
     let current: CurrentPromptView | null = null;
     if (progress.currentIndex !== null) {
       const i = progress.currentIndex;
-      const prompt = daily.puzzle.prompts[i];
-      const status = progress.outcomes[i].status as CurrentPromptView["status"];
-      const window = plays[i] ? promptWindow(plays[i]) : null;
-      current = {
-        index: i,
-        text: prompt.text,
-        answerType: prompt.answerType,
-        rule: prompt.rule,
-        status,
-        answerOpensAt: window?.answerOpensAt ?? null,
-        answerClosesAt: window?.answerClosesAt ?? null,
-      };
+      const play = plays[i];
+      const status = progress.outcomes[i].status;
+      if (!play || (status !== "reading" && status !== "answering")) {
+        current = { index: i, status: "not-started" };
+      } else {
+        const prompt = daily.puzzle.prompts[i];
+        current = {
+          index: i,
+          status,
+          text: prompt.text,
+          answerType: prompt.answerType,
+          rule: prompt.rule,
+          ...promptWindow(play),
+        };
+      }
     }
     return {
       puzzleDay: daily.puzzleDay,
