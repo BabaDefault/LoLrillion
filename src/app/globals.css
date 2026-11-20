@@ -146,6 +146,126 @@ button.primary:disabled {
   }
 }
 
+/* Score animation between Prompts */
+.score-pop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 16px 0;
+  animation: score-pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+.score-emoji {
+  font-size: 56px;
+  line-height: 1;
+}
+
+.score-tier {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.score-points {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes score-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .score-pop {
+    animation: none;
+  }
+}
+
+/* End screen */
+.end-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.day-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 8px 0 16px;
+}
+
+.sort-toggle {
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 14px;
+  padding: 6px 10px;
+  margin-left: 6px;
+  border-radius: 999px;
+  border: 1px solid #2c365a;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.reveal h3 {
+  margin: 4px 0 8px;
+}
+
+.your-answer {
+  font-weight: 600;
+}
+
+.answer-set {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.answer-set li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.answer-set li.yours {
+  outline: 1px solid var(--accent);
+}
+
+.answer-set li.gem {
+  background: rgba(200, 170, 110, 0.15);
+  font-weight: 700;
+}
+
+.gem-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
 .legal {
   padding: 16px;
   font-size: 11px;
