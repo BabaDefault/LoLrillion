@@ -13,6 +13,9 @@ approved/<templateId>.json             the maintainer's approval: the only revie
 
 1. `npm run reviews:queue` lists Templates that need review: `unreviewed` (never approved) or `changed`
    (the Answer Set differs from the one it was approved on, after a data refresh; shown with `+added -removed`).
+   Approvals that fail today's checks (e.g. a rule added after they were approved) come first as
+   `needs re-approval`, with their problems: redo them with `npm run reviews:approve -- <templateId>`, which
+   replaces an invalid approval without `--force`. `npm run puzzles:build` refuses to run until they are fixed.
    Templates with a proposal waiting come first, **most uncertain first**, each with its score and reasons; work
    through them **top-down**. Templates with no proposal yet follow. The score is computed by code
    (`src/uncertainty`), never by asking the AI how sure it is:
@@ -23,8 +26,9 @@ approved/<templateId>.json             the maintainer's approval: the only revie
    | each `missing` entry | 2 |
    | proposal reviewed on an older patch than the current snapshot | 2 |
    | a Gem candidate's Typicality within 0.05 of the Gem threshold (0.25) | 2 each |
+   | a Gem candidate in the likeliest half of the Answer Set, or one a Typicality change of 0.05 would put there | 2 each |
    | an Answer Set entry resting on a mechanics label checked (`tagged.json`) before its ability text changed | 1 each |
-   | neighbouring answers across a band edge with Typicality within 0.05 (banded as the drafted approval would be) | 1 per pair |
+   | neighbouring Entities across a band edge with Typicality within 0.05 (banded as the drafted approval would be) | 1 per pair |
 
    Mechanics labels have the same kind of queue: `npm run labels:queue` (see `/tag-patch`).
 2. In Claude Code, run `/review-template <templateId>`. It runs `npm run reviews:worklist -- <templateId>`,
