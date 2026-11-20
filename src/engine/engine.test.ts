@@ -282,3 +282,72 @@ describe("Did you mean", () => {
     expect(out.play).toEqual(play);
   });
 });
+
+describe("skin Guesses with champion nicknames and skin line abbreviations", () => {
+  const roster: Entity[] = [
+    { id: "lux", name: "Lux", answerType: "champion", aliases: [] },
+    { id: "ahri", name: "Ahri", answerType: "champion", aliases: [] },
+    { id: "missfortune", name: "Miss Fortune", answerType: "champion", aliases: ["MF"] },
+    { id: "jarvan", name: "Jarvan IV", answerType: "champion", aliases: ["JarvanIV", "J4", "Jarvan"] },
+    { id: "sg-lux", name: "Star Guardian Lux", answerType: "skin", aliases: [] },
+    { id: "pp-mf", name: "Pool Party Miss Fortune", answerType: "skin", aliases: [] },
+    { id: "ds-j4", name: "Dragonslayer Jarvan IV", answerType: "skin", aliases: [] },
+    { id: "sb-ahri", name: "Spirit Blossom Ahri", answerType: "skin", aliases: [] },
+  ];
+  const skinPrompt: PromptDefinition = {
+    text: "Name a skin",
+    answerType: "skin",
+    rule: "Any of these skins.",
+    answerSet: { "sg-lux": "kill", "pp-mf": "kill", "ds-j4": "kill", "sb-ahri": "kill" },
+  };
+  const guessSkin = (guess: string, ents: readonly Entity[] = roster, prompt = skinPrompt) =>
+    submitAttempt({ prompt, entities: ents, play: openPrompt(T0), guess, now: answering }).result;
+
+  it("reads 'SG Lux', 'sg lux' and 'Star Guardian Lux' as the same skin", () => {
+    for (const guess of ["SG Lux", "sg lux", "Star Guardian Lux", "SG-Lux"]) {
+      expect(guessSkin(guess)).toMatchObject({ kind: "accepted", entityId: "sg-lux" });
+    }
+  });
+
+  it("swaps a champion nickname for the champion's name", () => {
+    expect(guessSkin("Pool Party MF")).toMatchObject({ kind: "accepted", entityId: "pp-mf" });
+    expect(guessSkin("Dragonslayer J4")).toMatchObject({ kind: "accepted", entityId: "ds-j4" });
+  });
+
+  it("expands the skin line and the champion part together", () => {
+    expect(guessSkin("SB Ahri")).toMatchObject({ kind: "accepted", entityId: "sb-ahri" });
+    expect(guessSkin("PP MF")).toMatchObject({ kind: "accepted", entityId: "pp-mf" });
+  });
+
+  it("only expands on SKIN Prompts", () => {
+    const champs: PromptDefinition = { ...ranged, answerSet: { lux: "kill" } };
+    expect(guessSkin("SG Lux", roster, champs)).toEqual({ kind: "rejected", reason: "no-match" });
+  });
+
+  it("does not Accept an expansion that matches two skins: it offers both in a Did you mean", () => {
+    // However the Alias table came to share a nickname, the Engine must not pick one skin silently.
+    const ambiguous: Entity[] = [
+      ...roster,
+      { id: "sett", name: "Sett", answerType: "champion", aliases: ["Boss"] },
+      { id: "sion", name: "Sion", answerType: "champion", aliases: ["Boss"] },
+      { id: "pp-sion", name: "Pool Party Sion", answerType: "skin", aliases: [] },
+      { id: "pp-sett", name: "Pool Party Sett", answerType: "skin", aliases: [] },
+    ];
+    expect(guessSkin("Pool Party Boss", ambiguous)).toEqual({
+      kind: "did-you-mean",
+      candidates: [
+        { id: "pp-sett", name: "Pool Party Sett" },
+        { id: "pp-sion", name: "Pool Party Sion" },
+      ],
+    });
+  });
+
+  it("matches expansions exactly, never fuzzily", () => {
+    expect(guessSkin("SG Luxx")).toEqual({ kind: "rejected", reason: "no-match" });
+  });
+
+  it("an exact name or Alias wins over an expansion", () => {
+    const shadowed: Entity[] = [...roster, { id: "odd", name: "Odd Skin", answerType: "skin", aliases: ["SG Lux"] }];
+    expect(guessSkin("SG Lux", shadowed)).toEqual({ kind: "rejected", reason: "not-in-answer-set" });
+  });
+});

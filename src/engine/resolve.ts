@@ -65,9 +65,67 @@ function nearMisses(key: string, entities: readonly Entity[]): Candidate[] {
     .map(({ entity }) => ({ id: entity.id, name: entity.name }));
 }
 
+/** Skin line abbreviations players type inside skin Guesses ("SG Lux"). */
+export const SKIN_LINE_ABBREVIATIONS: Readonly<Record<string, string>> = {
+  SG: "Star Guardian",
+  SB: "Spirit Blossom",
+  PP: "Pool Party",
+};
+
+/** Normalized short form → normalized long forms it may stand for, inside a skin Guess. */
+function skinExpansions(entities: readonly Entity[]): Map<string, Set<string>> {
+  const expansions = new Map<string, Set<string>>();
+  const add = (short: string, long: string) => {
+    const from = normalizeGuess(short);
+    const to = normalizeGuess(long);
+    if (from === "" || from === to) return;
+    if (!expansions.has(from)) expansions.set(from, new Set());
+    expansions.get(from)!.add(to);
+  };
+  for (const [short, line] of Object.entries(SKIN_LINE_ABBREVIATIONS)) add(short, line);
+  for (const champion of entities) {
+    if (champion.answerType !== "champion") continue;
+    for (const alias of champion.aliases) add(alias, champion.name);
+  }
+  return expansions;
+}
+
+/**
+ * Every normalized reading of a Guess with at least one run of words swapped for what it abbreviates:
+ * a champion's whole-name Alias for the champion's name, a skin line abbreviation for the skin line.
+ */
+function expandedKeys(guess: string, expansions: Map<string, Set<string>>): Set<string> {
+  const words = guess.split(/[^\p{L}\p{N}\p{M}]+/u).map(normalizeGuess).filter((w) => w !== "");
+  const out = new Set<string>();
+  const walk = (i: number, built: string, expanded: boolean) => {
+    if (i === words.length) {
+      if (expanded) out.add(built);
+      return;
+    }
+    walk(i + 1, built + words[i], expanded);
+    let span = "";
+    for (let j = i; j < words.length; j++) {
+      span += words[j];
+      for (const long of expansions.get(span) ?? []) walk(j + 1, built + long, true);
+    }
+  };
+  walk(0, "", false);
+  return out;
+}
+
+/** Skins whose name or Alias exactly equals an expanded reading of the Guess. */
+function skinsByExpansion(guess: string, entities: readonly Entity[], skins: readonly Entity[]): Entity[] {
+  const keys = expandedKeys(guess, skinExpansions(entities));
+  if (keys.size === 0) return [];
+  return skins.filter((s) => [s.name, ...s.aliases].some((n) => keys.has(normalizeGuess(n))));
+}
+
 /**
  * Read a Guess against the Entities of the given Answer Type: exact canonical name first,
- * then Alias, then an exact name/Alias of another Answer Type, then near-misses (length-scaled edit distance) for a "Did you mean".
+ * then Alias, then (SKIN only) an exact match after expanding champion nicknames and skin line
+ * abbreviations, then an exact name/Alias of another Answer Type, then near-misses
+ * (length-scaled edit distance) for a "Did you mean".
+ * An expansion that matches several skins is never Accepted: they are all offered in a "Did you mean".
  * Candidates come from every Entity of the Answer Type, never the Answer Set, so nothing leaks.
  */
 export function readGuess(guess: string, answerType: AnswerType, entities: readonly Entity[]): GuessReading {
@@ -76,6 +134,16 @@ export function readGuess(guess: string, answerType: AnswerType, entities: reado
   const ofType = entities.filter((e) => e.answerType === answerType);
   const entity = exactMatch(key, ofType);
   if (entity) return { kind: "match", entity };
+  if (answerType === "skin") {
+    const expanded = skinsByExpansion(guess, entities, ofType);
+    if (expanded.length === 1) return { kind: "match", entity: expanded[0] };
+    if (expanded.length > 1) {
+      const candidates = [...expanded]
+        .sort((x, y) => x.name.localeCompare(y.name))
+        .map((e) => ({ id: e.id, name: e.name }));
+      return { kind: "did-you-mean", candidates };
+    }
+  }
   if (exactMatch(key, entities.filter((e) => e.answerType !== answerType))) {
     return { kind: "wrong-answer-type" };
   }
