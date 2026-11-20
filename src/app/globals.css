@@ -146,6 +146,39 @@ button.primary:disabled {
   }
 }
 
+.day-stats {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.curve {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 64px;
+  margin: 12px 0;
+}
+
+.curve .bar {
+  flex: 1;
+  background: var(--muted);
+  opacity: 0.5;
+  border-radius: 2px 2px 0 0;
+}
+
+.curve .bar.you {
+  background: var(--accent);
+  opacity: 1;
+}
+
+.chosen-by {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  text-align: left;
+}
+
 .legal {
   padding: 16px;
   font-size: 11px;

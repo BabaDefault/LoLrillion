@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import type { AttemptResponse, PuzzleStateView } from "@/server/game-service";
+import { DayStatsPanel } from "./day-stats-panel";
 
 const GRACE_MS = 2_000;
 
@@ -122,6 +123,7 @@ export function PlayScreen() {
           {state.total}
         </p>
         <p className="muted">out of {state.promptCount * 100}</p>
+        <DayStatsPanel />
       </section>
     );
   }
