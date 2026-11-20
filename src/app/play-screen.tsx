@@ -7,6 +7,12 @@ const GRACE_MS = 2_000;
 
 type Interlude = { index: number; text: string } | null;
 
+/** A popup that isn't an Attempt: the answer window keeps counting down while it's shown. */
+type Notice =
+  | { kind: "did-you-mean"; candidates: Array<{ id: string; name: string }> }
+  | { kind: "wrong-answer-type"; expected: string }
+  | null;
+
 async function api<T>(path: string, body?: unknown): Promise<T> {
   const res = await fetch(path, {
     method: body === undefined ? "GET" : "POST",
@@ -25,6 +31,7 @@ export function PlayScreen() {
   const [shake, setShake] = useState(0);
   const [busy, setBusy] = useState(false);
   const [interlude, setInterlude] = useState<Interlude>(null);
+  const [notice, setNotice] = useState<Notice>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const receive = useCallback((next: PuzzleStateView) => {
@@ -81,14 +88,16 @@ export function PlayScreen() {
     }
   }
 
-  async function submit(e: FormEvent) {
-    e.preventDefault();
-    if (!live || !answering || busy || guess.trim() === "") return;
+  async function send(body: { guess: string } | { entityId: string }) {
+    if (!live || !answering || busy) return;
     setBusy(true);
+    setNotice(null);
     try {
-      const res = await api<AttemptResponse>("/api/puzzle/attempt", { promptIndex: live.index, guess });
+      const res = await api<AttemptResponse>("/api/puzzle/attempt", { promptIndex: live.index, ...body });
       if (res.ok && res.result.kind === "accepted") {
         setInterlude({ index: live.index, text: `Locked in: ${res.result.entityName}` });
+      } else if (res.ok && (res.result.kind === "did-you-mean" || res.result.kind === "wrong-answer-type")) {
+        setNotice(res.result);
       } else {
         setShake((n) => n + 1);
       }
@@ -96,6 +105,16 @@ export function PlayScreen() {
     } finally {
       setBusy(false);
     }
+  }
+
+  function submit(e: FormEvent) {
+    e.preventDefault();
+    if (guess.trim() !== "") send({ guess });
+  }
+
+  function backToEditing() {
+    setNotice(null);
+    inputRef.current?.focus();
   }
 
   if (!state) return <p className="muted">Loading today&apos;s Puzzle…</p>;
@@ -165,7 +184,10 @@ export function PlayScreen() {
           ref={inputRef}
           className={shake > 0 ? "shake" : ""}
           value={guess}
-          onChange={(e) => setGuess(e.target.value)}
+          onChange={(e) => {
+            setGuess(e.target.value);
+            setNotice(null);
+          }}
           disabled={!answering}
           placeholder={reading ? "Get ready…" : "Type your Guess"}
           autoComplete="off"
@@ -175,6 +197,30 @@ export function PlayScreen() {
           aria-label="Guess"
         />
       </form>
+      {answering && notice?.kind === "did-you-mean" && (
+        <div className="notice" role="dialog" aria-label="Did you mean">
+          <p>Did you mean…</p>
+          <div className="choices">
+            {notice.candidates.map((c, i) => (
+              <button
+                key={c.id}
+                className="primary"
+                onClick={() => send({ entityId: c.id })}
+                disabled={busy}
+                autoFocus={i === 0}
+              >
+                {notice.candidates.length === 1 ? `Yes, ${c.name}` : c.name}
+              </button>
+            ))}
+            <button onClick={backToEditing}>No</button>
+          </div>
+        </div>
+      )}
+      {answering && notice?.kind === "wrong-answer-type" && (
+        <p className="notice" role="status">
+          This asks for {/^[aeiou]/.test(notice.expected) ? "an" : "a"} {notice.expected}.
+        </p>
+      )}
     </section>
   );
 }
