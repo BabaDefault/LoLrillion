@@ -19,3 +19,9 @@ export {
   type PromptPlay,
 } from "./play";
 export { puzzleProgress, type PuzzleProgress, type PromptProgress } from "./progress";
+export {
+  percentileBetterThan,
+  scoreDistribution,
+  type DistributionBin,
+  type ScoreDistribution,
+} from "./stats";
