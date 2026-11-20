@@ -148,7 +148,10 @@ export function createLeaderboardService({
         scope = { kind: "group", group: mine };
       }
 
-      const daily = await puzzles.current(phase === "live" ? now : momentOnPuzzleDay(puzzleDay));
+      const daily =
+        phase === "live"
+          ? await puzzles.current(now)
+          : ((await puzzles.forDay?.(puzzleDay)) ?? (await puzzles.current(momentOnPuzzleDay(puzzleDay))));
       const scores = await players.getDayScores(
         puzzleDay,
         daily.puzzle.prompts.length,

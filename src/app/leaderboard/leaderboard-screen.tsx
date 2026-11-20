@@ -99,8 +99,12 @@ export function LeaderboardScreen() {
 
   useEffect(() => {
     // A shared link like /leaderboard?join=ABC123 prefills the join form.
-    const join = new URLSearchParams(window.location.search).get("join");
+    // The end screen links to /leaderboard?day=YYYY-MM-DD for the Puzzle Day just played.
+    const params = new URLSearchParams(window.location.search);
+    const join = params.get("join");
     if (join) setJoinCode(join);
+    const linkedDay = params.get("day");
+    if (linkedDay && /^\d{4}-\d{2}-\d{2}$/.test(linkedDay)) setDay(linkedDay);
     loadProfile().catch(() => setMessage(errorText("")));
   }, [loadProfile]);
 
@@ -109,16 +113,22 @@ export function LeaderboardScreen() {
     if (day) params.set("day", day);
     if (scope) params.set("group", scope);
     setBoardError(null);
+    // Ignore a response that arrives after the selection has changed again.
+    let stale = false;
     fetch(`/api/leaderboard?${params}`, { cache: "no-store" })
       .then((res) => res.json() as Promise<LeaderboardResponse>)
       .then((res) => {
+        if (stale) return;
         if (res.ok) setBoard(res.leaderboard);
         else {
           setBoard(null);
           setBoardError(errorText(res.error));
         }
       })
-      .catch(() => setBoardError(errorText("")));
+      .catch(() => !stale && setBoardError(errorText("")));
+    return () => {
+      stale = true;
+    };
   }, [day, scope, profile]);
 
   async function saveNickname(e: FormEvent) {

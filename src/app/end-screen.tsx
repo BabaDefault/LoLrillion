@@ -120,7 +120,7 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
         </button>
         {copied === "failed" && <p className="muted">Couldn&apos;t copy. Try again.</p>}
         <p>
-          <a href="/leaderboard" data-testid="leaderboard-link">
+          <a href={`/leaderboard?day=${results.puzzleDay}`} data-testid="leaderboard-link">
             See the leaderboards
           </a>
         </p>

@@ -27,11 +27,17 @@ const prompt: PromptDefinition = {
 /** A two-Prompt Puzzle for every Puzzle Day, numbered from 2026-11-20. */
 const puzzles: PuzzleSource = {
   async current(now) {
-    const puzzleDay = puzzleDayOf(now);
-    const puzzleNumber = Math.round((Date.parse(puzzleDay) - Date.parse("2026-11-20")) / DAY_MS) + 1;
-    return { puzzleDay, puzzleNumber, puzzle: { prompts: [prompt, prompt] }, entities };
+    return dayPuzzle(puzzleDayOf(now));
+  },
+  async forDay(puzzleDay) {
+    return dayPuzzle(puzzleDay);
   },
 };
+
+function dayPuzzle(puzzleDay: string) {
+  const puzzleNumber = Math.round((Date.parse(puzzleDay) - Date.parse("2026-11-20")) / DAY_MS) + 1;
+  return { puzzleDay, puzzleNumber, puzzle: { prompts: [prompt, prompt] }, entities };
+}
 
 function setup(random?: () => number) {
   const clock = new ManualClock(T0);
@@ -211,6 +217,30 @@ describe("leaderboards", () => {
     if (!today.ok) throw new Error(today.error);
     expect(today.leaderboard).toMatchObject({ puzzleDay: "2026-11-21", puzzleNumber: 2, phase: "live" });
     expect(today.leaderboard.entries.map((e) => e.total)).toEqual([200, 20]);
+  });
+
+  it("never counts archive plays, today or on the past day they replay", async () => {
+    const { clock, social, playDay, game } = setup();
+    await playDay("ana", ["Teemo", "Teemo"]);
+    const before = await social.getLeaderboard("late", { day: "2026-11-20" });
+
+    clock.advance(DAY_MS);
+    // "late" replays 2026-11-20 from the archive with a perfect score.
+    for (const i of [0, 1]) {
+      await game.startPrompt("late", "2026-11-20");
+      clock.advance(6_000);
+      await game.submitAttempt("late", i, "Amumu", "2026-11-20");
+      clock.advance(1_000);
+    }
+    const replay = await game.getResults("late", "2026-11-20");
+    expect(replay.ok && replay.results.total).toBe(200);
+
+    const after = await social.getLeaderboard("late", { day: "2026-11-20" });
+    const today = await social.getLeaderboard("late", {});
+    if (!before.ok || !after.ok || !today.ok) throw new Error("expected leaderboards");
+    expect(after.leaderboard.entries).toEqual(before.leaderboard.entries);
+    expect(after.leaderboard.you).toBeNull();
+    expect(today.leaderboard.entries).toEqual([]);
   });
 
   it("refuses a Puzzle Day that hasn't started, or isn't a date", async () => {
