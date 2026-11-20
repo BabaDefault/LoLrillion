@@ -19,3 +19,4 @@ export {
   type PromptPlay,
 } from "./play";
 export { puzzleProgress, type PuzzleProgress, type PromptProgress } from "./progress";
+export { dayTitle, type DayTitle } from "./results";
