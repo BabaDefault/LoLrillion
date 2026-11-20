@@ -48,7 +48,8 @@ create table public.prompt_plays (
 create index prompt_plays_day_idx on public.prompt_plays (puzzle_day, is_archive);
 
 -- Attempts: every Guess and its result. Unmatched Guesses (result = 'rejected',
--- reason = 'no-match') are how missing answers and Aliases get found.
+-- reason = 'no-match') are how missing answers and Aliases get found. "Did you mean" popups
+-- and wrong-Answer-Type messages are logged too (they don't use up an Attempt).
 create table public.attempts (
   id            bigint generated always as identity primary key,
   player_id     uuid not null references public.players (id) on delete cascade,
@@ -56,12 +57,23 @@ create table public.attempts (
   prompt_index  smallint not null,
   is_archive    boolean not null default false,
   guess         text not null,
-  result        text not null check (result in ('accepted', 'rejected')),
+  result        text not null check (result in ('accepted', 'rejected', 'did-you-mean', 'wrong-answer-type')),
   reason        text,
   entity_id     text,
+  detail        jsonb,
   attempted_at  timestamptz not null
 );
 create index attempts_unmatched_idx on public.attempts (puzzle_day, prompt_index) where reason = 'no-match';
+
+-- Entities offered in a "Did you mean" popup, so a confirmation can be checked against them.
+create table public.offered_candidates (
+  player_id     uuid not null references public.players (id) on delete cascade,
+  puzzle_day    date not null,
+  prompt_index  smallint not null,
+  is_archive    boolean not null default false,
+  entity_id     text not null,
+  primary key (player_id, puzzle_day, prompt_index, is_archive, entity_id)
+);
 
 -- Answer Share: how many players' Accepted Guess was each Entity, per Prompt (counted plays only).
 create table public.answer_counts (
@@ -78,6 +90,7 @@ alter table public.group_members enable row level security;
 alter table public.prompt_plays enable row level security;
 alter table public.attempts enable row level security;
 alter table public.answer_counts enable row level security;
+alter table public.offered_candidates enable row level security;
 
 -- Player for a device ID, created on first sight.
 create function public.ensure_player(p_device_id text)
@@ -169,7 +182,20 @@ as $$
   having count(*) >= p_prompt_count;
 $$;
 
+-- Today's players (the Answer Share denominator): counted runs that started any Prompt.
+create function public.day_player_count(p_puzzle_day date)
+returns bigint
+language sql
+stable
+as $$
+  select count(distinct player_id)
+    from public.prompt_plays
+   where puzzle_day = p_puzzle_day and not is_archive;
+$$;
+
 -- Server-only: the service role calls these; nobody else may.
+revoke all on function public.day_player_count(date) from public, anon, authenticated;
+grant execute on function public.day_player_count(date) to service_role;
 revoke all on function public.ensure_player(text) from public, anon, authenticated;
 revoke all on function public.start_prompt_play(text, date, smallint, boolean, timestamptz) from public, anon, authenticated;
 revoke all on function public.accept_prompt_play(text, date, smallint, boolean, text, text, text, integer) from public, anon, authenticated;

@@ -4,10 +4,9 @@ import { deviceIdFor, jsonWithDevice } from "@/server/device";
 
 export const dynamic = "force-dynamic";
 
-/** End-screen comparison with today's players. 409 until the player has finished the Puzzle. */
+/** The end-screen reveal (Answer Sets included), only once all of today's Prompts are finished. */
 export async function GET(request: NextRequest) {
   const device = deviceIdFor(request);
-  const stats = await getGameService().getDayStats(device.deviceId);
-  if (!stats) return jsonWithDevice({ error: "not-finished" }, device, 409);
-  return jsonWithDevice(stats, device);
+  const response = await getGameService().getResults(device.deviceId);
+  return jsonWithDevice(response, device, response.ok ? 200 : 409);
 }

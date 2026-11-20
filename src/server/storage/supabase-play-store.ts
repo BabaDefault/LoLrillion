@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { EntityId, PromptPlay, Tier } from "@/engine";
+import type { AnswerCounts } from "./answer-counts";
 import type { AttemptLogEntry, PlayKey, PlayStore } from "./play-store";
 
 /** A `prompt_plays` row, as far as this store reads it. */
@@ -120,22 +121,56 @@ export class SupabasePlayStore implements PlayStore {
         result: result.kind,
         reason: result.kind === "rejected" ? result.reason : null,
         entity_id: result.kind === "accepted" ? result.entityId : null,
+        // Everything about the result (candidates, expected Answer Type, ...) for later analysis.
+        detail: result,
         attempted_at: new Date(entry.at).toISOString(),
       }),
       "logAttempt",
     );
   }
 
-  async getAnswerCounts(puzzleDay: string, promptIndex: number): Promise<Record<EntityId, number>> {
+  async addOfferedCandidates(key: PlayKey, promptIndex: number, entityIds: readonly EntityId[]): Promise<void> {
+    if (entityIds.length === 0) return;
+    const playerId = await this.playerId(key.deviceId);
+    check(
+      await this.db.from("offered_candidates").upsert(
+        entityIds.map((entityId) => ({
+          player_id: playerId,
+          puzzle_day: key.puzzleDay,
+          prompt_index: promptIndex,
+          is_archive: key.archive ?? false,
+          entity_id: entityId,
+        })),
+        { onConflict: "player_id,puzzle_day,prompt_index,is_archive,entity_id", ignoreDuplicates: true },
+      ),
+      "addOfferedCandidates",
+    );
+  }
+
+  async getOfferedCandidates(key: PlayKey, promptIndex: number): Promise<EntityId[]> {
     const rows = check(
       await this.db
-        .from("answer_counts")
-        .select("entity_id, count")
-        .eq("puzzle_day", puzzleDay)
-        .eq("prompt_index", promptIndex),
-      "getAnswerCounts",
-    ) as Array<{ entity_id: string; count: number }>;
-    return Object.fromEntries(rows.map((r) => [r.entity_id, r.count]));
+        .from("offered_candidates")
+        .select("entity_id")
+        .eq("player_id", await this.playerId(key.deviceId))
+        .eq("puzzle_day", key.puzzleDay)
+        .eq("prompt_index", promptIndex)
+        .eq("is_archive", key.archive ?? false),
+      "getOfferedCandidates",
+    ) as Array<{ entity_id: string }>;
+    return rows.map((r) => r.entity_id);
+  }
+
+  async getAnswerCounts(puzzleDay: string, promptCount: number): Promise<AnswerCounts> {
+    const [rows, players] = await Promise.all([
+      this.db.from("answer_counts").select("prompt_index, entity_id, count").eq("puzzle_day", puzzleDay),
+      this.db.rpc("day_player_count", { p_puzzle_day: puzzleDay }),
+    ]);
+    const byPrompt: Array<Record<EntityId, number>> = Array.from({ length: promptCount }, () => ({}));
+    for (const r of check(rows, "getAnswerCounts") as Array<{ prompt_index: number; entity_id: string; count: number }>) {
+      if (r.prompt_index < promptCount) byPrompt[r.prompt_index][r.entity_id] = r.count;
+    }
+    return { players: Number(check(players, "day_player_count")), byPrompt };
   }
 
   async getDayTotals(puzzleDay: string, promptCount: number): Promise<number[]> {

@@ -4,6 +4,8 @@ import type { Entity, Puzzle } from "@/engine";
 /** The live Puzzle for a moment in time, plus the Entities its Guesses resolve against. */
 export interface DailyPuzzle {
   puzzleDay: string;
+  /** The Puzzle's number, shown as `LoLrillion #N`. */
+  puzzleNumber: number;
   puzzle: Puzzle;
   entities: readonly Entity[];
 }
@@ -19,6 +21,7 @@ export interface PuzzleSource {
 /** Always serves the hand-written sample Puzzle. */
 export const samplePuzzleSource: PuzzleSource = {
   async current() {
-    return { puzzleDay: "sample", puzzle: samplePuzzle, entities: sampleEntities };
+    // Placeholder number until dated Puzzles number themselves.
+    return { puzzleDay: "sample", puzzleNumber: 1, puzzle: samplePuzzle, entities: sampleEntities };
   },
 };

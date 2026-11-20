@@ -46,9 +46,13 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       await acceptOn(store, { deviceId: device("b"), puzzleDay }, 0, "teemo");
       await acceptOn(store, { deviceId: device("c"), puzzleDay }, 0, "garen");
       await acceptOn(store, { deviceId: device("a"), puzzleDay }, 1, "garen");
-      expect(await store.getAnswerCounts(puzzleDay, 0)).toEqual({ teemo: 2, garen: 1 });
-      expect(await store.getAnswerCounts(puzzleDay, 1)).toEqual({ garen: 1 });
-      expect(await store.getAnswerCounts(puzzleDay, 2)).toEqual({});
+      // A player who started but hasn't been Accepted yet still counts as one of today's players.
+      await store.createPromptPlay({ deviceId: device("d"), puzzleDay }, 0, openPrompt(T0));
+      const counts = await store.getAnswerCounts(puzzleDay, 3);
+      expect(counts.players).toBe(4);
+      expect(counts.byPrompt[0]).toEqual({ teemo: 2, garen: 1 });
+      expect(counts.byPrompt[1]).toEqual({ garen: 1 });
+      expect(counts.byPrompt[2] ?? {}).toEqual({});
     });
 
     it("counts a player's Accepted Guess once, even if the play is saved again", async () => {
@@ -57,7 +61,18 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       await acceptOn(store, key, 0, "teemo");
       const [play] = await store.getPromptPlays(key, 1);
       await store.updatePromptPlay(key, 0, play!);
-      expect(await store.getAnswerCounts(key.puzzleDay, 0)).toEqual({ teemo: 1 });
+      expect((await store.getAnswerCounts(key.puzzleDay, 1)).byPrompt[0]).toEqual({ teemo: 1 });
+    });
+
+    it("remembers every 'Did you mean' candidate offered for a Prompt", async () => {
+      const store = makeStore();
+      const key = { deviceId: device("dym"), puzzleDay: freshDay() };
+      await store.createPromptPlay(key, 0, openPrompt(T0));
+      expect(await store.getOfferedCandidates(key, 0)).toEqual([]);
+      await store.addOfferedCandidates(key, 0, ["teemo", "garen"]);
+      await store.addOfferedCandidates(key, 0, ["garen", "lulu"]);
+      expect((await store.getOfferedCandidates(key, 0)).sort()).toEqual(["garen", "lulu", "teemo"]);
+      expect(await store.getOfferedCandidates(key, 1)).toEqual([]);
     });
 
     it("lists today's totals for players who reached the last Prompt, ignoring archive plays", async () => {
@@ -88,7 +103,7 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       const archive = { ...live, archive: true };
       await acceptOn(store, live, 0, "teemo");
       await acceptOn(store, archive, 0, "garen");
-      expect(await store.getAnswerCounts(puzzleDay, 0)).toEqual({ teemo: 1 });
+      expect(await store.getAnswerCounts(puzzleDay, 1)).toEqual({ players: 1, byPrompt: [{ teemo: 1 }] });
       expect((await store.getPromptPlays(live, 1))[0]?.accepted?.entityId).toBe("teemo");
       expect((await store.getPromptPlays(archive, 1))[0]?.accepted?.entityId).toBe("garen");
     });

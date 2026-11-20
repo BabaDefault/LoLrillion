@@ -1,4 +1,5 @@
 import type { EntityId, PromptPlay } from "@/engine";
+import type { AnswerCounts } from "./answer-counts";
 import type { AttemptLogEntry, PlayKey, PlayStore } from "./play-store";
 
 interface StoredPlay {
@@ -11,6 +12,7 @@ export class InMemoryPlayStore implements PlayStore {
   private readonly plays = new Map<string, StoredPlay>();
   /** Answer Share counts keyed by `${puzzleDay}|${promptIndex}`. */
   private readonly answerCounts = new Map<string, Record<EntityId, number>>();
+  private readonly offered = new Map<string, Set<EntityId>>();
   readonly attempts: AttemptLogEntry[] = [];
 
   private id(key: PlayKey, promptIndex: number): string {
@@ -41,12 +43,32 @@ export class InMemoryPlayStore implements PlayStore {
     }
   }
 
+  async addOfferedCandidates(key: PlayKey, promptIndex: number, entityIds: readonly EntityId[]): Promise<void> {
+    const id = this.id(key, promptIndex);
+    const offered = this.offered.get(id) ?? new Set<EntityId>();
+    for (const entityId of entityIds) offered.add(entityId);
+    this.offered.set(id, offered);
+  }
+
+  async getOfferedCandidates(key: PlayKey, promptIndex: number): Promise<EntityId[]> {
+    return [...(this.offered.get(this.id(key, promptIndex)) ?? [])];
+  }
+
   async logAttempt(entry: AttemptLogEntry): Promise<void> {
     this.attempts.push(entry);
   }
 
-  async getAnswerCounts(puzzleDay: string, promptIndex: number): Promise<Record<EntityId, number>> {
-    return { ...this.answerCounts.get(`${puzzleDay}|${promptIndex}`) };
+  async getAnswerCounts(puzzleDay: string, promptCount: number): Promise<AnswerCounts> {
+    const players = new Set<string>();
+    for (const { key } of this.plays.values()) {
+      if (key.puzzleDay === puzzleDay && !key.archive) players.add(key.deviceId);
+    }
+    return {
+      players: players.size,
+      byPrompt: Array.from({ length: promptCount }, (_, i) => ({
+        ...this.answerCounts.get(`${puzzleDay}|${i}`),
+      })),
+    };
   }
 
   async getDayTotals(puzzleDay: string, promptCount: number): Promise<number[]> {

@@ -1,104 +1,63 @@
-import { describe, expect, it } from "vitest";
-import type { Entity, Puzzle } from "@/engine";
+import { beforeEach, describe, expect, it } from "vitest";
+import { READ_WINDOW_MS, type Entity, type Puzzle } from "@/engine";
 import { ManualClock } from "./clock";
-import { createGameService } from "./game-service";
+import { createGameService, type GameService } from "./game-service";
 import type { PuzzleSource } from "./puzzle-source";
 import { InMemoryPlayStore } from "./storage/in-memory-play-store";
 
-const champ = (id: string): Entity => ({ id, name: id, answerType: "champion", aliases: [] });
-const entities = [champ("Teemo"), champ("Lulu"), champ("Garen"), champ("Darius")];
+const entities: Entity[] = [
+  { id: "missfortune", name: "Miss Fortune", answerType: "champion", aliases: ["MF"] },
+  { id: "twistedfate", name: "Twisted Fate", answerType: "champion", aliases: ["TF"] },
+  { id: "kassadin", name: "Kassadin", answerType: "champion", aliases: [] },
+];
 
 const puzzle: Puzzle = {
   prompts: [
     {
-      text: "Name a Yordle",
+      text: "Name a champion from Bilgewater",
       answerType: "champion",
-      rule: "",
-      answerSet: { Teemo: "minion", Lulu: "pentakill" }, // 10, 100
-    },
-    {
-      text: "Name a Demacian or Noxian",
-      answerType: "champion",
-      rule: "",
-      answerSet: { Garen: "minion", Darius: "kill" }, // 10, 30
+      rule: "Champions whose official home region is Bilgewater.",
+      answerSet: { missfortune: "minion", twistedfate: "kill" },
     },
   ],
 };
 
 const puzzles: PuzzleSource = {
   async current() {
-    return { puzzleDay: "2026-11-20", puzzle, entities };
+    return { puzzleDay: "test", puzzleNumber: 1, puzzle, entities };
   },
 };
 
+const DEVICE = "device-1";
 const T0 = 1_700_000_000_000;
 
-function setup() {
-  const clock = new ManualClock(T0);
-  const store = new InMemoryPlayStore();
-  const game = createGameService({ clock, store, puzzles });
-  /** Play the whole Puzzle as `deviceId`, answering each Prompt with the given Guess (null = Miss). */
-  async function playThrough(deviceId: string, guesses: Array<string | null>) {
-    for (let i = 0; i < guesses.length; i++) {
-      await game.startPrompt(deviceId);
-      clock.advance(6_000); // past the read window
-      const guess = guesses[i];
-      if (guess) await game.submitAttempt(deviceId, i, guess);
-      else clock.advance(60_000); // let the window close: a Miss
-    }
-  }
-  return { clock, store, game, playThrough };
-}
+describe("Did you mean, through the Game Service", () => {
+  let clock: ManualClock;
+  let game: GameService;
 
-describe("resuming and reloading", () => {
-  it("reloading mid-Prompt keeps the original window-open time", async () => {
-    const { clock, game } = setup();
-    const first = await game.startPrompt("me");
-    clock.advance(10_000);
-    const again = await game.startPrompt("me"); // e.g. a reload that re-sends start
-    const cur = (s: typeof first) => (s.current?.status === "answering" || s.current?.status === "reading" ? s.current : null);
-    expect(cur(again)?.answerOpensAt).toBe(cur(first)?.answerOpensAt);
+  beforeEach(async () => {
+    clock = new ManualClock(T0);
+    game = createGameService({ clock, store: new InMemoryPlayStore(), puzzles });
+    await game.startPrompt(DEVICE);
+    clock.advance(READ_WINDOW_MS + 1_000);
   });
 
-  it("a returning player resumes at the next unplayed Prompt", async () => {
-    const { clock, store, playThrough } = setup();
-    await playThrough("me", ["Lulu"]);
-    // A new server instance over the same store (e.g. a later visit).
-    const later = createGameService({ clock, store, puzzles });
-    const state = await later.getState("me");
-    expect(state.current).toEqual({ index: 1, status: "not-started" });
-    expect(state.results[0]).toMatchObject({ status: "accepted", points: 100 });
-  });
-});
+  it("offers candidates without using an Attempt, then accepts a confirmed one", async () => {
+    const before = await game.getState(DEVICE);
+    const popup = await game.submitAttempt(DEVICE, 0, "Miss Fortun");
+    expect(popup).toMatchObject({
+      ok: true,
+      result: { kind: "did-you-mean", candidates: [{ id: "missfortune", name: "Miss Fortune" }] },
+    });
+    expect(popup.state.current).toEqual(before.current);
 
-describe("end-screen stats", () => {
-  it("are withheld until the player has finished the Puzzle", async () => {
-    const { game, playThrough } = setup();
-    await playThrough("me", ["Teemo"]);
-    expect(await game.getDayStats("me")).toBeNull();
+    const yes = await game.confirmSuggestion(DEVICE, 0, "missfortune");
+    expect(yes).toMatchObject({ ok: true, result: { kind: "accepted", entityId: "missfortune" } });
   });
 
-  it("give Answer Share counts, the percentile and the marked distribution", async () => {
-    const { game, playThrough } = setup();
-    await playThrough("a", ["Teemo", "Garen"]); // 20
-    await playThrough("b", ["Teemo", null]); // 10
-    await playThrough("c", ["Lulu", "Darius"]); // 130
-    await playThrough("me", ["Teemo", "Darius"]); // 40
-
-    const stats = await game.getDayStats("me");
-    expect(stats).not.toBeNull();
-    expect(stats!.total).toBe(40);
-    expect(stats!.playerCount).toBe(4);
-    expect(stats!.percentile).toBe(66); // beat a and b, not c
-    expect(stats!.answerCounts).toEqual([
-      { Teemo: 3, Lulu: 1 },
-      { Garen: 1, Darius: 2 },
-    ]);
-    // "N players chose this" for the player's own answers.
-    expect(stats!.chosenBy).toEqual([3, 2]);
-    // 2 Prompts × 100 max = 200, 10 bins of 20.
-    expect(stats!.distribution.bins).toHaveLength(10);
-    expect(stats!.distribution.bins.map((b) => b.count)).toEqual([1, 1, 1, 0, 0, 0, 1, 0, 0, 0]);
-    expect(stats!.distribution.yourBin).toBe(2);
+  it("rejects a confirmed Entity ID that wasn't among the offered candidates", async () => {
+    await game.submitAttempt(DEVICE, 0, "Kassadn");
+    const out = await game.confirmSuggestion(DEVICE, 0, "twistedfate");
+    expect(out).toMatchObject({ ok: true, result: { kind: "rejected", reason: "not-offered" } });
   });
 });

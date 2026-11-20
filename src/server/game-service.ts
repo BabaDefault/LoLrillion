@@ -1,4 +1,5 @@
 import {
+  dayTitle,
   openPrompt,
   percentileBetterThan,
   promptWindow,
@@ -6,15 +7,20 @@ import {
   scoreDistribution,
   submitAttempt as engineSubmitAttempt,
   TIER_POINTS,
+  confirmSuggestion as engineConfirmSuggestion,
   type AnswerType,
+  type AttemptOutcome,
   type AttemptResult,
+  type DayTitle,
   type EntityId,
   type ScoreDistribution,
   type PromptPlay,
   type PromptProgress,
+  type Tier,
 } from "@/engine";
 import type { Clock } from "./clock";
 import type { PuzzleSource } from "./puzzle-source";
+import type { AnswerCountSource } from "./storage/answer-counts";
 import type { PlayStore } from "./storage/play-store";
 
 /**
@@ -35,7 +41,7 @@ export type CurrentPromptView =
 
 /** A finished Prompt's result as the client sees it. */
 export type PromptResultView =
-  | { status: "accepted"; entityName: string; tier: string; points: number }
+  | { status: "accepted"; entityId: EntityId; entityName: string; tier: Tier; points: number }
   | { status: "missed"; points: number };
 
 export interface PuzzleStateView {
@@ -50,6 +56,45 @@ export interface PuzzleStateView {
   total: number | null;
 }
 
+/** One Entity of a revealed Answer Set, with its Answer Share among today's players. */
+export interface AnswerSetEntryView {
+  entityId: EntityId;
+  name: string;
+  tier: Tier;
+  points: number;
+  /** True for the Gem (the Pentakill Entity). */
+  gem: boolean;
+  /** How many of today's players chose it. */
+  count: number;
+  /** Answer Share: count / today's players, from 0 to 1 (0 when there are no players yet). */
+  share: number;
+}
+
+export interface PromptRevealView {
+  text: string;
+  answerType: AnswerType;
+  result: PromptResultView;
+  answerSet: AnswerSetEntryView[];
+}
+
+/** The end screen: only available once all Prompts are finished, since it reveals the Answer Sets. */
+export interface PuzzleResultsView {
+  puzzleDay: string;
+  puzzleNumber: number;
+  total: number;
+  maxTotal: number;
+  dayTitle: DayTitle;
+  /** Players who have finished today's Puzzle (counted plays only), including this one. */
+  playerCount: number;
+  /** "Better than X% of today's players". */
+  percentile: number;
+  /** The day's score-distribution curve, with this player's bin marked. */
+  distribution: ScoreDistribution;
+  prompts: PromptRevealView[];
+}
+
+export type ResultsResponse = { ok: true; results: PuzzleResultsView } | { ok: false; error: "not-finished" };
+
 export type AttemptResponse =
   | { ok: true; result: AttemptResult; state: PuzzleStateView }
   | { ok: false; error: "not-current-prompt" | "prompt-not-started"; state: PuzzleStateView };
@@ -57,25 +102,12 @@ export type AttemptResponse =
 /** Bins in the end screen's score-distribution curve. */
 export const DISTRIBUTION_BINS = 10;
 
-/** The end screen's comparison with today's other players. Only available once finished. */
-export interface DayStatsView {
-  puzzleDay: string;
-  total: number;
-  /** Players who have finished today's Puzzle (counted plays only), including this one. */
-  playerCount: number;
-  /** "Better than X% of today's players". */
-  percentile: number;
-  distribution: ScoreDistribution;
-  /** Answer Share counts per Prompt: Entity ID → number of players whose Accepted Guess it was. */
-  answerCounts: Array<Record<EntityId, number>>;
-  /** Per Prompt, "N players chose this" for this player's Accepted Entity (null on a Miss). */
-  chosenBy: Array<number | null>;
-}
-
 export interface GameServiceDeps {
   clock: Clock;
   store: PlayStore;
   puzzles: PuzzleSource;
+  /** Answer Share counts for the end screen; the store's own counts when omitted. */
+  answerCounts?: AnswerCountSource;
 }
 
 export interface GameService {
@@ -83,19 +115,29 @@ export interface GameService {
   /** Start the current Prompt (records its window-open time). Idempotent. */
   startPrompt(deviceId: string): Promise<PuzzleStateView>;
   submitAttempt(deviceId: string, promptIndex: number, guess: string): Promise<AttemptResponse>;
-  /** Answer Share, percentile and distribution for the end screen; null until the Puzzle is finished. */
-  getDayStats(deviceId: string): Promise<DayStatsView | null>;
+  /** "Yes" on a "Did you mean": rejected unless the Entity was offered for this Prompt. */
+  confirmSuggestion(deviceId: string, promptIndex: number, entityId: string): Promise<AttemptResponse>;
+  /**
+   * The end-screen reveal, including Answer Sets, Answer Share, percentile and the distribution
+   * curve; refused until all Prompts are finished.
+   */
+  getResults(deviceId: string): Promise<ResultsResponse>;
 }
 
 function toResultView(o: PromptProgress): PromptResultView | null {
   if (o.status === "accepted") {
-    return { status: "accepted", entityName: o.entityName, tier: o.tier, points: o.points };
+    return { status: "accepted", entityId: o.entityId, entityName: o.entityName, tier: o.tier, points: o.points };
   }
   if (o.status === "missed") return { status: "missed", points: o.points };
   return null;
 }
 
-export function createGameService({ clock, store, puzzles }: GameServiceDeps): GameService {
+export function createGameService({
+  clock,
+  store,
+  puzzles,
+  answerCounts = store,
+}: GameServiceDeps): GameService {
   async function load(deviceId: string) {
     const now = clock.now();
     const daily = await puzzles.current(now);
@@ -154,51 +196,105 @@ export function createGameService({ clock, store, puzzles }: GameServiceDeps): G
       return view(ctx, plays);
     },
 
-    async submitAttempt(deviceId, promptIndex, guess) {
-      const ctx = await load(deviceId);
-      const { currentIndex } = puzzleProgress(ctx.promptCount, ctx.plays, ctx.now);
-      if (currentIndex !== promptIndex) {
-        return { ok: false, error: "not-current-prompt", state: view(ctx, ctx.plays) };
-      }
-      const play = ctx.plays[promptIndex];
-      if (!play) return { ok: false, error: "prompt-not-started", state: view(ctx, ctx.plays) };
-
-      const outcome = engineSubmitAttempt({
-        prompt: ctx.daily.puzzle.prompts[promptIndex],
-        entities: ctx.daily.entities,
-        play,
-        guess,
-        now: ctx.now,
-      });
-      if (outcome.play !== play) await store.updatePromptPlay(ctx.key, promptIndex, outcome.play);
-      await store.logAttempt({ ...ctx.key, promptIndex, guess, result: outcome.result, at: ctx.now });
-
-      const plays = ctx.plays.slice();
-      plays[promptIndex] = outcome.play;
-      return { ok: true, result: outcome.result, state: view(ctx, plays) };
+    submitAttempt(deviceId, promptIndex, guess) {
+      return attempt(deviceId, promptIndex, guess, (ctx, play) =>
+        engineSubmitAttempt({
+          prompt: ctx.daily.puzzle.prompts[promptIndex],
+          entities: ctx.daily.entities,
+          play,
+          guess,
+          now: ctx.now,
+        }),
+      );
     },
 
-    async getDayStats(deviceId) {
-      const ctx = await load(deviceId);
-      const progress = puzzleProgress(ctx.promptCount, ctx.plays, ctx.now);
-      if (!progress.finished) return null;
-      const { puzzleDay } = ctx.daily;
-      const [dayTotals, answerCounts] = await Promise.all([
-        store.getDayTotals(puzzleDay, ctx.promptCount),
-        Promise.all(ctx.daily.puzzle.prompts.map((_, i) => store.getAnswerCounts(puzzleDay, i))),
+    confirmSuggestion(deviceId, promptIndex, entityId) {
+      return attempt(deviceId, promptIndex, entityId, async (ctx, play) =>
+        engineConfirmSuggestion({
+          prompt: ctx.daily.puzzle.prompts[promptIndex],
+          entities: ctx.daily.entities,
+          play,
+          entityId,
+          offered: await store.getOfferedCandidates(ctx.key, promptIndex),
+          now: ctx.now,
+        }),
+      );
+    },
+
+    async getResults(deviceId) {
+      const { now, daily, promptCount, plays } = await load(deviceId);
+      const progress = puzzleProgress(promptCount, plays, now);
+      if (!progress.finished) return { ok: false, error: "not-finished" };
+
+      const [counts, dayTotals] = await Promise.all([
+        answerCounts.getAnswerCounts(daily.puzzleDay, promptCount),
+        store.getDayTotals(daily.puzzleDay, promptCount),
       ]);
-      const maxTotal = ctx.promptCount * Math.max(...Object.values(TIER_POINTS));
+      const maxTotal = promptCount * TIER_POINTS.pentakill;
+      const names = new Map(daily.entities.map((e) => [e.id, e.name]));
+      const prompts = daily.puzzle.prompts.map((prompt, i): PromptRevealView => {
+        const promptCounts = counts.byPrompt[i] ?? {};
+        const answerSet = Object.entries(prompt.answerSet).map(([entityId, tier]): AnswerSetEntryView => {
+          const count = promptCounts[entityId] ?? 0;
+          return {
+            entityId,
+            name: names.get(entityId) ?? entityId,
+            tier,
+            points: TIER_POINTS[tier],
+            gem: tier === "pentakill",
+            count,
+            share: counts.players > 0 ? count / counts.players : 0,
+          };
+        });
+        // A finished Puzzle has every Prompt Accepted or Missed.
+        const result = toResultView(progress.outcomes[i]) ?? { status: "missed", points: 0 };
+        return { text: prompt.text, answerType: prompt.answerType, result, answerSet };
+      });
       return {
-        puzzleDay,
-        total: progress.total,
-        playerCount: dayTotals.length,
-        percentile: percentileBetterThan(progress.total, dayTotals),
-        distribution: scoreDistribution(dayTotals, { maxTotal, binCount: DISTRIBUTION_BINS }, progress.total),
-        answerCounts,
-        chosenBy: progress.outcomes.map((o, i) =>
-          o.status === "accepted" ? (answerCounts[i][o.entityId] ?? 0) : null,
-        ),
+        ok: true,
+        results: {
+          puzzleDay: daily.puzzleDay,
+          puzzleNumber: daily.puzzleNumber,
+          total: progress.total,
+          maxTotal,
+          dayTitle: dayTitle(progress.total),
+          playerCount: dayTotals.length,
+          percentile: percentileBetterThan(progress.total, dayTotals),
+          distribution: scoreDistribution(dayTotals, { maxTotal, binCount: DISTRIBUTION_BINS }, progress.total),
+          prompts,
+        },
       };
     },
   };
+
+  /** Run one engine step against the current, started Prompt, then persist and log it. */
+  async function attempt(
+    deviceId: string,
+    promptIndex: number,
+    logged: string,
+    step: (ctx: Awaited<ReturnType<typeof load>>, play: PromptPlay) => AttemptOutcome | Promise<AttemptOutcome>,
+  ): Promise<AttemptResponse> {
+    const ctx = await load(deviceId);
+    const { currentIndex } = puzzleProgress(ctx.promptCount, ctx.plays, ctx.now);
+    if (currentIndex !== promptIndex) {
+      return { ok: false, error: "not-current-prompt", state: view(ctx, ctx.plays) };
+    }
+    const play = ctx.plays[promptIndex];
+    if (!play) return { ok: false, error: "prompt-not-started", state: view(ctx, ctx.plays) };
+
+    const outcome = await step(ctx, play);
+    if (outcome.result.kind === "did-you-mean") {
+      await store.addOfferedCandidates(
+        ctx.key,
+        promptIndex,
+        outcome.result.candidates.map((c) => c.id),
+      );
+    }
+    if (outcome.play !== play) await store.updatePromptPlay(ctx.key, promptIndex, outcome.play);
+    await store.logAttempt({ ...ctx.key, promptIndex, guess: logged, result: outcome.result, at: ctx.now });
+
+    const plays = ctx.plays.slice();
+    plays[promptIndex] = outcome.play;
+    return { ok: true, result: outcome.result, state: view(ctx, plays) };
+  }
 }

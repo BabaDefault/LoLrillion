@@ -1,4 +1,5 @@
 import type { AttemptResult, EntityId, PromptPlay } from "@/engine";
+import type { AnswerCountSource, AnswerCounts } from "./answer-counts";
 
 /** Identifies one player's run at one Puzzle Day. */
 export interface PlayKey {
@@ -22,7 +23,7 @@ export interface AttemptLogEntry extends PlayKey {
  * Runtime state for plays. The in-memory implementation is for local dev and tests;
  * a Supabase implementation replaces it without changing the Game Engine or routes.
  */
-export interface PlayStore {
+export interface PlayStore extends AnswerCountSource {
   /** The player's PromptPlays for the day, indexed by Prompt index (null = not started). */
   getPromptPlays(key: PlayKey, promptCount: number): Promise<Array<PromptPlay | null>>;
   /**
@@ -32,13 +33,20 @@ export interface PlayStore {
   createPromptPlay(key: PlayKey, promptIndex: number, play: PromptPlay): Promise<PromptPlay>;
   /** Replace the PromptPlay for a Prompt (e.g. after an Accepted Guess). */
   updatePromptPlay(key: PlayKey, promptIndex: number, play: PromptPlay): Promise<void>;
+  /**
+   * Remember Entity IDs offered in a "Did you mean" popup for a Prompt, adding to any offered
+   * before, so a later confirmation can be checked against them.
+   */
+  addOfferedCandidates(key: PlayKey, promptIndex: number, entityIds: readonly EntityId[]): Promise<void>;
+  /** Every Entity ID offered as a "Did you mean" candidate for a Prompt (empty if none). */
+  getOfferedCandidates(key: PlayKey, promptIndex: number): Promise<EntityId[]>;
   /** Log an Attempt and its result, for finding missing answers and Aliases. */
   logAttempt(entry: AttemptLogEntry): Promise<void>;
   /**
-   * Answer Share counts: for one Prompt of a Puzzle Day, how many players' Accepted Guess
-   * was each Entity. Archive plays are not counted.
+   * Answer Share counts (from AnswerCountSource): per Prompt, how many players' Accepted Guess
+   * was each Entity, and how many players played today. Archive plays are not counted.
    */
-  getAnswerCounts(puzzleDay: string, promptIndex: number): Promise<Record<EntityId, number>>;
+  getAnswerCounts(puzzleDay: string, promptCount: number): Promise<AnswerCounts>;
   /**
    * Every player's daily total for a Puzzle Day (sum of Accepted Points), for percentile and
    * the distribution curve. Only counted (non-archive) runs that have started all
