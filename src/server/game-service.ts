@@ -66,7 +66,7 @@ export interface PuzzleStateView {
   current: CurrentPromptView | null;
   results: Array<PromptResultView | null>;
   finished: boolean;
-  /** The daily total, only once the Puzzle is finished. */
+  /** The Puzzle total, only once the Puzzle is finished. */
   total: number | null;
 }
 
@@ -192,28 +192,28 @@ export function createGameService({
   async function load(deviceId: string, archiveDay?: string) {
     const now = clock.now();
     if (archiveDay === undefined) {
-      const daily = await puzzles.forDay(puzzleDayOf(now));
-      const key: PlayKey = { deviceId, puzzleDay: daily.puzzleDay };
-      const promptCount = daily.puzzle.prompts.length;
+      const served = await puzzles.forDay(puzzleDayOf(now));
+      const key: PlayKey = { deviceId, puzzleDay: served.puzzleDay };
+      const promptCount = served.puzzle.prompts.length;
       const plays = await store.getPromptPlays(key, promptCount);
-      return { now, daily, key, promptCount, plays };
+      return { now, served, key, promptCount, plays };
     }
     // Only a past day with a generated Puzzle is in the archive.
-    const daily = archiveDay < puzzleDayOf(now) ? await puzzles.forDay(archiveDay) : null;
-    if (!daily?.generated) throw new ArchiveUnavailableError(archiveDay);
-    const promptCount = daily.puzzle.prompts.length;
-    const liveKey: PlayKey = { deviceId, puzzleDay: daily.puzzleDay };
+    const served = archiveDay < puzzleDayOf(now) ? await puzzles.forDay(archiveDay) : null;
+    if (!served?.generated) throw new ArchiveUnavailableError(archiveDay);
+    const promptCount = served.puzzle.prompts.length;
+    const liveKey: PlayKey = { deviceId, puzzleDay: served.puzzleDay };
     const livePlays = await store.getPromptPlays(liveKey, promptCount);
     if (puzzleProgress(promptCount, livePlays, now).finished) {
-      return { now, daily, key: liveKey, promptCount, plays: livePlays };
+      return { now, served, key: liveKey, promptCount, plays: livePlays };
     }
-    const key: PlayKey = { deviceId, puzzleDay: daily.puzzleDay, archive: true };
+    const key: PlayKey = { deviceId, puzzleDay: served.puzzleDay, archive: true };
     const plays = await store.getPromptPlays(key, promptCount);
-    return { now, daily, key, promptCount, plays };
+    return { now, served, key, promptCount, plays };
   }
 
   function view(ctx: Awaited<ReturnType<typeof load>>, plays: Array<PromptPlay | null>): PuzzleStateView {
-    const { now, daily, promptCount } = ctx;
+    const { now, served, promptCount } = ctx;
     const progress = puzzleProgress(promptCount, plays, now);
     let current: CurrentPromptView | null = null;
     if (progress.currentIndex !== null) {
@@ -223,7 +223,7 @@ export function createGameService({
       if (!play || (status !== "reading" && status !== "answering")) {
         current = { index: i, status: "not-started" };
       } else {
-        const prompt = daily.puzzle.prompts[i];
+        const prompt = served.puzzle.prompts[i];
         current = {
           index: i,
           status,
@@ -235,7 +235,7 @@ export function createGameService({
       }
     }
     return {
-      puzzleDay: daily.puzzleDay,
+      puzzleDay: served.puzzleDay,
       archive: ctx.key.archive ?? false,
       promptCount,
       serverNow: now,
@@ -265,8 +265,8 @@ export function createGameService({
     submitAttempt(deviceId, promptIndex, guess, archiveDay) {
       return attempt(deviceId, archiveDay, promptIndex, guess, (ctx, play) =>
         engineSubmitAttempt({
-          prompt: ctx.daily.puzzle.prompts[promptIndex],
-          entities: ctx.daily.entities,
+          prompt: ctx.served.puzzle.prompts[promptIndex],
+          entities: ctx.served.entities,
           play,
           guess,
           now: ctx.now,
@@ -277,8 +277,8 @@ export function createGameService({
     confirmSuggestion(deviceId, promptIndex, entityId, archiveDay) {
       return attempt(deviceId, archiveDay, promptIndex, entityId, async (ctx, play) =>
         engineConfirmSuggestion({
-          prompt: ctx.daily.puzzle.prompts[promptIndex],
-          entities: ctx.daily.entities,
+          prompt: ctx.served.puzzle.prompts[promptIndex],
+          entities: ctx.served.entities,
           play,
           entityId,
           offered: await store.getOfferedCandidates(ctx.key, promptIndex),
@@ -288,19 +288,19 @@ export function createGameService({
     },
 
     async getResults(deviceId, archiveDay) {
-      const { now, daily, key, promptCount, plays } = await load(deviceId, archiveDay);
+      const { now, served, key, promptCount, plays } = await load(deviceId, archiveDay);
       const progress = puzzleProgress(promptCount, plays, now);
       // A past day's results may be viewed without playing it; today's only once finished.
       if (!progress.finished && archiveDay === undefined) return { ok: false, error: "not-finished" };
       const played = progress.finished;
 
       const [counts, dayTotals] = await Promise.all([
-        answerCounts.getAnswerCounts(daily.puzzleDay, promptCount),
-        store.getDayTotals(daily.puzzleDay, promptCount, now),
+        answerCounts.getAnswerCounts(served.puzzleDay, promptCount),
+        store.getDayTotals(served.puzzleDay, promptCount, now),
       ]);
       const maxTotal = promptCount * TIER_POINTS.pentakill;
-      const names = new Map(daily.entities.map((e) => [e.id, e.name]));
-      const prompts = daily.puzzle.prompts.map((prompt, i): PromptRevealView => {
+      const names = new Map(served.entities.map((e) => [e.id, e.name]));
+      const prompts = served.puzzle.prompts.map((prompt, i): PromptRevealView => {
         const promptCounts = counts.byPrompt[i] ?? {};
         const answerSet = Object.entries(prompt.answerSet).map(([entityId, tier]): AnswerSetEntryView => {
           const count = promptCounts[entityId] ?? 0;
@@ -325,8 +325,8 @@ export function createGameService({
       return {
         ok: true,
         results: {
-          puzzleDay: daily.puzzleDay,
-          puzzleNumber: daily.puzzleNumber,
+          puzzleDay: served.puzzleDay,
+          puzzleNumber: served.puzzleNumber,
           archive,
           played,
           total,
@@ -363,8 +363,8 @@ export function createGameService({
     }
     const games: FinishedGame[] = [];
     for (const run of runs.values()) {
-      const daily = await puzzles.forDay(run.puzzleDay);
-      const progress = puzzleProgress(daily.puzzle.prompts.length, run.plays, now);
+      const served = await puzzles.forDay(run.puzzleDay);
+      const progress = puzzleProgress(served.puzzle.prompts.length, run.plays, now);
       if (!progress.finished) continue;
       games.push({
         puzzleDay: run.puzzleDay,

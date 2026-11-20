@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { puzzleDayOf, type Entity, type PromptDefinition } from "@/engine";
+import type { Entity, PromptDefinition } from "@/engine";
 import { ManualClock } from "./clock";
 import { createGameService } from "./game-service";
 import { createLeaderboardService } from "./leaderboard-service";

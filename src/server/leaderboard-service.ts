@@ -147,10 +147,10 @@ export function createLeaderboardService({
         scope = { kind: "group", group: mine };
       }
 
-      const daily = await puzzles.forDay(puzzleDay);
+      const served = await puzzles.forDay(puzzleDay);
       const scores = await players.getDayScores(
         puzzleDay,
-        daily.puzzle.prompts.length,
+        served.puzzle.prompts.length,
         now,
         scope.kind === "group" ? scope.group.code : undefined,
       );
@@ -167,7 +167,7 @@ export function createLeaderboardService({
         ok: true,
         leaderboard: {
           puzzleDay,
-          puzzleNumber: daily.puzzleNumber,
+          puzzleNumber: served.puzzleNumber,
           phase,
           scope,
           playerCount: ranked.length,

@@ -3,7 +3,7 @@ import { FIRST_PUZZLE_DAY } from "@/content/puzzles/config";
 import { puzzleNumberOf, type Entity, type Puzzle } from "@/engine";
 
 /** The Puzzle served on one Puzzle Day, plus the Entities its Guesses resolve against. */
-export interface DailyPuzzle {
+export interface ServedPuzzle {
   puzzleDay: string;
   /** The Puzzle's number, shown as `LoLrillion #N`: calendar days since the first Puzzle Day. */
   puzzleNumber: number;
@@ -22,7 +22,7 @@ export interface PuzzleSource {
    * The Puzzle served on `puzzleDay`: the one generated for it, else the fallback. Callers decide
    * whether that day may be played (today live, past days in the archive, never the future).
    */
-  forDay(puzzleDay: string): Promise<DailyPuzzle>;
+  forDay(puzzleDay: string): Promise<ServedPuzzle>;
   /** The archive: Puzzle Days with a generated Puzzle strictly before today's, newest first. */
   pastDays(now: number): Promise<ArchiveDay[]>;
 }
