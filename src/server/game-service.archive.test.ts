@@ -106,6 +106,30 @@ describe("archive play", () => {
     expect(archived.results.prompts[0].answerSet.find((e) => e.entityId === "amumu")).toMatchObject({ count: 0 });
   });
 
+  it("shows a past day's results without playing it, with no score of your own", async () => {
+    const { clock, game, playAll } = setup(NOV_21_NOON);
+    await playAll("live", "Teemo");
+    clock.set(NOV_22_NOON);
+
+    const response = await game.getResults("spectator", "2026-11-21");
+    if (!response.ok) throw new Error("expected results");
+    expect(response.results).toMatchObject({
+      puzzleDay: "2026-11-21",
+      puzzleNumber: 2,
+      played: false,
+      total: null,
+      dayTitle: null,
+      percentile: null,
+      playerCount: 1,
+    });
+    expect(response.results.distribution.yourBin).toBeNull();
+    expect(response.results.distribution.bins.reduce((n, b) => n + b.count, 0)).toBe(1);
+    expect(response.results.prompts[0].result).toBeNull();
+    expect(response.results.prompts[0].answerSet.find((e) => e.entityId === "teemo")).toMatchObject({ count: 1 });
+    // Looking doesn't start an archive run.
+    expect(await game.getState("spectator", "2026-11-21")).toMatchObject({ archive: true, finished: false });
+  });
+
   it("refuses today, a future day, and a day with no Puzzle", async () => {
     const { game } = setup();
     for (const day of ["2026-11-22", "2026-11-23", "2026-11-19", "not-a-day"]) {

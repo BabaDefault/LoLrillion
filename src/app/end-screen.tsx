@@ -51,11 +51,21 @@ function DistributionCurve({ results }: { results: PuzzleResultsView }) {
   const peak = Math.max(1, ...bins.map((b) => b.count));
   return (
     <>
-      <p data-testid="percentile">
-        Better than <strong>{results.percentile}%</strong> of {results.archive ? "that day's" : "today's"}{" "}
-        {results.playerCount} {results.playerCount === 1 ? "player" : "players"}
-      </p>
-      <div className="curve" role="img" aria-label="Today's score distribution, with your score highlighted">
+      {results.percentile === null ? (
+        <p data-testid="percentile">
+          That day&apos;s {results.playerCount} {results.playerCount === 1 ? "player" : "players"}
+        </p>
+      ) : (
+        <p data-testid="percentile">
+          Better than <strong>{results.percentile}%</strong> of {results.archive ? "that day's" : "today's"}{" "}
+          {results.playerCount} {results.playerCount === 1 ? "player" : "players"}
+        </p>
+      )}
+      <div
+        className="curve"
+        role="img"
+        aria-label={yourBin === null ? "The day's score distribution" : "Today's score distribution, with your score highlighted"}
+      >
         {bins.map((b, i) => (
           <div
             key={b.from}
@@ -91,7 +101,7 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
     if (!results) return;
     const text = shareLine({
       puzzleNumber: results.puzzleNumber,
-      results: results.prompts.map((p) => (p.result.status === "accepted" ? p.result.tier : null)),
+      results: results.prompts.map((p) => (p.result?.status === "accepted" ? p.result.tier : null)),
       link: window.location.origin,
     });
     setCopied((await copyText(text)) ? "copied" : "failed");
@@ -109,20 +119,30 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
             </>
           )}
         </p>
-        <p className="total" data-testid="total">
-          {results.total}
-        </p>
-        <p className="muted">out of {results.maxTotal}</p>
-        <p className="day-title" data-testid="day-title">
-          {results.dayTitle}
-        </p>
+        {results.played ? (
+          <>
+            <p className="total" data-testid="total">
+              {results.total}
+            </p>
+            <p className="muted">out of {results.maxTotal}</p>
+            <p className="day-title" data-testid="day-title">
+              {results.dayTitle}
+            </p>
+          </>
+        ) : (
+          <p data-testid="not-played">You haven&apos;t played this Puzzle. Here are its answers.</p>
+        )}
         <DistributionCurve results={results} />
-        <button className="primary" onClick={share}>
-          {copied === "copied" ? "Copied!" : "Share"}
-        </button>
-        <p className="muted" role="status">
-          {copied === "failed" ? "Couldn't copy. Try again." : copied === "copied" ? "Share line copied." : ""}
-        </p>
+        {results.played && (
+          <>
+            <button className="primary" onClick={share}>
+              {copied === "copied" ? "Copied!" : "Share"}
+            </button>
+            <p className="muted" role="status">
+              {copied === "failed" ? "Couldn't copy. Try again." : copied === "copied" ? "Share line copied." : ""}
+            </p>
+          </>
+        )}
         <p>
           <Link href={`/leaderboard?day=${results.puzzleDay}`} data-testid="leaderboard-link">
             See the leaderboards
@@ -150,19 +170,21 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
             Prompt {i + 1} · {prompt.answerType.toUpperCase()}
           </p>
           <h3>{prompt.text}</h3>
-          <p className="your-answer">
-            {prompt.result.status === "accepted" ? (
-              <>
-                {TIER_EMOJI[prompt.result.tier]} {prompt.result.entityName}: {TIER_NAMES[prompt.result.tier]} (+
-                {prompt.result.points})
-              </>
-            ) : (
-              <>⬛ Miss (+0)</>
-            )}
-          </p>
+          {prompt.result && (
+            <p className="your-answer">
+              {prompt.result.status === "accepted" ? (
+                <>
+                  {TIER_EMOJI[prompt.result.tier]} {prompt.result.entityName}: {TIER_NAMES[prompt.result.tier]} (+
+                  {prompt.result.points})
+                </>
+              ) : (
+                <>⬛ Miss (+0)</>
+              )}
+            </p>
+          )}
           <ul className="answer-set">
             {sorted(prompt.answerSet, order).map((entry) => {
-              const yours = prompt.result.status === "accepted" && prompt.result.entityId === entry.entityId;
+              const yours = prompt.result?.status === "accepted" && prompt.result.entityId === entry.entityId;
               return (
                 <li key={entry.entityId} className={`${entry.gem ? "gem" : ""} ${yours ? "yours" : ""}`.trim()}>
                   <span>

@@ -8,8 +8,8 @@ export interface DistributionBin {
 
 export interface ScoreDistribution {
   bins: DistributionBin[];
-  /** Index of the bin holding the player's own total. */
-  yourBin: number;
+  /** Index of the bin holding the player's own total; null when there is no total of theirs to mark. */
+  yourBin: number | null;
 }
 
 /**
@@ -19,7 +19,7 @@ export interface ScoreDistribution {
 export function scoreDistribution(
   dayTotals: readonly number[],
   { maxTotal, binCount }: { maxTotal: number; binCount: number },
-  yourTotal: number,
+  yourTotal: number | null,
 ): ScoreDistribution {
   const width = maxTotal / binCount;
   const binOf = (total: number) => Math.min(binCount - 1, Math.max(0, Math.floor(total / width)));
@@ -29,7 +29,7 @@ export function scoreDistribution(
     count: 0,
   }));
   for (const total of dayTotals) bins[binOf(total)].count++;
-  return { bins, yourBin: binOf(yourTotal) };
+  return { bins, yourBin: yourTotal === null ? null : binOf(yourTotal) };
 }
 
 /**

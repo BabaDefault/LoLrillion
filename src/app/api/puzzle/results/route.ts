@@ -6,8 +6,8 @@ import { deviceIdFor, jsonWithDevice } from "@/server/device";
 export const dynamic = "force-dynamic";
 
 /**
- * The end-screen reveal (Answer Sets included), only once all of the run's Prompts are finished.
- * `?day=` is an archive run of that past Puzzle.
+ * The end-screen reveal (Answer Sets included): today's only once all of its Prompts are finished.
+ * `?day=` is that past Puzzle's results, viewable whether or not this device played it.
  */
 export async function GET(request: NextRequest) {
   const device = deviceIdFor(request);

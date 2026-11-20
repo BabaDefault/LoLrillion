@@ -39,6 +39,8 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
   const [busy, setBusy] = useState(false);
   const [interlude, setInterlude] = useState<Interlude>(null);
   const [notice, setNotice] = useState<Notice>(null);
+  /** A past day's results, viewed without playing it. */
+  const [viewResults, setViewResults] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const receive = useCallback((next: PuzzleStateView) => {
@@ -144,7 +146,7 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
     );
   }
 
-  if (state.finished) return <EndScreen archiveDay={archiveDay} />;
+  if (state.finished || viewResults) return <EndScreen archiveDay={archiveDay} />;
 
   if (!current) return null;
 
@@ -158,6 +160,13 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
         <button className="primary" onClick={start} disabled={busy} autoFocus>
           {current.index === 0 ? "Start" : "Show Prompt"}
         </button>
+        {archiveDay && (
+          <p>
+            <button className="secondary" onClick={() => setViewResults(true)} data-testid="view-results">
+              See the results without playing
+            </button>
+          </p>
+        )}
       </section>
     );
   }

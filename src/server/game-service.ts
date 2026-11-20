@@ -87,26 +87,32 @@ export interface AnswerSetEntryView {
 export interface PromptRevealView {
   text: string;
   answerType: AnswerType;
-  result: PromptResultView;
+  /** The player's result; null when viewing a past day they haven't finished. */
+  result: PromptResultView | null;
   answerSet: AnswerSetEntryView[];
 }
 
-/** The end screen: only available once all Prompts are finished, since it reveals the Answer Sets. */
+/**
+ * The end screen. It reveals the Answer Sets, so for today it is only available once all Prompts
+ * are finished; a past day's results can be viewed without playing it (`played: false`).
+ */
 export interface PuzzleResultsView {
   puzzleDay: string;
   puzzleNumber: number;
   /** An archive run: compared against the day's counted players, but never counted itself. */
   archive: boolean;
-  total: number;
+  /** False when viewing a past day this player hasn't finished: no total, title or percentile of theirs. */
+  played: boolean;
+  total: number | null;
   maxTotal: number;
-  dayTitle: DayTitle;
+  dayTitle: DayTitle | null;
   /**
    * Players who finished the day's Puzzle (counted plays only): including this one for a
    * counted run, excluding it for an archive run.
    */
   playerCount: number;
-  /** "Better than X% of the day's players". */
-  percentile: number;
+  /** "Better than X% of the day's players"; null when not played. */
+  percentile: number | null;
   /** The day's score-distribution curve, with this player's bin marked. */
   distribution: ScoreDistribution;
   prompts: PromptRevealView[];
@@ -148,7 +154,8 @@ export interface GameService {
   ): Promise<AttemptResponse>;
   /**
    * The end-screen reveal, including Answer Sets, Answer Share, percentile and the distribution
-   * curve; refused until all Prompts are finished.
+   * curve. Today's is refused until all Prompts are finished; a past day's (`archiveDay`) is
+   * always available, without the player's own score when they haven't finished it.
    */
   getResults(deviceId: string, archiveDay?: string): Promise<ResultsResponse>;
   /** Personal stats over this device's finished games, live and archive. */
@@ -283,7 +290,9 @@ export function createGameService({
     async getResults(deviceId, archiveDay) {
       const { now, daily, key, promptCount, plays } = await load(deviceId, archiveDay);
       const progress = puzzleProgress(promptCount, plays, now);
-      if (!progress.finished) return { ok: false, error: "not-finished" };
+      // A past day's results may be viewed without playing it; today's only once finished.
+      if (!progress.finished && archiveDay === undefined) return { ok: false, error: "not-finished" };
+      const played = progress.finished;
 
       const [counts, dayTotals] = await Promise.all([
         answerCounts.getAnswerCounts(daily.puzzleDay, promptCount),
@@ -306,24 +315,26 @@ export function createGameService({
           };
         });
         // A finished Puzzle has every Prompt Accepted or Missed.
-        const result = toResultView(progress.outcomes[i]) ?? { status: "missed", points: 0 };
+        const result = played ? (toResultView(progress.outcomes[i]) ?? { status: "missed", points: 0 }) : null;
         return { text: prompt.text, answerType: prompt.answerType, result, answerSet };
       });
       const archive = key.archive ?? false;
       // An archive run isn't among the day's counted totals; compare it as if it were.
-      const compared = archive ? [...dayTotals, progress.total] : dayTotals;
+      const compared = archive && played ? [...dayTotals, progress.total] : dayTotals;
+      const total = played ? progress.total : null;
       return {
         ok: true,
         results: {
           puzzleDay: daily.puzzleDay,
           puzzleNumber: daily.puzzleNumber,
           archive,
-          total: progress.total,
+          played,
+          total,
           maxTotal,
-          dayTitle: dayTitle(progress.total),
+          dayTitle: total === null ? null : dayTitle(total),
           playerCount: dayTotals.length,
-          percentile: percentileBetterThan(progress.total, compared),
-          distribution: scoreDistribution(compared, { maxTotal, binCount: DISTRIBUTION_BINS }, progress.total),
+          percentile: total === null ? null : percentileBetterThan(total, compared),
+          distribution: scoreDistribution(compared, { maxTotal, binCount: DISTRIBUTION_BINS }, total),
           prompts,
         },
       };
