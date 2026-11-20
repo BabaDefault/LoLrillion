@@ -34,4 +34,4 @@ export {
 } from "./stats";
 export { personalStats, type FinishedGame, type PersonalStats } from "./personal-stats";
 export { dayTitle, shareLine, type DayTitle, type ShareLineInput } from "./results";
-export { PUZZLE_TIME_ZONE, puzzleDayOf, puzzleNumberOf, daysBetween, addDays } from "./puzzle-day";
+export { PUZZLE_TIME_ZONE, puzzleDayOf, parsePuzzleDay, puzzleNumberOf, daysBetween, addDays } from "./puzzle-day";

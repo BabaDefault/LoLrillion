@@ -1,12 +1,11 @@
 import type { NextRequest, NextResponse } from "next/server";
+import { parsePuzzleDay } from "@/engine";
 import { jsonWithDevice } from "./device";
 import { ArchiveUnavailableError } from "./game-service";
 
-const PUZZLE_DAY = /^\d{4}-\d{2}-\d{2}$/;
-
 /**
  * Runs a puzzle route for today's Puzzle, or for an archive run when the request has
- * `?day=YYYY-MM-DD`. A malformed day is a 400; a day that isn't a past Puzzle Day is a 404.
+ * `?day=YYYY-MM-DD`. A malformed or impossible date is a 400; a day that isn't a past Puzzle Day is a 404.
  */
 export async function withArchiveDay(
   request: NextRequest,
@@ -14,7 +13,7 @@ export async function withArchiveDay(
   handle: (archiveDay: string | undefined) => Promise<NextResponse>,
 ): Promise<NextResponse> {
   const day = request.nextUrl.searchParams.get("day");
-  if (day !== null && !PUZZLE_DAY.test(day)) {
+  if (day !== null && parsePuzzleDay(day) === null) {
     return jsonWithDevice({ ok: false, error: "bad-request" }, device, 400);
   }
   try {

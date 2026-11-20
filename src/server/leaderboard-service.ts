@@ -1,4 +1,4 @@
-import { dayTitle, puzzleDayOf, type DayTitle } from "@/engine";
+import { dayTitle, parsePuzzleDay, puzzleDayOf, type DayTitle } from "@/engine";
 import {
   generateGroupCode,
   leaderboardPhase,
@@ -94,13 +94,6 @@ export const LEADERBOARD_SIZE = 100;
 /** New codes to try before giving up when each one is already taken. */
 const CODE_ATTEMPTS = 8;
 
-/** True for a real `YYYY-MM-DD` calendar date. */
-function isCalendarDate(day: string): boolean {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return false;
-  const ms = Date.parse(`${day}T00:00:00Z`);
-  return !Number.isNaN(ms) && new Date(ms).toISOString().slice(0, 10) === day;
-}
-
 export function createLeaderboardService({
   clock,
   puzzles,
@@ -134,8 +127,8 @@ export function createLeaderboardService({
     async getLeaderboard(deviceId, { day, group }) {
       const now = clock.now();
       const today = puzzleDayOf(now);
-      const puzzleDay = day ?? today;
-      if (!isCalendarDate(puzzleDay)) return { ok: false, error: "invalid-day" };
+      const puzzleDay = day === undefined ? today : parsePuzzleDay(day);
+      if (puzzleDay === null) return { ok: false, error: "invalid-day" };
       const phase = leaderboardPhase(puzzleDay, today);
       if (phase === "future") return { ok: false, error: "future-day" };
 
