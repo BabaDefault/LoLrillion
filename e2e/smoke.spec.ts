@@ -68,7 +68,7 @@ test("a full Puzzle Day on two devices, ending on a group leaderboard", async ({
   await alice.goto("/");
 
   // 1. A Rejected Attempt, then an Accepted Guess.
-  await openPrompt(request, alice, 1, "Smoke 1: name a Yordle");
+  await openPrompt(request, alice, 1, "Smoke 1: name a ranged champion");
   await guess(alice, "Garen");
   await expect(guessInput(alice)).toHaveClass(/shake/);
   await expect(guessInput(alice)).toBeEnabled();

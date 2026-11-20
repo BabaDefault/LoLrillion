@@ -18,10 +18,10 @@ const dated = (puzzleDay: string, puzzleNumber: number): GeneratedPuzzle => ({
   puzzleNumber,
   dataVersion: "16.23.1",
   prompts: [0, 1].map((i) => ({
-    templateId: "champions-yordle",
-    text: `Name a Yordle ${i + 1} (${puzzleDay})`,
+    templateId: "champions-dash",
+    text: `Name a champion with a dash ${i + 1} (${puzzleDay})`,
     answerType: "champion" as const,
-    rule: "Yordles.",
+    rule: "Dashes.",
     answerSet: { teemo: "minion" as const, tristana: "kill" as const, amumu: "pentakill" as const },
   })),
 });
@@ -75,7 +75,7 @@ describe("archive play", () => {
       archive: true,
       total: 200,
     });
-    expect(response.results.prompts[0].text).toBe("Name a Yordle 1 (2026-11-20)");
+    expect(response.results.prompts[0].text).toBe("Name a champion with a dash 1 (2026-11-20)");
     // Today's run is untouched by the archive run.
     expect(await game.getState("archivist")).toMatchObject({ puzzleDay: "2026-11-22", archive: false, finished: false });
   });
@@ -147,5 +147,36 @@ describe("archive play", () => {
     expect(state).toMatchObject({ archive: false, finished: true, total: 60 });
     const results = await game.getResults("regular", "2026-11-21");
     expect(results).toMatchObject({ ok: true, results: { archive: false, total: 60 } });
+  });
+});
+
+describe("Puzzle provenance", () => {
+  const provenance = {
+    dataVersion: "16.23.1",
+    review: "sha256:0123456789abcdef",
+    labels: "unused",
+    familiarity: "none" as const,
+    scoring: "sha256:fedcba9876543210",
+  };
+
+  it("never reaches a state, play or results response, mid-play or after", async () => {
+    const clock = new ManualClock(NOV_22_NOON);
+    const withProvenance = dated("2026-11-22", 3);
+    withProvenance.prompts = withProvenance.prompts.map((p) => ({ ...p, provenance }));
+    const puzzles = createDatedPuzzleSource({ puzzles: { "2026-11-22": withProvenance }, entities, fallback: samplePuzzleSource });
+    const game = createGameService({ clock, store: new InMemoryPlayStore(), puzzles });
+    const leaks = (response: unknown) => /provenance|sha256:/.test(JSON.stringify(response));
+
+    for (let i = 0; i < 2; i++) {
+      expect(leaks(await game.getState("player"))).toBe(false);
+      expect(leaks(await game.startPrompt("player"))).toBe(false);
+      clock.advance(6_000);
+      expect(leaks(await game.submitAttempt("player", i, "Amumu"))).toBe(false);
+      clock.advance(1_000);
+    }
+    const results = await game.getResults("player");
+    expect(results.ok).toBe(true);
+    expect(leaks(results)).toBe(false);
+    expect(leaks(await game.getState("player"))).toBe(false);
   });
 });

@@ -3,26 +3,6 @@ import type { FamiliarityFile } from "@/content/familiarity/types";
 import type { MechanicsLabel } from "@/labels";
 import type { AnswerType, EntityId, Tier } from "@/engine";
 
-/** A hand-maintained fact, with where it was checked and on which patch. */
-export interface Fact<T> {
-  value: T;
-  source: string;
-  /** Patch the fact was checked on, e.g. "16.23". */
-  patch: string;
-}
-
-/** Hand-maintained facts about one champion that game data doesn't carry. */
-export interface ChampionMeta {
-  /** Universe faction slug, e.g. "bandle-city", "shadow-isles", "unaffiliated". */
-  region: Fact<string>;
-  yordle: Fact<boolean>;
-}
-
-/** The champion meta overlay, keyed by Data Dragon champion id (e.g. "MonkeyKing"). */
-export interface ChampionMetaOverlay {
-  champions: Readonly<Record<string, ChampionMeta>>;
-}
-
 /** An approved mechanics label (#9), from `approvedLabels` in `@/content/labels`. */
 export type ApprovedLabel = MechanicsLabel;
 
@@ -46,8 +26,6 @@ export interface TemplateReview {
 
 /** Which Entities a Template's Answer Set holds. Data, so Templates can live in JSON. */
 export type TemplateFilter =
-  | { kind: "champion-region"; region: string }
-  | { kind: "champion-yordle" }
   | { kind: "champion-label"; term: string }
   | { kind: "champion-name-length"; atMost: number }
   | { kind: "item-stat"; stat: string }
@@ -66,10 +44,39 @@ export interface TemplateDefinition {
 /** Everything the Builder reads. Labels, Familiarity and reviews are optional until they exist. */
 export interface BuilderInputs {
   snapshot: GameDataSnapshot;
-  overlay: ChampionMetaOverlay;
   labels?: readonly ApprovedLabel[];
   familiarity?: FamiliarityData;
   reviews?: Readonly<Record<string, TemplateReview>>;
+  /** The Builder's scoring constants; `SCORING_CONSTANTS` when absent. */
+  scoring?: ScoringConstants;
+}
+
+/** The constants that turn Priors into Tiers. */
+export interface ScoringConstants {
+  /** How much Familiarity weighs in the Prior when it exists; Typicality is the rest. */
+  FAMILIARITY_WEIGHT: number;
+  /** Share of the normally-banded answers in Minion, Kill and Triple Kill; the rest is Quadra Kill. */
+  BAND_SHARES: { readonly minion: number; readonly kill: number; readonly "triple-kill": number };
+  /** Without an approved Gem: position from likeliest (0) to least likely (1) of the default Gem. */
+  DEFAULT_GEM_POSITION: number;
+}
+
+/**
+ * Which inputs produced a Prompt's Answer Set and Tiers, so a past result can be explained after a
+ * review, label or constant changes. Hashes are `sha256:<16 hex>` of canonical JSON. Server-only:
+ * never served to a player.
+ */
+export interface PromptProvenance {
+  /** The game data patch. */
+  dataVersion: string;
+  /** Hash of the Template's approved review, or `"unreviewed"` when defaults were used. */
+  review: string;
+  /** Hash of the approved labels a `champion-label` filter read, or `"unused"` for other filters. */
+  labels: string;
+  /** The Familiarity file used (its patch and a hash of its contents), or `"none"`. */
+  familiarity: { patch: string; hash: string } | "none";
+  /** Hash of the scoring constants. */
+  scoring: string;
 }
 
 /** A Template turned into a Prompt with its tiered Answer Set. */
@@ -79,4 +86,6 @@ export interface BuiltPrompt {
   answerType: AnswerType;
   rule: string;
   answerSet: Record<EntityId, Tier>;
+  /** Absent on Puzzles built before provenance was recorded; filled in when they're next rebuilt. */
+  provenance?: PromptProvenance;
 }

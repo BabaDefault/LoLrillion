@@ -25,10 +25,10 @@ const entities: Entity[] = [
   { id: "mf-arcade", name: "Arcade Miss Fortune", answerType: "skin", aliases: [] },
 ];
 
-const bilgewater: PromptDefinition = {
-  text: "Name a champion from Bilgewater",
+const ranged: PromptDefinition = {
+  text: "Name a ranged champion",
   answerType: "champion",
-  rule: "Champions whose official home region is Bilgewater.",
+  rule: "Champions whose basic attacks are ranged.",
   answerSet: { missfortune: "minion", twistedfate: "kill" },
 };
 
@@ -36,7 +36,7 @@ const T0 = 1_700_000_000_000;
 /** A moment inside the answer window of a Prompt opened at T0. */
 const answering = T0 + 5_000 + 1_000;
 
-function attempt(guess: string, prompt = bilgewater, now = answering) {
+function attempt(guess: string, prompt = ranged, now = answering) {
   return submitAttempt({ prompt, entities, play: openPrompt(T0), guess, now }).result;
 }
 
@@ -80,7 +80,7 @@ describe("resolving a Guess", () => {
 describe("Tier → Points", () => {
   const ids = ["kaisa", "missfortune", "twistedfate", "teemo", "garen"] as const;
   const everyTier: PromptDefinition = {
-    ...bilgewater,
+    ...ranged,
     answerSet: {
       kaisa: "minion",
       missfortune: "too-clever",
@@ -102,7 +102,7 @@ describe("Tier → Points", () => {
   });
 
   it("the Gem (Pentakill) scores 100", () => {
-    const gem = { ...bilgewater, answerSet: { teemo: "pentakill" as const } };
+    const gem = { ...ranged, answerSet: { teemo: "pentakill" as const } };
     expect(attempt("Teemo", gem)).toMatchObject({ tier: "pentakill", points: 100 });
   });
 });
@@ -111,16 +111,16 @@ describe("window timing", () => {
   const opened = T0 + 5_000; // the answer window opens after the 5s read window
 
   it("rejects Attempts during the 5s read window", () => {
-    expect(attempt("MF", bilgewater, T0 + 4_999)).toMatchObject({ kind: "rejected", reason: "read-window" });
-    expect(attempt("MF", bilgewater, opened)).toMatchObject({ kind: "accepted" });
+    expect(attempt("MF", ranged, T0 + 4_999)).toMatchObject({ kind: "rejected", reason: "read-window" });
+    expect(attempt("MF", ranged, opened)).toMatchObject({ kind: "accepted" });
   });
 
   it("accepts Attempts up to 25s plus ~2s network grace after the answer window opens", () => {
-    expect(attempt("MF", bilgewater, opened + 25_000 + 1_999)).toMatchObject({ kind: "accepted" });
+    expect(attempt("MF", ranged, opened + 25_000 + 1_999)).toMatchObject({ kind: "accepted" });
   });
 
   it("rejects Attempts once the answer window and grace have closed", () => {
-    expect(attempt("MF", bilgewater, opened + 27_000)).toMatchObject({
+    expect(attempt("MF", ranged, opened + 27_000)).toMatchObject({
       kind: "rejected",
       reason: "window-closed",
     });
@@ -134,7 +134,7 @@ describe("window timing", () => {
   });
 
   it("reports an Accepted Prompt as accepted, even after its window closes", () => {
-    const { play } = submitAttempt({ prompt: bilgewater, entities, play: openPrompt(T0), guess: "TF", now: opened });
+    const { play } = submitAttempt({ prompt: ranged, entities, play: openPrompt(T0), guess: "TF", now: opened });
     expect(promptOutcome(play, opened + 60_000)).toMatchObject({
       status: "accepted",
       tier: "kill",
@@ -149,10 +149,10 @@ describe("window timing", () => {
 
 describe("Puzzle progress and the daily total", () => {
   const promptOpenedAt = (i: number) => T0 + i * 60_000;
-  const acceptedPlay = (i: number, guess: string, prompt = bilgewater) =>
+  const acceptedPlay = (i: number, guess: string, prompt = ranged) =>
     submitAttempt({ prompt, entities, play: openPrompt(promptOpenedAt(i)), guess, now: promptOpenedAt(i) + 6_000 })
       .play;
-  const gemPrompt: PromptDefinition = { ...bilgewater, answerSet: { teemo: "pentakill" } };
+  const gemPrompt: PromptDefinition = { ...ranged, answerSet: { teemo: "pentakill" } };
 
   it("starts at the first Prompt with nothing scored", () => {
     const progress = puzzleProgress(7, [], T0);
@@ -193,15 +193,15 @@ describe("Puzzle progress and the daily total", () => {
 describe("retries and locking", () => {
   it("lets the player retry after a Rejected Attempt, and locks on the first Accepted Guess", () => {
     let play = openPrompt(T0);
-    const first = submitAttempt({ prompt: bilgewater, entities, play, guess: "Garen", now: answering });
+    const first = submitAttempt({ prompt: ranged, entities, play, guess: "Garen", now: answering });
     expect(first.result.kind).toBe("rejected");
     play = first.play;
 
-    const second = submitAttempt({ prompt: bilgewater, entities, play, guess: "MF", now: answering + 1 });
+    const second = submitAttempt({ prompt: ranged, entities, play, guess: "MF", now: answering + 1 });
     expect(second.result).toMatchObject({ kind: "accepted", entityId: "missfortune" });
     play = second.play;
 
-    const third = submitAttempt({ prompt: bilgewater, entities, play, guess: "TF", now: answering + 2 });
+    const third = submitAttempt({ prompt: ranged, entities, play, guess: "TF", now: answering + 2 });
     expect(third.result).toMatchObject({ kind: "rejected", reason: "locked" });
     expect(third.play.accepted).toMatchObject({ entityId: "missfortune", points: 10 });
   });
@@ -258,7 +258,7 @@ describe("Did you mean", () => {
 
   it("confirming an offered suggestion submits that Entity as the Attempt", () => {
     const yes = (entityId: string) =>
-      confirmSuggestion({ prompt: bilgewater, entities, play: openPrompt(T0), entityId, offered: ["missfortune", "kassadin"], now: answering });
+      confirmSuggestion({ prompt: ranged, entities, play: openPrompt(T0), entityId, offered: ["missfortune", "kassadin"], now: answering });
     expect(yes("missfortune").result).toMatchObject({ kind: "accepted", entityId: "missfortune", points: 10 });
     expect(yes("missfortune").play.accepted).toMatchObject({ entityId: "missfortune" });
     expect(yes("kassadin").result).toEqual({ kind: "rejected", reason: "not-in-answer-set" });
@@ -266,7 +266,7 @@ describe("Did you mean", () => {
 
   it("rejects a confirmed Entity ID that wasn't among the offered candidates", () => {
     const out = confirmSuggestion({
-      prompt: bilgewater,
+      prompt: ranged,
       entities,
       play: openPrompt(T0),
       entityId: "twistedfate",
@@ -278,7 +278,7 @@ describe("Did you mean", () => {
 
   it("does not use up an Attempt or touch the Prompt's state", () => {
     const play = openPrompt(T0);
-    const out = submitAttempt({ prompt: bilgewater, entities, play, guess: "Kassadn", now: answering });
+    const out = submitAttempt({ prompt: ranged, entities, play, guess: "Kassadn", now: answering });
     expect(out.play).toEqual(play);
   });
 });

@@ -11,16 +11,6 @@ const template = (filter: TemplateDefinition["filter"], answerType: TemplateDefi
 });
 
 describe("Template filters", () => {
-  it("champions from Bandle City come from the overlay's region facts", () => {
-    const set = answerSetOf(template({ kind: "champion-region", region: "bandle-city" }, "champion"), fixtureInputs);
-    expect(set.sort()).toEqual(["champion:Lulu", "champion:Teemo", "champion:Tristana", "champion:Yuumi"]);
-  });
-
-  it("Yordles come from the overlay's Yordle facts, whatever their region", () => {
-    const set = answerSetOf(template({ kind: "champion-yordle" }, "champion"), fixtureInputs);
-    expect(set.sort()).toEqual(["champion:Gnar", "champion:Lulu", "champion:Teemo", "champion:Tristana"]);
-  });
-
   it("items that give Magic Resist are those with the stat", () => {
     const set = answerSetOf(template({ kind: "item-stat", stat: "FlatSpellBlockMod" }, "item"), fixtureInputs);
     expect(set.sort()).toEqual(["item:1057", "item:3065", "item:3111"]);

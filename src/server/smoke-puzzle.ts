@@ -22,7 +22,7 @@ const rule = "Smoke-test Prompt.";
 
 export const smokePuzzle: Puzzle = {
   prompts: [
-    { text: "Smoke 1: name a Yordle", answerType: "champion", rule, answerSet: { "smoke:teemo": "minion", "smoke:annie": "kill" } },
+    { text: "Smoke 1: name a ranged champion", answerType: "champion", rule, answerSet: { "smoke:teemo": "minion", "smoke:annie": "kill" } },
     { text: "Smoke 2: name a mage", answerType: "champion", rule, answerSet: { "smoke:ahri": "minion", "smoke:kassadin": "pentakill" } },
     { text: "Smoke 3: name a champion", answerType: "champion", rule, answerSet: { "smoke:garen": "minion", "smoke:lux": "kill" } },
     { text: "Smoke 4: name an item", answerType: "item", rule, answerSet: { "smoke:infinityedge": "triple-kill", "smoke:zhonyas": "minion" } },

@@ -15,7 +15,7 @@ A calendar date in Sydney time; each Puzzle Day has exactly one live Puzzle.
 _Avoid_: Day (unqualified), UTC date
 
 **Prompt**:
-One player-facing question within a Puzzle (e.g. "Name a Yordle"), with its Answer Type and Rule. Never used for instructions given to the AI.
+One player-facing question within a Puzzle (e.g. "Name a champion with a dash"), with its Answer Type and Rule. Never used for instructions given to the AI.
 _Avoid_: Question, category, clue
 
 **Template**:

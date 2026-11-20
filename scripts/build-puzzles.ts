@@ -13,7 +13,6 @@
  *
  * Reads (optional inputs may be absent):
  *   src/content/game-data/snapshot.json                the data snapshot (its patch is the data version)
- *   src/content/overlay/champions.json                 champion meta overlay (npm run data:overlay)
  *   src/content/templates/templates.json               Template definitions
  *   src/content/labels/approved.json                   approved mechanics labels (#9)
  *   src/content/familiarity/<snapshot patch>.json      Familiarity (#11); without it, Typicality only
@@ -25,7 +24,8 @@
  *
  * Writes src/content/puzzles/<YYYY-MM-DD>.json (server-only: they hold Answer Sets) and regenerates
  * src/content/puzzles/index.ts, the manifest the app's PuzzleSource imports. Existing dated Puzzles
- * are kept (a live Puzzle must not change) and count toward the no-repeat rule.
+ * are kept (a live Puzzle must not change) and count toward the no-repeat rule. Each Prompt carries
+ * its provenance (the inputs that produced its Tiers); `npm run puzzles:explain -- <date>` prints it.
  */
 import { existsSync } from "node:fs";
 import { readdir, readFile, writeFile } from "node:fs/promises";
@@ -33,7 +33,6 @@ import { fileURLToPath } from "node:url";
 import {
   buildPrompt,
   generatePuzzles,
-  type ChampionMetaOverlay,
   type FamiliarityData,
   type GeneratedPuzzle,
   type TemplateDefinition,
@@ -103,7 +102,6 @@ async function main() {
   const allTemplates = await readJson<TemplateDefinition[]>(content("templates/templates.json"));
   const inputs = {
     snapshot,
-    overlay: await readJson<ChampionMetaOverlay>(content("overlay/champions.json")),
     templates: puzzleTemplates(allTemplates, reviews, { includeUnreviewed }),
     labels: approvedLabels,
     familiarity,

@@ -1,34 +1,28 @@
 import { describe, expect, it } from "vitest";
 import { entityRegistry } from "@/content/game-data";
 import { gameDataSnapshot } from "@/content/game-data/snapshot-data";
-import overlayJson from "@/content/overlay/champions.json";
 import templatesJson from "@/content/templates/templates.json";
 import { approvedLabels } from "@/content/labels";
 import { mechanicsTerm } from "@/labels";
-import { answerSetOf, type BuilderInputs, type ChampionMetaOverlay, type TemplateDefinition } from "./index";
+import { addDays } from "@/engine";
+import {
+  answerSetOf,
+  buildPrompt,
+  generatePuzzles,
+  GENERATOR_DEFAULTS,
+  PROMPTS_PER_PUZZLE,
+  type BuilderInputs,
+  type TemplateDefinition,
+} from "./index";
 
-/** The committed content: real snapshot, overlay and Templates. */
-const overlay = overlayJson as ChampionMetaOverlay;
+/** The committed content: real snapshot and Templates. */
 const templates = templatesJson as TemplateDefinition[];
-const inputs: BuilderInputs = { snapshot: gameDataSnapshot, overlay };
+const inputs: BuilderInputs = { snapshot: gameDataSnapshot };
 const template = (id: string) => templates.find((t) => t.id === id)!;
 const names = (ids: string[]) => {
   const byId = new Map(entityRegistry.map((e) => [e.id, e.name]));
   return ids.map((id) => byId.get(id));
 };
-
-describe("champion meta overlay", () => {
-  it("covers region and Yordle for every champion, each fact with a source and patch", () => {
-    for (const champion of gameDataSnapshot.champions) {
-      const meta = overlay.champions[champion.id];
-      expect(meta, champion.id).toBeDefined();
-      for (const fact of [meta.region, meta.yordle]) {
-        expect(fact.source, champion.id).toMatch(/^https:\/\//);
-        expect(fact.patch, champion.id).toMatch(/^\d+\.\d+$/);
-      }
-    }
-  });
-});
 
 describe("Templates on the committed data", () => {
   it("are unique and well-formed", () => {
@@ -48,30 +42,15 @@ describe("Templates on the committed data", () => {
     expect(invisible).toContain("champion:Kaisa");
   });
 
-  it("champions from Bandle City", () => {
-    expect(names(answerSetOf(template("champions-region-bandle-city"), inputs)).sort()).toEqual([
-      "Corki",
-      "Lulu",
-      "Rumble",
-      "Teemo",
-      "Tristana",
-      "Veigar",
-      "Yuumi",
-    ]);
-  });
-
-  it("Yordles include Gnar and Kled but not Yuumi", () => {
-    const yordles = names(answerSetOf(template("champions-yordle"), inputs));
-    expect(yordles).toContain("Gnar");
-    expect(yordles).toContain("Kled");
-    expect(yordles).not.toContain("Yuumi");
-    expect(yordles).toHaveLength(14);
-  });
-
   it("items that give Magic Resist", () => {
     const items = names(answerSetOf(template("items-magic-resist"), inputs));
     expect(items).toEqual(expect.arrayContaining(["Negatron Cloak", "Mercury's Treads", "Spirit Visage", "Kaenic Rookern"]));
     expect(items).not.toContain("Long Sword");
+  });
+
+  it("only gameplay Templates: kit labels, name length, item stats and skin names", () => {
+    const kinds = new Set(templates.map((t) => t.filter.kind));
+    expect([...kinds].sort()).toEqual(["champion-label", "champion-name-length", "item-stat", "skin-name-word"]);
   });
 
   it('"Dragon" skins include Dragonslayer Xin Zhao, Dragonblade Talon and Obsidian Dragon Sett', () => {
@@ -79,5 +58,41 @@ describe("Templates on the committed data", () => {
     expect(skins).toEqual(
       expect.arrayContaining(["Dragonslayer Xin Zhao", "Dragonblade Talon", "Obsidian Dragon Sett"]),
     );
+  });
+});
+
+describe("generator on the committed Templates", () => {
+  // Every Template with default reviews and the approved labels: what `puzzles:build --include-unreviewed` uses.
+  // Only 22 gameplay Templates remain and few kit labels are approved yet, so the default 3-day no-repeat
+  // window (28 distinct Templates) can't be filled; 2 days (21) can. Every other constraint is the default.
+  const NO_REPEAT_DAYS = 2;
+  const prompts = templates.map((t) => buildPrompt(t, { ...inputs, labels: approvedLabels }));
+  const days = Array.from({ length: 28 }, (_, i) => addDays("2027-01-01", i));
+
+  it("fills four weeks of Puzzles: Answer Set sizes, rare answers and Answer Type mix", () => {
+    const puzzles = generatePuzzles({
+      dates: days,
+      prompts,
+      firstPuzzleDay: "2027-01-01",
+      dataVersion: "test",
+      noRepeatDays: NO_REPEAT_DAYS,
+    });
+    expect(puzzles.map((p) => p.puzzleDay)).toEqual(days);
+    for (const puzzle of puzzles) {
+      expect(puzzle.prompts, puzzle.puzzleDay).toHaveLength(PROMPTS_PER_PUZZLE);
+      const perType = new Map<string, number>();
+      for (const p of puzzle.prompts) {
+        perType.set(p.answerType, (perType.get(p.answerType) ?? 0) + 1);
+        const size = Object.keys(p.answerSet).length;
+        expect(size, p.templateId).toBeGreaterThanOrEqual(GENERATOR_DEFAULTS.minAnswers);
+        expect(size, p.templateId).toBeLessThanOrEqual(GENERATOR_DEFAULTS.maxAnswers);
+        const rare = Object.values(p.answerSet).filter((t) => ["triple-kill", "quadra-kill", "pentakill"].includes(t));
+        expect(rare.length, p.templateId).toBeGreaterThanOrEqual(GENERATOR_DEFAULTS.minRareAnswers);
+      }
+      for (const [type, count] of perType) {
+        expect(count, `${puzzle.puzzleDay} ${type}`).toBeLessThanOrEqual(GENERATOR_DEFAULTS.maxPerAnswerType);
+      }
+      expect(perType.size, puzzle.puzzleDay).toBeGreaterThan(1);
+    }
   });
 });

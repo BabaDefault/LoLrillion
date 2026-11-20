@@ -1,5 +1,5 @@
 import type { GameDataSnapshot, SnapshotChampion, SnapshotItem, SnapshotSkin } from "@/content/game-data/snapshot";
-import type { BuilderInputs, ChampionMeta } from "./types";
+import type { BuilderInputs } from "./types";
 
 /** Small hand-made game data for Builder tests. */
 
@@ -65,22 +65,4 @@ export const fixtureSnapshot: GameDataSnapshot = {
   universes: [],
 };
 
-const fact = <T>(value: T) => ({ value, source: "https://example.test/source", patch: "99.1" });
-const meta = (region: string, yordle: boolean): ChampionMeta => ({ region: fact(region), yordle: fact(yordle) });
-
-export const fixtureInputs: BuilderInputs = {
-  snapshot: fixtureSnapshot,
-  overlay: {
-    champions: {
-      Teemo: meta("bandle-city", true),
-      Tristana: meta("bandle-city", true),
-      Lulu: meta("bandle-city", true),
-      Yuumi: meta("bandle-city", false),
-      Garen: meta("demacia", false),
-      Gnar: meta("freljord", true),
-      Vi: meta("piltover", false),
-      Kaisa: meta("void", false),
-      Zed: meta("ionia", false),
-    },
-  },
-};
+export const fixtureInputs: BuilderInputs = { snapshot: fixtureSnapshot };

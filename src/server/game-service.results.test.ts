@@ -16,9 +16,9 @@ const entities: Entity[] = [
 ];
 
 const prompt = (i: number): PromptDefinition => ({
-  text: `Name a Yordle ${i + 1}`,
+  text: `Name a champion with a dash ${i + 1}`,
   answerType: "champion",
-  rule: "Yordles.",
+  rule: "Dashes.",
   answerSet: { teemo: "minion", tristana: "kill", amumu: "pentakill" },
 });
 
@@ -70,7 +70,7 @@ describe("end-of-day results", () => {
     // 100 + 10 + 0 + 30 + 100 + 10 + 100
     expect(results).toMatchObject({ puzzleNumber: 4, total: 350, maxTotal: 700, dayTitle: "Gold" });
     expect(results.prompts).toHaveLength(7);
-    expect(results.prompts[0].text).toBe("Name a Yordle 1");
+    expect(results.prompts[0].text).toBe("Name a champion with a dash 1");
     expect(results.prompts[0].result).toEqual({
       status: "accepted",
       entityId: "amumu",

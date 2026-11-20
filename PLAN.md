@@ -45,8 +45,8 @@ Note: the "article" cited below for the failure-type table is a **third-party an
 ## Rarity scoring (curated Tiers from real data, like Krillion)
 Why: The Daily Rift scored purely on how many players gave each answer, and it broke down. With about
 30 players most answers were unique, so scores bunched at 60 or 85 and "first bloods" were everywhere.
-Players also skipped the obvious answers, so obvious answers ended up scoring as rare (the Arcane cast
-for Piltover/Zaun, Darius and Garen rarer than Kled). Krillion itself never scores from live player counts:
+Players also skipped the obvious answers, so obvious answers ended up scoring as rare (Thresh and Blitzcrank
+for pulls rarer than Skarner). Krillion itself never scores from live player counts:
 it uses fixed Tiers set from a familiarity database plus LLM assistance and a manual pass. LoLrillion does the same.
 
 **1. Prior = how likely a player is to name this Entity for this Prompt** (not how much it's played):
@@ -56,8 +56,8 @@ it uses fixed Tiers set from a familiarity database plus LLM assistance and a ma
   - Items: build rate in the sampled matches (items have no mastery equivalent).
   - Skins: the champion's Familiarity, adjusted by Typicality (below), since there's no skin usage data.
   - Esports players/teams: pro games played / appearances, from Leaguepedia.
-- **Typicality** (per Entity *per Prompt*): how readily it comes to mind for that specific Prompt (Jinx/Vi for
-  Piltover because of Arcane). Estimated by `/review-template` (Claude Code simulates ~100 players answering
+- **Typicality** (per Entity *per Prompt*): how readily it comes to mind for that specific Prompt (Blitzcrank and
+  Thresh for "pull" because their hooks define them). Estimated by `/review-template` (Claude Code simulates ~100 players answering
   and gives a recall estimate per Entity), then **approved by you** in the review queue.
 - Prior = a weighted blend of the two, normalized over the Answer Set. Current-patch pick rate is only a tiebreaker.
 
@@ -74,7 +74,7 @@ it uses fixed Tiers set from a familiarity database plus LLM assistance and a ma
 | 0 | Miss | ⬛ | Timed out with no accepted Guess |
 
 - The trap Tier directly fixes the Daily Rift problem: answers that seem obscure but everyone types
-  ("Kled" for Yordles) score barely above the obvious ones.
+  ("Bramble Vest" for Armor items) score barely above the obvious ones.
 - **No crowd nudge.** Player answers never change Tiers automatically. Live counts only drive Answer Share
   ("N players chose this"), the percentile and the score curve, plus a stats report you can use to re-tier a
   Template by hand.
@@ -83,7 +83,7 @@ it uses fixed Tiers set from a familiarity database plus LLM assistance and a ma
 
 ## Data sources
 - **Riot Data Dragon** (free static JSON, versioned per patch): champions (tags, partype, release via
-  `info`/lore fields), abilities, items (stats, tags), skins. Also **Community Dragon** for richer fields
+  `info` fields), abilities, items (stats, tags), skins. Also **Community Dragon** for richer fields
   (skin lines, item history).
 - **Esports: Leaguepedia** (lol.fandom.com Cargo API): players, teams, tournament winners.
   Snapshot into local JSON; esports prompts are hand-curated templates against the snapshot.
@@ -93,12 +93,12 @@ it uses fixed Tiers set from a familiarity database plus LLM assistance and a ma
   Needs a Riot API key. Development keys
   expire every 24h, so apply for a **personal API key** (free; approval is for non-commercial projects).
   Stay within the rate limits by refreshing once per patch, not live.
-- Some attributes aren't in Data Dragon (region, release year, "has a dash", Yordle, global ult) —
-  keep a small hand-maintained `champion-meta.json` overlay.
+- Some attributes aren't in Data Dragon ("has a dash", global ult, stuns) —
+  they come from approved mechanics labels (`/tag-patch`), each quoting the ability text.
 - Snapshot data per puzzle (store the data version with the puzzle) so mid-day patches can't change answers.
 
 ## Puzzle generation
-- Prompt *templates* = filter functions over the data snapshot, e.g. `champions where region=Bandle City`,
+- Prompt *templates* = filter functions over the data snapshot, e.g. `champions labelled dash`,
   `items with tag=SpellBlock`, `skins in line=Star Guardian`, `Worlds-winning players from LCK`.
 - Generator picks 7 templates/day with constraints: answer-set size in a good range (≈8–80),
   category mix (**at most 1 esports prompt per day**; many players don't follow pro play),
@@ -119,7 +119,7 @@ and could judge the same answer differently on different calls.
   their in-game-name history.
 
 **2. Every fact has a source**
-- Every hand-maintained fact (region, "has a dash", Yordle, Worlds winner, ...) stores a `source`
+- Every hand-maintained fact ("has a dash", Worlds winner, ...) stores a `source`
   link (official wiki or Leaguepedia page) and the `patch` it was checked on.
 - Every prompt has a written **rule** shown to players (e.g. *"Dash = any self-movement ability
   that isn't a blink or teleport"*), so categories that could be argued either way are settled up front.
@@ -268,7 +268,7 @@ never runs while people are playing. Every output is a *suggestion with evidence
 
 ## Build phases
 **v1 (lean: get friends playing)**
-1. **Data**: fetch + snapshot Data Dragon, champion-meta overlay, alias table; Riot API key +
+1. **Data**: fetch + snapshot Data Dragon, alias table; Riot API key +
    sampling script → Familiarity.
 2. **Generator + accuracy**: 20–30 hand-approved Templates, data-built Answer Sets, daily selection +
    validation; entity registry + aliases; keyword pre-labelling, `/tag-patch` and `/review-template`,

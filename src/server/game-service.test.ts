@@ -14,9 +14,9 @@ const entities: Entity[] = [
 const puzzle: Puzzle = {
   prompts: [
     {
-      text: "Name a champion from Bilgewater",
+      text: "Name a ranged champion",
       answerType: "champion",
-      rule: "Champions whose official home region is Bilgewater.",
+      rule: "Champions whose basic attacks are ranged.",
       answerSet: { missfortune: "minion", twistedfate: "kill" },
     },
   ],
