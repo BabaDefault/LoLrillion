@@ -9,7 +9,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "data:fetch": "tsx scripts/fetch-game-data.ts",
-    "data:registry": "tsx scripts/fetch-game-data.ts --registry-only"
+    "data:registry": "tsx scripts/fetch-game-data.ts --registry-only",
+    "data:overlay": "tsx scripts/fetch-champion-meta.ts",
+    "puzzles:build": "tsx scripts/build-puzzles.ts"
   },
   "dependencies": {
     "next": "^16.4.6",
