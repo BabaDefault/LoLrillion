@@ -11,7 +11,7 @@ export interface DatedPuzzleSourceOptions {
 }
 
 /** Serves the Puzzle dated today in Sydney time. No scheduled job: the date alone picks it. */
-export function createDatedPuzzleSource({ puzzles, entities, fallback }: DatedPuzzleSourceOptions): PuzzleSource {
+export function createDatedPuzzleSource({ puzzles, entities, fallback }: DatedPuzzleSourceOptions): Required<PuzzleSource> {
   function daily(puzzleDay: string): DailyPuzzle | null {
     const dated = Object.hasOwn(puzzles, puzzleDay) ? puzzles[puzzleDay] : undefined;
     if (!dated) return null;
