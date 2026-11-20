@@ -79,4 +79,49 @@ describe("archive play", () => {
     // Today's run is untouched by the archive run.
     expect(await game.getState("archivist")).toMatchObject({ puzzleDay: "2026-11-22", archive: false, finished: false });
   });
+
+  it("never counts toward that day's Answer Share or player totals", async () => {
+    const { clock, game, playAll } = setup(NOV_21_NOON);
+    // On the 21st, one player plays it live: Teemo twice (10 + 10).
+    await playAll("live", "Teemo");
+    // A day later, someone plays the 21st from the archive: Amumu twice (100 + 100).
+    clock.set(NOV_22_NOON);
+    await playAll("archivist", "Amumu", "2026-11-21");
+
+    const live = await game.getResults("live", "2026-11-21");
+    if (!live.ok) throw new Error("expected results");
+    expect(live.results.playerCount).toBe(1);
+    expect(live.results.percentile).toBe(0);
+    const amumu = live.results.prompts[0].answerSet.find((e) => e.entityId === "amumu");
+    expect(amumu).toMatchObject({ count: 0, share: 0 });
+
+    // The archive player is compared against the day's counted players, but not added to them.
+    const archived = await game.getResults("archivist", "2026-11-21");
+    if (!archived.ok) throw new Error("expected results");
+    expect(archived.results).toMatchObject({ archive: true, total: 200, playerCount: 1, percentile: 100 });
+    expect(archived.results.prompts[0].answerSet.find((e) => e.entityId === "teemo")).toMatchObject({
+      count: 1,
+      share: 1,
+    });
+    expect(archived.results.prompts[0].answerSet.find((e) => e.entityId === "amumu")).toMatchObject({ count: 0 });
+  });
+
+  it("refuses today, a future day, and a day with no Puzzle", async () => {
+    const { game } = setup();
+    for (const day of ["2026-11-22", "2026-11-23", "2026-11-19", "not-a-day"]) {
+      await expect(game.getState("archivist", day)).rejects.toBeInstanceOf(ArchiveUnavailableError);
+      await expect(game.startPrompt("archivist", day)).rejects.toBeInstanceOf(ArchiveUnavailableError);
+    }
+  });
+
+  it("shows a day the player already finished live instead of replaying it", async () => {
+    const { clock, game, playAll } = setup(NOV_21_NOON);
+    await playAll("regular", "Tristana");
+    clock.set(NOV_22_NOON);
+
+    const state = await game.getState("regular", "2026-11-21");
+    expect(state).toMatchObject({ archive: false, finished: true, total: 60 });
+    const results = await game.getResults("regular", "2026-11-21");
+    expect(results).toMatchObject({ ok: true, results: { archive: false, total: 60 } });
+  });
 });
