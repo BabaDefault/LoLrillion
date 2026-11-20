@@ -1,107 +1,21 @@
-import type { Entity, Puzzle, Tier } from "@/engine";
+import type { Entity, EntityId, Puzzle, Tier } from "@/engine";
+import { championEntityId, entityRegistry, itemEntityId } from "./game-data";
 
 /**
- * A hand-written sample Puzzle for the tracer slice. Real Entities, Aliases and Answer Sets
- * come later from the data pipeline and Puzzle Builder; Tiers here are illustrative only.
+ * A hand-written sample Puzzle over the real Entity registry. Answer Sets will come from the
+ * Puzzle Builder later; Tiers here are illustrative only.
  */
 
-const champ = (id: string, name: string, aliases: string[] = []): Entity => ({
-  id,
-  name,
-  answerType: "champion",
-  aliases,
-});
-const item = (id: string, name: string, aliases: string[] = []): Entity => ({
-  id,
-  name,
-  answerType: "item",
-  aliases,
-});
+export const sampleEntities: readonly Entity[] = entityRegistry;
 
-export const sampleEntities: readonly Entity[] = [
-  // Champions
-  champ("Akali", "Akali"),
-  champ("Amumu", "Amumu"),
-  champ("AurelionSol", "Aurelion Sol", ["Asol"]),
-  champ("Belveth", "Bel'Veth"),
-  champ("Chogath", "Cho'Gath", ["Cho"]),
-  champ("Corki", "Corki"),
-  champ("DrMundo", "Dr. Mundo", ["Mundo"]),
-  champ("Evelynn", "Evelynn", ["Eve"]),
-  champ("Fiora", "Fiora"),
-  champ("Fizz", "Fizz"),
-  champ("Galio", "Galio"),
-  champ("Gangplank", "Gangplank", ["GP"]),
-  champ("Garen", "Garen"),
-  champ("Gnar", "Gnar"),
-  champ("Graves", "Graves"),
-  champ("Heimerdinger", "Heimerdinger", ["Heimer", "Donger"]),
-  champ("Illaoi", "Illaoi"),
-  champ("Jax", "Jax"),
-  champ("JarvanIV", "Jarvan IV", ["J4", "Jarvan"]),
-  champ("Kaisa", "Kai'Sa"),
-  champ("Kassadin", "Kassadin", ["Kass"]),
-  champ("Kayle", "Kayle"),
-  champ("Kennen", "Kennen"),
-  champ("Khazix", "Kha'Zix", ["Khazix"]),
-  champ("Kled", "Kled"),
-  champ("KogMaw", "Kog'Maw", ["Kog"]),
-  champ("Lucian", "Lucian"),
-  champ("Lulu", "Lulu"),
-  champ("Lux", "Lux"),
-  champ("Malzahar", "Malzahar", ["Malz"]),
-  champ("MissFortune", "Miss Fortune", ["MF"]),
-  champ("MonkeyKing", "Wukong", ["MonkeyKing", "Monkey King"]),
-  champ("Morgana", "Morgana", ["Morg"]),
-  champ("Nautilus", "Nautilus", ["Naut"]),
-  champ("Nilah", "Nilah"),
-  champ("Nunu", "Nunu & Willump", ["Nunu"]),
-  champ("Poppy", "Poppy"),
-  champ("Pyke", "Pyke"),
-  champ("Quinn", "Quinn"),
-  champ("RekSai", "Rek'Sai"),
-  champ("Rengar", "Rengar"),
-  champ("Rumble", "Rumble"),
-  champ("Shaco", "Shaco"),
-  champ("Shyvana", "Shyvana", ["Shyv"]),
-  champ("Sona", "Sona"),
-  champ("Sylas", "Sylas"),
-  champ("TahmKench", "Tahm Kench", ["Tahm"]),
-  champ("Talon", "Talon"),
-  champ("Teemo", "Teemo"),
-  champ("Tristana", "Tristana", ["Trist"]),
-  champ("TwistedFate", "Twisted Fate", ["TF"]),
-  champ("Twitch", "Twitch"),
-  champ("Vayne", "Vayne"),
-  champ("Veigar", "Veigar"),
-  champ("Velkoz", "Vel'Koz", ["Velkoz"]),
-  champ("Vex", "Vex"),
-  champ("Vi", "Vi"),
-  champ("XinZhao", "Xin Zhao", ["Xin"]),
-  champ("Yuumi", "Yuumi"),
-  champ("Zac", "Zac"),
-  champ("Zed", "Zed"),
-  champ("Ziggs", "Ziggs"),
-  // Items
-  item("AbyssalMask", "Abyssal Mask"),
-  item("BansheesVeil", "Banshee's Veil", ["Banshee"]),
-  item("ForceOfNature", "Force of Nature", ["FoN"]),
-  item("HollowRadiance", "Hollow Radiance"),
-  item("KaenicRookern", "Kaenic Rookern"),
-  item("MawOfMalmortius", "Maw of Malmortius", ["Maw"]),
-  item("MercurysTreads", "Mercury's Treads", ["Mercs", "Merc Treads"]),
-  item("MikaelsBlessing", "Mikael's Blessing", ["Mikaels"]),
-  item("NegatronCloak", "Negatron Cloak"),
-  item("NullMagicMantle", "Null-Magic Mantle"),
-  item("SpiritVisage", "Spirit Visage"),
-  item("WitsEnd", "Wit's End"),
-  item("InfinityEdge", "Infinity Edge", ["IE"]),
-  item("Rabadons", "Rabadon's Deathcap", ["Deathcap", "Rabadons"]),
-  item("BlackCleaver", "Black Cleaver"),
-  item("Sunfire", "Sunfire Aegis", ["Sunfire"]),
-];
+/** Champion Answer Set keyed by Data Dragon champion id, e.g. `MonkeyKing`. */
+const champions = (entries: Record<string, Tier>) => keyed(entries, championEntityId);
+/** Item Answer Set keyed by Riot item id, e.g. `3111`. */
+const items = (entries: Record<string, Tier>) => keyed(entries, itemEntityId);
 
-const set = (entries: Record<string, Tier>) => entries;
+function keyed(entries: Record<string, Tier>, toId: (key: string) => EntityId): Record<EntityId, Tier> {
+  return Object.fromEntries(Object.entries(entries).map(([key, tier]) => [toId(key), tier]));
+}
 
 export const samplePuzzle: Puzzle = {
   prompts: [
@@ -109,7 +23,7 @@ export const samplePuzzle: Puzzle = {
       text: "Name a Yordle",
       answerType: "champion",
       rule: "Champions officially described as Yordles in their current lore.",
-      answerSet: set({
+      answerSet: champions({
         Teemo: "minion",
         Tristana: "minion",
         Lulu: "kill",
@@ -131,7 +45,7 @@ export const samplePuzzle: Puzzle = {
       text: "Name a champion from Bilgewater",
       answerType: "champion",
       rule: "Champions whose official home region is Bilgewater.",
-      answerSet: set({
+      answerSet: champions({
         MissFortune: "minion",
         Gangplank: "minion",
         TwistedFate: "kill",
@@ -148,7 +62,7 @@ export const samplePuzzle: Puzzle = {
       text: "Name a champion who can become invisible",
       answerType: "champion",
       rule: "Their own base kit grants invisibility or camouflage. Stolen abilities don't count.",
-      answerSet: set({
+      answerSet: champions({
         Twitch: "minion",
         Evelynn: "minion",
         Shaco: "kill",
@@ -167,26 +81,26 @@ export const samplePuzzle: Puzzle = {
       text: "Name an item that gives Magic Resist",
       answerType: "item",
       rule: "Items currently in the shop whose stats include Magic Resist.",
-      answerSet: set({
-        MercurysTreads: "minion",
-        NegatronCloak: "minion",
-        SpiritVisage: "kill",
-        ForceOfNature: "kill",
-        MawOfMalmortius: "kill",
-        WitsEnd: "triple-kill",
-        BansheesVeil: "triple-kill",
-        NullMagicMantle: "too-clever",
-        KaenicRookern: "quadra-kill",
-        HollowRadiance: "quadra-kill",
-        AbyssalMask: "quadra-kill",
-        MikaelsBlessing: "pentakill",
+      answerSet: items({
+        "3111": "minion", // Mercury's Treads
+        "1057": "minion", // Negatron Cloak
+        "3065": "kill", // Spirit Visage
+        "4401": "kill", // Force of Nature
+        "3156": "kill", // Maw of Malmortius
+        "3091": "triple-kill", // Wit's End
+        "3102": "triple-kill", // Banshee's Veil
+        "1033": "too-clever", // Null-Magic Mantle
+        "2504": "quadra-kill", // Kaenic Rookern
+        "6664": "quadra-kill", // Hollow Radiance
+        "8020": "quadra-kill", // Abyssal Mask
+        "3222": "pentakill", // Mikael's Blessing
       }),
     },
     {
       text: "Name a champion from the Void",
       answerType: "champion",
       rule: "Champions who are Void creatures or Void-born.",
-      answerSet: set({
+      answerSet: champions({
         Khazix: "minion",
         Chogath: "minion",
         Velkoz: "kill",
@@ -202,7 +116,7 @@ export const samplePuzzle: Puzzle = {
       text: "Name a champion whose name is three letters or fewer",
       answerType: "champion",
       rule: "Count letters in the champion's official name.",
-      answerSet: set({
+      answerSet: champions({
         Vi: "minion",
         Lux: "minion",
         Zed: "kill",
@@ -215,7 +129,7 @@ export const samplePuzzle: Puzzle = {
       text: "Name a champion from Demacia",
       answerType: "champion",
       rule: "Champions whose official home region is Demacia.",
-      answerSet: set({
+      answerSet: champions({
         Garen: "minion",
         Lux: "minion",
         JarvanIV: "kill",
