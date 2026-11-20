@@ -1,5 +1,8 @@
 import type { ApprovedReview, ReviewProposal } from "./types";
 
+/** The most typical an approved Gem may be: the top of the 0.05-0.25 range `/review-template` prefers. */
+export const GEM_MAX_TYPICALITY = 0.25;
+
 /**
  * Draft an approved review from a proposal: the estimated Typicality values, every Too Clever
  * candidate, the first Gem candidate, and the reviewed Answer Set (sorted). The maintainer edits
@@ -36,5 +39,32 @@ export function checkApprovedReview(review: ApprovedReview): string[] {
   if (!review.gem) problems.push("No Gem");
   else if (!inSet.has(review.gem)) problems.push(`Gem ${review.gem} is not in the approved Answer Set`);
   else if (tooClever.has(review.gem)) problems.push(`Gem ${review.gem} is also Too Clever`);
+  else problems.push(...gemObscurityProblems(review, tooClever));
   return problems;
+}
+
+/** Why the Gem is not obscure enough, judged from its approved Typicality (Familiarity may not exist). */
+function gemObscurityProblems(review: ApprovedReview, tooClever: Set<string>): string[] {
+  const gem = review.gem;
+  const typicality = review.typicality ?? {};
+  const value = typicality[gem];
+  if (typeof value !== "number") return [`Gem ${gem} has no Typicality, so its obscurity can't be checked`];
+  if (value > GEM_MAX_TYPICALITY) {
+    return [`Gem ${gem} has Typicality ${value}, above ${GEM_MAX_TYPICALITY}: pick a rarer answer`];
+  }
+  // Rank the approved Answer Set by Typicality, Too Clever picks left out. Ties go in the Gem's favour.
+  const ranked = Object.entries(typicality).filter(([id]) => id !== gem && !tooClever.has(id) && review.answerSet.includes(id));
+  const likelier = ranked.filter(([, t]) => t >= value).length;
+  const count = ranked.length + 1;
+  if (likelier < Math.floor(count / 2)) {
+    return [
+      `Gem ${gem} is ${ordinal(likelier + 1)} of ${count} by Typicality, in the likeliest half of the Answer Set (Too Clever left out): pick a rarer answer`,
+    ];
+  }
+  return [];
+}
+
+function ordinal(n: number): string {
+  const suffix = n % 100 >= 11 && n % 100 <= 13 ? "th" : (["th", "st", "nd", "rd"][n % 10] ?? "th");
+  return `${n}${suffix}`;
 }
