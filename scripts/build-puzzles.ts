@@ -1,10 +1,15 @@
 /**
  * Maintainer script: build Answer Sets from the committed content and pre-generate dated Puzzles.
  *
- *   npm run puzzles:build                              next 14 Puzzle Days from today (Sydney)
+ *   npm run puzzles:build                              next 14 Puzzle Days from today (Sydney), from
+ *                                                       approved Templates only
  *   npm run puzzles:build -- --from 2026-12-01 --days 7
  *   npm run puzzles:build -- --force                   regenerate dates that already have a Puzzle
  *   npm run puzzles:build -- --report                  only print each Template's Answer Set size and Tiers
+ *   npm run puzzles:build -- --include-unreviewed      also use Templates with no approved review (defaults)
+ *
+ * By default only Templates with an approved review (src/content/reviews/approved/) are eligible for
+ * new Puzzles. `--include-unreviewed` opts in to every Template, as before reviews existed.
  *
  * Reads (optional inputs may be absent):
  *   src/content/game-data/snapshot.json                the data snapshot (its patch is the data version)
@@ -13,7 +18,8 @@
  *   src/content/labels/approved.json                   approved mechanics labels (#9)
  *   src/content/familiarity/<snapshot patch>.json      Familiarity (#11); without it, Typicality only
  *   src/content/reviews/approved/<templateId>.json     approved Template reviews (#10): Typicality,
- *                                                       Too Clever, Gem; without one, defaults.
+ *                                                       Too Clever, Gem. A Template without one is
+ *                                                       only used with --include-unreviewed (defaults).
  *                                                       proposals/ is never read.
  *   src/content/puzzles/overrides.json                 { "<YYYY-MM-DD>": [seven Template ids] }
  *
@@ -34,6 +40,7 @@ import {
 } from "../src/builder";
 import type { GameDataSnapshot } from "../src/content/game-data/snapshot";
 import { readApprovedReviews } from "../src/reviews/files";
+import { puzzleTemplates } from "../src/reviews";
 import { approvedLabels } from "../src/content/labels";
 import { FIRST_PUZZLE_DAY } from "../src/content/puzzles/config";
 import { addDays, puzzleDayOf } from "../src/engine";
@@ -92,17 +99,21 @@ async function main() {
   const familiarity = await readOptionalJson<FamiliarityData>(content(`familiarity/${snapshot.patch}.json`));
   // Only approved reviews: proposals never reach a Puzzle. Throws on an inconsistent approval.
   const reviews = await readApprovedReviews(content("reviews"));
+  const includeUnreviewed = process.argv.includes("--include-unreviewed");
+  const allTemplates = await readJson<TemplateDefinition[]>(content("templates/templates.json"));
   const inputs = {
     snapshot,
     overlay: await readJson<ChampionMetaOverlay>(content("overlay/champions.json")),
-    templates: await readJson<TemplateDefinition[]>(content("templates/templates.json")),
+    templates: puzzleTemplates(allTemplates, reviews, { includeUnreviewed }),
     labels: approvedLabels,
     familiarity,
     reviews,
   };
   console.log(
     `Data ${snapshot.patch}; Familiarity: ${familiarity ? "yes" : "none (Typicality only)"}; ` +
-      `reviews: ${Object.keys(reviews).length}; labels: ${approvedLabels.length}`,
+      `reviews: ${Object.keys(reviews).length}; labels: ${approvedLabels.length}; ` +
+      `Templates: ${inputs.templates.length} of ${allTemplates.length}` +
+      (includeUnreviewed ? " (including unreviewed)" : " approved (--include-unreviewed for all)"),
   );
 
   const prompts = inputs.templates.map((t) => buildPrompt(t, inputs));

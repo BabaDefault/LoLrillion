@@ -86,4 +86,20 @@ Run `/review-template <templateId>` in Claude Code: it proposes missing/disputab
 a fun check, Typicality per Entity, Too Clever and Gem candidates into `src/content/reviews/proposals/`. Only
 `src/content/reviews/approved/` reaches Puzzles. Formats and workflow: `src/content/reviews/README.md`.
 
+## Dated Puzzles
+
+```sh
+npm run puzzles:build                             # next 14 Puzzle Days, from approved Templates only
+npm run puzzles:build -- --from 2026-12-01 --days 7
+npm run puzzles:build -- --report                 # Answer Set size and Tiers per eligible Template
+npm run puzzles:build -- --include-unreviewed     # opt in: also use Templates with no approved review
+```
+
+By default only Templates with an approved review file in `src/content/reviews/approved/` are eligible, so
+until at least seven are approved (within the generator's per-Answer-Type limits) a build of new days fails
+with a "not enough Prompts" error. `--include-unreviewed` restores the old behaviour of drawing from every
+Template (unreviewed ones use the Builder's defaults).
+Already-generated dated Puzzles in `src/content/puzzles/` are never rewritten (unless `--force`), so a live
+Puzzle never changes.
+
 Layout: `src/engine/` is the pure Game Engine, `src/server/` holds the game service, storage and Puzzle source, and `src/app/` holds the UI and API routes.

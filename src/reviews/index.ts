@@ -4,4 +4,5 @@ export * from "./types";
 export { reviewQueue } from "./queue";
 export { checkProposal, GEM_CANDIDATES } from "./proposal";
 export { approveProposal, checkApprovedReview } from "./approve";
+export { puzzleTemplates, type PuzzleTemplateOptions } from "./eligible";
 export { answerShareReport, type TemplateAnswerShare } from "./answer-share";
