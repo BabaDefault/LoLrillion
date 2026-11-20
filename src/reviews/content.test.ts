@@ -10,9 +10,7 @@ import type { ApprovedReview } from "./types";
  * `puzzles:build`; `it.fails` turns green-but-listed here into a test failure once the file is fixed,
  * so the entry gets removed.
  */
-const AWAITING_MAINTAINER: Record<string, string> = {
-  "items-magic-resist": "Gem item:3102 (Typicality 0.25) is in the likeliest half of the Answer Set (#18)",
-};
+const AWAITING_MAINTAINER: Record<string, string> = {};
 
 const dir = fileURLToPath(new URL("../content/reviews/approved", import.meta.url));
 const files = readdirSync(dir).filter((f) => f.endsWith(".json")).sort();

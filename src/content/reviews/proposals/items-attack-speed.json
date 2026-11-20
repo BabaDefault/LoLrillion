@@ -1,0 +1,286 @@
+{
+  "templateId": "items-attack-speed",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1042",
+    "item:1043",
+    "item:1086",
+    "item:2510",
+    "item:2512",
+    "item:3006",
+    "item:3032",
+    "item:3046",
+    "item:3051",
+    "item:3073",
+    "item:3078",
+    "item:3085",
+    "item:3086",
+    "item:3087",
+    "item:3091",
+    "item:3094",
+    "item:3095",
+    "item:3115",
+    "item:3124",
+    "item:3144",
+    "item:3153",
+    "item:3172",
+    "item:3302",
+    "item:6631",
+    "item:6672",
+    "item:6675"
+  ],
+  "missing": [
+    {
+      "entity": "Ardent Censer",
+      "why": "Its passive grants Attack Speed to you and the ally you heal/shield; enchanter mains will name it. Rule-correct out (not a stat). Include only with a Rule change."
+    },
+    {
+      "entity": "Bandlepipes",
+      "why": "Fanfare grants nearby allies Attack Speed via passive; Rule-correct out."
+    },
+    {
+      "entity": "Lich Bane",
+      "why": "Had AS in older versions; occasional wrong answer. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3172",
+      "why": "Gunmetal Greaves is a tier-3 upgrade of Berserker's Greaves from the boots upgrade system; players may argue it isn't a shop item."
+    },
+    {
+      "entity": "item:2512",
+      "why": "Fiendhunter Bolts is an Arena-origin item; many players think it's Arena-only."
+    },
+    {
+      "entity": "item:2510",
+      "why": "Dusk and Dawn is Arena-origin; many players think it isn't on SR."
+    },
+    {
+      "entity": "item:3073",
+      "why": "Experimental Hexplate's AS is often forgotten; correctly in."
+    },
+    {
+      "entity": "item:6631",
+      "why": "Stridebreaker's AS is often forgotten; correctly in."
+    }
+  ],
+  "wording": [
+    {
+      "why": "'Gives Attack Speed' could include passive/on-use AS (Ardent Censer, Bandlepipes, Yun Tal's Flurry). The Rule says stats only.",
+      "suggestion": "Name an item with Attack Speed in its stats"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "item:1043",
+      "alias": "Recurve",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3006",
+      "alias": "Zerkers",
+      "why": "Very common nickname."
+    },
+    {
+      "entity": "item:3006",
+      "alias": "Berserkers",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:3124",
+      "alias": "Rageblade",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3124",
+      "alias": "Guinsoo's",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3087",
+      "alias": "Shiv",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3087",
+      "alias": "Statikk",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3115",
+      "alias": "Nashor's",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:6672",
+      "alias": "Kraken",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:6675",
+      "alias": "Navori",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:3032",
+      "alias": "Yun Tal",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:3085",
+      "alias": "Runaan's",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3085",
+      "alias": "Hurricane",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:3144",
+      "alias": "Slingshot",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:3073",
+      "alias": "Hexplate",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:3051",
+      "alias": "Hearthbound",
+      "why": "Short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone knows Berserker's, BotRK and Rageblade, but 26 answers span ADCs, AP on-hit (Nashor's), fighters (Triforce, Stridebreaker, Hexplate) and new components (Hearthbound Axe, Scout's Slingshot), so a full set is hard."
+  },
+  "typicality": {
+    "item:1042": {
+      "value": 0.4,
+      "why": "The basic AS component."
+    },
+    "item:1043": {
+      "value": 0.3,
+      "why": "Classic AS component."
+    },
+    "item:1086": {
+      "value": 0.04,
+      "why": "Starter few remember has AS."
+    },
+    "item:2510": {
+      "value": 0.02,
+      "why": "Obscure Arena-origin item."
+    },
+    "item:2512": {
+      "value": 0.02,
+      "why": "Obscure Arena-origin item."
+    },
+    "item:3006": {
+      "value": 0.5,
+      "why": "The AS boots; very common."
+    },
+    "item:3032": {
+      "value": 0.15,
+      "why": "Popular ADC item."
+    },
+    "item:3046": {
+      "value": 0.3,
+      "why": "Classic AS item."
+    },
+    "item:3051": {
+      "value": 0.03,
+      "why": "New component."
+    },
+    "item:3073": {
+      "value": 0.04,
+      "why": "Its AS is forgotten."
+    },
+    "item:3078": {
+      "value": 0.15,
+      "why": "Triforce; known but not thought of first for AS."
+    },
+    "item:3085": {
+      "value": 0.2,
+      "why": "Classic AS item."
+    },
+    "item:3086": {
+      "value": 0.15,
+      "why": "Classic component."
+    },
+    "item:3087": {
+      "value": 0.2,
+      "why": "Classic AS item."
+    },
+    "item:3091": {
+      "value": 0.2,
+      "why": "Classic on-hit item."
+    },
+    "item:3094": {
+      "value": 0.15,
+      "why": "Classic ADC item."
+    },
+    "item:3095": {
+      "value": 0.05,
+      "why": "Less known."
+    },
+    "item:3115": {
+      "value": 0.2,
+      "why": "The AP AS item."
+    },
+    "item:3124": {
+      "value": 0.45,
+      "why": "Iconic AS item."
+    },
+    "item:3144": {
+      "value": 0.03,
+      "why": "New component."
+    },
+    "item:3153": {
+      "value": 0.45,
+      "why": "Iconic AS item."
+    },
+    "item:3172": {
+      "value": 0.02,
+      "why": "Tier-3 boots few name."
+    },
+    "item:3302": {
+      "value": 0.06,
+      "why": "Newer on-hit item."
+    },
+    "item:6631": {
+      "value": 0.03,
+      "why": "Its AS is forgotten."
+    },
+    "item:6672": {
+      "value": 0.3,
+      "why": "Popular on-hit AS item."
+    },
+    "item:6675": {
+      "value": 0.12,
+      "why": "Popular crit item."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "item:1086",
+      "why": "Doran's Bow is the starter players reach for to feel clever."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "item:3078",
+      "why": "Everyone knows Triforce; the AS is a satisfying 'of course' once revealed."
+    },
+    {
+      "entity": "item:3115",
+      "why": "An AP item many forget gives AS, yet obvious on reveal."
+    },
+    {
+      "entity": "item:3091",
+      "why": "Known as the anti-magic item, so its Attack Speed lands as a satisfying \"oh, of course\"; enough players reach it (~.20)."
+    }
+  ]
+}

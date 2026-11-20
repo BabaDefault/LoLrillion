@@ -1,0 +1,207 @@
+{
+  "templateId": "skins-pool-party",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "skin:104005",
+    "skin:114005",
+    "skin:115003",
+    "skin:117005",
+    "skin:119004",
+    "skin:134007",
+    "skin:142002",
+    "skin:154002",
+    "skin:163003",
+    "skin:201033",
+    "skin:21009",
+    "skin:29064",
+    "skin:36008",
+    "skin:41014",
+    "skin:421002",
+    "skin:44004",
+    "skin:51013",
+    "skin:54048",
+    "skin:58006",
+    "skin:59011",
+    "skin:61011",
+    "skin:64005",
+    "skin:74015",
+    "skin:875010",
+    "skin:89004"
+  ],
+  "missing": [
+    {
+      "entity": "Surprise Party Fiddlesticks",
+      "why": "'Party' overlap (Surprise Party Fiddlesticks/Amumu/Vex); correctly out under the Rule. Summer-themed non-Pool-Party skins (e.g. Ocean Song, Beach-type names) also correctly out."
+    }
+  ],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Rule and Prompt are clear; no Prestige or variant clutter. No change needed.",
+      "suggestion": "Name a skin with \"Pool Party\" in its name"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "skin:36008",
+      "alias": "Pool Party Dr. Mundo",
+      "why": "Champion is Dr. Mundo; players will include the 'Dr.'"
+    },
+    {
+      "entity": "skin:21009",
+      "alias": "Pool Party MF",
+      "why": "MF is the universal short form."
+    },
+    {
+      "entity": "skin:64005",
+      "alias": "Pool Party Lee",
+      "why": "Lee is the common short form."
+    },
+    {
+      "entity": "skin:59011",
+      "alias": "Pool Party J4",
+      "why": "J4 is the universal short form."
+    },
+    {
+      "entity": "skin:41014",
+      "alias": "Pool Party GP",
+      "why": "GP is the universal short form."
+    },
+    {
+      "entity": "skin:74015",
+      "alias": "Pool Party Heimer",
+      "why": "Heimer is the standard short form."
+    },
+    {
+      "entity": "skin:51013",
+      "alias": "Pool Party Cait",
+      "why": "Cait is the standard short form."
+    },
+    {
+      "entity": "skin:61011",
+      "alias": "Pool Party Ori",
+      "why": "Ori is the standard short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Classic, instantly recognisable line (Lee Sin, Miss Fortune, Mundo) with plenty of forgotten entries (Draven, Taric, Orianna); 25 answers is a good size."
+  },
+  "typicality": {
+    "skin:104005": {
+      "value": 0.15,
+      "why": "Original 2014 lineup."
+    },
+    "skin:114005": {
+      "value": 0.1,
+      "why": "Mid-known."
+    },
+    "skin:115003": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:117005": {
+      "value": 0.12,
+      "why": "Memorable splash."
+    },
+    "skin:119004": {
+      "value": 0.05,
+      "why": "Largely forgotten."
+    },
+    "skin:134007": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:142002": {
+      "value": 0.1,
+      "why": "Fits her playful theme."
+    },
+    "skin:154002": {
+      "value": 0.06,
+      "why": "Quiet."
+    },
+    "skin:163003": {
+      "value": 0.05,
+      "why": "Quiet."
+    },
+    "skin:201033": {
+      "value": 0.08,
+      "why": "Recent, mid-known."
+    },
+    "skin:21009": {
+      "value": 0.35,
+      "why": "Signature skin of the line."
+    },
+    "skin:29064": {
+      "value": 0.05,
+      "why": "Quiet."
+    },
+    "skin:36008": {
+      "value": 0.25,
+      "why": "Iconic, memed skin."
+    },
+    "skin:41014": {
+      "value": 0.1,
+      "why": "Mid-known."
+    },
+    "skin:421002": {
+      "value": 0.06,
+      "why": "Shark joke, but niche champion."
+    },
+    "skin:44004": {
+      "value": 0.05,
+      "why": "Quiet."
+    },
+    "skin:51013": {
+      "value": 0.15,
+      "why": "Popular champion, well-known skin."
+    },
+    "skin:54048": {
+      "value": 0.1,
+      "why": "Memorable 'rock in a pool' joke."
+    },
+    "skin:58006": {
+      "value": 0.12,
+      "why": "Original lineup, memorable."
+    },
+    "skin:59011": {
+      "value": 0.06,
+      "why": "Quiet."
+    },
+    "skin:61011": {
+      "value": 0.05,
+      "why": "Quiet."
+    },
+    "skin:64005": {
+      "value": 0.35,
+      "why": "The most famous Pool Party skin."
+    },
+    "skin:74015": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:875010": {
+      "value": 0.1,
+      "why": "Recent, popular champion."
+    },
+    "skin:89004": {
+      "value": 0.12,
+      "why": "Mid-known."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "skin:421002",
+      "why": "A land shark at the pool is a perfect 'oh, of course' reveal."
+    },
+    {
+      "entity": "skin:58006",
+      "why": "A crocodile in a pool float; part of the original lineup but rarely named."
+    },
+    {
+      "entity": "skin:74015",
+      "why": "Original 2014 lineup member few remember."
+    }
+  ]
+}

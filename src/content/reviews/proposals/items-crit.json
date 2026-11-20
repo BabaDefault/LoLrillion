@@ -1,0 +1,211 @@
+{
+  "templateId": "items-crit",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1018",
+    "item:2512",
+    "item:2523",
+    "item:3031",
+    "item:3033",
+    "item:3036",
+    "item:3046",
+    "item:3085",
+    "item:3086",
+    "item:3094",
+    "item:3095",
+    "item:3508",
+    "item:6670",
+    "item:6673",
+    "item:6675",
+    "item:6676"
+  ],
+  "missing": [
+    {
+      "entity": "Yun Tal Wildarrows",
+      "why": "Its passive permanently grants up to 25% Crit Chance and its tooltip lists '0% Critical Strike Chance' as a stat, but Data Dragon's stats map omits crit, so it's out. Most players will name it as a crit item. Fix as data (overlay fact adding the crit stat) or broaden the Rule."
+    },
+    {
+      "entity": "Bloodthirster",
+      "why": "Was a crit item in past seasons; common wrong answer. Rule-correct out."
+    },
+    {
+      "entity": "Statikk Shiv",
+      "why": "Long a crit item; now no crit. Rule-correct out."
+    },
+    {
+      "entity": "Kraken Slayer",
+      "why": "Was a crit Mythic; now no crit. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:2512",
+      "why": "Fiendhunter Bolts is an Arena-origin item; many players will call it Arena-only."
+    },
+    {
+      "entity": "item:2523",
+      "why": "Hexoptics C44 is an Arena-origin item; many players think it isn't on SR."
+    },
+    {
+      "entity": "item:3095",
+      "why": "Stormrazor has come and gone; players may think it's removed. It is in this patch's SR data."
+    },
+    {
+      "entity": "item:3508",
+      "why": "Essence Reaver has crit now, but players remember it as a mana/haste item."
+    }
+  ],
+  "wording": [
+    {
+      "why": "The only ambiguity is items that gain crit through a passive (Yun Tal Wildarrows). The Rule says stats only.",
+      "suggestion": "Name an item with Critical Strike Chance in its stats"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "item:1018",
+      "alias": "Cloak",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3033",
+      "alias": "Mortal",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:3085",
+      "alias": "Runaan's",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3085",
+      "alias": "Hurricane",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:6673",
+      "alias": "Shieldbow",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:6675",
+      "alias": "Navori",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:6676",
+      "alias": "Collector",
+      "why": "Short form without 'The'."
+    },
+    {
+      "entity": "item:3508",
+      "alias": "ER",
+      "why": "Common abbreviation."
+    },
+    {
+      "entity": "item:3508",
+      "alias": "Essence",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:2523",
+      "alias": "Hexoptics",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:2512",
+      "alias": "Fiendhunter",
+      "why": "Short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Every ADC player knows IE, PD and the Cloak, but 16 answers including Arena-origin items, components (Noonquiver, Zeal) and Essence Reaver make a full set hard. Skews toward ADC players."
+  },
+  "typicality": {
+    "item:1018": {
+      "value": 0.35,
+      "why": "The basic crit component."
+    },
+    "item:2512": {
+      "value": 0.02,
+      "why": "Obscure Arena-origin item."
+    },
+    "item:2523": {
+      "value": 0.02,
+      "why": "Obscure Arena-origin item."
+    },
+    "item:3031": {
+      "value": 0.85,
+      "why": "The crit item; most players' first answer."
+    },
+    "item:3033": {
+      "value": 0.12,
+      "why": "Known ADC item."
+    },
+    "item:3036": {
+      "value": 0.2,
+      "why": "Common ADC armor-pen item."
+    },
+    "item:3046": {
+      "value": 0.45,
+      "why": "Classic crit/AS item."
+    },
+    "item:3085": {
+      "value": 0.2,
+      "why": "Classic crit item."
+    },
+    "item:3086": {
+      "value": 0.2,
+      "why": "Classic crit component."
+    },
+    "item:3094": {
+      "value": 0.25,
+      "why": "Classic crit item."
+    },
+    "item:3095": {
+      "value": 0.08,
+      "why": "Less known."
+    },
+    "item:3508": {
+      "value": 0.08,
+      "why": "Not remembered as crit."
+    },
+    "item:6670": {
+      "value": 0.06,
+      "why": "Component few name."
+    },
+    "item:6673": {
+      "value": 0.2,
+      "why": "Popular ADC item."
+    },
+    "item:6675": {
+      "value": 0.2,
+      "why": "Popular crit item."
+    },
+    "item:6676": {
+      "value": 0.2,
+      "why": "Popular lethality crit item."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "item:6670",
+      "why": "Noonquiver is a component players reach for to look clever."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "item:3508",
+      "why": "Known as a haste/mana item; the crit is an 'oh, of course' once revealed."
+    },
+    {
+      "entity": "item:3086",
+      "why": "The crit component everyone has bought but forgets to name."
+    },
+    {
+      "entity": "item:3033",
+      "why": "Familiar item players overlook in favor of LDR."
+    }
+  ]
+}
