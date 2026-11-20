@@ -48,6 +48,20 @@ describe("Templates on the committed data", () => {
     expect(items).not.toContain("Long Sword");
   });
 
+  it("item stats read from the tooltip add only Yun Tal Wildarrows (crit), beyond Data Dragon's stats map", () => {
+    const added: Record<string, (string | undefined)[]> = {};
+    for (const t of templates) {
+      if (t.filter.kind !== "item-stat") continue;
+      const stat = t.filter.stat;
+      const inStatsMap = new Set(
+        gameDataSnapshot.items.filter((i) => (i.stats[stat] ?? 0) > 0).map((i) => `item:${i.id}`),
+      );
+      const extra = answerSetOf(t, inputs).filter((id) => !inStatsMap.has(id));
+      if (extra.length) added[t.id] = names(extra);
+    }
+    expect(added).toEqual({ "items-crit": ["Yun Tal Wildarrows"] });
+  });
+
   it("only gameplay Templates: kit labels, name length, item stats and skin names", () => {
     const kinds = new Set(templates.map((t) => t.filter.kind));
     expect([...kinds].sort()).toEqual(["champion-label", "champion-name-length", "item-stat", "skin-name-word"]);

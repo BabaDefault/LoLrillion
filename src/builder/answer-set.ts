@@ -5,6 +5,33 @@ import type { BuilderInputs, TemplateDefinition, TemplateFilter } from "./types"
 
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+/**
+ * How an item tooltip's `<stats>` block names each Data Dragon stat key. Data Dragon's `stats` map
+ * leaves out some stats the tooltip lists (Yun Tal Wildarrows' Critical Strike Chance), so the
+ * `item-stat` filter reads both.
+ */
+const TOOLTIP_STAT_LABEL: Readonly<Record<string, string>> = {
+  FlatArmorMod: "Armor",
+  FlatSpellBlockMod: "Magic Resist",
+  FlatMagicDamageMod: "Ability Power",
+  FlatPhysicalDamageMod: "Attack Damage",
+  FlatHPPoolMod: "Health",
+  FlatMPPoolMod: "Mana",
+  PercentAttackSpeedMod: "Attack Speed",
+  FlatCritChanceMod: "Critical Strike Chance",
+};
+
+/** The stat names in an item description's `<stats>` block, e.g. "Critical Strike Chance" from "<attention>0%</attention> Critical Strike Chance". */
+function tooltipStatLabels(description: string): Set<string> {
+  const block = /<stats>([\s\S]*?)<\/stats>/.exec(description)?.[1] ?? "";
+  return new Set(
+    block
+      .split(/<br\s*\/?>/)
+      .map((line) => line.replace(/<attention>[^<]*<\/attention>/g, "").replace(/<[^>]+>/g, "").trim())
+      .filter(Boolean),
+  );
+}
+
 /** The Entities a Template's filter selects from the game data and approved labels. */
 export function answerSetOf(template: TemplateDefinition, inputs: BuilderInputs): EntityId[] {
   return select(template.filter, inputs);
@@ -22,7 +49,9 @@ function select(filter: TemplateFilter, { snapshot, labels = [] }: BuilderInputs
         .filter((c) => c.name.replace(/[^\p{L}]/gu, "").length <= filter.atMost)
         .map((c) => championEntityId(c.id));
     case "item-stat":
-      return snapshot.items.filter((i) => (i.stats[filter.stat] ?? 0) > 0).map((i) => itemEntityId(i.id));
+      return snapshot.items
+        .filter((i) => (i.stats[filter.stat] ?? 0) > 0 || tooltipStatLabels(i.description).has(TOOLTIP_STAT_LABEL[filter.stat]))
+        .map((i) => itemEntityId(i.id));
     case "skin-name-word": {
       const tail = filter.prefix ? "" : "\\b";
       const pattern = new RegExp(`\\b${escapeRegExp(filter.word)}${tail}`, "i");
