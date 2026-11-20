@@ -1,12 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
+import { NETWORK_GRACE_MS } from "@/engine";
 import type { AttemptResponse, PromptResultView, PuzzleStateView } from "@/server/game-service";
+import { apiJson } from "./api-client";
 import { EndScreen } from "./end-screen";
 import { ScoreInterlude } from "./score-interlude";
 import { ErrorState, Loading } from "./status";
 
-const GRACE_MS = 2_000;
+/** Wait before asking again when the miss check couldn't reach the server. */
+const MISS_CHECK_RETRY_MS = 2_000;
 
 type Interlude = { index: number; result: PromptResultView } | null;
 
@@ -16,20 +19,11 @@ type Notice =
   | { kind: "wrong-answer-type"; expected: string }
   | null;
 
-async function api<T>(path: string, body?: unknown): Promise<T> {
-  const res = await fetch(path, {
-    method: body === undefined ? "GET" : "POST",
-    headers: body === undefined ? undefined : { "Content-Type": "application/json" },
-    body: body === undefined ? undefined : JSON.stringify(body),
-    cache: "no-store",
-  });
-  return (await res.json()) as T;
-}
-
 /** Plays today's Puzzle, or with `archiveDay` that past Puzzle in archive mode (never counted). */
 export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
   const query = archiveDay ? `?day=${encodeURIComponent(archiveDay)}` : "";
   const [unavailable, setUnavailable] = useState(false);
+  /** Loading or playing failed (network, or a refused request): the shared error state. */
   const [loadFailed, setLoadFailed] = useState(false);
   const [state, setState] = useState<PuzzleStateView | null>(null);
   const [offset, setOffset] = useState(0); // serverNow - Date.now()
@@ -49,8 +43,8 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
   }, []);
 
   useEffect(() => {
-    api<PuzzleStateView | { ok: false }>(`/api/puzzle/state${query}`)
-      .then((res) => ("puzzleDay" in res ? receive(res) : setUnavailable(true)))
+    apiJson<PuzzleStateView>(`/api/puzzle/state${query}`)
+      .then((res) => (res.ok ? receive(res.body) : setUnavailable(true)))
       .catch(() => setLoadFailed(true));
   }, [receive, query]);
 
@@ -75,26 +69,42 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
     if (shake > 0) inputRef.current?.select();
   }, [shake]);
 
-  // When the answer window (plus grace) closes, ask the server; it will report a Miss.
+  // When the answer window (plus grace) closes, ask the server; it will report a Miss. If the
+  // server can't be reached, ask again shortly; a refused request shows the error state.
   const missCheckFor = useRef<number | null>(null);
   useEffect(() => {
     if (!live) return;
-    if (serverNow < live.answerClosesAt + GRACE_MS) return;
+    if (serverNow < live.answerClosesAt + NETWORK_GRACE_MS) return;
     if (missCheckFor.current === live.index) return;
     missCheckFor.current = live.index;
     const index = live.index;
-    api<PuzzleStateView>(`/api/puzzle/state${query}`).then((next) => {
-      const result = next.results[index];
-      if (result?.status === "missed") setInterlude({ index, result });
-      receive(next);
-    });
+    const retry = () =>
+      setTimeout(() => {
+        if (missCheckFor.current === index) missCheckFor.current = null;
+      }, MISS_CHECK_RETRY_MS);
+    apiJson<PuzzleStateView>(`/api/puzzle/state${query}`)
+      .then((res) => {
+        if (!res.ok) {
+          if (res.status >= 500) retry();
+          else setLoadFailed(true);
+          return;
+        }
+        const result = res.body.results[index];
+        if (result?.status === "missed") setInterlude({ index, result });
+        receive(res.body);
+      })
+      .catch(retry);
   }, [live, serverNow, receive, query]);
 
   async function start() {
     setBusy(true);
     setGuess("");
     try {
-      receive(await api<PuzzleStateView>(`/api/puzzle/start${query}`, {}));
+      const res = await apiJson<PuzzleStateView>(`/api/puzzle/start${query}`, {});
+      if (res.ok) receive(res.body);
+      else setLoadFailed(true);
+    } catch {
+      setLoadFailed(true);
     } finally {
       setBusy(false);
     }
@@ -105,7 +115,13 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
     setBusy(true);
     setNotice(null);
     try {
-      const res = await api<AttemptResponse>(`/api/puzzle/attempt${query}`, { promptIndex: live.index, ...body });
+      const sent = await apiJson<AttemptResponse>(`/api/puzzle/attempt${query}`, { promptIndex: live.index, ...body });
+      // A 409 still carries the Puzzle state (e.g. not the current Prompt); other refusals don't.
+      const res = sent.ok ? sent.body : sent.status === 409 ? (sent.body as AttemptResponse) : null;
+      if (!res) {
+        setLoadFailed(true);
+        return;
+      }
       const result = res.state.results[live.index];
       if (res.ok && res.result.kind === "accepted" && result) {
         setInterlude({ index: live.index, result });
@@ -115,6 +131,8 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
         setShake((n) => n + 1);
       }
       receive(res.state);
+    } catch {
+      setLoadFailed(true);
     } finally {
       setBusy(false);
     }

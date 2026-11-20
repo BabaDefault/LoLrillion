@@ -11,6 +11,7 @@ import type {
   NicknameResponse,
   ProfileView,
 } from "@/server/leaderboard-service";
+import { apiJson } from "../api-client";
 import { Empty, ErrorState, Loading } from "../status";
 
 const ERRORS: Record<string, string> = {
@@ -27,15 +28,6 @@ const ERRORS: Record<string, string> = {
 
 function errorText(error: string): string {
   return ERRORS[error] ?? "Something went wrong. Try again.";
-}
-
-async function post<T>(url: string, body: unknown): Promise<T> {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  return (await res.json()) as T;
 }
 
 function EntryRow({ entry }: { entry: LeaderboardEntryView }) {
@@ -91,8 +83,9 @@ export function LeaderboardScreen() {
   const [boardError, setBoardError] = useState<string | null>(null);
 
   const loadProfile = useCallback(async () => {
-    const res = await fetch("/api/player", { cache: "no-store" });
-    const next = (await res.json()) as ProfileView;
+    const res = await apiJson<ProfileView>("/api/player");
+    if (!res.ok) throw new Error(res.error);
+    const next = res.body;
     setProfile(next);
     setNickname(next.nickname ?? "");
     return next;
@@ -116,14 +109,13 @@ export function LeaderboardScreen() {
     setBoardError(null);
     // Ignore a response that arrives after the selection has changed again.
     let stale = false;
-    fetch(`/api/leaderboard?${params}`, { cache: "no-store" })
-      .then((res) => res.json() as Promise<LeaderboardResponse>)
+    apiJson<LeaderboardResponse>(`/api/leaderboard?${params}`)
       .then((res) => {
         if (stale) return;
-        if (res.ok) setBoard(res.leaderboard);
+        if (res.ok && res.body.ok) setBoard(res.body.leaderboard);
         else {
           setBoard(null);
-          setBoardError(errorText(res.error));
+          setBoardError(errorText(res.ok ? "" : res.error));
         }
       })
       .catch(() => !stale && setBoardError(errorText("")));
@@ -134,8 +126,8 @@ export function LeaderboardScreen() {
 
   async function saveNickname(e: FormEvent) {
     e.preventDefault();
-    const res = await post<NicknameResponse>("/api/player/nickname", { nickname });
-    if (!res.ok) return setMessage(errorText(res.error));
+    const sent = await apiJson<NicknameResponse>("/api/player/nickname", { nickname });
+    if (!sent.ok) return setMessage(errorText(sent.error));
     setMessage(null);
     setEditingNickname(false);
     await loadProfile();
@@ -143,22 +135,24 @@ export function LeaderboardScreen() {
 
   async function createGroup(e: FormEvent) {
     e.preventDefault();
-    const res = await post<CreateGroupResponse>("/api/groups", { name: groupName });
-    if (!res.ok) return setMessage(errorText(res.error));
-    setMessage(`Created "${res.group.name}". Share the code ${res.group.code} with your friends.`);
+    const sent = await apiJson<CreateGroupResponse>("/api/groups", { name: groupName });
+    if (!sent.ok || !sent.body.ok) return setMessage(errorText(sent.ok ? "" : sent.error));
+    const { group } = sent.body;
+    setMessage(`Created "${group.name}". Share the code ${group.code} with your friends.`);
     setGroupName("");
     await loadProfile();
-    setScope(res.group.code);
+    setScope(group.code);
   }
 
   async function joinGroup(e: FormEvent) {
     e.preventDefault();
-    const res = await post<JoinGroupResponse>("/api/groups/join", { code: joinCode });
-    if (!res.ok) return setMessage(errorText(res.error));
-    setMessage(`Joined "${res.group.name}".`);
+    const sent = await apiJson<JoinGroupResponse>("/api/groups/join", { code: joinCode });
+    if (!sent.ok || !sent.body.ok) return setMessage(errorText(sent.ok ? "" : sent.error));
+    const { group } = sent.body;
+    setMessage(`Joined "${group.name}".`);
     setJoinCode("");
     await loadProfile();
-    setScope(res.group.code);
+    setScope(group.code);
   }
 
   if (!profile) {
