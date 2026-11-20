@@ -12,3 +12,4 @@ export { prelabel } from "./prelabel";
 export type { LabelSuggestion } from "./prelabel";
 export { changedChampions, taggedBaseline } from "./changes";
 export type { TaggedBaseline } from "./changes";
+export { entitiesWithTerm } from "./query";

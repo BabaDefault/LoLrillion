@@ -64,7 +64,7 @@ export const MECHANICS_TERMS = [
     definition:
       "The champion's own ultimate (R) can reach any point on the map: unlimited range or map-wide effect.",
     excludes: "Long but limited range ults, and ults the champion steals or copies from someone else.",
-    keywords: /\b(global(?:ly)?|anywhere on the map|unlimited range|all enemy champions|every enemy champion)\b/gi,
+    keywords: /\b(global(?:ly)?|anywhere on the map|unlimited range|all (?:enemy|allied) champions|every enemy champion)\b/gi,
   },
 ] as const satisfies readonly MechanicsTerm[];
 

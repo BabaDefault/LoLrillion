@@ -6,3 +6,7 @@ coverage/
 next-env.d.ts
 .env*.local
 .vercel
+
+# Regenerable label work files
+src/content/labels/proposals/prelabel.json
+src/content/labels/proposals/worklist.json

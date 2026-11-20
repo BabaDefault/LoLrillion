@@ -9,7 +9,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "data:fetch": "tsx scripts/fetch-game-data.ts",
-    "data:registry": "tsx scripts/fetch-game-data.ts --registry-only"
+    "data:registry": "tsx scripts/fetch-game-data.ts --registry-only",
+    "labels:prelabel": "tsx scripts/prelabel.ts",
+    "labels:worklist": "tsx scripts/tag-patch-worklist.ts",
+    "labels:validate": "tsx scripts/validate-labels.ts"
   },
   "dependencies": {
     "next": "^16.4.6",
