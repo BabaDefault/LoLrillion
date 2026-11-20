@@ -2,7 +2,9 @@ import {
   dayTitle,
   openPrompt,
   percentileBetterThan,
+  personalStats,
   promptWindow,
+  puzzleDayOf,
   puzzleProgress,
   scoreDistribution,
   submitAttempt as engineSubmitAttempt,
@@ -13,15 +15,25 @@ import {
   type AttemptResult,
   type DayTitle,
   type EntityId,
+  type FinishedGame,
+  type PersonalStats,
   type ScoreDistribution,
   type PromptPlay,
   type PromptProgress,
   type Tier,
 } from "@/engine";
 import type { Clock } from "./clock";
-import type { PuzzleSource } from "./puzzle-source";
+import type { ArchiveDay, DailyPuzzle, PuzzleSource } from "./puzzle-source";
 import type { AnswerCountSource } from "./storage/answer-counts";
-import type { PlayStore } from "./storage/play-store";
+import type { PlayKey, PlayStore } from "./storage/play-store";
+
+/** An archive request for a day that isn't a past Puzzle Day with a Puzzle (today, the future, or none). */
+export class ArchiveUnavailableError extends Error {
+  constructor(readonly puzzleDay: string) {
+    super(`No archived Puzzle for ${puzzleDay}`);
+    this.name = "ArchiveUnavailableError";
+  }
+}
 
 /**
  * What the client sees of the current Prompt. Never includes the Answer Set, and the Prompt
@@ -46,6 +58,8 @@ export type PromptResultView =
 
 export interface PuzzleStateView {
   puzzleDay: string;
+  /** An archive run of a past Puzzle: never counted on leaderboards or in Answer Share. */
+  archive: boolean;
   promptCount: number;
   /** Server time when this view was built, so the client can correct for clock skew. */
   serverNow: number;
@@ -81,12 +95,17 @@ export interface PromptRevealView {
 export interface PuzzleResultsView {
   puzzleDay: string;
   puzzleNumber: number;
+  /** An archive run: compared against the day's counted players, but never counted itself. */
+  archive: boolean;
   total: number;
   maxTotal: number;
   dayTitle: DayTitle;
-  /** Players who have finished today's Puzzle (counted plays only), including this one. */
+  /**
+   * Players who finished the day's Puzzle (counted plays only): including this one for a
+   * counted run, excluding it for an archive run.
+   */
   playerCount: number;
-  /** "Better than X% of today's players". */
+  /** "Better than X% of the day's players". */
   percentile: number;
   /** The day's score-distribution curve, with this player's bin marked. */
   distribution: ScoreDistribution;
@@ -110,18 +129,38 @@ export interface GameServiceDeps {
   answerCounts?: AnswerCountSource;
 }
 
+/**
+ * Every method acts on today's counted run, or, given `archiveDay` (a past Puzzle Day), on an
+ * archive run of that day's Puzzle with the same rules. An `archiveDay` that is today, in the
+ * future, or has no Puzzle throws ArchiveUnavailableError.
+ */
 export interface GameService {
-  getState(deviceId: string): Promise<PuzzleStateView>;
+  getState(deviceId: string, archiveDay?: string): Promise<PuzzleStateView>;
   /** Start the current Prompt (records its window-open time). Idempotent. */
-  startPrompt(deviceId: string): Promise<PuzzleStateView>;
-  submitAttempt(deviceId: string, promptIndex: number, guess: string): Promise<AttemptResponse>;
+  startPrompt(deviceId: string, archiveDay?: string): Promise<PuzzleStateView>;
+  submitAttempt(deviceId: string, promptIndex: number, guess: string, archiveDay?: string): Promise<AttemptResponse>;
   /** "Yes" on a "Did you mean": rejected unless the Entity was offered for this Prompt. */
-  confirmSuggestion(deviceId: string, promptIndex: number, entityId: string): Promise<AttemptResponse>;
+  confirmSuggestion(
+    deviceId: string,
+    promptIndex: number,
+    entityId: string,
+    archiveDay?: string,
+  ): Promise<AttemptResponse>;
   /**
    * The end-screen reveal, including Answer Sets, Answer Share, percentile and the distribution
    * curve; refused until all Prompts are finished.
    */
-  getResults(deviceId: string): Promise<ResultsResponse>;
+  getResults(deviceId: string, archiveDay?: string): Promise<ResultsResponse>;
+  /** Personal stats over this device's finished games, live and archive. */
+  getStats(deviceId: string): Promise<PersonalStats>;
+  /** Past Puzzle Days that can be played in archive mode (never today or later), newest first. */
+  listArchive(deviceId: string): Promise<ArchiveEntryView[]>;
+}
+
+/** A past Puzzle in the archive list. */
+export interface ArchiveEntryView extends ArchiveDay {
+  /** This device has finished that day's Puzzle (live or in the archive). */
+  finished: boolean;
 }
 
 function toResultView(o: PromptProgress): PromptResultView | null {
@@ -138,11 +177,29 @@ export function createGameService({
   puzzles,
   answerCounts = store,
 }: GameServiceDeps): GameService {
-  async function load(deviceId: string) {
+  /**
+   * The run a request acts on: today's counted run, or with `archiveDay` an archive run of that
+   * past Puzzle. A past day the device already finished live shows that run instead (read-only),
+   * so a day can't be replayed for a better score.
+   */
+  async function load(deviceId: string, archiveDay?: string) {
     const now = clock.now();
-    const daily = await puzzles.current(now);
-    const key = { deviceId, puzzleDay: daily.puzzleDay };
+    if (archiveDay === undefined) {
+      const daily = await puzzles.current(now);
+      const key: PlayKey = { deviceId, puzzleDay: daily.puzzleDay };
+      const promptCount = daily.puzzle.prompts.length;
+      const plays = await store.getPromptPlays(key, promptCount);
+      return { now, daily, key, promptCount, plays };
+    }
+    const daily = archiveDay < puzzleDayOf(now) ? await puzzles.forDay?.(archiveDay) : null;
+    if (!daily) throw new ArchiveUnavailableError(archiveDay);
     const promptCount = daily.puzzle.prompts.length;
+    const liveKey: PlayKey = { deviceId, puzzleDay: daily.puzzleDay };
+    const livePlays = await store.getPromptPlays(liveKey, promptCount);
+    if (puzzleProgress(promptCount, livePlays, now).finished) {
+      return { now, daily, key: liveKey, promptCount, plays: livePlays };
+    }
+    const key: PlayKey = { deviceId, puzzleDay: daily.puzzleDay, archive: true };
     const plays = await store.getPromptPlays(key, promptCount);
     return { now, daily, key, promptCount, plays };
   }
@@ -171,6 +228,7 @@ export function createGameService({
     }
     return {
       puzzleDay: daily.puzzleDay,
+      archive: ctx.key.archive ?? false,
       promptCount,
       serverNow: now,
       current,
@@ -181,13 +239,13 @@ export function createGameService({
   }
 
   return {
-    async getState(deviceId) {
-      const ctx = await load(deviceId);
+    async getState(deviceId, archiveDay) {
+      const ctx = await load(deviceId, archiveDay);
       return view(ctx, ctx.plays);
     },
 
-    async startPrompt(deviceId) {
-      const ctx = await load(deviceId);
+    async startPrompt(deviceId, archiveDay) {
+      const ctx = await load(deviceId, archiveDay);
       const { currentIndex } = puzzleProgress(ctx.promptCount, ctx.plays, ctx.now);
       if (currentIndex === null || ctx.plays[currentIndex]) return view(ctx, ctx.plays);
       const stored = await store.createPromptPlay(ctx.key, currentIndex, openPrompt(ctx.now));
@@ -196,8 +254,8 @@ export function createGameService({
       return view(ctx, plays);
     },
 
-    submitAttempt(deviceId, promptIndex, guess) {
-      return attempt(deviceId, promptIndex, guess, (ctx, play) =>
+    submitAttempt(deviceId, promptIndex, guess, archiveDay) {
+      return attempt(deviceId, archiveDay, promptIndex, guess, (ctx, play) =>
         engineSubmitAttempt({
           prompt: ctx.daily.puzzle.prompts[promptIndex],
           entities: ctx.daily.entities,
@@ -208,8 +266,8 @@ export function createGameService({
       );
     },
 
-    confirmSuggestion(deviceId, promptIndex, entityId) {
-      return attempt(deviceId, promptIndex, entityId, async (ctx, play) =>
+    confirmSuggestion(deviceId, promptIndex, entityId, archiveDay) {
+      return attempt(deviceId, archiveDay, promptIndex, entityId, async (ctx, play) =>
         engineConfirmSuggestion({
           prompt: ctx.daily.puzzle.prompts[promptIndex],
           entities: ctx.daily.entities,
@@ -221,8 +279,8 @@ export function createGameService({
       );
     },
 
-    async getResults(deviceId) {
-      const { now, daily, promptCount, plays } = await load(deviceId);
+    async getResults(deviceId, archiveDay) {
+      const { now, daily, key, promptCount, plays } = await load(deviceId, archiveDay);
       const progress = puzzleProgress(promptCount, plays, now);
       if (!progress.finished) return { ok: false, error: "not-finished" };
 
@@ -250,31 +308,76 @@ export function createGameService({
         const result = toResultView(progress.outcomes[i]) ?? { status: "missed", points: 0 };
         return { text: prompt.text, answerType: prompt.answerType, result, answerSet };
       });
+      const archive = key.archive ?? false;
+      // An archive run isn't among the day's counted totals; compare it as if it were.
+      const compared = archive ? [...dayTotals, progress.total] : dayTotals;
       return {
         ok: true,
         results: {
           puzzleDay: daily.puzzleDay,
           puzzleNumber: daily.puzzleNumber,
+          archive,
           total: progress.total,
           maxTotal,
           dayTitle: dayTitle(progress.total),
           playerCount: dayTotals.length,
-          percentile: percentileBetterThan(progress.total, dayTotals),
-          distribution: scoreDistribution(dayTotals, { maxTotal, binCount: DISTRIBUTION_BINS }, progress.total),
+          percentile: percentileBetterThan(progress.total, compared),
+          distribution: scoreDistribution(compared, { maxTotal, binCount: DISTRIBUTION_BINS }, progress.total),
           prompts,
         },
       };
     },
+
+    async getStats(deviceId) {
+      return personalStats(await finishedGames(deviceId, clock.now()));
+    },
+
+    async listArchive(deviceId) {
+      const now = clock.now();
+      const [days, games] = await Promise.all([puzzles.pastDays?.(now) ?? [], finishedGames(deviceId, now)]);
+      const finished = new Set(games.map((g) => g.puzzleDay));
+      return days.map((day) => ({ ...day, finished: finished.has(day.puzzleDay) }));
+    },
   };
+
+  /** The Puzzle a stored play belongs to: today's live Puzzle, or a dated one. */
+  async function puzzleFor(puzzleDay: string, now: number): Promise<DailyPuzzle | null> {
+    if (puzzleDay === puzzleDayOf(now)) return puzzles.current(now);
+    return (await puzzles.forDay?.(puzzleDay)) ?? null;
+  }
+
+  /** This device's finished runs (live and archive), each with its Prompts' Tiers. */
+  async function finishedGames(deviceId: string, now: number): Promise<FinishedGame[]> {
+    const runs = new Map<string, { puzzleDay: string; plays: PromptPlay[] }>();
+    for (const p of await store.getDevicePlays(deviceId)) {
+      const id = `${p.puzzleDay}|${p.archive}`;
+      const run = runs.get(id) ?? { puzzleDay: p.puzzleDay, plays: [] };
+      run.plays[p.promptIndex] = p.play;
+      runs.set(id, run);
+    }
+    const games: FinishedGame[] = [];
+    for (const run of runs.values()) {
+      const daily = await puzzleFor(run.puzzleDay, now);
+      if (!daily) continue;
+      const progress = puzzleProgress(daily.puzzle.prompts.length, run.plays, now);
+      if (!progress.finished) continue;
+      games.push({
+        puzzleDay: run.puzzleDay,
+        results: progress.outcomes.map((o) => (o.status === "accepted" ? o.tier : null)),
+      });
+    }
+    return games;
+  }
 
   /** Run one engine step against the current, started Prompt, then persist and log it. */
   async function attempt(
     deviceId: string,
+    archiveDay: string | undefined,
     promptIndex: number,
     logged: string,
     step: (ctx: Awaited<ReturnType<typeof load>>, play: PromptPlay) => AttemptOutcome | Promise<AttemptOutcome>,
   ): Promise<AttemptResponse> {
-    const ctx = await load(deviceId);
+    const ctx = await load(deviceId, archiveDay);
     const { currentIndex } = puzzleProgress(ctx.promptCount, ctx.plays, ctx.now);
     if (currentIndex !== promptIndex) {
       return { ok: false, error: "not-current-prompt", state: view(ctx, ctx.plays) };

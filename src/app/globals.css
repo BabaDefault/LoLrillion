@@ -417,3 +417,48 @@ button.primary:disabled {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
+
+.site-nav {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding: 12px 16px 0;
+}
+
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: var(--accent);
+}
+
+.archive-list {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.archive-list a {
+  color: var(--text);
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  text-align: center;
+}
+
+.stats-grid p {
+  margin: 0;
+}
+
+.stat {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+}

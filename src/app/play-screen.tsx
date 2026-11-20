@@ -25,7 +25,10 @@ async function api<T>(path: string, body?: unknown): Promise<T> {
   return (await res.json()) as T;
 }
 
-export function PlayScreen() {
+/** Plays today's Puzzle, or with `archiveDay` that past Puzzle in archive mode (never counted). */
+export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
+  const query = archiveDay ? `?day=${encodeURIComponent(archiveDay)}` : "";
+  const [unavailable, setUnavailable] = useState(false);
   const [state, setState] = useState<PuzzleStateView | null>(null);
   const [offset, setOffset] = useState(0); // serverNow - Date.now()
   const [now, setNow] = useState(() => Date.now());
@@ -42,8 +45,10 @@ export function PlayScreen() {
   }, []);
 
   useEffect(() => {
-    api<PuzzleStateView>("/api/puzzle/state").then(receive);
-  }, [receive]);
+    api<PuzzleStateView | { ok: false }>(`/api/puzzle/state${query}`).then((res) =>
+      "puzzleDay" in res ? receive(res) : setUnavailable(true),
+    );
+  }, [receive, query]);
 
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 100);
@@ -74,18 +79,18 @@ export function PlayScreen() {
     if (missCheckFor.current === live.index) return;
     missCheckFor.current = live.index;
     const index = live.index;
-    api<PuzzleStateView>("/api/puzzle/state").then((next) => {
+    api<PuzzleStateView>(`/api/puzzle/state${query}`).then((next) => {
       const result = next.results[index];
       if (result?.status === "missed") setInterlude({ index, result });
       receive(next);
     });
-  }, [live, serverNow, receive]);
+  }, [live, serverNow, receive, query]);
 
   async function start() {
     setBusy(true);
     setGuess("");
     try {
-      receive(await api<PuzzleStateView>("/api/puzzle/start", {}));
+      receive(await api<PuzzleStateView>(`/api/puzzle/start${query}`, {}));
     } finally {
       setBusy(false);
     }
@@ -96,7 +101,7 @@ export function PlayScreen() {
     setBusy(true);
     setNotice(null);
     try {
-      const res = await api<AttemptResponse>("/api/puzzle/attempt", { promptIndex: live.index, ...body });
+      const res = await api<AttemptResponse>(`/api/puzzle/attempt${query}`, { promptIndex: live.index, ...body });
       const result = res.state.results[live.index];
       if (res.ok && res.result.kind === "accepted" && result) {
         setInterlude({ index: live.index, result });
@@ -121,7 +126,8 @@ export function PlayScreen() {
     inputRef.current?.focus();
   }
 
-  if (!state) return <p className="muted">Loading today&apos;s Puzzle…</p>;
+  if (unavailable) return <p className="muted">That Puzzle isn&apos;t in the archive.</p>;
+  if (!state) return <p className="muted">Loading {archiveDay ? "the" : "today's"} Puzzle…</p>;
 
   if (interlude) {
     return (
@@ -135,7 +141,7 @@ export function PlayScreen() {
     );
   }
 
-  if (state.finished) return <EndScreen />;
+  if (state.finished) return <EndScreen archiveDay={archiveDay} />;
 
   if (!current) return null;
 

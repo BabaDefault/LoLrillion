@@ -30,7 +30,8 @@ export type ApprovedLabel = MechanicsLabel;
 export type FamiliarityData = FamiliarityFile;
 
 /**
- * The approved review of one Template (#10 documents and extends this). Everything is optional:
+ * The review data the Builder reads for one Template: the subset of an approved review file
+ * (`ApprovedReview` in `@/reviews`, read by `readApprovedReviews`). Everything is optional:
  * a Template with no review uses default Typicality, no Too Clever answers and a default Gem.
  */
 export interface TemplateReview {

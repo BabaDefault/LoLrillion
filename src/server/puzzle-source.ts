@@ -16,9 +16,19 @@ export interface DailyPuzzle {
  */
 export interface PuzzleSource {
   current(now: number): Promise<DailyPuzzle>;
+  /** The Puzzle dated `puzzleDay`, or null when there is none. Callers decide whether it may be played. */
+  forDay?(puzzleDay: string): Promise<DailyPuzzle | null>;
+  /** The archive: Puzzle Days strictly before today's (never today or a future day), newest first. */
+  pastDays?(now: number): Promise<ArchiveDay[]>;
 }
 
-/** Always serves the hand-written sample Puzzle. */
+/** One past Puzzle listed in the archive. */
+export interface ArchiveDay {
+  puzzleDay: string;
+  puzzleNumber: number;
+}
+
+/** Always serves the hand-written sample Puzzle. It has no archive. */
 export const samplePuzzleSource: PuzzleSource = {
   async current() {
     // Placeholder number until dated Puzzles number themselves.

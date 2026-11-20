@@ -13,7 +13,8 @@
  *   src/content/labels/approved.json                   approved mechanics labels (#9)
  *   src/content/familiarity/<snapshot patch>.json      Familiarity (#11); without it, Typicality only
  *   src/content/reviews/approved/<templateId>.json     approved Template reviews (#10): Typicality,
- *                                                       Too Clever, Gem; without one, defaults
+ *                                                       Too Clever, Gem; without one, defaults.
+ *                                                       proposals/ is never read.
  *   src/content/puzzles/overrides.json                 { "<YYYY-MM-DD>": [seven Template ids] }
  *
  * Writes src/content/puzzles/<YYYY-MM-DD>.json (server-only: they hold Answer Sets) and regenerates
@@ -30,9 +31,9 @@ import {
   type FamiliarityData,
   type GeneratedPuzzle,
   type TemplateDefinition,
-  type TemplateReview,
 } from "../src/builder";
 import type { GameDataSnapshot } from "../src/content/game-data/snapshot";
+import { readApprovedReviews } from "../src/reviews/files";
 import { approvedLabels } from "../src/content/labels";
 import { FIRST_PUZZLE_DAY } from "../src/content/puzzles/config";
 import { addDays, puzzleDayOf } from "../src/engine";
@@ -47,17 +48,6 @@ async function readJson<T>(path: string): Promise<T> {
 
 async function readOptionalJson<T>(path: string): Promise<T | undefined> {
   return existsSync(path) ? readJson<T>(path) : undefined;
-}
-
-async function readReviews(): Promise<Record<string, TemplateReview>> {
-  const dir = content("reviews/approved");
-  if (!existsSync(dir)) return {};
-  const reviews: Record<string, TemplateReview> = {};
-  for (const file of (await readdir(dir)).filter((f) => f.endsWith(".json"))) {
-    const review = await readJson<TemplateReview>(`${dir}/${file}`);
-    reviews[review.templateId] = review;
-  }
-  return reviews;
 }
 
 async function readExistingPuzzles(): Promise<Map<string, GeneratedPuzzle>> {
@@ -100,7 +90,8 @@ function manifest(days: readonly string[]): string {
 async function main() {
   const snapshot = await readJson<GameDataSnapshot>(content("game-data/snapshot.json"));
   const familiarity = await readOptionalJson<FamiliarityData>(content(`familiarity/${snapshot.patch}.json`));
-  const reviews = await readReviews();
+  // Only approved reviews: proposals never reach a Puzzle. Throws on an inconsistent approval.
+  const reviews = await readApprovedReviews(content("reviews"));
   const inputs = {
     snapshot,
     overlay: await readJson<ChampionMetaOverlay>(content("overlay/champions.json")),

@@ -1,7 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { EntityId, PromptPlay, Tier } from "@/engine";
 import type { AnswerCounts } from "./answer-counts";
-import type { AttemptLogEntry, PlayKey, PlayStore } from "./play-store";
+import type { AttemptLogEntry, DevicePlay, PlayKey, PlayStore } from "./play-store";
 
 /** A `prompt_plays` row, as far as this store reads it. */
 interface PromptPlayRow {
@@ -171,6 +171,24 @@ export class SupabasePlayStore implements PlayStore {
       if (r.prompt_index < promptCount) byPrompt[r.prompt_index][r.entity_id] = r.count;
     }
     return { players: Number(check(players, "day_player_count")), byPrompt };
+  }
+
+  async getDevicePlays(deviceId: string): Promise<DevicePlay[]> {
+    const rows = check(
+      await this.db
+        .from("prompt_plays")
+        .select(
+          "puzzle_day, is_archive, prompt_index, window_open_at, accepted_entity_id, accepted_entity_name, tier, points, players!inner(device_id)",
+        )
+        .eq("players.device_id", deviceId),
+      "getDevicePlays",
+    ) as unknown as Array<PromptPlayRow & { puzzle_day: string; is_archive: boolean }>;
+    return rows.map((row) => ({
+      puzzleDay: row.puzzle_day,
+      archive: row.is_archive,
+      promptIndex: row.prompt_index,
+      play: toPromptPlay(row),
+    }));
   }
 
   async getDayTotals(puzzleDay: string, promptCount: number): Promise<number[]> {
