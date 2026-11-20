@@ -1,6 +1,6 @@
-import { matchGuess } from "./resolve";
+import { readGuess, type Candidate } from "./resolve";
 import { MISS_POINTS, pointsFor } from "./scoring";
-import type { Entity, EntityId, PromptDefinition, Tier } from "./types";
+import type { AnswerType, Entity, EntityId, PromptDefinition, Tier } from "./types";
 
 /** Read window: the Prompt is visible but input is locked. */
 export const READ_WINDOW_MS = 5_000;
@@ -21,6 +21,7 @@ export interface AcceptedResult {
 export type RejectionReason =
   | "no-match" // the Guess matched no Entity of the Prompt's Answer Type
   | "not-in-answer-set" // it matched an Entity, but that Entity isn't valid for this Prompt
+  | "not-offered" // a confirmed Entity ID that was never offered as a "Did you mean" candidate
   | "locked" // the Prompt already has an Accepted Guess
   | "read-window" // the answer window hasn't opened yet
   | "window-closed"; // the answer window (plus grace) has closed
@@ -30,7 +31,22 @@ export interface RejectedResult {
   reason: RejectionReason;
 }
 
-export type AttemptResult = AcceptedResult | RejectedResult;
+/**
+ * The Guess wasn't an exact name or Alias but is close to these Entities of the Answer Type.
+ * Not an Attempt: the player confirms one (by Entity ID) or goes back to editing.
+ */
+export interface DidYouMeanResult {
+  kind: "did-you-mean";
+  candidates: Candidate[];
+}
+
+/** The Guess names an Entity of another Answer Type (e.g. a champion on a SKIN Prompt). Not an Attempt. */
+export interface WrongAnswerTypeResult {
+  kind: "wrong-answer-type";
+  expected: AnswerType;
+}
+
+export type AttemptResult = AcceptedResult | RejectedResult | DidYouMeanResult | WrongAnswerTypeResult;
 
 /** A player's progress on one Prompt: when its answer window opened, and the Accepted Guess, if any. */
 export interface PromptPlay {
@@ -77,18 +93,27 @@ export interface AttemptInput {
   now: number;
 }
 
-export function submitAttempt({ prompt, entities, play, guess, now }: AttemptInput): {
+export interface AttemptOutcome {
   result: AttemptResult;
   play: PromptPlay;
-} {
-  const reject = (reason: RejectionReason) => ({ result: { kind: "rejected", reason } as const, play });
-  if (play.accepted) return reject("locked");
-  if (now < play.windowOpenAt) return reject("read-window");
-  if (now >= acceptsAttemptsUntil(play)) return reject("window-closed");
-  const match = matchGuess(guess, prompt.answerType, entities);
-  if (!match) return reject("no-match");
+}
+
+function rejected(play: PromptPlay, reason: RejectionReason): AttemptOutcome {
+  return { result: { kind: "rejected", reason }, play };
+}
+
+/** Why the Prompt can't take an Attempt right now, if it can't. */
+function closedReason(play: PromptPlay, now: number): RejectionReason | null {
+  if (play.accepted) return "locked";
+  if (now < play.windowOpenAt) return "read-window";
+  if (now >= acceptsAttemptsUntil(play)) return "window-closed";
+  return null;
+}
+
+/** Score a matched Entity against the Answer Set, locking the Prompt if it's Accepted. */
+function attemptEntity(prompt: PromptDefinition, play: PromptPlay, match: Entity): AttemptOutcome {
   const tier = prompt.answerSet[match.id];
-  if (!tier) return reject("not-in-answer-set");
+  if (!tier) return rejected(play, "not-in-answer-set");
   const result: AcceptedResult = {
     kind: "accepted",
     entityId: match.id,
@@ -97,4 +122,44 @@ export function submitAttempt({ prompt, entities, play, guess, now }: AttemptInp
     points: pointsFor(tier),
   };
   return { result, play: { ...play, accepted: result } };
+}
+
+/**
+ * Submit a typed Guess. A near-miss returns `did-you-mean` and a Guess naming another Answer
+ * Type returns `wrong-answer-type`; neither is an Attempt, so the PromptPlay is unchanged.
+ */
+export function submitAttempt({ prompt, entities, play, guess, now }: AttemptInput): AttemptOutcome {
+  const closed = closedReason(play, now);
+  if (closed) return rejected(play, closed);
+  const reading = readGuess(guess, prompt.answerType, entities);
+  if (reading.kind === "did-you-mean") {
+    return { result: { kind: "did-you-mean", candidates: reading.candidates }, play };
+  }
+  if (reading.kind === "wrong-answer-type") {
+    return { result: { kind: "wrong-answer-type", expected: prompt.answerType }, play };
+  }
+  if (reading.kind === "none") return rejected(play, "no-match");
+  return attemptEntity(prompt, play, reading.entity);
+}
+
+export interface ConfirmInput {
+  prompt: PromptDefinition;
+  entities: readonly Entity[];
+  play: PromptPlay;
+  /** The Entity the player picked from a "Did you mean" popup. */
+  entityId: EntityId;
+  /** Every Entity ID offered as a candidate for this PromptPlay so far. */
+  offered: readonly EntityId[];
+  now: number;
+}
+
+/** Answer "Yes" to a "Did you mean": an Attempt with an explicit Entity, which must have been offered. */
+export function confirmSuggestion({ prompt, entities, play, entityId, offered, now }: ConfirmInput): AttemptOutcome {
+  const closed = closedReason(play, now);
+  if (closed) return rejected(play, closed);
+  const match = offered.includes(entityId)
+    ? entities.find((e) => e.id === entityId && e.answerType === prompt.answerType)
+    : undefined;
+  if (!match) return rejected(play, "not-offered");
+  return attemptEntity(prompt, play, match);
 }

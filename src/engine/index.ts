@@ -10,13 +10,19 @@ export {
   promptOutcome,
   promptWindow,
   submitAttempt,
+  confirmSuggestion,
+  type AttemptOutcome,
+  type ConfirmInput,
   type PromptOutcome,
   type AttemptInput,
   type AttemptResult,
   type AcceptedResult,
   type RejectedResult,
+  type DidYouMeanResult,
+  type WrongAnswerTypeResult,
   type RejectionReason,
   type PromptPlay,
 } from "./play";
+export type { Candidate } from "./resolve";
 export { puzzleProgress, type PuzzleProgress, type PromptProgress } from "./progress";
 export { dayTitle, shareLine, type DayTitle, type ShareLineInput } from "./results";

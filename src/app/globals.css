@@ -119,6 +119,33 @@ button.primary:disabled {
   margin: 8px 0;
 }
 
+.notice {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+}
+
+.notice p {
+  margin: 0 0 8px;
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.choices button:not(.primary) {
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid #2c365a;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
 .shake {
   animation: shake 0.35s;
   border-color: var(--bad);
