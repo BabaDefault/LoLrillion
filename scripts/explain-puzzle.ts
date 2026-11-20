@@ -16,7 +16,6 @@ import {
   buildPrompt,
   explainPrompt,
   type BuilderInputs,
-  type ChampionMetaOverlay,
   type FamiliarityData,
   type GeneratedPuzzle,
   type TemplateDefinition,
@@ -38,7 +37,6 @@ async function todaysInputs(): Promise<BuilderInputs> {
   const familiarityPath = content(`familiarity/${snapshot.patch}.json`);
   return {
     snapshot,
-    overlay: await readJson<ChampionMetaOverlay>(content("overlay/champions.json")),
     labels: approvedLabels,
     familiarity: existsSync(familiarityPath) ? await readJson<FamiliarityData>(familiarityPath) : undefined,
     reviews: await approvedReviewsAsTheyAre(),
