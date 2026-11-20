@@ -20,6 +20,7 @@ const entities: Entity[] = [
   { id: "kayle", name: "Kayle", answerType: "champion", aliases: [] },
   { id: "kayn", name: "Kayn", answerType: "champion", aliases: [] },
   { id: "zac", name: "Zac", answerType: "champion", aliases: [] },
+  { id: "mf-arcade", name: "Arcade Miss Fortune", answerType: "skin", aliases: [] },
 ];
 
 const bilgewater: PromptDefinition = {
@@ -231,6 +232,18 @@ describe("Did you mean", () => {
 
   it("never suggests for Guesses of 4 characters or fewer", () => {
     expect(attempt("Zak")).toEqual({ kind: "rejected", reason: "no-match" });
+  });
+
+  it("tells the player a SKIN Prompt asks for a skin when they type a champion", () => {
+    const skins: PromptDefinition = {
+      text: "Name a Miss Fortune skin",
+      answerType: "skin",
+      rule: "Skins for Miss Fortune.",
+      answerSet: { "mf-arcade": "kill" },
+    };
+    const out = submitAttempt({ prompt: skins, entities, play: openPrompt(T0), guess: "Miss Fortune", now: answering });
+    expect(out.result).toEqual({ kind: "wrong-answer-type", expected: "skin" });
+    expect(out.play).toEqual(openPrompt(T0));
   });
 
   it("does not use up an Attempt or touch the Prompt's state", () => {

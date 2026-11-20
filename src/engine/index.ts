@@ -16,6 +16,7 @@ export {
   type AcceptedResult,
   type RejectedResult,
   type DidYouMeanResult,
+  type WrongAnswerTypeResult,
   type RejectionReason,
   type PromptPlay,
 } from "./play";

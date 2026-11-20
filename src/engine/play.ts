@@ -1,6 +1,6 @@
 import { readGuess, type Candidate } from "./resolve";
 import { MISS_POINTS, pointsFor } from "./scoring";
-import type { Entity, EntityId, PromptDefinition, Tier } from "./types";
+import type { AnswerType, Entity, EntityId, PromptDefinition, Tier } from "./types";
 
 /** Read window: the Prompt is visible but input is locked. */
 export const READ_WINDOW_MS = 5_000;
@@ -39,7 +39,13 @@ export interface DidYouMeanResult {
   candidates: Candidate[];
 }
 
-export type AttemptResult = AcceptedResult | RejectedResult | DidYouMeanResult;
+/** The Guess names an Entity of another Answer Type (e.g. a champion on a SKIN Prompt). Not an Attempt. */
+export interface WrongAnswerTypeResult {
+  kind: "wrong-answer-type";
+  expected: AnswerType;
+}
+
+export type AttemptResult = AcceptedResult | RejectedResult | DidYouMeanResult | WrongAnswerTypeResult;
 
 /** A player's progress on one Prompt: when its answer window opened, and the Accepted Guess, if any. */
 export interface PromptPlay {
@@ -97,6 +103,9 @@ export function submitAttempt({ prompt, entities, play, guess, now }: AttemptInp
   const reading = readGuess(guess, prompt.answerType, entities);
   if (reading.kind === "did-you-mean") {
     return { result: { kind: "did-you-mean", candidates: reading.candidates }, play };
+  }
+  if (reading.kind === "wrong-answer-type") {
+    return { result: { kind: "wrong-answer-type", expected: prompt.answerType }, play };
   }
   if (reading.kind === "none") return reject("no-match");
   const match = reading.entity;

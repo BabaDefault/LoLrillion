@@ -11,6 +11,8 @@ export interface Candidate {
 export type GuessReading =
   | { kind: "match"; entity: Entity }
   | { kind: "did-you-mean"; candidates: Candidate[] }
+  /** The Guess exactly names an Entity of a different Answer Type. */
+  | { kind: "wrong-answer-type" }
   | { kind: "none" };
 
 /** Guesses this short (after normalising) never get a "Did you mean". */
@@ -63,7 +65,7 @@ function nearMisses(key: string, entities: readonly Entity[]): Candidate[] {
 
 /**
  * Read a Guess against the Entities of the given Answer Type: exact canonical name first,
- * then Alias, then near-misses (length-scaled edit distance) for a "Did you mean".
+ * then Alias, then an exact name/Alias of another Answer Type, then near-misses (length-scaled edit distance) for a "Did you mean".
  * Candidates come from every Entity of the Answer Type, never the Answer Set, so nothing leaks.
  */
 export function readGuess(guess: string, answerType: AnswerType, entities: readonly Entity[]): GuessReading {
@@ -72,6 +74,9 @@ export function readGuess(guess: string, answerType: AnswerType, entities: reado
   const ofType = entities.filter((e) => e.answerType === answerType);
   const entity = exactMatch(key, ofType);
   if (entity) return { kind: "match", entity };
+  if (exactMatch(key, entities.filter((e) => e.answerType !== answerType))) {
+    return { kind: "wrong-answer-type" };
+  }
   const candidates = nearMisses(key, ofType);
   if (candidates.length > 0) return { kind: "did-you-mean", candidates };
   return { kind: "none" };
