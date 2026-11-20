@@ -1,0 +1,6 @@
+{"metadata":{"dataVersion":"2","matchId":"NA1_1000000001","participants":["PUUID-A","PUUID-C"]},
+ "info":{"gameVersion":"16.23.712.1234","queueId":420,"gameDuration":1830,"platformId":"NA1",
+  "participants":[
+   {"puuid":"PUUID-A","championId":62,"championName":"MonkeyKing","teamPosition":"TOP","item0":3071,"item1":3047,"item2":6333,"item3":0,"item4":0,"item5":0,"item6":3364,"win":true},
+   {"puuid":"PUUID-C","championId":103,"championName":"Ahri","teamPosition":"MIDDLE","item0":3031,"item1":3031,"item2":2003,"item3":0,"item4":0,"item5":0,"item6":3364,"win":false}
+  ]}}
