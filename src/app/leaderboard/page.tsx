@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LeaderboardScreen } from "./leaderboard-screen";
 
-export const metadata: Metadata = { title: "Leaderboards · LoLrillion" };
+export const metadata: Metadata = { title: "Leaderboards" };
 
 export default function LeaderboardPage() {
   return (
