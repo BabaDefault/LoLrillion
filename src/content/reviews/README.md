@@ -73,5 +73,5 @@ Type: `ApprovedReview` in `src/reviews/types.ts`. The file name must be `<templa
 - `typicality`: approved Typicality per Entity, 0 to 1. Entities left out use the Builder's default.
 - `tooClever`: Entities that score Too Clever (15). `gem`: the one Gem (100), not Too Clever.
 - Every pick must be in `answerSet`; `puzzles:build` and `npm test` refuse an inconsistent file.
-- If a data refresh drops a pick from the Answer Set, the Builder ignores it (falling back to the least likely
-  answer for a dropped Gem) and the Template shows as `changed` in the queue until it is re-approved.
+- If a data refresh drops a pick from the Answer Set, the Builder ignores it (falling back to a rare but
+  reachable answer, about 80% of the way down by Prior, for a dropped Gem) and the Template shows as `changed` in the queue until it is re-approved.

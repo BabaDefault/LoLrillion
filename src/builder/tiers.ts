@@ -13,6 +13,9 @@ export const FAMILIARITY_WEIGHT = 0.5;
  */
 export const BAND_SHARES = { minion: 0.3, kill: 0.3, "triple-kill": 0.25 } as const;
 
+/** Without an approved Gem: position from likeliest (0) to least likely (1) of the default Gem. */
+export const DEFAULT_GEM_POSITION = 0.8;
+
 /** Build one Prompt: the Template's Answer Set, with a Tier per Entity from the Prior and the approved review. */
 export function buildPrompt(template: TemplateDefinition, inputs: BuilderInputs): BuiltPrompt {
   const entities = answerSetOf(template, inputs);
@@ -23,11 +26,13 @@ export function buildPrompt(template: TemplateDefinition, inputs: BuilderInputs)
 
   const inSet = new Set(entities);
   const tooClever = new Set((review?.tooClever ?? []).filter((id) => inSet.has(id)));
-  // The approved Gem, unless a patch dropped it from the set; then the least likely answer.
+  // The approved Gem, unless a patch dropped it from the set. Otherwise a rare but reachable answer
+  // (Krillion: "something at least a few of you actually get"), not the deepest cut.
+  const candidates = byPrior.filter((id) => !tooClever.has(id));
   const gem =
     review?.gem && inSet.has(review.gem) && !tooClever.has(review.gem)
       ? review.gem
-      : [...byPrior].reverse().find((id) => !tooClever.has(id));
+      : candidates[Math.floor((candidates.length - 1) * DEFAULT_GEM_POSITION)];
 
   const answerSet: Record<EntityId, Tier> = {};
   const banded = byPrior.filter((id) => id !== gem && !tooClever.has(id));

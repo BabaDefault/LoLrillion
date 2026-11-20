@@ -32,7 +32,7 @@ Work through every section; each point needs a `why` a maintainer can check:
 - **fun**: `fun`, `ok` or `dull`, and why. A Prompt is fun when most players can name a few and few can name them all.
 - **typicality**: simulate about 100 varied players (new to veteran, every role) each giving their first answer within 25 seconds. For **every** Entity in the Answer Set, `value` is how readily it comes to mind for this Prompt, from 0 (nobody) to 1 (everyone's first answer). It's about this Prompt, not general popularity: Teemo is typical for "Yordle" but not for "has a dash".
 - **tooClever**: Entities that seem obscure but that players reach for *because* they seem obscure (the "everyone thinks they're clever" pick). Usually zero to three.
-- **gemCandidates**: exactly three, best first, from the Answer Set, none Too Clever. A Gem is satisfying to find when revealed ("oh, of course!"), not merely the rarest.
+- **gemCandidates**: exactly three, best first, from the Answer Set, none Too Clever. A Gem is satisfying to find when revealed ("oh, of course!"), not merely the rarest. Like Krillion's, it is "something at least a few players actually get": prefer Typicality of roughly 0.05-0.25, and never a deep cut almost nobody would type.
 
 ## 3. Write and validate the proposal
 

@@ -52,6 +52,14 @@ describe("Tiers", () => {
     expect(tiersOf(buildPrompt(mr, inputs).answerSet).filter((t) => t === "pentakill")).toHaveLength(1);
   });
 
+  it("without an approved Gem, picks a rare but reachable answer, never the least likely one", () => {
+    // Krillion: the Gem is "something at least a few of you actually get", not the deepest cut.
+    const { answerSet } = buildPrompt(mr, { ...inputs, reviews: { [mr.id]: { templateId: mr.id, typicality } } });
+    const gem = ids.findIndex((id) => answerSet[id] === "pentakill");
+    expect(gem).toBeGreaterThan(ids.length / 2);
+    expect(gem).toBeLessThan(ids.length - 1);
+  });
+
   it("uses the approved Gem and approved Too Clever picks", () => {
     const review = { templateId: mr.id, typicality, gem: ids[3], tooClever: [ids[10], ids[11]] };
     const { answerSet } = buildPrompt(mr, { ...inputs, reviews: { [mr.id]: review } });
