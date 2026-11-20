@@ -66,3 +66,50 @@ describe("resolving a Guess", () => {
     expect(attempt("Gangplonk")).toMatchObject({ kind: "rejected" });
   });
 });
+
+describe("Tier → Points", () => {
+  const ids = ["kaisa", "missfortune", "twistedfate", "teemo", "garen"] as const;
+  const everyTier: PromptDefinition = {
+    ...bilgewater,
+    answerSet: {
+      kaisa: "minion",
+      missfortune: "too-clever",
+      twistedfate: "kill",
+      teemo: "triple-kill",
+      garen: "quadra-kill",
+    },
+  };
+
+  it.each([
+    ["kaisa", 10],
+    ["missfortune", 15],
+    ["twistedfate", 30],
+    ["teemo", 60],
+    ["garen", 85],
+  ] satisfies [(typeof ids)[number], number][])("%s scores %i", (id, points) => {
+    const name = entities.find((e) => e.id === id)!.name;
+    expect(attempt(name, everyTier)).toMatchObject({ points });
+  });
+
+  it("the Gem (Pentakill) scores 100", () => {
+    const gem = { ...bilgewater, answerSet: { teemo: "pentakill" as const } };
+    expect(attempt("Teemo", gem)).toMatchObject({ tier: "pentakill", points: 100 });
+  });
+});
+
+describe("retries and locking", () => {
+  it("lets the player retry after a Rejected Attempt, and locks on the first Accepted Guess", () => {
+    let play = openPrompt(T0);
+    const first = submitAttempt({ prompt: bilgewater, entities, play, guess: "Garen", now: answering });
+    expect(first.result.kind).toBe("rejected");
+    play = first.play;
+
+    const second = submitAttempt({ prompt: bilgewater, entities, play, guess: "MF", now: answering + 1 });
+    expect(second.result).toMatchObject({ kind: "accepted", entityId: "missfortune" });
+    play = second.play;
+
+    const third = submitAttempt({ prompt: bilgewater, entities, play, guess: "TF", now: answering + 2 });
+    expect(third.result).toMatchObject({ kind: "rejected", reason: "locked" });
+    expect(third.play.accepted).toMatchObject({ entityId: "missfortune", points: 10 });
+  });
+});

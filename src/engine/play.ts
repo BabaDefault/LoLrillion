@@ -12,8 +12,15 @@ export interface AcceptedResult {
   points: number;
 }
 
+/** Why an Attempt was Rejected. Useful for logging unmatched Guesses. */
+export type RejectionReason =
+  | "no-match" // the Guess matched no Entity of the Prompt's Answer Type
+  | "not-in-answer-set" // it matched an Entity, but that Entity isn't valid for this Prompt
+  | "locked"; // the Prompt already has an Accepted Guess
+
 export interface RejectedResult {
   kind: "rejected";
+  reason: RejectionReason;
 }
 
 export type AttemptResult = AcceptedResult | RejectedResult;
@@ -41,9 +48,12 @@ export function submitAttempt({ prompt, entities, play, guess }: AttemptInput): 
   result: AttemptResult;
   play: PromptPlay;
 } {
+  const reject = (reason: RejectionReason) => ({ result: { kind: "rejected", reason } as const, play });
+  if (play.accepted) return reject("locked");
   const match = matchGuess(guess, prompt.answerType, entities);
-  const tier = match ? prompt.answerSet[match.id] : undefined;
-  if (!match || !tier) return { result: { kind: "rejected" }, play };
+  if (!match) return reject("no-match");
+  const tier = prompt.answerSet[match.id];
+  if (!tier) return reject("not-in-answer-set");
   const result: AcceptedResult = {
     kind: "accepted",
     entityId: match.id,

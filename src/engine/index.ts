@@ -10,5 +10,6 @@ export {
   type AttemptResult,
   type AcceptedResult,
   type RejectedResult,
+  type RejectionReason,
   type PromptPlay,
 } from "./play";
