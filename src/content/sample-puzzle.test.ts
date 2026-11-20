@@ -5,12 +5,12 @@ import { entityRegistry } from "./game-data";
 
 describe("the sample Puzzle", () => {
   it("is served with the real Entity registry", async () => {
-    const { entities } = await samplePuzzleSource.current(0);
+    const { entities } = await samplePuzzleSource.forDay("2026-11-20");
     expect(entities).toBe(entityRegistry);
   });
 
   it("only uses real Entity IDs of each Prompt's Answer Type", async () => {
-    const { puzzle } = await samplePuzzleSource.current(0);
+    const { puzzle } = await samplePuzzleSource.forDay("2026-11-20");
     const byId = new Map(entityRegistry.map((e) => [e.id, e]));
     for (const prompt of puzzle.prompts) {
       for (const id of Object.keys(prompt.answerSet)) {
@@ -20,7 +20,7 @@ describe("the sample Puzzle", () => {
   });
 
   it("accepts a typed Guess for every Prompt", async () => {
-    const { puzzle, entities } = await samplePuzzleSource.current(0);
+    const { puzzle, entities } = await samplePuzzleSource.forDay("2026-11-20");
     const guesses = ["Teemo", "MF", "Twitch", "mercs", "Kha'Zix", "vi", "garen"];
     puzzle.prompts.forEach((prompt, i) => {
       const { result } = submitAttempt({ prompt, entities, play: openPrompt(0), guess: guesses[i], now: 6_000 });

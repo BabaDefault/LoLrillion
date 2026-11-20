@@ -2,7 +2,6 @@ import { dayTitle, puzzleDayOf, type DayTitle } from "@/engine";
 import {
   generateGroupCode,
   leaderboardPhase,
-  momentOnPuzzleDay,
   parseGroupCode,
   rankLeaderboard,
   validateGroupName,
@@ -148,10 +147,7 @@ export function createLeaderboardService({
         scope = { kind: "group", group: mine };
       }
 
-      const daily =
-        phase === "live"
-          ? await puzzles.current(now)
-          : ((await puzzles.forDay?.(puzzleDay)) ?? (await puzzles.current(momentOnPuzzleDay(puzzleDay))));
+      const daily = await puzzles.forDay(puzzleDay);
       const scores = await players.getDayScores(
         puzzleDay,
         daily.puzzle.prompts.length,

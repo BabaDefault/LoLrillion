@@ -23,8 +23,11 @@ const puzzle: Puzzle = {
 };
 
 const puzzles: PuzzleSource = {
-  async current() {
-    return { puzzleDay: "test", puzzleNumber: 1, puzzle, entities };
+  async forDay(puzzleDay) {
+    return { puzzleDay, puzzleNumber: 1, puzzle, entities, generated: true };
+  },
+  async pastDays() {
+    return [];
   },
 };
 

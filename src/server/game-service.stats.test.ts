@@ -74,6 +74,14 @@ describe("personal stats, through the Game Service", () => {
     });
   });
 
+  it("keeps a finished run from a past day that served the sample Puzzle (none generated)", async () => {
+    const { clock, game, play } = setup(noon(24));
+    const { promptCount } = await game.getState("me");
+    await play("me", Array.from({ length: promptCount }, () => null));
+    clock.set(noon(26));
+    expect(await game.getStats("me")).toMatchObject({ gamesPlayed: 1, averageScore: 0 });
+  });
+
   it("is empty for a new device", async () => {
     const { game } = setup(noon(20));
     expect(await game.getStats("new")).toMatchObject({ gamesPlayed: 0, averageScore: null, bestDay: null });

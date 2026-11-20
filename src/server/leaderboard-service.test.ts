@@ -3,7 +3,8 @@ import { puzzleDayOf, type Entity, type PromptDefinition } from "@/engine";
 import { ManualClock } from "./clock";
 import { createGameService } from "./game-service";
 import { createLeaderboardService } from "./leaderboard-service";
-import type { PuzzleSource } from "./puzzle-source";
+import { createDatedPuzzleSource } from "./dated-puzzle-source";
+import { samplePuzzleSource, type PuzzleSource } from "./puzzle-source";
 import { InMemoryPlayStore } from "./storage/in-memory-play-store";
 import { InMemoryPlayerStore } from "./storage/in-memory-player-store";
 
@@ -26,18 +27,14 @@ const prompt: PromptDefinition = {
 
 /** A two-Prompt Puzzle for every Puzzle Day, numbered from 2026-11-20. */
 const puzzles: PuzzleSource = {
-  async current(now) {
-    return dayPuzzle(puzzleDayOf(now));
-  },
   async forDay(puzzleDay) {
-    return dayPuzzle(puzzleDay);
+    const puzzleNumber = Math.round((Date.parse(puzzleDay) - Date.parse("2026-11-20")) / DAY_MS) + 1;
+    return { puzzleDay, puzzleNumber, puzzle: { prompts: [prompt, prompt] }, entities, generated: true };
+  },
+  async pastDays() {
+    return [];
   },
 };
-
-function dayPuzzle(puzzleDay: string) {
-  const puzzleNumber = Math.round((Date.parse(puzzleDay) - Date.parse("2026-11-20")) / DAY_MS) + 1;
-  return { puzzleDay, puzzleNumber, puzzle: { prompts: [prompt, prompt] }, entities };
-}
 
 function setup(random?: () => number) {
   const clock = new ManualClock(T0);
@@ -247,5 +244,27 @@ describe("leaderboards", () => {
     const { social } = setup();
     expect(await social.getLeaderboard("me", { day: "2026-11-21" })).toEqual({ ok: false, error: "future-day" });
     expect(await social.getLeaderboard("me", { day: "yesterday" })).toEqual({ ok: false, error: "invalid-day" });
+  });
+});
+
+describe("leaderboards for a day that served the sample Puzzle", () => {
+  it("numbers a past day with no generated Puzzle by its date, not the sample's number", async () => {
+    // 2026-11-25 in Sydney has no generated Puzzle, so it serves the sample.
+    const clock = new ManualClock(T0 + 5 * DAY_MS);
+    const plays = new InMemoryPlayStore();
+    const players = new InMemoryPlayerStore(plays);
+    const dated = createDatedPuzzleSource({ puzzles: {}, entities, fallback: samplePuzzleSource });
+    const game = createGameService({ clock, store: plays, puzzles: dated });
+    const social = createLeaderboardService({ clock, puzzles: dated, players });
+    const { promptCount } = await game.getState("ana");
+    for (let i = 0; i < promptCount; i++) {
+      await game.startPrompt("ana");
+      clock.advance(40_000);
+    }
+
+    clock.advance(DAY_MS);
+    const past = await social.getLeaderboard("ana", { day: "2026-11-25" });
+    if (!past.ok) throw new Error(past.error);
+    expect(past.leaderboard).toMatchObject({ puzzleDay: "2026-11-25", puzzleNumber: 6, phase: "final", playerCount: 1 });
   });
 });

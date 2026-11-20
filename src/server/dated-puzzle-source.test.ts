@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Entity } from "@/engine";
+import { puzzleDayOf, type Entity } from "@/engine";
 import type { GeneratedPuzzle } from "@/builder";
 import { createDatedPuzzleSource } from "./dated-puzzle-source";
 import type { PuzzleSource } from "./puzzle-source";
@@ -22,8 +22,11 @@ const dated = (puzzleDay: string, puzzleNumber: number): GeneratedPuzzle => ({
 });
 
 const fallback: PuzzleSource = {
-  async current() {
-    return { puzzleDay: "sample", puzzleNumber: 1, puzzle: { prompts: [] }, entities: [] };
+  async forDay(puzzleDay) {
+    return { puzzleDay, puzzleNumber: 99, puzzle: { prompts: [] }, entities: [], generated: false };
+  },
+  async pastDays() {
+    return [];
   },
 };
 
@@ -36,8 +39,8 @@ const source = createDatedPuzzleSource({
 describe("dated Puzzle source", () => {
   it("serves the Puzzle dated today in Sydney, with its number", async () => {
     // 13:30 UTC on the 20th is 00:30 on the 21st in Sydney (AEDT).
-    const daily = await source.current(Date.parse("2026-11-20T13:30:00Z"));
-    expect(daily).toMatchObject({ puzzleDay: "2026-11-21", puzzleNumber: 2, entities });
+    const daily = await source.forDay(puzzleDayOf(Date.parse("2026-11-20T13:30:00Z")));
+    expect(daily).toMatchObject({ puzzleDay: "2026-11-21", puzzleNumber: 2, entities, generated: true });
     expect(daily.puzzle.prompts[0]).toEqual({
       text: "Name a Yordle (2026-11-21)",
       answerType: "champion",
@@ -46,9 +49,9 @@ describe("dated Puzzle source", () => {
     });
   });
 
-  it("falls back (keyed by today's Puzzle Day) when nothing is generated for today", async () => {
-    const daily = await source.current(Date.parse("2027-01-01T03:00:00Z"));
-    expect(daily).toMatchObject({ puzzleDay: "2027-01-01", puzzleNumber: 1, puzzle: { prompts: [] } });
+  it("falls back (keyed by the Puzzle Day) when nothing is generated for that day", async () => {
+    const daily = await source.forDay("2027-01-01");
+    expect(daily).toMatchObject({ puzzleDay: "2027-01-01", puzzleNumber: 99, puzzle: { prompts: [] }, generated: false });
   });
 });
 
@@ -72,10 +75,10 @@ describe("dated Puzzle source: the archive", () => {
     ]);
   });
 
-  it("serves a Puzzle by its day, and nothing for a day with no Puzzle", async () => {
+  it("serves a Puzzle by its day, and the fallback for a day with no generated Puzzle", async () => {
     const daily = await three.forDay("2026-11-20");
-    expect(daily).toMatchObject({ puzzleDay: "2026-11-20", puzzleNumber: 1, entities });
-    expect(daily?.puzzle.prompts[0].text).toBe("Name a Yordle (2026-11-20)");
-    expect(await three.forDay("2025-01-01")).toBeNull();
+    expect(daily).toMatchObject({ puzzleDay: "2026-11-20", puzzleNumber: 1, entities, generated: true });
+    expect(daily.puzzle.prompts[0].text).toBe("Name a Yordle (2026-11-20)");
+    expect(await three.forDay("2025-01-01")).toMatchObject({ generated: false });
   });
 });

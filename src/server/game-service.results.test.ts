@@ -23,13 +23,17 @@ const prompt = (i: number): PromptDefinition => ({
 });
 
 const puzzles: PuzzleSource = {
-  async current() {
+  async forDay(puzzleDay) {
     return {
-      puzzleDay: "2026-11-20",
+      puzzleDay,
       puzzleNumber: 4,
       puzzle: { prompts: Array.from({ length: 7 }, (_, i) => prompt(i)) },
       entities,
+      generated: true,
     };
+  },
+  async pastDays() {
+    return [];
   },
 };
 

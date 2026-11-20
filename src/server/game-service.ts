@@ -23,7 +23,7 @@ import {
   type Tier,
 } from "@/engine";
 import type { Clock } from "./clock";
-import type { ArchiveDay, DailyPuzzle, PuzzleSource } from "./puzzle-source";
+import type { ArchiveDay, PuzzleSource } from "./puzzle-source";
 import type { AnswerCountSource } from "./storage/answer-counts";
 import type { PlayKey, PlayStore } from "./storage/play-store";
 
@@ -185,14 +185,15 @@ export function createGameService({
   async function load(deviceId: string, archiveDay?: string) {
     const now = clock.now();
     if (archiveDay === undefined) {
-      const daily = await puzzles.current(now);
+      const daily = await puzzles.forDay(puzzleDayOf(now));
       const key: PlayKey = { deviceId, puzzleDay: daily.puzzleDay };
       const promptCount = daily.puzzle.prompts.length;
       const plays = await store.getPromptPlays(key, promptCount);
       return { now, daily, key, promptCount, plays };
     }
-    const daily = archiveDay < puzzleDayOf(now) ? await puzzles.forDay?.(archiveDay) : null;
-    if (!daily) throw new ArchiveUnavailableError(archiveDay);
+    // Only a past day with a generated Puzzle is in the archive.
+    const daily = archiveDay < puzzleDayOf(now) ? await puzzles.forDay(archiveDay) : null;
+    if (!daily?.generated) throw new ArchiveUnavailableError(archiveDay);
     const promptCount = daily.puzzle.prompts.length;
     const liveKey: PlayKey = { deviceId, puzzleDay: daily.puzzleDay };
     const livePlays = await store.getPromptPlays(liveKey, promptCount);
@@ -334,17 +335,11 @@ export function createGameService({
 
     async listArchive(deviceId) {
       const now = clock.now();
-      const [days, games] = await Promise.all([puzzles.pastDays?.(now) ?? [], finishedGames(deviceId, now)]);
+      const [days, games] = await Promise.all([puzzles.pastDays(now), finishedGames(deviceId, now)]);
       const finished = new Set(games.map((g) => g.puzzleDay));
       return days.map((day) => ({ ...day, finished: finished.has(day.puzzleDay) }));
     },
   };
-
-  /** The Puzzle a stored play belongs to: today's live Puzzle, or a dated one. */
-  async function puzzleFor(puzzleDay: string, now: number): Promise<DailyPuzzle | null> {
-    if (puzzleDay === puzzleDayOf(now)) return puzzles.current(now);
-    return (await puzzles.forDay?.(puzzleDay)) ?? null;
-  }
 
   /** This device's finished runs (live and archive), each with its Prompts' Tiers. */
   async function finishedGames(deviceId: string, now: number): Promise<FinishedGame[]> {
@@ -357,8 +352,7 @@ export function createGameService({
     }
     const games: FinishedGame[] = [];
     for (const run of runs.values()) {
-      const daily = await puzzleFor(run.puzzleDay, now);
-      if (!daily) continue;
+      const daily = await puzzles.forDay(run.puzzleDay);
       const progress = puzzleProgress(daily.puzzle.prompts.length, run.plays, now);
       if (!progress.finished) continue;
       games.push({
