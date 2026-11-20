@@ -10,6 +10,45 @@ npm test        # Vitest (Game Engine)
 npm run build
 ```
 
+## Smoke test (Playwright)
+
+One Playwright test plays a full Puzzle Day through the running app. Run it **before every deploy**
+(locally, against a production build) and **after every deploy** (against the deployed URL).
+
+```sh
+npx playwright install chromium   # once per machine
+npm run test:smoke                # before a deploy: next build + next start on :3100, then every spec
+```
+
+Before a deploy, `npm run test:smoke` builds the app, starts it on port 3100 in smoke-test mode
+(`LOLRILLION_SMOKE_TEST=1`, set only by `playwright.config.ts`), and runs `e2e/smoke.spec.ts`. Two
+browser contexts (two devices) play the fixed smoke Puzzle (`src/server/smoke-puzzle.ts`, not the real
+content). The test covers a Rejected Attempt then an Accepted Guess, a wrong Answer Type message, a
+Did-you-mean confirmation, a timeout Miss, the end screen with the share line, and a group leaderboard
+showing both players. It also runs the read-only `e2e/deployed.spec.ts`. The clock is adjustable, so the
+5s/25s windows are skipped instead of waited out, and the whole run takes seconds after the build. Set
+`SMOKE_SKIP_BUILD=1` to reuse the existing `.next` build.
+
+In smoke-test mode the server always uses the in-memory store, even if `.env.local` has Supabase
+credentials, so the test never touches the real database. It also serves the test-only
+`/api/test/clock` and `/api/test/reset` routes. Without the variable those routes return 404, and if
+the variable is ever set where `VERCEL_ENV=production`, the server refuses to start.
+
+After a deploy, point the test at the deployed URL:
+
+```sh
+PLAYWRIGHT_BASE_URL=https://<deployment>.vercel.app npm run test:smoke            # bash
+$env:PLAYWRIGHT_BASE_URL="https://<deployment>.vercel.app"; npm run test:smoke    # PowerShell
+```
+
+With `PLAYWRIGHT_BASE_URL` set, no server is started and only `e2e/deployed.spec.ts` runs. A deployed site
+has no test hooks, so this run is a reduced, read-only check: the home page offers today's Puzzle without
+revealing it, the state API sends no Answer Set, results stay locked before the Puzzle is finished, the
+leaderboards, stats and archive pages load, and the `/api/test/*` routes return 404. It never starts a
+Prompt or submits a Guess, so it leaves no plays in Supabase. The gameplay flows (Attempts, Did-you-mean,
+timeouts, the end screen, share line and group leaderboards) are covered only by the local run. If the
+preview has Vercel Deployment Protection, also set `VERCEL_AUTOMATION_BYPASS_SECRET`.
+
 ## Game data
 
 ```sh
