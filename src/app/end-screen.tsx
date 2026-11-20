@@ -110,6 +110,11 @@ export function EndScreen() {
           {copied === "copied" ? "Copied!" : "Share"}
         </button>
         {copied === "failed" && <p className="muted">Couldn&apos;t copy. Try again.</p>}
+        <p>
+          <a href="/leaderboard" data-testid="leaderboard-link">
+            See the leaderboards
+          </a>
+        </p>
       </section>
 
       <div className="row sort-toggle" role="group" aria-label="Sort Answer Sets">
