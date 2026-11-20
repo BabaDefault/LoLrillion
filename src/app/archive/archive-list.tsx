@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { ArchiveEntryView } from "@/server/game-service";
+import { Empty, ErrorState, Loading } from "../status";
 
 /** Past Puzzles, newest first. Today's and future Puzzles are never listed. */
 export function ArchiveList() {
@@ -16,9 +17,9 @@ export function ArchiveList() {
       .catch(() => setError(true));
   }, []);
 
-  if (error) return <p className="muted">Couldn&apos;t load the archive.</p>;
-  if (!days) return <p className="muted">Loading the archive…</p>;
-  if (days.length === 0) return <p className="muted">No past Puzzles yet. Come back tomorrow.</p>;
+  if (error) return <ErrorState>Couldn&apos;t load the archive. Refresh to try again.</ErrorState>;
+  if (!days) return <Loading>Loading the archive…</Loading>;
+  if (days.length === 0) return <Empty>No past Puzzles yet. Come back tomorrow.</Empty>;
 
   return (
     <ul className="archive-list">

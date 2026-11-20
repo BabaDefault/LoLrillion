@@ -11,6 +11,7 @@ import type {
   NicknameResponse,
   ProfileView,
 } from "@/server/leaderboard-service";
+import { Empty, ErrorState, Loading } from "../status";
 
 const ERRORS: Record<string, string> = {
   empty: "That can't be empty.",
@@ -45,7 +46,7 @@ function EntryRow({ entry }: { entry: LeaderboardEntryView }) {
         {entry.nickname ?? <span className="muted">Anonymous</span>}
         {entry.you && <span className="muted"> (you)</span>}
       </span>
-      <span className="muted">{entry.dayTitle}</span>
+      <span className="muted day">{entry.dayTitle}</span>
       <span className="score">{entry.total}</span>
     </li>
   );
@@ -61,7 +62,7 @@ function Board({ board }: { board: LeaderboardView }) {
         {board.playerCount === 1 ? "player" : "players"}
       </p>
       {board.entries.length === 0 ? (
-        <p className="muted">Nobody has finished this Puzzle yet.</p>
+        <Empty>Nobody has finished this Puzzle yet.</Empty>
       ) : (
         <ol className="leaderboard" data-testid="leaderboard">
           {board.entries.map((entry, i) => (
@@ -160,7 +161,10 @@ export function LeaderboardScreen() {
     setScope(res.group.code);
   }
 
-  if (!profile) return <p className="muted">Loading…</p>;
+  if (!profile) {
+    if (message) return <ErrorState>Couldn&apos;t load the leaderboards. Refresh to try again.</ErrorState>;
+    return <Loading>Loading the leaderboards…</Loading>;
+  }
   const shownDay = board?.puzzleDay ?? day;
   const isToday = day === null || board?.phase === "live";
 
@@ -201,21 +205,15 @@ export function LeaderboardScreen() {
       )}
 
       <section className="card">
-        <div className="row scope-tabs" role="tablist" aria-label="Leaderboards">
-          <span>
-            <button className={scope === null ? "chip active" : "chip"} onClick={() => setScope(null)}>
-              Global
+        <div className="chips scope-tabs" role="group" aria-label="Which leaderboard">
+          <button className="chip" aria-pressed={scope === null} onClick={() => setScope(null)}>
+            Global
+          </button>
+          {profile.groups.map((g) => (
+            <button key={g.code} className="chip" aria-pressed={scope === g.code} onClick={() => setScope(g.code)}>
+              {g.name}
             </button>
-            {profile.groups.map((g) => (
-              <button
-                key={g.code}
-                className={scope === g.code ? "chip active" : "chip"}
-                onClick={() => setScope(g.code)}
-              >
-                {g.name}
-              </button>
-            ))}
-          </span>
+          ))}
         </div>
         {scope && (
           <p className="muted">
@@ -234,7 +232,8 @@ export function LeaderboardScreen() {
             Next day →
           </button>
         </div>
-        {boardError && <p className="muted">{boardError}</p>}
+        {boardError && <ErrorState>{boardError}</ErrorState>}
+        {!board && !boardError && <Loading>Loading the leaderboard…</Loading>}
         {board && <Board board={board} />}
       </section>
 
@@ -270,9 +269,6 @@ export function LeaderboardScreen() {
         </form>
       </section>
 
-      <p className="center">
-        <a href="/">Back to today&apos;s Puzzle</a>
-      </p>
     </div>
   );
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { MISS_EMOJI, TIER_EMOJI, TIER_NAMES, type PersonalStats, type Tier } from "@/engine";
+import { Empty, ErrorState, Loading } from "../status";
 
 const TIERS: Tier[] = ["pentakill", "quadra-kill", "triple-kill", "kill", "too-clever", "minion"];
 
@@ -17,12 +19,19 @@ export function StatsView() {
       .catch(() => setError(true));
   }, []);
 
-  if (error) return <p className="muted">Couldn&apos;t load your stats.</p>;
-  if (!stats) return <p className="muted">Loading your stats…</p>;
-  if (stats.gamesPlayed === 0) return <p className="muted">Finish a Puzzle to start your stats.</p>;
+  if (error) return <ErrorState>Couldn&apos;t load your stats. Refresh to try again.</ErrorState>;
+  if (!stats) return <Loading>Loading your stats…</Loading>;
+  if (stats.gamesPlayed === 0)
+    return (
+      <Empty>
+        <span>
+          Finish a Puzzle to start your stats. <Link href="/">Play today&apos;s Puzzle</Link>
+        </span>
+      </Empty>
+    );
 
   return (
-    <>
+    <div className="stats-view">
       <section className="card stats-grid">
         <div>
           <p className="stat" data-testid="games-played">{stats.gamesPlayed}</p>
@@ -58,6 +67,6 @@ export function StatsView() {
           </li>
         </ul>
       </section>
-    </>
+    </div>
   );
 }

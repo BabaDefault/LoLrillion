@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type FormEvent } from "react"
 import type { AttemptResponse, PromptResultView, PuzzleStateView } from "@/server/game-service";
 import { EndScreen } from "./end-screen";
 import { ScoreInterlude } from "./score-interlude";
+import { ErrorState, Loading } from "./status";
 
 const GRACE_MS = 2_000;
 
@@ -29,6 +30,7 @@ async function api<T>(path: string, body?: unknown): Promise<T> {
 export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
   const query = archiveDay ? `?day=${encodeURIComponent(archiveDay)}` : "";
   const [unavailable, setUnavailable] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [state, setState] = useState<PuzzleStateView | null>(null);
   const [offset, setOffset] = useState(0); // serverNow - Date.now()
   const [now, setNow] = useState(() => Date.now());
@@ -45,9 +47,9 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
   }, []);
 
   useEffect(() => {
-    api<PuzzleStateView | { ok: false }>(`/api/puzzle/state${query}`).then((res) =>
-      "puzzleDay" in res ? receive(res) : setUnavailable(true),
-    );
+    api<PuzzleStateView | { ok: false }>(`/api/puzzle/state${query}`)
+      .then((res) => ("puzzleDay" in res ? receive(res) : setUnavailable(true)))
+      .catch(() => setLoadFailed(true));
   }, [receive, query]);
 
   useEffect(() => {
@@ -126,8 +128,9 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
     inputRef.current?.focus();
   }
 
-  if (unavailable) return <p className="muted">That Puzzle isn&apos;t in the archive.</p>;
-  if (!state) return <p className="muted">Loading {archiveDay ? "the" : "today's"} Puzzle…</p>;
+  if (unavailable) return <ErrorState>That Puzzle isn&apos;t in the archive.</ErrorState>;
+  if (loadFailed) return <ErrorState>Couldn&apos;t load the Puzzle. Refresh to try again.</ErrorState>;
+  if (!state) return <Loading>Loading {archiveDay ? "the" : "today's"} Puzzle…</Loading>;
 
   if (interlude) {
     return (
@@ -171,7 +174,7 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
         </span>
         <span className="badge">{live.answerType.toUpperCase()}</span>
       </div>
-      <h2>{live.text}</h2>
+      <h2 className="prompt-text">{live.text}</h2>
       <p className="rule">{live.rule}</p>
       <p className={`countdown ${reading ? "reading" : ""}`} aria-live="polite">
         {reading ? `Read… ${countdown}` : timedOut ? "Time's up" : countdown}
@@ -210,7 +213,9 @@ export function PlayScreen({ archiveDay }: { archiveDay?: string } = {}) {
                 {notice.candidates.length === 1 ? `Yes, ${c.name}` : c.name}
               </button>
             ))}
-            <button onClick={backToEditing}>No</button>
+            <button className="secondary" onClick={backToEditing}>
+              No
+            </button>
           </div>
         </div>
       )}

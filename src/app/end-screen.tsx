@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { shareLine, TIER_EMOJI, TIER_NAMES } from "@/engine";
 import type { AnswerSetEntryView, PuzzleResultsView, ResultsResponse } from "@/server/game-service";
+import { ErrorState, Loading } from "./status";
 
 type SortOrder = "most" | "least";
 
@@ -82,8 +84,8 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
       .catch(() => setError(true));
   }, [archiveDay]);
 
-  if (error) return <p className="muted">Couldn&apos;t load the results.</p>;
-  if (!results) return <p className="muted">Loading your results…</p>;
+  if (error) return <ErrorState>Couldn&apos;t load the results. Refresh to try again.</ErrorState>;
+  if (!results) return <Loading>Loading your results…</Loading>;
 
   async function share() {
     if (!results) return;
@@ -118,21 +120,25 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
         <button className="primary" onClick={share}>
           {copied === "copied" ? "Copied!" : "Share"}
         </button>
-        {copied === "failed" && <p className="muted">Couldn&apos;t copy. Try again.</p>}
+        <p className="muted" role="status">
+          {copied === "failed" ? "Couldn't copy. Try again." : copied === "copied" ? "Share line copied." : ""}
+        </p>
         <p>
-          <a href={`/leaderboard?day=${results.puzzleDay}`} data-testid="leaderboard-link">
+          <Link href={`/leaderboard?day=${results.puzzleDay}`} data-testid="leaderboard-link">
             See the leaderboards
-          </a>
+          </Link>
         </p>
       </section>
 
-      <div className="row sort-toggle" role="group" aria-label="Sort Answer Sets">
-        <span className="muted">Sort answers by</span>
-        <span>
-          <button className={order === "most" ? "chip active" : "chip"} onClick={() => setOrder("most")}>
+      <div className="row" role="group" aria-labelledby="sort-label">
+        <span className="muted" id="sort-label">
+          Sort answers by
+        </span>
+        <span className="chips">
+          <button className="chip" aria-pressed={order === "most"} onClick={() => setOrder("most")}>
             Most chosen
           </button>
-          <button className={order === "least" ? "chip active" : "chip"} onClick={() => setOrder("least")}>
+          <button className="chip" aria-pressed={order === "least"} onClick={() => setOrder("least")}>
             Least chosen
           </button>
         </span>
