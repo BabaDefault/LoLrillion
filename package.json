@@ -15,7 +15,12 @@
     "data:familiarity": "tsx scripts/fetch-familiarity.ts",
     "labels:prelabel": "tsx scripts/prelabel.ts",
     "labels:worklist": "tsx scripts/tag-patch-worklist.ts",
-    "labels:validate": "tsx scripts/validate-labels.ts"
+    "labels:validate": "tsx scripts/validate-labels.ts",
+    "reviews:queue": "tsx scripts/review-template.ts queue",
+    "reviews:worklist": "tsx scripts/review-template.ts worklist",
+    "reviews:validate": "tsx scripts/review-template.ts validate",
+    "reviews:approve": "tsx scripts/review-template.ts approve",
+    "reviews:share": "tsx scripts/answer-share.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.2",
