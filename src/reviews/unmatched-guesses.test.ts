@@ -75,4 +75,23 @@ describe("unmatched Guess report", () => {
     ]);
     expect(report.map((r) => r.guesses.map((g) => g.normalized))).toEqual([["tristanna"]]);
   });
+
+  it("marks Guesses that name an Entity of the Answer Type (by name, Alias or confirmed Entity) apart from those that name none", () => {
+    const report = unmatchedGuessReport([puzzle("2026-11-20", [yordles, items])], entities, [
+      rejection({ guess: "gnar", reason: "not-in-answer-set" }),
+      rejection({ guess: "Monkey King", reason: "not-in-answer-set" }),
+      rejection({ guess: null, reason: "not-in-answer-set", confirmedEntityId: "champion:MonkeyKing", playerId: "p2" }),
+      rejection({ guess: "Gnarr", reason: "not-in-answer-set", confirmedEntityId: "champion:Gnar", playerId: "p3" }),
+      // An Entity of another Answer Type is not a likely missing answer here.
+      rejection({ guess: "Teemo", promptIndex: 1 }),
+    ]);
+    expect(report.find((r) => r.templateId === "yordles")!.guesses).toEqual([
+      { normalized: "gnar", spellings: ["gnar"], count: 1, players: 1, entity: { id: "champion:Gnar", name: "Gnar" } },
+      { normalized: "gnarr", spellings: ["Gnarr"], count: 1, players: 1, entity: { id: "champion:Gnar", name: "Gnar" } },
+      { normalized: "monkeyking", spellings: ["Monkey King"], count: 1, players: 1, entity: { id: "champion:MonkeyKing", name: "Wukong" } },
+      // A confirmed "Did you mean" logged without its typed Guess counts under the Entity's name.
+      { normalized: "wukong", spellings: ["Wukong"], count: 1, players: 1, entity: { id: "champion:MonkeyKing", name: "Wukong" } },
+    ]);
+    expect(report.find((r) => r.templateId === "items")!.guesses[0].entity).toBeNull();
+  });
 });

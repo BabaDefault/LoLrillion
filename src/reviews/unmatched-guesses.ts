@@ -44,7 +44,17 @@ export interface TemplateUnmatchedGuesses {
 /** Rejection reasons that say something about the answers, not about timing. */
 const ANSWER_REJECTIONS: ReadonlySet<string> = new Set<RejectionReason>(["no-match", "not-in-answer-set"]);
 
-type Tally = { normalized: string; spellings: string[]; count: number; players: Set<string> };
+type Tally = { normalized: string; spellings: string[]; count: number; players: Set<string>; entity: Entity | null };
+
+/** The Entity of `answerType` a normalized Guess names exactly, by name first, then by Alias. */
+function namedEntity(normalized: string, answerType: AnswerType, entities: readonly Entity[]): Entity | null {
+  const ofType = entities.filter((e) => e.answerType === answerType);
+  return (
+    ofType.find((e) => normalizeGuess(e.name) === normalized) ??
+    ofType.find((e) => e.aliases.some((a) => normalizeGuess(a) === normalized)) ??
+    null
+  );
+}
 
 /**
  * Rejected Guesses per Template, grouped by normalized text. Only answer problems count: a Guess
@@ -63,7 +73,10 @@ export function unmatchedGuessReport(
   for (const attempt of attempts) {
     if (attempt.result !== "rejected" || !ANSWER_REJECTIONS.has(attempt.reason ?? "")) continue;
     const prompt = byDay.get(attempt.puzzleDay)?.prompts[attempt.promptIndex];
-    if (!prompt || attempt.guess === null) continue;
+    if (!prompt) continue;
+    const confirmed = entities.find((e) => e.id === attempt.confirmedEntityId && e.answerType === prompt.answerType) ?? null;
+    const text = attempt.guess ?? confirmed?.name;
+    if (text === undefined) continue;
     const entry = byTemplate.get(prompt.templateId) ?? {
       prompt: prompt.text,
       answerType: prompt.answerType,
@@ -72,12 +85,19 @@ export function unmatchedGuessReport(
     };
     byTemplate.set(prompt.templateId, entry);
     entry.days.add(attempt.puzzleDay);
-    const normalized = normalizeGuess(attempt.guess);
-    const tally = entry.tallies.get(normalized) ?? { normalized, spellings: [], count: 0, players: new Set<string>() };
+    const normalized = normalizeGuess(text);
+    const tally = entry.tallies.get(normalized) ?? {
+      normalized,
+      spellings: [],
+      count: 0,
+      players: new Set<string>(),
+      entity: namedEntity(normalized, prompt.answerType, entities),
+    };
+    tally.entity ??= confirmed;
     entry.tallies.set(normalized, tally);
     tally.count++;
     tally.players.add(attempt.playerId);
-    if (!tally.spellings.includes(attempt.guess)) tally.spellings.push(attempt.guess);
+    if (!tally.spellings.includes(text)) tally.spellings.push(text);
   }
 
   return [...byTemplate.entries()]
@@ -88,7 +108,13 @@ export function unmatchedGuessReport(
       answerType,
       days: [...days].sort(),
       guesses: [...tallies.values()]
-        .map((t) => ({ normalized: t.normalized, spellings: t.spellings, count: t.count, players: t.players.size, entity: null }))
+        .map((t) => ({
+          normalized: t.normalized,
+          spellings: t.spellings,
+          count: t.count,
+          players: t.players.size,
+          entity: t.entity && { id: t.entity.id, name: t.entity.name },
+        }))
         .sort((a, b) => b.count - a.count || b.players - a.players || a.normalized.localeCompare(b.normalized)),
     }));
 }
