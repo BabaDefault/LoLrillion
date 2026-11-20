@@ -15,7 +15,7 @@ export type GuessReading =
   | { kind: "wrong-answer-type" }
   | { kind: "none" };
 
-/** Guesses this short (after normalising) never get a "Did you mean". */
+/** Guesses and names this short (after normalising) never take part in a "Did you mean". */
 const MIN_FUZZY_LENGTH = 5;
 
 /** Edits allowed for a near-miss: one per four characters of the Guess. */
@@ -53,9 +53,11 @@ function nearMisses(key: string, entities: readonly Entity[]): Candidate[] {
   const limit = maxDistance(key.length);
   const scored: Array<{ entity: Entity; distance: number }> = [];
   for (const entity of entities) {
-    const distance = Math.min(
-      ...[entity.name, ...entity.aliases].map((n) => editDistance(key, normalizeGuess(n))),
-    );
+    const names = [entity.name, ...entity.aliases]
+      .map(normalizeGuess)
+      .filter((n) => n.length >= MIN_FUZZY_LENGTH);
+    if (names.length === 0) continue;
+    const distance = Math.min(...names.map((n) => editDistance(key, n)));
     if (distance <= limit) scored.push({ entity, distance });
   }
   return scored

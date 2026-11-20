@@ -21,6 +21,7 @@ const entities: Entity[] = [
   { id: "kayle", name: "Kayle", answerType: "champion", aliases: [] },
   { id: "kayn", name: "Kayn", answerType: "champion", aliases: [] },
   { id: "zac", name: "Zac", answerType: "champion", aliases: [] },
+  { id: "kassadil", name: "Kassadill", answerType: "champion", aliases: [] },
   { id: "mf-arcade", name: "Arcade Miss Fortune", answerType: "skin", aliases: [] },
 ];
 
@@ -222,12 +223,20 @@ describe("Did you mean", () => {
   });
 
   it("lists every close Entity when several are near", () => {
-    expect(attempt("Kayne")).toEqual({
+    expect(attempt("Kassadil")).toEqual({
       kind: "did-you-mean",
       candidates: [
-        { id: "kayle", name: "Kayle" },
-        { id: "kayn", name: "Kayn" },
+        { id: "kassadil", name: "Kassadill" },
+        { id: "kassadin", name: "Kassadin" },
       ],
+    });
+  });
+
+  it("never offers an Entity whose name is 4 characters or fewer", () => {
+    expect(attempt("Kaynn")).toEqual({ kind: "rejected", reason: "no-match" });
+    expect(attempt("Kayne")).toEqual({
+      kind: "did-you-mean",
+      candidates: [{ id: "kayle", name: "Kayle" }],
     });
   });
 
