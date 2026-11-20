@@ -1,15 +1,21 @@
 import {
+  dayTitle,
   openPrompt,
   promptWindow,
   puzzleProgress,
   submitAttempt as engineSubmitAttempt,
+  TIER_POINTS,
   type AnswerType,
   type AttemptResult,
+  type DayTitle,
+  type EntityId,
   type PromptPlay,
   type PromptProgress,
+  type Tier,
 } from "@/engine";
 import type { Clock } from "./clock";
 import type { PuzzleSource } from "./puzzle-source";
+import { noAnswerCounts, type AnswerCountSource } from "./storage/answer-counts";
 import type { PlayStore } from "./storage/play-store";
 
 /**
@@ -30,7 +36,7 @@ export type CurrentPromptView =
 
 /** A finished Prompt's result as the client sees it. */
 export type PromptResultView =
-  | { status: "accepted"; entityName: string; tier: string; points: number }
+  | { status: "accepted"; entityName: string; tier: Tier; points: number }
   | { status: "missed"; points: number };
 
 export interface PuzzleStateView {
@@ -45,6 +51,39 @@ export interface PuzzleStateView {
   total: number | null;
 }
 
+/** One Entity of a revealed Answer Set, with its Answer Share among today's players. */
+export interface AnswerSetEntryView {
+  entityId: EntityId;
+  name: string;
+  tier: Tier;
+  points: number;
+  /** True for the Gem (the Pentakill Entity). */
+  gem: boolean;
+  /** How many of today's players chose it. */
+  count: number;
+  /** Answer Share: count / today's players, from 0 to 1 (0 when there are no players yet). */
+  share: number;
+}
+
+export interface PromptRevealView {
+  text: string;
+  answerType: AnswerType;
+  result: PromptResultView;
+  answerSet: AnswerSetEntryView[];
+}
+
+/** The end screen: only available once all Prompts are finished, since it reveals the Answer Sets. */
+export interface PuzzleResultsView {
+  puzzleDay: string;
+  puzzleNumber: number;
+  total: number;
+  maxTotal: number;
+  dayTitle: DayTitle;
+  prompts: PromptRevealView[];
+}
+
+export type ResultsResponse = { ok: true; results: PuzzleResultsView } | { ok: false; error: "not-finished" };
+
 export type AttemptResponse =
   | { ok: true; result: AttemptResult; state: PuzzleStateView }
   | { ok: false; error: "not-current-prompt" | "prompt-not-started"; state: PuzzleStateView };
@@ -53,6 +92,8 @@ export interface GameServiceDeps {
   clock: Clock;
   store: PlayStore;
   puzzles: PuzzleSource;
+  /** Answer Share counts for the end screen; all zero when omitted. */
+  answerCounts?: AnswerCountSource;
 }
 
 export interface GameService {
@@ -60,6 +101,8 @@ export interface GameService {
   /** Start the current Prompt (records its window-open time). Idempotent. */
   startPrompt(deviceId: string): Promise<PuzzleStateView>;
   submitAttempt(deviceId: string, promptIndex: number, guess: string): Promise<AttemptResponse>;
+  /** The end-screen reveal, including Answer Sets; refused until all Prompts are finished. */
+  getResults(deviceId: string): Promise<ResultsResponse>;
 }
 
 function toResultView(o: PromptProgress): PromptResultView | null {
@@ -70,7 +113,12 @@ function toResultView(o: PromptProgress): PromptResultView | null {
   return null;
 }
 
-export function createGameService({ clock, store, puzzles }: GameServiceDeps): GameService {
+export function createGameService({
+  clock,
+  store,
+  puzzles,
+  answerCounts = noAnswerCounts,
+}: GameServiceDeps): GameService {
   async function load(deviceId: string) {
     const now = clock.now();
     const daily = await puzzles.current(now);
@@ -151,6 +199,44 @@ export function createGameService({ clock, store, puzzles }: GameServiceDeps): G
       const plays = ctx.plays.slice();
       plays[promptIndex] = outcome.play;
       return { ok: true, result: outcome.result, state: view(ctx, plays) };
+    },
+
+    async getResults(deviceId) {
+      const { now, daily, promptCount, plays } = await load(deviceId);
+      const progress = puzzleProgress(promptCount, plays, now);
+      if (!progress.finished) return { ok: false, error: "not-finished" };
+
+      const counts = await answerCounts.getAnswerCounts(daily.puzzleDay, promptCount);
+      const names = new Map(daily.entities.map((e) => [e.id, e.name]));
+      const prompts = daily.puzzle.prompts.map((prompt, i): PromptRevealView => {
+        const promptCounts = counts.byPrompt[i] ?? {};
+        const answerSet = Object.entries(prompt.answerSet).map(([entityId, tier]): AnswerSetEntryView => {
+          const count = promptCounts[entityId] ?? 0;
+          return {
+            entityId,
+            name: names.get(entityId) ?? entityId,
+            tier,
+            points: TIER_POINTS[tier],
+            gem: tier === "pentakill",
+            count,
+            share: counts.players > 0 ? count / counts.players : 0,
+          };
+        });
+        // A finished Puzzle has every Prompt Accepted or Missed.
+        const result = toResultView(progress.outcomes[i]) ?? { status: "missed", points: 0 };
+        return { text: prompt.text, answerType: prompt.answerType, result, answerSet };
+      });
+      return {
+        ok: true,
+        results: {
+          puzzleDay: daily.puzzleDay,
+          puzzleNumber: daily.puzzleNumber,
+          total: progress.total,
+          maxTotal: promptCount * TIER_POINTS.pentakill,
+          dayTitle: dayTitle(progress.total),
+          prompts,
+        },
+      };
     },
   };
 }
