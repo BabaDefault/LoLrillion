@@ -3,3 +3,4 @@
 export * from "./types";
 export { reviewQueue } from "./queue";
 export { checkProposal, GEM_CANDIDATES } from "./proposal";
+export { approveProposal, checkApprovedReview } from "./approve";
