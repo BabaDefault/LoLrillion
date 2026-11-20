@@ -25,7 +25,8 @@
  *
  * Writes src/content/puzzles/<YYYY-MM-DD>.json (server-only: they hold Answer Sets) and regenerates
  * src/content/puzzles/index.ts, the manifest the app's PuzzleSource imports. Existing dated Puzzles
- * are kept (a live Puzzle must not change) and count toward the no-repeat rule.
+ * are kept (a live Puzzle must not change) and count toward the no-repeat rule. Each Prompt carries
+ * its provenance (the inputs that produced its Tiers); `npm run puzzles:explain -- <date>` prints it.
  */
 import { existsSync } from "node:fs";
 import { readdir, readFile, writeFile } from "node:fs/promises";
