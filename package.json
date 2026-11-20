@@ -10,7 +10,10 @@
     "test:watch": "vitest",
     "data:fetch": "tsx scripts/fetch-game-data.ts",
     "data:registry": "tsx scripts/fetch-game-data.ts --registry-only",
-    "data:familiarity": "tsx scripts/fetch-familiarity.ts"
+    "data:familiarity": "tsx scripts/fetch-familiarity.ts",
+    "labels:prelabel": "tsx scripts/prelabel.ts",
+    "labels:worklist": "tsx scripts/tag-patch-worklist.ts",
+    "labels:validate": "tsx scripts/validate-labels.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.2",
