@@ -1,8 +1,13 @@
 import type { Metadata, Viewport } from "next";
+import { Pixelify_Sans, Press_Start_2P } from "next/font/google";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { SiteNav } from "./site-nav";
 import "./globals.css";
+
+/* Pixel fonts, downloaded at build time and served from our own origin (no runtime font CDN). */
+const display = Press_Start_2P({ weight: "400", subsets: ["latin"], display: "swap", variable: "--font-display" });
+const body = Pixelify_Sans({ subsets: ["latin"], display: "swap", variable: "--font-body" });
 
 export const metadata: Metadata = {
   title: { default: "LoLrillion", template: "%s · LoLrillion" },
@@ -12,12 +17,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b1020",
+  themeColor: "#0a0f1f", // --bg in globals.css
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body>
         <a className="skip-link" href="#content">
           Skip to content

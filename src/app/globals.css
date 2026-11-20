@@ -1,50 +1,75 @@
 /* ==========================================================================
-   LoLrillion design tokens. Every colour, radius, space and type size used
-   below comes from here; components never hard-code their own.
+   LoLrillion design tokens: a pixel-art Hextech theme. Every colour, size,
+   step and shadow used below comes from here; components never hard-code
+   their own. Contrast ratios are against --surface unless noted.
    ========================================================================== */
 :root {
   color-scheme: dark;
 
-  /* Colour */
-  --bg: #0b1020;
-  --surface: #151c33;
-  --surface-raised: #1d2645;
-  --border: #2c365a;
-  --text: #e8ecf8;
-  --muted: #8c96b5; /* 5.7:1 on --surface, 6.4:1 on --bg */
-  --accent: #c8aa6e;
-  --accent-strong: #e2c78f;
-  --accent-soft: rgba(200, 170, 110, 0.15);
-  --on-accent: #0b1020;
-  --bad: #ff6b6f; /* 6:1 on --surface, so it is legible as text too */
-  --good: #30a46c;
-  --focus: #f4dca6;
+  /* Colour: deep navy, Hextech gold, arcane cyan */
+  --bg: #0a0f1f;
+  --bg-grid: rgba(79, 224, 239, 0.035);
+  --surface: #131b36;
+  --surface-raised: #1c2750;
+  --border: #36457a;
+  --bevel-light: rgba(255, 255, 255, 0.07);
+  --bevel-dark: rgba(0, 0, 0, 0.35);
+  --shadow: #04060d;
+  --text: #f1ecdc; /* 14:1 */
+  --muted: #a3acc9; /* 7.5:1, 6.4:1 on --surface-raised */
+  --accent: #e0b552; /* gold, 8.7:1 */
+  --accent-strong: #f5d27e;
+  --accent-deep: #8c6a1f;
+  --accent-soft: rgba(224, 181, 82, 0.14);
+  --on-accent: #0a0f1f; /* 9:1 on --accent */
+  --highlight: #4fe0ef; /* cyan, 10:1 */
+  --highlight-deep: #157f8c;
+  --highlight-soft: rgba(79, 224, 239, 0.12);
+  --bad: #ff6b6f; /* 6:1 */
+  --good: #4fd977;
+  --focus: #4fe0ef;
 
-  /* Type */
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono: ui-monospace, "Cascadia Mono", Menlo, monospace;
-  --text-xs: 12px;
-  --text-sm: 14px;
-  --text-md: 16px;
-  --text-lg: 20px;
-  --text-xl: 28px;
+  /* Tier colours, matching the share emoji (see tier-tone.ts). All >= 5:1. */
+  --tone-blue: #5b9bff; /* Minion 🟦 */
+  --tone-clown: #ff6fa8; /* Too Clever 🤡 */
+  --tone-green: #4fd977; /* Kill 🟩 */
+  --tone-yellow: #f5d63d; /* Triple 🟨 */
+  --tone-orange: #ff9d45; /* Quadra 🟧 */
+  --tone-gem: #8ff0ff; /* Pentakill / Gem 💎 */
+  --tone-miss: #8f97b3; /* Miss ⬛ */
 
-  /* Space and shape */
+  /* Type: a chunky display face for headings and numbers, a readable pixel face for the rest */
+  --font-display: "Press Start 2P", ui-monospace, monospace;
+  --font-body: "Pixelify Sans", system-ui, sans-serif;
+  --font-mono: var(--font-display);
+  --text-xs: 13px;
+  --text-sm: 15px;
+  --text-md: 18px;
+  --text-lg: 21px;
+  --text-xl: 26px;
+  --display-xs: 10px;
+  --display-sm: 12px;
+  --display-md: 16px;
+  --display-lg: 20px;
+
+  /* Space and the pixel grid */
+  --px: 3px; /* one "pixel" of the art */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
   --space-6: 24px;
   --space-8: 32px;
-  --radius-sm: 6px;
-  --radius: 8px;
-  --radius-lg: 12px;
-  --radius-pill: 999px;
   --content-width: 560px;
 
-  /* Motion */
-  --ease-out: cubic-bezier(0.2, 0.9, 0.3, 1);
-  --duration: 150ms;
+  /* Stepped borders and hard (blur-free) drop shadows */
+  --bevel: inset calc(var(--px) * -1) calc(var(--px) * -1) 0 var(--bevel-dark),
+    inset var(--px) var(--px) 0 var(--bevel-light);
+  --drop: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--shadow);
+  --drop-sm: var(--px) var(--px) 0 var(--shadow);
+
+  /* Motion: stepped, like sprite frames */
+  --duration: 120ms;
 }
 
 /* ==========================================================================
@@ -52,6 +77,7 @@
    ========================================================================== */
 * {
   box-sizing: border-box;
+  border-radius: 0;
 }
 
 html {
@@ -63,12 +89,21 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: linear-gradient(var(--bg-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
   color: var(--text);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   font-size: var(--text-md);
-  line-height: 1.45;
+  line-height: 1.4;
   overflow-wrap: anywhere;
+}
+
+img,
+svg,
+canvas {
+  image-rendering: pixelated;
 }
 
 main {
@@ -82,11 +117,35 @@ main {
 h1,
 h2,
 h3 {
-  line-height: 1.2;
+  line-height: 1.25;
+}
+
+/* The display face: hard pixel edges, no smoothing. */
+h1,
+.title,
+.leaderboard-screen h3,
+.stats-view h3,
+.wordmark,
+.badge,
+.countdown,
+.score-tier,
+.score-points,
+.total,
+.day-title,
+.stat,
+.rank,
+.leaderboard .score,
+.group-code {
+  font-family: var(--font-display);
+  font-weight: 400;
+  -webkit-font-smoothing: none;
+  letter-spacing: 0;
 }
 
 a {
-  color: var(--accent);
+  color: var(--highlight);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 a:hover {
@@ -98,10 +157,10 @@ input {
   font: inherit;
 }
 
-/* Visible keyboard focus on everything focusable. */
+/* Visible keyboard focus on everything focusable: a hard cyan frame. */
 :focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
+  outline: var(--px) solid var(--focus);
+  outline-offset: var(--px);
 }
 
 .skip-link {
@@ -110,10 +169,10 @@ input {
   top: -100px;
   z-index: 10;
   padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius);
   background: var(--accent);
   color: var(--on-accent);
   font-weight: 700;
+  box-shadow: var(--drop-sm);
 }
 
 .skip-link:focus {
@@ -132,15 +191,14 @@ input {
   width: 100%;
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: var(--space-3) var(--space-4) 0;
+  padding: var(--space-4) var(--space-4) 0;
 }
 
 .wordmark {
-  font-size: var(--text-lg);
-  font-weight: 800;
-  letter-spacing: -0.01em;
+  font-size: var(--display-md);
   color: var(--text);
   text-decoration: none;
+  text-shadow: var(--px) var(--px) 0 var(--shadow);
 }
 
 .wordmark:hover {
@@ -163,7 +221,7 @@ input {
 .site-nav a {
   display: block;
   padding: var(--space-2) var(--space-2);
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--px) solid transparent;
   color: var(--muted);
   font-size: var(--text-sm);
   font-weight: 600;
@@ -172,6 +230,7 @@ input {
 
 .site-nav a:hover {
   color: var(--text);
+  border-bottom-color: var(--border);
 }
 
 .site-nav a[aria-current="page"] {
@@ -195,20 +254,25 @@ input {
    ========================================================================== */
 .title {
   margin: 0 0 var(--space-6);
-  font-size: var(--text-xl);
+  font-size: var(--display-lg);
   color: var(--accent);
+  text-shadow: var(--px) var(--px) 0 var(--accent-deep);
 }
 
 .card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border: var(--px) solid var(--border);
+  box-shadow: var(--bevel), var(--drop);
   padding: var(--space-6);
 }
 
 @media (max-width: 479px) {
   .card {
     padding: var(--space-4);
+  }
+
+  .title {
+    font-size: var(--display-md);
   }
 }
 
@@ -233,12 +297,12 @@ input {
    ========================================================================== */
 input {
   width: 100%;
-  font-size: 18px;
+  font-size: 20px;
   padding: var(--space-3) 14px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
+  border: var(--px) solid var(--border);
   background: var(--bg);
   color: var(--text);
+  box-shadow: inset var(--px) var(--px) 0 var(--bevel-dark);
 }
 
 input::placeholder {
@@ -246,7 +310,8 @@ input::placeholder {
 }
 
 input:focus-visible {
-  border-color: var(--accent);
+  border-color: var(--highlight);
+  outline-offset: 0;
 }
 
 input:disabled {
@@ -264,16 +329,18 @@ button:disabled {
 button.primary,
 button.secondary {
   font-size: var(--text-md);
-  font-weight: 600;
-  padding: var(--space-3) 20px;
-  border-radius: var(--radius);
-  transition: background-color var(--duration) var(--ease-out);
+  font-weight: 700;
+  padding: var(--space-2) 20px;
+  border: var(--px) solid var(--shadow);
+  box-shadow: var(--bevel), var(--drop-sm);
+  transition: background-color var(--duration) steps(2);
 }
 
 button.primary {
-  border: 1px solid var(--accent);
   background: var(--accent);
   color: var(--on-accent);
+  box-shadow: inset calc(var(--px) * -1) calc(var(--px) * -1) 0 var(--accent-deep),
+    inset var(--px) var(--px) 0 var(--accent-strong), var(--drop-sm);
 }
 
 button.primary:hover:not(:disabled) {
@@ -281,13 +348,20 @@ button.primary:hover:not(:disabled) {
 }
 
 button.secondary {
-  border: 1px solid var(--border);
-  background: transparent;
+  background: var(--surface-raised);
   color: var(--text);
 }
 
 button.secondary:hover:not(:disabled) {
-  background: var(--surface-raised);
+  background: var(--border);
+}
+
+/* Pressed: the button drops into its shadow by one art pixel. */
+button.primary:active:not(:disabled),
+button.secondary:active:not(:disabled),
+button.chip:active:not(:disabled) {
+  transform: translate(var(--px), var(--px));
+  box-shadow: none;
 }
 
 button.primary:disabled,
@@ -298,11 +372,12 @@ button.secondary:disabled {
 .chip {
   display: inline-block;
   font-size: var(--text-sm);
-  padding: 6px var(--space-3);
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
-  background: transparent;
+  font-weight: 600;
+  padding: 5px var(--space-3);
+  border: var(--px) solid var(--border);
+  background: var(--surface);
   color: var(--text);
+  box-shadow: var(--drop-sm);
 }
 
 button.chip:hover:not(:disabled) {
@@ -313,7 +388,7 @@ button.chip:hover:not(:disabled) {
 .chip[aria-pressed="true"],
 button.chip.active:hover {
   background: var(--accent);
-  border-color: var(--accent);
+  border-color: var(--accent-deep);
   color: var(--on-accent);
 }
 
@@ -328,21 +403,20 @@ button.chip.active:hover {
 }
 
 .badge {
-  font-size: var(--text-xs);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  background: var(--accent);
+  font-size: var(--display-xs);
+  line-height: 1;
+  padding: 6px var(--space-2);
+  background: var(--highlight);
   color: var(--on-accent);
+  box-shadow: var(--drop-sm);
 }
 
 .notice {
   margin: var(--space-3) 0 0;
   padding: var(--space-3) 14px;
-  border-radius: var(--radius);
-  border: 1px solid var(--accent);
-  background: var(--accent-soft);
+  border: var(--px) solid var(--accent);
+  background: var(--surface-raised);
+  box-shadow: var(--drop-sm);
 }
 
 .notice p {
@@ -375,11 +449,10 @@ button.chip.active:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
   margin: var(--space-4) 0;
   padding: var(--space-6) var(--space-4);
-  border-radius: var(--radius-lg);
-  border: 1px dashed var(--border);
+  border: var(--px) dashed var(--border);
   color: var(--muted);
   text-align: center;
 }
@@ -390,14 +463,14 @@ button.chip.active:hover {
   color: var(--bad);
 }
 
+/* A four-frame pixel spinner: one lit corner block walking round a square. */
 .spinner {
   flex: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  animation: spin 0.8s linear infinite;
+  width: 12px;
+  height: 12px;
+  background: var(--border);
+  box-shadow: inset 6px 6px 0 var(--accent);
+  animation: spin 0.8s steps(4) infinite;
 }
 
 @keyframes spin {
@@ -411,23 +484,29 @@ button.chip.active:hover {
    ========================================================================== */
 .prompt-text {
   margin: var(--space-4) 0 var(--space-2);
+  font-size: var(--text-xl);
+  font-weight: 700;
 }
 
 .rule {
   color: var(--muted);
   font-size: var(--text-sm);
+  padding-left: var(--space-3);
+  border-left: var(--px) solid var(--highlight-deep);
 }
 
 .countdown {
-  font-size: 40px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+  font-size: clamp(24px, 8vw, 40px);
+  line-height: 1.2;
+  color: var(--accent);
+  text-shadow: var(--px) var(--px) 0 var(--accent-deep);
   margin: var(--space-4) 0;
 }
 
 .countdown.reading {
-  font-size: var(--text-lg);
-  color: var(--muted);
+  font-size: var(--display-md);
+  color: var(--highlight);
+  text-shadow: none;
 }
 
 .choices {
@@ -437,23 +516,27 @@ button.chip.active:hover {
 }
 
 .shake {
-  animation: shake 0.35s;
+  animation: shake 0.36s steps(1, end);
   border-color: var(--bad);
 }
 
+/* Each keyframe holds still for one step: a choppy, sprite-like shake. */
 @keyframes shake {
   0%,
   100% {
     transform: translateX(0);
   }
-  25% {
-    transform: translateX(-8px);
+  20% {
+    transform: translateX(-9px);
   }
-  50% {
-    transform: translateX(8px);
+  40% {
+    transform: translateX(9px);
   }
-  75% {
-    transform: translateX(-4px);
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(3px);
   }
 }
 
@@ -462,9 +545,9 @@ button.chip.active:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-2);
   margin: var(--space-4) 0;
-  animation: score-pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  animation: score-pop 0.4s steps(4, end) both;
 }
 
 .score-emoji {
@@ -473,26 +556,51 @@ button.chip.active:hover {
 }
 
 .score-tier {
-  font-size: var(--text-xl);
-  font-weight: 800;
+  font-size: var(--display-lg);
+  line-height: 1.3;
+  color: var(--tone, var(--text));
+  text-shadow: var(--px) var(--px) 0 var(--shadow);
 }
 
 .score-points {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: var(--display-md);
   color: var(--accent);
-  font-variant-numeric: tabular-nums;
 }
 
 @keyframes score-pop {
   from {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.6);
   }
   to {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* ==========================================================================
+   Tier tones (class from tierTone()): sets --tone for the element
+   ========================================================================== */
+.tone-blue {
+  --tone: var(--tone-blue);
+}
+.tone-clown {
+  --tone: var(--tone-clown);
+}
+.tone-green {
+  --tone: var(--tone-green);
+}
+.tone-yellow {
+  --tone: var(--tone-yellow);
+}
+.tone-orange {
+  --tone: var(--tone-orange);
+}
+.tone-gem {
+  --tone: var(--tone-gem);
+}
+.tone-miss {
+  --tone: var(--tone-miss);
 }
 
 /* ==========================================================================
@@ -506,32 +614,38 @@ button.chip.active:hover {
 }
 
 .total {
-  font-size: 64px;
-  font-weight: 800;
+  font-size: clamp(44px, 15vw, 64px);
   line-height: 1;
-  margin: var(--space-2) 0;
-  font-variant-numeric: tabular-nums;
+  margin: var(--space-3) 0 var(--space-2);
+  color: var(--accent);
+  text-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--accent-deep);
 }
 
 .day-title {
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--accent);
-  margin: var(--space-2) 0 var(--space-4);
+  font-size: var(--display-md);
+  line-height: 1.5;
+  color: var(--highlight);
+  margin: var(--space-3) 0 var(--space-4);
 }
 
 .reveal h3 {
   margin: var(--space-1) 0 var(--space-2);
+  font-size: var(--text-lg);
 }
 
 .your-answer {
-  font-weight: 600;
+  font-weight: 700;
+  padding-left: var(--space-2);
+  border-left: var(--px) solid var(--tone, var(--accent));
 }
 
 .answer-set {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .answer-set li {
@@ -540,53 +654,61 @@ button.chip.active:hover {
   gap: var(--space-2);
   flex-wrap: wrap;
   padding: 6px var(--space-2);
-  border-radius: var(--radius-sm);
+  border-left: var(--px) solid var(--tone, var(--border));
+  background: var(--bg);
   font-size: var(--text-sm);
 }
 
 .answer-set li.yours {
-  outline: 1px solid var(--accent);
+  outline: var(--px) solid var(--accent);
+  outline-offset: calc(var(--px) * -1);
 }
 
 .answer-set li.gem {
-  background: var(--accent-soft);
+  background: var(--highlight-soft);
+  border-left-color: var(--tone-gem);
+  box-shadow: inset 0 0 0 var(--px) var(--tone-gem);
   font-weight: 700;
 }
 
 .gem-label {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
+  font-family: var(--font-display);
+  font-size: var(--display-xs);
+  -webkit-font-smoothing: none;
+  color: var(--tone-gem);
+  margin-left: var(--space-1);
 }
 
-/* Score-distribution curve */
+/* Score-distribution curve: blocky bars on a baseline */
 .curve {
   display: flex;
   align-items: flex-end;
-  gap: 3px;
+  gap: var(--px);
   width: 100%;
   height: 64px;
   margin: var(--space-3) 0 var(--space-1);
+  border-bottom: var(--px) solid var(--border);
 }
 
 .curve .bar {
   flex: 1;
-  background: var(--muted);
-  opacity: 0.5;
-  border-radius: 2px 2px 0 0;
+  background: var(--border);
 }
 
 .curve .bar.you {
   background: var(--accent);
-  opacity: 1;
+  box-shadow: inset 0 var(--px) 0 var(--accent-strong);
 }
 
 /* ==========================================================================
    Leaderboards
    ========================================================================== */
-.leaderboard-screen h3 {
+.leaderboard-screen h3,
+.stats-view h3 {
   margin: 0 0 var(--space-3);
+  font-size: var(--display-sm);
+  line-height: 1.5;
+  color: var(--accent);
 }
 
 .scope-tabs {
@@ -594,9 +716,9 @@ button.chip.active:hover {
 }
 
 .group-code {
-  font-family: var(--font-mono);
+  font-size: var(--display-sm);
   letter-spacing: 0.15em;
-  color: var(--text);
+  color: var(--highlight);
 }
 
 .day-nav {
@@ -607,27 +729,35 @@ button.chip.active:hover {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .leaderboard li {
   display: grid;
-  grid-template-columns: 2.5em minmax(0, 1fr) auto 3.5em;
+  grid-template-columns: 2.5em minmax(0, 1fr) auto 4em;
   grid-template-areas: "rank name day score";
   gap: var(--space-2);
   align-items: center;
   padding: 6px var(--space-2);
-  border-radius: var(--radius-sm);
-  font-size: 15px;
+  background: var(--bg);
+  font-size: var(--text-sm);
+}
+
+.leaderboard li:nth-child(-n + 3) .rank {
+  color: var(--accent);
 }
 
 .leaderboard li.you {
-  outline: 1px solid var(--accent);
+  outline: var(--px) solid var(--highlight);
+  outline-offset: calc(var(--px) * -1);
 }
 
 .leaderboard .rank {
   grid-area: rank;
+  font-size: var(--display-xs);
   color: var(--muted);
-  font-variant-numeric: tabular-nums;
 }
 
 .leaderboard .name {
@@ -644,14 +774,13 @@ button.chip.active:hover {
 .leaderboard .score {
   grid-area: score;
   text-align: right;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+  font-size: var(--display-sm);
 }
 
 /* On phones the day title drops under the nickname so names keep their room. */
 @media (max-width: 479px) {
   .leaderboard li {
-    grid-template-columns: 2em minmax(0, 1fr) auto;
+    grid-template-columns: 2.5em minmax(0, 1fr) auto;
     grid-template-areas:
       "rank name score"
       ". day day";
@@ -672,13 +801,14 @@ button.chip.active:hover {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .archive-list a {
   color: var(--text);
   text-decoration: none;
-  transition: border-color var(--duration) var(--ease-out);
+  padding: var(--space-3) var(--space-4);
+  transition: border-color var(--duration) steps(2);
 }
 
 .archive-list a:hover {
@@ -706,10 +836,14 @@ button.chip.active:hover {
 }
 
 .stat {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: var(--text-xl);
+  line-height: 1.4;
   color: var(--accent);
-  font-variant-numeric: tabular-nums;
+  text-shadow: var(--px) var(--px) 0 var(--accent-deep);
+}
+
+.stats-view .answer-set li > span:first-child {
+  color: var(--tone, var(--text));
 }
 
 /* ==========================================================================
@@ -720,15 +854,16 @@ button.chip.active:hover {
   max-width: var(--content-width);
   margin: 0 auto;
   padding: var(--space-4);
-  border-top: 1px solid var(--border);
+  border-top: var(--px) dashed var(--border);
   font-size: var(--text-xs);
   color: var(--muted);
   text-align: center;
 }
 
 /* ==========================================================================
-   Reduced motion: no shake, no score pop, no spinning. Feedback stays
-   visible through colour (the red border on a Rejected Attempt) and text.
+   Reduced motion: no shake, no score pop, no spinning, no press shift.
+   Feedback stays visible through colour (the red border on a Rejected
+   Attempt) and text.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -743,5 +878,9 @@ button.chip.active:hover {
   .score-pop,
   .spinner {
     animation: none;
+  }
+
+  button:active:not(:disabled) {
+    transform: none;
   }
 }

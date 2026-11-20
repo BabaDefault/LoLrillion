@@ -2,6 +2,7 @@
 
 import { MISS_EMOJI, TIER_EMOJI, TIER_NAMES } from "@/engine";
 import type { PromptResultView } from "@/server/game-service";
+import { tierTone } from "./tier-tone";
 
 /**
  * The score animation between Prompts: Tier name, emoji and Points. Never reveals the Answer Set.
@@ -25,7 +26,7 @@ export function ScoreInterlude({
       <p className="muted">
         Prompt {index + 1} of {promptCount}
       </p>
-      <div className="score-pop" key={index} aria-live="polite">
+      <div className={`score-pop tone-${tierTone(accepted ? result.tier : null)}`} key={index} aria-live="polite">
         <span className="score-emoji" aria-hidden="true">
           {accepted ? TIER_EMOJI[result.tier] : MISS_EMOJI}
         </span>

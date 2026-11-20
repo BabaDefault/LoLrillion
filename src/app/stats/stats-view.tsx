@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { MISS_EMOJI, TIER_EMOJI, TIER_NAMES, type PersonalStats, type Tier } from "@/engine";
 import { Empty, ErrorState, Loading } from "../status";
+import { tierTone } from "../tier-tone";
 
 const TIERS: Tier[] = ["pentakill", "quadra-kill", "triple-kill", "kill", "too-clever", "minion"];
 
@@ -54,14 +55,14 @@ export function StatsView() {
         <h3>Tiers</h3>
         <ul className="answer-set">
           {TIERS.map((tier) => (
-            <li key={tier}>
+            <li key={tier} className={`tone-${tierTone(tier)}`}>
               <span>
                 {TIER_EMOJI[tier]} {TIER_NAMES[tier]}
               </span>
               <span>{stats.tierCounts[tier]}</span>
             </li>
           ))}
-          <li>
+          <li className="tone-miss">
             <span>{MISS_EMOJI} Miss</span>
             <span>{stats.tierCounts.miss}</span>
           </li>
