@@ -16,6 +16,12 @@ export interface MechanicsLabel {
   /** Word for word from the ability's `sourceField` text, after `abilityText` normalisation. */
   quote: string;
   sourceField: SourceField;
+  /**
+   * Set only when the ability text can't show the term but the game does (e.g. Ashe's R has
+   * unlimited range, though its text never says so). The quote then just identifies the ability,
+   * and this says what the game does instead. Use sparingly: the text is the default evidence.
+   */
+  inGame?: string;
 }
 
 export type LabelRejection =

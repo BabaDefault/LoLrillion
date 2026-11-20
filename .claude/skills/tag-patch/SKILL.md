@@ -27,6 +27,7 @@ For each "has it", write one label:
 ```
 
 - `quote` is copied **verbatim** from that ability's `description` or `tooltip` in the work file (tags already stripped; keep `{{ var }}` placeholders exactly). Shortest span that proves the term.
+- Rarely, the game plainly has the term but no text shows it (Ashe's R is global; its text never says so). Then quote a span that identifies the ability and add `"inGame": "<what the game does>"`. Only for facts any player would confirm; never to stretch a term.
 - One label per champion per term is enough.
 - Judge against `definition` and `excludes`, never the term's everyday meaning.
 

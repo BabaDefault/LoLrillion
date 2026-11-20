@@ -32,6 +32,18 @@ describe("approved mechanics labels", () => {
     expect(entitiesWithTerm(approvedLabels, "pull")).not.toContain("champion:Sylas");
   });
 
+  it("Ashe, Ezreal and Draven have global ults, from in-game behaviour the text never states", () => {
+    expect(entitiesWithTerm(approvedLabels, "global-ult")).toEqual(
+      expect.arrayContaining(["champion:Ashe", "champion:Ezreal", "champion:Draven"]),
+    );
+  });
+
+  it("an in-game label always says what the game does", () => {
+    for (const label of approvedLabels) {
+      if ("inGame" in label) expect(label.inGame?.trim(), label.entityId).toBeTruthy();
+    }
+  });
+
   it("Aurora is not a pull champion", () => {
     expect(entitiesWithTerm(approvedLabels, "pull")).not.toContain("champion:Aurora");
   });

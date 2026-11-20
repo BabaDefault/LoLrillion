@@ -1,0 +1,124 @@
+{
+  "templateId": "champions-global-ult",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Ashe",
+    "champion:Draven",
+    "champion:Ezreal",
+    "champion:Gangplank",
+    "champion:Jinx",
+    "champion:Karthus",
+    "champion:Lillia",
+    "champion:Mel",
+    "champion:Nocturne",
+    "champion:Senna",
+    "champion:Shen",
+    "champion:Soraka",
+    "champion:TwistedFate"
+  ],
+  "missing": [],
+  "disputable": [
+    {
+      "entity": "champion:Lillia",
+      "why": "Lilting Lullaby only affects enemies who carry Dream Dust, though it reaches them anywhere on the map. Players who think of 'global' as range will argue it's a conditional effect."
+    },
+    {
+      "entity": "champion:Mel",
+      "why": "Golden Eclipse only hits enemies marked with Overwhelm, though regardless of distance. Same argument as Lillia."
+    },
+    {
+      "entity": "champion:Nocturne",
+      "why": "Paranoia's darkness and vision are map-wide but the dash is limited range. Most players accept it as a global ult."
+    },
+    {
+      "entity": "champion:TwistedFate",
+      "why": "Destiny reveals all enemy champions map-wide but the teleport is limited range. Most players still count it."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "champion:Nocturne",
+      "alias": "Noc",
+      "why": "Common short form."
+    },
+    {
+      "entity": "champion:Soraka",
+      "alias": "Raka",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "A classic question everyone can answer. With 13 answers there's a clear core (Karthus, Jinx, Ashe, Ezreal, Shen, Soraka) and a tail most players miss (Nocturne, Lillia, Mel)."
+  },
+  "typicality": {
+    "champion:Karthus": {
+      "value": 0.7,
+      "why": "Requiem is the textbook global ult and the one players name first."
+    },
+    "champion:Jinx": {
+      "value": 0.65,
+      "why": "The rocket across the map is iconic; most ADC players name it first."
+    },
+    "champion:Shen": {
+      "value": 0.55,
+      "why": "Stand United is the go-to example for a global support ult."
+    },
+    "champion:Soraka": {
+      "value": 0.5,
+      "why": "Wish is widely known as the global heal."
+    },
+    "champion:TwistedFate": {
+      "value": 0.45,
+      "why": "Destiny is famous for map-wide plays, though its travel is limited."
+    },
+    "champion:Gangplank": {
+      "value": 0.4,
+      "why": "Cannon Barrage anywhere on the map is well known among top-lane and veteran players."
+    },
+    "champion:Senna": {
+      "value": 0.22,
+      "why": "The global beam is well known to bot-lane players but rarely comes to mind first."
+    },
+    "champion:Nocturne": {
+      "value": 0.2,
+      "why": "Players remember Paranoia's darkness but often think of the limited-range dash first."
+    },
+    "champion:Lillia": {
+      "value": 0.08,
+      "why": "Few players know her ult hits Drowsy targets anywhere on the map."
+    },
+    "champion:Mel": {
+      "value": 0.06,
+      "why": "A newer champion; few players know Golden Eclipse is distance-independent."
+    },
+    "champion:Ashe": {
+      "value": 0.6,
+      "why": "The cross-map arrow is one of the first global ults players think of."
+    },
+    "champion:Ezreal": {
+      "value": 0.55,
+      "why": "Trueshot Barrage across the map is iconic, and Ezreal is one of the most played champions."
+    },
+    "champion:Draven": {
+      "value": 0.3,
+      "why": "Players know the axes fly forever but rarely think of it first."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Lillia",
+      "why": "A satisfying reveal for players who know her: the map-wide sleep. Rarer than Nocturne but still reached by some."
+    },
+    {
+      "entity": "champion:Nocturne",
+      "why": "The 'oh, of course, the lights go out!' answer. Plenty of players get it, and it's the one people kick themselves for forgetting."
+    },
+    {
+      "entity": "champion:Senna",
+      "why": "A real global beam that bot-lane players know; it surprises everyone else."
+    }
+  ]
+}
