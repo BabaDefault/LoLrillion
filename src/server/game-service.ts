@@ -3,7 +3,9 @@ import {
   promptWindow,
   puzzleProgress,
   submitAttempt as engineSubmitAttempt,
+  confirmSuggestion as engineConfirmSuggestion,
   type AnswerType,
+  type AttemptOutcome,
   type AttemptResult,
   type PromptPlay,
   type PromptProgress,
@@ -60,6 +62,8 @@ export interface GameService {
   /** Start the current Prompt (records its window-open time). Idempotent. */
   startPrompt(deviceId: string): Promise<PuzzleStateView>;
   submitAttempt(deviceId: string, promptIndex: number, guess: string): Promise<AttemptResponse>;
+  /** "Yes" on a "Did you mean": rejected unless the Entity was offered for this Prompt. */
+  confirmSuggestion(deviceId: string, promptIndex: number, entityId: string): Promise<AttemptResponse>;
 }
 
 function toResultView(o: PromptProgress): PromptResultView | null {
@@ -129,28 +133,60 @@ export function createGameService({ clock, store, puzzles }: GameServiceDeps): G
       return view(ctx, plays);
     },
 
-    async submitAttempt(deviceId, promptIndex, guess) {
-      const ctx = await load(deviceId);
-      const { currentIndex } = puzzleProgress(ctx.promptCount, ctx.plays, ctx.now);
-      if (currentIndex !== promptIndex) {
-        return { ok: false, error: "not-current-prompt", state: view(ctx, ctx.plays) };
-      }
-      const play = ctx.plays[promptIndex];
-      if (!play) return { ok: false, error: "prompt-not-started", state: view(ctx, ctx.plays) };
+    submitAttempt(deviceId, promptIndex, guess) {
+      return attempt(deviceId, promptIndex, guess, (ctx, play) =>
+        engineSubmitAttempt({
+          prompt: ctx.daily.puzzle.prompts[promptIndex],
+          entities: ctx.daily.entities,
+          play,
+          guess,
+          now: ctx.now,
+        }),
+      );
+    },
 
-      const outcome = engineSubmitAttempt({
-        prompt: ctx.daily.puzzle.prompts[promptIndex],
-        entities: ctx.daily.entities,
-        play,
-        guess,
-        now: ctx.now,
-      });
-      if (outcome.play !== play) await store.updatePromptPlay(ctx.key, promptIndex, outcome.play);
-      await store.logAttempt({ ...ctx.key, promptIndex, guess, result: outcome.result, at: ctx.now });
-
-      const plays = ctx.plays.slice();
-      plays[promptIndex] = outcome.play;
-      return { ok: true, result: outcome.result, state: view(ctx, plays) };
+    confirmSuggestion(deviceId, promptIndex, entityId) {
+      return attempt(deviceId, promptIndex, entityId, async (ctx, play) =>
+        engineConfirmSuggestion({
+          prompt: ctx.daily.puzzle.prompts[promptIndex],
+          entities: ctx.daily.entities,
+          play,
+          entityId,
+          offered: await store.getOfferedCandidates(ctx.key, promptIndex),
+          now: ctx.now,
+        }),
+      );
     },
   };
+
+  /** Run one engine step against the current, started Prompt, then persist and log it. */
+  async function attempt(
+    deviceId: string,
+    promptIndex: number,
+    logged: string,
+    step: (ctx: Awaited<ReturnType<typeof load>>, play: PromptPlay) => AttemptOutcome | Promise<AttemptOutcome>,
+  ): Promise<AttemptResponse> {
+    const ctx = await load(deviceId);
+    const { currentIndex } = puzzleProgress(ctx.promptCount, ctx.plays, ctx.now);
+    if (currentIndex !== promptIndex) {
+      return { ok: false, error: "not-current-prompt", state: view(ctx, ctx.plays) };
+    }
+    const play = ctx.plays[promptIndex];
+    if (!play) return { ok: false, error: "prompt-not-started", state: view(ctx, ctx.plays) };
+
+    const outcome = await step(ctx, play);
+    if (outcome.result.kind === "did-you-mean") {
+      await store.addOfferedCandidates(
+        ctx.key,
+        promptIndex,
+        outcome.result.candidates.map((c) => c.id),
+      );
+    }
+    if (outcome.play !== play) await store.updatePromptPlay(ctx.key, promptIndex, outcome.play);
+    await store.logAttempt({ ...ctx.key, promptIndex, guess: logged, result: outcome.result, at: ctx.now });
+
+    const plays = ctx.plays.slice();
+    plays[promptIndex] = outcome.play;
+    return { ok: true, result: outcome.result, state: view(ctx, plays) };
+  }
 }
