@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "data:fetch": "tsx scripts/fetch-game-data.ts",
+    "data:registry": "tsx scripts/fetch-game-data.ts --registry-only"
   },
   "dependencies": {
     "next": "^16.4.6",

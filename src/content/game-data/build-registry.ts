@@ -10,8 +10,8 @@ export const itemEntityId = (riotId: string): EntityId => `item:${riotId}`;
 export const skinEntityId = (riotId: number): EntityId => `skin:${riotId}`;
 
 /**
- * Build the Entity registry from a game data snapshot, with Aliases from internal names (`MonkeyKing`),
- * Data Dragon item nicknames and the curated `nicknames`. Pure.
+ * Build the Entity registry from a game data snapshot, with Aliases from internal names (`MonkeyKing`)
+ * and the curated `nicknames` (Data Dragon item `colloq` is too noisy to use). Pure.
  *
  * An Alias must resolve to exactly one Entity, so any Alias that normalizes to another Entity's name,
  * or that two Entities of the same Answer Type share, is dropped. Aliases that normalize to the
@@ -29,7 +29,7 @@ export function buildRegistry(snapshot: GameDataSnapshot, nicknames: Nicknames):
       id: itemEntityId(i.id),
       name: i.name,
       answerType: "item" as const,
-      aliases: i.colloq,
+      aliases: [],
     })),
     ...snapshot.skins.map((s) => ({
       id: skinEntityId(s.id),

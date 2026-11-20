@@ -72,13 +72,18 @@ describe("buildRegistry", () => {
     expect(byId("champion:MonkeyKing", nicknames)?.aliases).toEqual(["MonkeyKing", "Wu"]);
   });
 
-  it("uses item nicknames from Data Dragon", () => {
-    expect(byId("item:3031")?.aliases).toContain("ie");
+  it("ignores Data Dragon's item `colloq` nicknames, which are too noisy to accept as Guesses", () => {
+    expect(byId("item:3031")?.aliases).toEqual([]);
   });
 
   it("drops an Alias shared by two Entities, or naming another Entity, so each Alias resolves to exactly one", () => {
-    expect(byId("item:3031")?.aliases).toEqual(["ie"]);
-    expect(byId("item:3089")?.aliases).toEqual(["dc"]);
-    expect(byId("item:1036")?.aliases).toEqual([]);
+    const nicknames = {
+      "item:1036": ["infinity edge"],
+      "item:3031": ["ie", "hat"],
+      "item:3089": ["dc", "hat"],
+    };
+    expect(byId("item:3031", nicknames)?.aliases).toEqual(["ie"]);
+    expect(byId("item:3089", nicknames)?.aliases).toEqual(["dc"]);
+    expect(byId("item:1036", nicknames)?.aliases).toEqual([]);
   });
 });
