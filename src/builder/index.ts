@@ -3,3 +3,10 @@
 export * from "./types";
 export { answerSetOf } from "./answer-set";
 export { buildPrompt, FAMILIARITY_WEIGHT, BAND_SHARES } from "./tiers";
+export {
+  generatePuzzles,
+  GENERATOR_DEFAULTS,
+  PROMPTS_PER_PUZZLE,
+  type GenerateInput,
+  type GeneratedPuzzle,
+} from "./generator";
