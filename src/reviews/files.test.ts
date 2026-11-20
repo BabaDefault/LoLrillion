@@ -9,7 +9,7 @@ const approved: ApprovedReview = {
   templateId: "champions-yordle",
   dataVersion: "16.23.1",
   answerSet: ["champion:Kled", "champion:Teemo"],
-  typicality: { "champion:Teemo": 0.9 },
+  typicality: { "champion:Teemo": 0.9, "champion:Kled": 0.1 },
   tooClever: [],
   gem: "champion:Kled",
 };
