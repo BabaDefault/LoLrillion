@@ -1,0 +1,19 @@
+import type { NextRequest } from "next/server";
+import { getGameService } from "@/server/container";
+import { deviceIdFor, jsonWithDevice } from "@/server/device";
+
+export const dynamic = "force-dynamic";
+
+const MAX_GUESS_LENGTH = 100;
+
+/** Submit an Attempt for the current Prompt. Body: `{ promptIndex: number, guess: string }`. */
+export async function POST(request: NextRequest) {
+  const device = deviceIdFor(request);
+  const body = (await request.json().catch(() => null)) as { promptIndex?: unknown; guess?: unknown } | null;
+  const { promptIndex, guess } = body ?? {};
+  if (typeof promptIndex !== "number" || typeof guess !== "string" || guess.length > MAX_GUESS_LENGTH) {
+    return jsonWithDevice({ ok: false, error: "bad-request" }, device, 400);
+  }
+  const response = await getGameService().submitAttempt(device.deviceId, promptIndex, guess);
+  return jsonWithDevice(response, device, response.ok ? 200 : 409);
+}
