@@ -1,5 +1,6 @@
 import { championEntityId, itemEntityId, skinEntityId } from "@/content/game-data/build-registry";
 import type { EntityId } from "@/engine";
+import { entitiesWithTerm } from "@/labels";
 import type { BuilderInputs, TemplateDefinition, TemplateFilter } from "./types";
 
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -19,7 +20,7 @@ function select(filter: TemplateFilter, { snapshot, overlay, labels = [] }: Buil
     case "champion-yordle":
       return champions.filter((c) => overlay.champions[c.id]?.yordle.value === true).map((c) => championEntityId(c.id));
     case "champion-label": {
-      const labelled = new Set(labels.filter((l) => l.term === filter.term).map((l) => l.entityId));
+      const labelled = new Set(entitiesWithTerm(labels, filter.term));
       return champions.map((c) => championEntityId(c.id)).filter((id) => labelled.has(id));
     }
     case "champion-name-length":

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { fixtureInputs } from "./fixtures";
-import { answerSetOf, type TemplateDefinition } from "./index";
+import { answerSetOf, type ApprovedLabel, type TemplateDefinition } from "./index";
 
 const template = (filter: TemplateDefinition["filter"], answerType: TemplateDefinition["answerType"]): TemplateDefinition => ({
   id: "t",
@@ -39,7 +39,7 @@ describe("Template filters", () => {
   it("champions with an approved mechanics label term; none when no labels are approved yet", () => {
     const labelled = template({ kind: "champion-label", term: "invisible" }, "champion");
     expect(answerSetOf(labelled, fixtureInputs)).toEqual([]);
-    const labels = [
+    const labels: ApprovedLabel[] = [
       { entityId: "champion:Kaisa", term: "invisible", ability: "E", quote: "becomes Invisible", sourceField: "tooltip" },
       { entityId: "champion:Zed", term: "dash", ability: "W", quote: "dashes", sourceField: "tooltip" },
     ];

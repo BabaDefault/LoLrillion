@@ -60,4 +60,16 @@ It writes `src/content/familiarity/<patch>.json` (patch = the snapshot's version
 matches it appeared in, `buildRate` the share of players who finished a match holding the item. Only these
 anonymous totals and sample counts are written; PUUIDs and match IDs are never saved.
 
+## Mechanics labels
+
+```sh
+npm run labels:prelabel   # keyword suggestions (free, no AI) -> src/content/labels/proposals/prelabel.json
+npm run labels:worklist   # work file of champions changed since the last tagging, for /tag-patch
+npm run labels:validate   # quote validator over approved.json (or pass a proposals file)
+```
+
+Once per patch, run `/tag-patch` in Claude Code: it proposes labels with exact evidence quotes into
+`src/content/labels/proposals/`. Approved labels live in `src/content/labels/approved.json` (the only file the
+Builder reads); term definitions and helpers are in `src/labels/`.
+
 Layout: `src/engine/` is the pure Game Engine, `src/server/` holds the game service, storage and Puzzle source, and `src/app/` holds the UI and API routes.

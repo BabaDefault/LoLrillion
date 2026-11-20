@@ -3,6 +3,8 @@ import { entityRegistry } from "@/content/game-data";
 import { gameDataSnapshot } from "@/content/game-data/snapshot-data";
 import overlayJson from "@/content/overlay/champions.json";
 import templatesJson from "@/content/templates/templates.json";
+import { approvedLabels } from "@/content/labels";
+import { mechanicsTerm } from "@/labels";
 import { answerSetOf, type BuilderInputs, type ChampionMetaOverlay, type TemplateDefinition } from "./index";
 
 /** The committed content: real snapshot, overlay and Templates. */
@@ -32,6 +34,18 @@ describe("Templates on the committed data", () => {
   it("are unique and well-formed", () => {
     expect(new Set(templates.map((t) => t.id)).size).toBe(templates.length);
     for (const t of templates) expect(t.text && t.rule, t.id).toBeTruthy();
+  });
+
+  it("kit Templates use a defined mechanics term and show its shared definition as the Rule", () => {
+    for (const t of templates) {
+      if (t.filter.kind !== "champion-label") continue;
+      expect(t.rule, t.id).toBe(mechanicsTerm(t.filter.term)?.definition);
+    }
+  });
+
+  it("champions with approved labels: Kai'Sa is invisible", () => {
+    const invisible = answerSetOf(template("champions-invisible"), { ...inputs, labels: approvedLabels });
+    expect(invisible).toContain("champion:Kaisa");
   });
 
   it("champions from Bandle City", () => {

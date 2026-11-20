@@ -1,5 +1,6 @@
 import type { GameDataSnapshot } from "@/content/game-data/snapshot";
 import type { FamiliarityFile } from "@/content/familiarity/types";
+import type { MechanicsLabel } from "@/labels";
 import type { AnswerType, EntityId, Tier } from "@/engine";
 
 /** A hand-maintained fact, with where it was checked and on which patch. */
@@ -22,14 +23,8 @@ export interface ChampionMetaOverlay {
   champions: Readonly<Record<string, ChampionMeta>>;
 }
 
-/** An approved mechanics label (#9): `src/content/labels/approved.json` is an array of these. */
-export interface ApprovedLabel {
-  entityId: EntityId;
-  term: string;
-  ability: string;
-  quote: string;
-  sourceField: string;
-}
+/** An approved mechanics label (#9), from `approvedLabels` in `@/content/labels`. */
+export type ApprovedLabel = MechanicsLabel;
 
 /** Familiarity for one patch (#11): `src/content/familiarity/<snapshot patch>.json`, shares from 0 to 1. */
 export type FamiliarityData = FamiliarityFile;
