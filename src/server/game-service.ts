@@ -1,8 +1,10 @@
 import {
   dayTitle,
   openPrompt,
+  percentileBetterThan,
   promptWindow,
   puzzleProgress,
+  scoreDistribution,
   submitAttempt as engineSubmitAttempt,
   TIER_POINTS,
   confirmSuggestion as engineConfirmSuggestion,
@@ -11,13 +13,14 @@ import {
   type AttemptResult,
   type DayTitle,
   type EntityId,
+  type ScoreDistribution,
   type PromptPlay,
   type PromptProgress,
   type Tier,
 } from "@/engine";
 import type { Clock } from "./clock";
 import type { PuzzleSource } from "./puzzle-source";
-import { noAnswerCounts, type AnswerCountSource } from "./storage/answer-counts";
+import type { AnswerCountSource } from "./storage/answer-counts";
 import type { PlayStore } from "./storage/play-store";
 
 /**
@@ -81,6 +84,12 @@ export interface PuzzleResultsView {
   total: number;
   maxTotal: number;
   dayTitle: DayTitle;
+  /** Players who have finished today's Puzzle (counted plays only), including this one. */
+  playerCount: number;
+  /** "Better than X% of today's players". */
+  percentile: number;
+  /** The day's score-distribution curve, with this player's bin marked. */
+  distribution: ScoreDistribution;
   prompts: PromptRevealView[];
 }
 
@@ -90,11 +99,14 @@ export type AttemptResponse =
   | { ok: true; result: AttemptResult; state: PuzzleStateView }
   | { ok: false; error: "not-current-prompt" | "prompt-not-started"; state: PuzzleStateView };
 
+/** Bins in the end screen's score-distribution curve. */
+export const DISTRIBUTION_BINS = 10;
+
 export interface GameServiceDeps {
   clock: Clock;
   store: PlayStore;
   puzzles: PuzzleSource;
-  /** Answer Share counts for the end screen; all zero when omitted. */
+  /** Answer Share counts for the end screen; the store's own counts when omitted. */
   answerCounts?: AnswerCountSource;
 }
 
@@ -105,7 +117,10 @@ export interface GameService {
   submitAttempt(deviceId: string, promptIndex: number, guess: string): Promise<AttemptResponse>;
   /** "Yes" on a "Did you mean": rejected unless the Entity was offered for this Prompt. */
   confirmSuggestion(deviceId: string, promptIndex: number, entityId: string): Promise<AttemptResponse>;
-  /** The end-screen reveal, including Answer Sets; refused until all Prompts are finished. */
+  /**
+   * The end-screen reveal, including Answer Sets, Answer Share, percentile and the distribution
+   * curve; refused until all Prompts are finished.
+   */
   getResults(deviceId: string): Promise<ResultsResponse>;
 }
 
@@ -121,7 +136,7 @@ export function createGameService({
   clock,
   store,
   puzzles,
-  answerCounts = noAnswerCounts,
+  answerCounts = store,
 }: GameServiceDeps): GameService {
   async function load(deviceId: string) {
     const now = clock.now();
@@ -211,7 +226,11 @@ export function createGameService({
       const progress = puzzleProgress(promptCount, plays, now);
       if (!progress.finished) return { ok: false, error: "not-finished" };
 
-      const counts = await answerCounts.getAnswerCounts(daily.puzzleDay, promptCount);
+      const [counts, dayTotals] = await Promise.all([
+        answerCounts.getAnswerCounts(daily.puzzleDay, promptCount),
+        store.getDayTotals(daily.puzzleDay, promptCount),
+      ]);
+      const maxTotal = promptCount * TIER_POINTS.pentakill;
       const names = new Map(daily.entities.map((e) => [e.id, e.name]));
       const prompts = daily.puzzle.prompts.map((prompt, i): PromptRevealView => {
         const promptCounts = counts.byPrompt[i] ?? {};
@@ -237,8 +256,11 @@ export function createGameService({
           puzzleDay: daily.puzzleDay,
           puzzleNumber: daily.puzzleNumber,
           total: progress.total,
-          maxTotal: promptCount * TIER_POINTS.pentakill,
+          maxTotal,
           dayTitle: dayTitle(progress.total),
+          playerCount: dayTotals.length,
+          percentile: percentileBetterThan(progress.total, dayTotals),
+          distribution: scoreDistribution(dayTotals, { maxTotal, binCount: DISTRIBUTION_BINS }, progress.total),
           prompts,
         },
       };

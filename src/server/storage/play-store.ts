@@ -1,9 +1,15 @@
 import type { AttemptResult, EntityId, PromptPlay } from "@/engine";
+import type { AnswerCountSource, AnswerCounts } from "./answer-counts";
 
 /** Identifies one player's run at one Puzzle Day. */
 export interface PlayKey {
   deviceId: string;
   puzzleDay: string;
+  /**
+   * An archive play: a past Puzzle replayed after its day. Kept apart from the counted play
+   * and excluded from Answer Share, percentiles and leaderboards. Defaults to false.
+   */
+  archive?: boolean;
 }
 
 export interface AttemptLogEntry extends PlayKey {
@@ -17,7 +23,7 @@ export interface AttemptLogEntry extends PlayKey {
  * Runtime state for plays. The in-memory implementation is for local dev and tests;
  * a Supabase implementation replaces it without changing the Game Engine or routes.
  */
-export interface PlayStore {
+export interface PlayStore extends AnswerCountSource {
   /** The player's PromptPlays for the day, indexed by Prompt index (null = not started). */
   getPromptPlays(key: PlayKey, promptCount: number): Promise<Array<PromptPlay | null>>;
   /**
@@ -36,4 +42,15 @@ export interface PlayStore {
   getOfferedCandidates(key: PlayKey, promptIndex: number): Promise<EntityId[]>;
   /** Log an Attempt and its result, for finding missing answers and Aliases. */
   logAttempt(entry: AttemptLogEntry): Promise<void>;
+  /**
+   * Answer Share counts (from AnswerCountSource): per Prompt, how many players' Accepted Guess
+   * was each Entity, and how many players played today. Archive plays are not counted.
+   */
+  getAnswerCounts(puzzleDay: string, promptCount: number): Promise<AnswerCounts>;
+  /**
+   * Every player's daily total for a Puzzle Day (sum of Accepted Points), for percentile and
+   * the distribution curve. Only counted (non-archive) runs that have started all
+   * `promptCount` Prompts are included.
+   */
+  getDayTotals(puzzleDay: string, promptCount: number): Promise<number[]>;
 }
