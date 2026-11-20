@@ -72,4 +72,18 @@ Once per patch, run `/tag-patch` in Claude Code: it proposes labels with exact e
 `src/content/labels/proposals/`. Approved labels live in `src/content/labels/approved.json` (the only file the
 Builder reads); term definitions and helpers are in `src/labels/`.
 
+## Template reviews
+
+```sh
+npm run reviews:queue                     # Templates never approved, or whose Answer Set changed since approval
+npm run reviews:worklist -- <templateId>  # work file for /review-template
+npm run reviews:validate -- <templateId>  # check the proposal
+npm run reviews:approve -- <templateId>   # draft the approved file from the proposal, then edit and commit it
+npm run reviews:share                     # Answer Share per Template (needs the Supabase variables)
+```
+
+Run `/review-template <templateId>` in Claude Code: it proposes missing/disputable answers, wording fixes, Aliases,
+a fun check, Typicality per Entity, Too Clever and Gem candidates into `src/content/reviews/proposals/`. Only
+`src/content/reviews/approved/` reaches Puzzles. Formats and workflow: `src/content/reviews/README.md`.
+
 Layout: `src/engine/` is the pure Game Engine, `src/server/` holds the game service, storage and Puzzle source, and `src/app/` holds the UI and API routes.
