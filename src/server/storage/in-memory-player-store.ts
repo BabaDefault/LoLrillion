@@ -39,8 +39,8 @@ export class InMemoryPlayerStore implements PlayerStore {
     return (this.memberships.get(deviceId) ?? []).map((code) => ({ ...this.groups.get(code)! }));
   }
 
-  async getDayScores(puzzleDay: string, promptCount: number, groupCode?: string): Promise<DayScore[]> {
-    const runs = await this.plays.getDayRuns(puzzleDay, promptCount);
+  async getDayScores(puzzleDay: string, promptCount: number, now: number, groupCode?: string): Promise<DayScore[]> {
+    const runs = await this.plays.getDayRuns(puzzleDay, promptCount, now);
     return runs
       .filter((r) => groupCode === undefined || (this.memberships.get(r.deviceId) ?? []).includes(groupCode))
       .map((r) => ({ playerKey: r.deviceId, nickname: this.nicknames.get(r.deviceId) ?? null, total: r.total }));

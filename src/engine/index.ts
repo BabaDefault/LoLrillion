@@ -7,6 +7,7 @@ export {
   ANSWER_WINDOW_MS,
   NETWORK_GRACE_MS,
   openPrompt,
+  closedWindowsOpenedBy,
   promptOutcome,
   promptWindow,
   submitAttempt,

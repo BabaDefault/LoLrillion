@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import type { EntityId, PromptPlay, Tier } from "@/engine";
+import { closedWindowsOpenedBy, type EntityId, type PromptPlay, type Tier } from "@/engine";
 import type { AnswerCounts } from "./answer-counts";
 import type { AttemptLogEntry, DevicePlay, PlayKey, PlayStore } from "./play-store";
 
@@ -191,9 +191,13 @@ export class SupabasePlayStore implements PlayStore {
     }));
   }
 
-  async getDayTotals(puzzleDay: string, promptCount: number): Promise<number[]> {
+  async getDayTotals(puzzleDay: string, promptCount: number, now: number): Promise<number[]> {
     const rows = check(
-      await this.db.rpc("day_totals", { p_puzzle_day: puzzleDay, p_prompt_count: promptCount }),
+      await this.db.rpc("day_totals", {
+        p_puzzle_day: puzzleDay,
+        p_prompt_count: promptCount,
+        p_closed_by: new Date(closedWindowsOpenedBy(now)).toISOString(),
+      }),
       "day_totals",
     ) as Array<{ total: number | string }>;
     return rows.map((r) => Number(r.total));

@@ -1,4 +1,4 @@
-import type { EntityId, PromptPlay } from "@/engine";
+import { puzzleProgress, type EntityId, type PromptPlay } from "@/engine";
 import type { AnswerCounts } from "./answer-counts";
 import type { AttemptLogEntry, DevicePlay, PlayKey, PlayStore } from "./play-store";
 
@@ -82,22 +82,26 @@ export class InMemoryPlayStore implements PlayStore {
       }));
   }
 
-  async getDayTotals(puzzleDay: string, promptCount: number): Promise<number[]> {
-    return (await this.getDayRuns(puzzleDay, promptCount)).map((r) => r.total);
+  async getDayTotals(puzzleDay: string, promptCount: number, now: number): Promise<number[]> {
+    return (await this.getDayRuns(puzzleDay, promptCount, now)).map((r) => r.total);
   }
 
-  /** Each device's total for the day, for counted runs that have started all `promptCount` Prompts. */
-  async getDayRuns(puzzleDay: string, promptCount: number): Promise<Array<{ deviceId: string; total: number }>> {
-    const byDevice = new Map<string, { started: number; total: number }>();
-    for (const { key, play } of this.plays.values()) {
-      if (key.puzzleDay !== puzzleDay || key.archive) continue;
-      const run = byDevice.get(key.deviceId) ?? { started: 0, total: 0 };
-      run.started++;
-      run.total += play.accepted?.points ?? 0;
-      byDevice.set(key.deviceId, run);
+  /** Each device's total for the day, for counted runs finished at `now`. */
+  async getDayRuns(
+    puzzleDay: string,
+    promptCount: number,
+    now: number,
+  ): Promise<Array<{ deviceId: string; total: number }>> {
+    const byDevice = new Map<string, Array<PromptPlay | null>>();
+    for (const { key, promptIndex, play } of this.plays.values()) {
+      if (key.puzzleDay !== puzzleDay || key.archive || promptIndex >= promptCount) continue;
+      const plays = byDevice.get(key.deviceId) ?? Array.from({ length: promptCount }, () => null);
+      plays[promptIndex] = play;
+      byDevice.set(key.deviceId, plays);
     }
     return [...byDevice.entries()]
-      .filter(([, r]) => r.started >= promptCount)
-      .map(([deviceId, r]) => ({ deviceId, total: r.total }));
+      .map(([deviceId, plays]) => ({ deviceId, progress: puzzleProgress(promptCount, plays, now) }))
+      .filter(({ progress }) => progress.finished)
+      .map(({ deviceId, progress }) => ({ deviceId, total: progress.total }));
   }
 }

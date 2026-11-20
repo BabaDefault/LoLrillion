@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { closedWindowsOpenedBy } from "@/engine";
 import type { DayScore } from "@/leaderboard";
 import type { GroupInfo, PlayerStore } from "./player-store";
 
@@ -52,11 +53,12 @@ export class SupabasePlayerStore implements PlayerStore {
     return rows.map((r) => ({ code: r.code, name: r.name }));
   }
 
-  async getDayScores(puzzleDay: string, promptCount: number, groupCode?: string): Promise<DayScore[]> {
+  async getDayScores(puzzleDay: string, promptCount: number, now: number, groupCode?: string): Promise<DayScore[]> {
     const rows = check(
       await this.db.rpc("day_scores", {
         p_puzzle_day: puzzleDay,
         p_prompt_count: promptCount,
+        p_closed_by: new Date(closedWindowsOpenedBy(now)).toISOString(),
         p_group_code: groupCode ?? null,
       }),
       "day_scores",

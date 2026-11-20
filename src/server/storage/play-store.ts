@@ -57,10 +57,10 @@ export interface PlayStore extends AnswerCountSource {
   getAnswerCounts(puzzleDay: string, promptCount: number): Promise<AnswerCounts>;
   /**
    * Every player's daily total for a Puzzle Day (sum of Accepted Points), for percentile and
-   * the distribution curve. Only counted (non-archive) runs that have started all
-   * `promptCount` Prompts are included.
+   * the distribution curve. Only counted (non-archive) runs finished at `now` are included:
+   * every one of the `promptCount` Prompts either Accepted or its answer window (plus grace) closed.
    */
-  getDayTotals(puzzleDay: string, promptCount: number): Promise<number[]>;
+  getDayTotals(puzzleDay: string, promptCount: number, now: number): Promise<number[]>;
   /** Every PromptPlay a device has started, live and archive, on any day (personal stats). */
   getDevicePlays(deviceId: string): Promise<DevicePlay[]>;
 }

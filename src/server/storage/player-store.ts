@@ -22,9 +22,9 @@ export interface PlayerStore {
   /** The groups the device belongs to, oldest membership first. */
   getGroups(deviceId: string): Promise<GroupInfo[]>;
   /**
-   * Each player's total for a Puzzle Day, for leaderboards: counted (non-archive) runs that have
-   * started all `promptCount` Prompts, optionally only members of one group. `playerKey` is the
-   * device ID.
+   * Each player's total for a Puzzle Day, for leaderboards: counted (non-archive) runs finished
+   * at `now` (every one of the `promptCount` Prompts Accepted or its answer window closed),
+   * optionally only members of one group. `playerKey` is the device ID.
    */
-  getDayScores(puzzleDay: string, promptCount: number, groupCode?: string): Promise<DayScore[]>;
+  getDayScores(puzzleDay: string, promptCount: number, now: number, groupCode?: string): Promise<DayScore[]>;
 }

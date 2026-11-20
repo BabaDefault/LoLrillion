@@ -286,7 +286,7 @@ export function createGameService({
 
       const [counts, dayTotals] = await Promise.all([
         answerCounts.getAnswerCounts(daily.puzzleDay, promptCount),
-        store.getDayTotals(daily.puzzleDay, promptCount),
+        store.getDayTotals(daily.puzzleDay, promptCount, now),
       ]);
       const maxTotal = promptCount * TIER_POINTS.pentakill;
       const names = new Map(daily.entities.map((e) => [e.id, e.name]));

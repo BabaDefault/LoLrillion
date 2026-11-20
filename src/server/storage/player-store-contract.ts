@@ -5,6 +5,8 @@ import type { PlayKey, PlayStore } from "./play-store";
 import type { PlayerStore } from "./player-store";
 
 const T0 = 1_700_000_000_000;
+/** Long after every Prompt opened at T0 has closed. */
+const LATER = T0 + 60 * 60_000;
 
 /** A PlayerStore and the PlayStore whose plays its leaderboards read. */
 export interface PlayerStoreFixture {
@@ -77,7 +79,7 @@ export function describePlayerStoreContract(name: string, makeStores: () => Play
       expect(await players.joinGroup(device("lost"), "ZZZZZZ")).toBeNull();
     });
 
-    it("lists the day's totals with nicknames, for runs that reached the last Prompt, ignoring archive plays", async () => {
+    it("lists the day's totals with nicknames, for finished runs, ignoring archive plays", async () => {
       const { plays, players } = makeStores();
       const puzzleDay = freshDay();
       await players.setNickname(device("s1"), "Ana");
@@ -90,7 +92,7 @@ export function describePlayerStoreContract(name: string, makeStores: () => Play
       // Another day.
       await playRun(plays, { deviceId: device("s1"), puzzleDay: freshDay() }, [10, 10]);
 
-      const scores = await players.getDayScores(puzzleDay, 2);
+      const scores = await players.getDayScores(puzzleDay, 2, LATER);
       expect(scores.sort((x, y) => x.total - y.total)).toEqual([
         { playerKey: device("s1"), nickname: "Ana", total: 30 },
         { playerKey: device("s2"), nickname: null, total: 160 },
@@ -105,8 +107,19 @@ export function describePlayerStoreContract(name: string, makeStores: () => Play
       await players.joinGroup(device("m2"), code);
       for (const n of ["m1", "m2", "outsider"]) await playRun(plays, { deviceId: device(n), puzzleDay }, [30]);
 
-      const scores = await players.getDayScores(puzzleDay, 1, code);
+      const scores = await players.getDayScores(puzzleDay, 1, LATER, code);
       expect(scores.map((s) => s.playerKey).sort()).toEqual([device("m1"), device("m2")]);
+    });
+
+    it("leaves a run off the leaderboard while its last Prompt is still open", async () => {
+      const { plays, players } = makeStores();
+      const puzzleDay = freshDay();
+      await playRun(plays, { deviceId: device("o1"), puzzleDay }, [30, null]);
+      await playRun(plays, { deviceId: device("o2"), puzzleDay }, [60, 100]);
+
+      const answering = openPrompt(T0).windowOpenAt + 1_000;
+      expect((await players.getDayScores(puzzleDay, 2, answering)).map((s) => s.playerKey)).toEqual([device("o2")]);
+      expect((await players.getDayScores(puzzleDay, 2, LATER)).length).toBe(2);
     });
   });
 }

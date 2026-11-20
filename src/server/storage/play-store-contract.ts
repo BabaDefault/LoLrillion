@@ -3,6 +3,8 @@ import { openPrompt, type AcceptedResult, type PromptPlay } from "@/engine";
 import type { PlayKey, PlayStore } from "./play-store";
 
 const T0 = 1_700_000_000_000;
+/** Long after every Prompt opened at T0 has closed. */
+const LATER = T0 + 60 * 60_000;
 
 function accepted(entityId: string, points: number): AcceptedResult {
   return { kind: "accepted", entityId, entityName: entityId, tier: "kill", points };
@@ -75,7 +77,7 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       expect(await store.getOfferedCandidates(key, 1)).toEqual([]);
     });
 
-    it("lists today's totals for players who reached the last Prompt, ignoring archive plays", async () => {
+    it("lists today's totals for players who finished every Prompt, ignoring archive plays", async () => {
       const store = makeStore();
       const puzzleDay = freshDay();
       // Finished: 30 + 0 (a Miss leaves the play un-accepted).
@@ -93,7 +95,24 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       await acceptOn(store, p4, 0, "teemo", 10);
       await acceptOn(store, p4, 1, "teemo", 10);
 
-      expect((await store.getDayTotals(puzzleDay, 2)).sort((a, b) => a - b)).toEqual([30, 160]);
+      expect((await store.getDayTotals(puzzleDay, 2, LATER)).sort((a, b) => a - b)).toEqual([30, 160]);
+    });
+
+    it("leaves out a run whose last Prompt is still open, until its answer window closes", async () => {
+      const store = makeStore();
+      const puzzleDay = freshDay();
+      // Started the last Prompt, no Accepted Guess yet: not finished while its window is open.
+      const open = { deviceId: device("open"), puzzleDay };
+      await acceptOn(store, open, 0, "teemo", 30);
+      await store.createPromptPlay(open, 1, openPrompt(T0));
+      // Accepted on the last Prompt: finished even though the window is still open.
+      const done = { deviceId: device("done"), puzzleDay };
+      await acceptOn(store, done, 0, "teemo", 60);
+      await acceptOn(store, done, 1, "garen", 100);
+
+      const answering = openPrompt(T0).windowOpenAt + 1_000;
+      expect(await store.getDayTotals(puzzleDay, 2, answering)).toEqual([160]);
+      expect((await store.getDayTotals(puzzleDay, 2, LATER)).sort((a, b) => a - b)).toEqual([30, 160]);
     });
 
     it("keeps archive plays apart from the counted play and out of Answer Share", async () => {

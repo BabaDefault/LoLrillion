@@ -68,6 +68,14 @@ function acceptsAttemptsUntil(play: PromptPlay): number {
   return promptWindow(play).answerClosesAt + NETWORK_GRACE_MS;
 }
 
+/**
+ * The latest window-open time whose answer window (plus grace) has closed by `now`: a Prompt
+ * opened at or before it is Accepted or Missed. For stores that filter finished runs in a query.
+ */
+export function closedWindowsOpenedBy(now: number): number {
+  return now - ANSWER_WINDOW_MS - NETWORK_GRACE_MS;
+}
+
 export type PromptOutcome =
   | { status: "reading" }
   | { status: "answering" }

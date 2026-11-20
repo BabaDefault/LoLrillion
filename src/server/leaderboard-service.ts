@@ -155,6 +155,7 @@ export function createLeaderboardService({
       const scores = await players.getDayScores(
         puzzleDay,
         daily.puzzle.prompts.length,
+        now,
         scope.kind === "group" ? scope.group.code : undefined,
       );
       const ranked = rankLeaderboard(scores);
