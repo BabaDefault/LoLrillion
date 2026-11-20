@@ -42,3 +42,29 @@ describe("review queue (Answer Set diff)", () => {
     ]);
   });
 });
+
+describe("review queue: approvals that fail today's checks", () => {
+  it("lists an invalid approval first, as needing re-approval, with its problems", () => {
+    const queue = reviewQueue(
+      { mr: ["item:1057", "item:3211"], stuns: ["champion:Yasuo"] },
+      {},
+      { mr: { review: approved("mr", ["item:1057", "item:3211"]), problems: ["Gem item:1057 has Typicality 0.4"] } },
+    );
+    expect(queue).toEqual([
+      { templateId: "mr", status: "needs re-approval", added: [], removed: [], problems: ["Gem item:1057 has Typicality 0.4"] },
+      { templateId: "stuns", status: "unreviewed", added: ["champion:Yasuo"], removed: [] },
+    ]);
+  });
+
+  it("sorts invalid approvals above every other entry", () => {
+    const queue = reviewQueue(
+      { a: ["champion:Yasuo"], z: ["champion:Riven"] },
+      {},
+      { z: { review: approved("z", ["champion:Riven"]), problems: ["No Gem"] } },
+    );
+    expect(queue.map((e) => [e.templateId, e.status])).toEqual([
+      ["z", "needs re-approval"],
+      ["a", "unreviewed"],
+    ]);
+  });
+});

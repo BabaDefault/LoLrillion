@@ -4,7 +4,7 @@
 export type { Ranked, Uncertainty } from "./rank";
 export { LABEL_WEIGHTS, labelQueue, labelUncertainty, type LabelUncertaintyInputs } from "./labels";
 export {
-  reviewUncertaintyQueue,
+  templateQueue,
   TEMPLATE_WEIGHTS,
   templateUncertainty,
   type TemplateUncertaintyInputs,

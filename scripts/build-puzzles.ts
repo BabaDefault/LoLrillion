@@ -27,34 +27,16 @@
  * are kept (a live Puzzle must not change) and count toward the no-repeat rule. Each Prompt carries
  * its provenance (the inputs that produced its Tiers); `npm run puzzles:explain -- <date>` prints it.
  */
-import { existsSync } from "node:fs";
-import { readdir, readFile, writeFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
-import {
-  buildPrompt,
-  generatePuzzles,
-  type FamiliarityData,
-  type GeneratedPuzzle,
-  type TemplateDefinition,
-} from "../src/builder";
-import type { GameDataSnapshot } from "../src/content/game-data/snapshot";
+import { readdir, writeFile } from "node:fs/promises";
+import { buildPrompt, generatePuzzles, type GeneratedPuzzle } from "../src/builder";
 import { readApprovedReviews } from "../src/reviews/files";
 import { puzzleTemplates } from "../src/reviews";
-import { approvedLabels } from "../src/content/labels";
 import { FIRST_PUZZLE_DAY } from "../src/content/puzzles/config";
 import { addDays, puzzleDayOf } from "../src/engine";
+import { content, readBuilderContent, readJson, readOptionalJson } from "./lib/inputs";
 
-const content = (path: string) => fileURLToPath(new URL(`../src/content/${path}`, import.meta.url));
 const PUZZLES_DIR = content("puzzles");
 const DAY_FILE = /^(\d{4}-\d{2}-\d{2})\.json$/;
-
-async function readJson<T>(path: string): Promise<T> {
-  return JSON.parse(await readFile(path, "utf8")) as T;
-}
-
-async function readOptionalJson<T>(path: string): Promise<T | undefined> {
-  return existsSync(path) ? readJson<T>(path) : undefined;
-}
 
 async function readExistingPuzzles(): Promise<Map<string, GeneratedPuzzle>> {
   const files = (await readdir(PUZZLES_DIR)).filter((f) => DAY_FILE.test(f)).sort();
@@ -94,22 +76,20 @@ function manifest(days: readonly string[]): string {
 }
 
 async function main() {
-  const snapshot = await readJson<GameDataSnapshot>(content("game-data/snapshot.json"));
-  const familiarity = await readOptionalJson<FamiliarityData>(content(`familiarity/${snapshot.patch}.json`));
+  const { snapshot, templates: allTemplates, labels, familiarity } = await readBuilderContent();
   // Only approved reviews: proposals never reach a Puzzle. Throws on an inconsistent approval.
   const reviews = await readApprovedReviews(content("reviews"));
   const includeUnreviewed = process.argv.includes("--include-unreviewed");
-  const allTemplates = await readJson<TemplateDefinition[]>(content("templates/templates.json"));
   const inputs = {
     snapshot,
     templates: puzzleTemplates(allTemplates, reviews, { includeUnreviewed }),
-    labels: approvedLabels,
+    labels,
     familiarity,
     reviews,
   };
   console.log(
     `Data ${snapshot.patch}; Familiarity: ${familiarity ? "yes" : "none (Typicality only)"}; ` +
-      `reviews: ${Object.keys(reviews).length}; labels: ${approvedLabels.length}; ` +
+      `reviews: ${Object.keys(reviews).length}; labels: ${labels.length}; ` +
       `Templates: ${inputs.templates.length} of ${allTemplates.length}` +
       (includeUnreviewed ? " (including unreviewed)" : " approved (--include-unreviewed for all)"),
   );

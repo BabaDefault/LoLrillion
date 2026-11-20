@@ -9,54 +9,20 @@
  * before provenance existed print "no provenance" and only the Tier comparison.
  */
 import { existsSync } from "node:fs";
-import { readdir, readFile } from "node:fs/promises";
-import { join } from "node:path";
-import { fileURLToPath } from "node:url";
-import {
-  buildPrompt,
-  explainPrompt,
-  type BuilderInputs,
-  type FamiliarityData,
-  type GeneratedPuzzle,
-  type TemplateDefinition,
-  type TemplateReview,
-} from "../src/builder";
-import type { GameDataSnapshot } from "../src/content/game-data/snapshot";
-import { readApprovedReviews } from "../src/reviews/files";
-import { approvedLabels } from "../src/content/labels";
-
-const content = (path: string) => fileURLToPath(new URL(`../src/content/${path}`, import.meta.url));
-
-async function readJson<T>(path: string): Promise<T> {
-  return JSON.parse(await readFile(path, "utf8")) as T;
-}
-
-/** Today's Builder inputs, read the same way `puzzles:build` reads them. */
-async function todaysInputs(): Promise<BuilderInputs> {
-  const snapshot = await readJson<GameDataSnapshot>(content("game-data/snapshot.json"));
-  const familiarityPath = content(`familiarity/${snapshot.patch}.json`);
-  return {
-    snapshot,
-    labels: approvedLabels,
-    familiarity: existsSync(familiarityPath) ? await readJson<FamiliarityData>(familiarityPath) : undefined,
-    reviews: await approvedReviewsAsTheyAre(),
-  };
-}
+import { buildPrompt, explainPrompt, type BuilderInputs, type GeneratedPuzzle } from "../src/builder";
+import { readApprovedReviewFiles } from "../src/reviews/files";
+import { content, readBuilderContent, readJson } from "./lib/inputs";
 
 /**
  * The approved reviews. Explaining publishes nothing, so an approval that fails today's checks is
  * still read as it is (with a warning) rather than stopping the explanation.
  */
-async function approvedReviewsAsTheyAre(): Promise<Record<string, TemplateReview>> {
-  try {
-    return await readApprovedReviews(content("reviews"));
-  } catch (err) {
-    console.warn(`Warning: ${err instanceof Error ? err.message : err}\n(read as they are)\n`);
-    const dir = content("reviews/approved");
-    const files = (await readdir(dir)).filter((f) => f.endsWith(".json"));
-    const reviews = await Promise.all(files.map((f) => readJson<TemplateReview>(join(dir, f))));
-    return Object.fromEntries(reviews.map((r) => [r.templateId, r]));
+async function approvedReviewsAsTheyAre(): Promise<NonNullable<BuilderInputs["reviews"]>> {
+  const { valid, invalid } = await readApprovedReviewFiles(content("reviews"));
+  for (const { file, problems } of Object.values(invalid)) {
+    console.warn(`Warning: ${file} fails today's checks (read as it is):\n  ${problems.join("\n  ")}\n`);
   }
+  return { ...valid, ...Object.fromEntries(Object.entries(invalid).map(([id, { review }]) => [id, review])) };
 }
 
 async function main() {
@@ -65,8 +31,10 @@ async function main() {
   const path = content(`puzzles/${day}.json`);
   if (!existsSync(path)) throw new Error(`No Puzzle for ${day} (${path})`);
   const puzzle = await readJson<GeneratedPuzzle>(path);
-  const templates = new Map((await readJson<TemplateDefinition[]>(content("templates/templates.json"))).map((t) => [t.id, t]));
-  const inputs = await todaysInputs();
+  // Today's Builder inputs, read the same way `puzzles:build` reads them.
+  const { templates: definitions, ...today } = await readBuilderContent();
+  const templates = new Map(definitions.map((t) => [t.id, t]));
+  const inputs: BuilderInputs = { ...today, reviews: await approvedReviewsAsTheyAre() };
 
   console.log(`#${puzzle.puzzleNumber} ${puzzle.puzzleDay}, data ${puzzle.dataVersion}`);
   for (const stored of puzzle.prompts) {

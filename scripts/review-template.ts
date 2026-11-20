@@ -1,12 +1,14 @@
 /**
  * Maintainer script: the review queue and the steps around `/review-template`.
  *
- *   npm run reviews:queue                       Templates to review: never approved, or Answer Set changed;
+ *   npm run reviews:queue                       Templates to review: approvals failing today's checks first
+ *                                               (needs re-approval), then never approved or Answer Set changed;
  *                                               those with a proposal first, most uncertain first, with reasons
  *   npm run reviews:worklist -- <templateId>    write the work file /review-template reads
  *   npm run reviews:validate -- <templateId>    check src/content/reviews/proposals/<templateId>.json
  *   npm run reviews:approve -- <templateId>     draft src/content/reviews/approved/<templateId>.json from
- *                                               the proposal (add --force to replace an approved file)
+ *                                               the proposal (add --force to replace a valid approved file;
+ *                                               one that fails today's checks is replaced without it)
  *
  * Files (see src/content/reviews/README.md for the formats):
  *   proposals/<templateId>.worklist.json   work file (regenerable, not committed)
@@ -14,29 +16,33 @@
  *   approved/<templateId>.json             the maintainer's approved review; the only file the Builder reads
  */
 import { existsSync } from "node:fs";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
+import { mkdir, writeFile } from "node:fs/promises";
 import { answerSetOf, buildPrompt, type BuilderInputs, type TemplateDefinition } from "../src/builder";
 import { entityRegistry } from "../src/content/game-data";
 import { gameDataSnapshot } from "../src/content/game-data/snapshot-data";
 import { approvedLabels } from "../src/content/labels";
 import { changedChampions, mechanicsTerm, type TaggedBaseline } from "../src/labels";
 import { approveProposal, checkProposal, reviewQueue, type ReviewProposal } from "../src/reviews";
-import { readApprovedReviews } from "../src/reviews/files";
-import { reviewUncertaintyQueue } from "../src/uncertainty";
+import { readApprovedReviewFiles } from "../src/reviews/files";
+import { templateQueue } from "../src/uncertainty";
+import { content, readJson } from "./lib/inputs";
 
-const content = (path: string) => fileURLToPath(new URL(`../src/content/${path}`, import.meta.url));
 const REVIEWS_DIR = content("reviews");
 const proposalFile = (id: string) => `${REVIEWS_DIR}/proposals/${id}.json`;
 const approvedFile = (id: string) => `${REVIEWS_DIR}/approved/${id}.json`;
 const json = (value: unknown) => JSON.stringify(value, null, 2) + "\n";
 
+/**
+ * Templates, approved reviews and current Answer Sets. An approval that fails today's checks doesn't
+ * stop the script: it comes back in `invalid` (the queue lists it as needing re-approval) and is
+ * left out of the Builder inputs.
+ */
 async function loadInputs() {
-  const templates = JSON.parse(await readFile(content("templates/templates.json"), "utf8")) as TemplateDefinition[];
-  const reviews = await readApprovedReviews(REVIEWS_DIR);
+  const templates = await readJson<TemplateDefinition[]>(content("templates/templates.json"));
+  const { valid: reviews, invalid } = await readApprovedReviewFiles(REVIEWS_DIR);
   const inputs: BuilderInputs = { snapshot: gameDataSnapshot, labels: approvedLabels, reviews };
   const answerSets = Object.fromEntries(templates.map((t) => [t.id, answerSetOf(t, inputs).sort()]));
-  return { templates, inputs, reviews, answerSets };
+  return { templates, inputs, reviews, invalid, answerSets };
 }
 
 function template(templates: TemplateDefinition[], id: string | undefined): TemplateDefinition {
@@ -51,7 +57,7 @@ function template(templates: TemplateDefinition[], id: string | undefined): Temp
  */
 async function staleFactsFor(t: TemplateDefinition, answerSet: readonly string[]): Promise<Record<string, string>> {
   if (t.filter.kind !== "champion-label") return {};
-  const baseline = JSON.parse(await readFile(content("labels/tagged.json"), "utf8")) as TaggedBaseline;
+  const baseline = await readJson<TaggedBaseline>(content("labels/tagged.json"));
   if (!baseline.patch) return {};
   const changed = new Set(changedChampions(gameDataSnapshot, baseline));
   const term = t.filter.term;
@@ -63,12 +69,24 @@ async function staleFactsFor(t: TemplateDefinition, answerSet: readonly string[]
 }
 
 async function queue() {
-  const { templates, answerSets, reviews } = await loadInputs();
-  const entries = reviewQueue(answerSets, reviews);
-  const describe = (e: (typeof entries)[number]) => {
+  const { templates, answerSets, reviews, invalid } = await loadInputs();
+  const all = reviewQueue(answerSets, reviews, invalid);
+  const describe = (e: (typeof all)[number]) => {
     const diff = e.status === "changed" ? ` +${e.added.join(" +")} -${e.removed.join(" -")}`.replace(/ [+-](?= |$)/g, "") : "";
-    return `${e.status.padEnd(10)} ${e.templateId.padEnd(36)} ${answerSets[e.templateId].length} answers${diff}`;
+    return `${e.status.padEnd(17)} ${e.templateId.padEnd(36)} ${answerSets[e.templateId].length} Entities${diff}`;
   };
+
+  // Approvals that fail today's checks (e.g. a rule added since): redo them first.
+  const reapprove = all.filter((e) => e.status === "needs re-approval");
+  if (reapprove.length) {
+    console.log("Approvals that fail today's checks (re-approve: npm run reviews:approve -- <templateId>):");
+  }
+  for (const e of reapprove) {
+    const proposal = existsSync(proposalFile(e.templateId)) ? "proposal waiting" : "no proposal: run /review-template first";
+    console.log(`     ${describe(e)} (${proposal})`);
+    for (const problem of e.problems ?? []) console.log(`       - ${problem}`);
+  }
+  const entries = all.filter((e) => e.status !== "needs re-approval");
 
   // Templates with a proposal waiting: most uncertain first, so approval effort goes to likely mistakes.
   const proposals: ReviewProposal[] = [];
@@ -78,7 +96,7 @@ async function queue() {
     proposals.push(await readProposal(e.templateId));
     staleFacts[e.templateId] = await staleFactsFor(template(templates, e.templateId), answerSets[e.templateId]);
   }
-  const ranked = reviewUncertaintyQueue(proposals, { patch: gameDataSnapshot.patch, staleFacts });
+  const ranked = templateQueue(proposals, { patch: gameDataSnapshot.patch, staleFacts });
   if (ranked.length) console.log("Proposals to approve, most uncertain first (work top-down):");
   for (const { item, score, reasons } of ranked) {
     console.log(`${String(score).padStart(3)}  ${describe(entries.find((e) => e.templateId === item.templateId)!)}`);
@@ -88,16 +106,19 @@ async function queue() {
   const unproposed = entries.filter((e) => !existsSync(proposalFile(e.templateId)));
   if (unproposed.length) console.log("No proposal yet (run /review-template <templateId>):");
   for (const e of unproposed) console.log(`     ${describe(e)}`);
-  console.log(`${entries.length} of ${Object.keys(answerSets).length} Templates need review; ${Object.keys(reviews).length} approved.`);
+  console.log(
+    `${all.length} of ${Object.keys(answerSets).length} Templates need review; ${Object.keys(reviews).length} approved` +
+      (reapprove.length ? `, ${reapprove.length} needing re-approval.` : "."),
+  );
 }
 
 async function worklist(id: string | undefined) {
-  const { templates, inputs, reviews, answerSets } = await loadInputs();
+  const { templates, inputs, reviews, invalid, answerSets } = await loadInputs();
   const t = template(templates, id);
   const entities = new Map(entityRegistry.map((e) => [e.id, e]));
   const inSet = new Set(answerSets[t.id]);
   const built = buildPrompt(t, inputs);
-  const [entry] = reviewQueue({ [t.id]: answerSets[t.id] }, reviews);
+  const [entry] = reviewQueue({ [t.id]: answerSets[t.id] }, reviews, invalid);
   const term = t.filter.kind === "champion-label" ? mechanicsTerm(t.filter.term) : undefined;
 
   const work = {
@@ -108,8 +129,8 @@ async function worklist(id: string | undefined) {
     rule: t.rule,
     filter: t.filter,
     term: term && { id: term.id, definition: term.definition, excludes: term.excludes },
-    queue: entry?.status === "changed" ? entry : { status: entry?.status ?? "approved, unchanged" },
-    approved: reviews[t.id] ?? null,
+    queue: entry?.status === "unreviewed" ? { status: entry.status } : (entry ?? { status: "approved, unchanged" }),
+    approved: reviews[t.id] ?? invalid[t.id]?.review ?? null,
     answerSet: answerSets[t.id].map((entity) => ({
       entity,
       name: entities.get(entity)?.name,
@@ -121,32 +142,41 @@ async function worklist(id: string | undefined) {
   await mkdir(`${REVIEWS_DIR}/proposals`, { recursive: true });
   const file = `${REVIEWS_DIR}/proposals/${t.id}.worklist.json`;
   await writeFile(file, json(work));
-  console.log(`${t.id}: ${work.answerSet.length} answers on patch ${work.dataVersion} -> ${file}`);
+  console.log(`${t.id}: ${work.answerSet.length} Entities on patch ${work.dataVersion} -> ${file}`);
 }
 
 async function readProposal(id: string): Promise<ReviewProposal> {
   if (!existsSync(proposalFile(id))) throw new Error(`No proposal at ${proposalFile(id)}: run /review-template first.`);
-  return JSON.parse(await readFile(proposalFile(id), "utf8")) as ReviewProposal;
+  return readJson<ReviewProposal>(proposalFile(id));
 }
 
 async function validate(id: string | undefined) {
-  const { templates, answerSets } = await loadInputs();
+  const { templates, answerSets, invalid } = await loadInputs();
   const t = template(templates, id);
+  for (const other of Object.keys(invalid).filter((other) => other !== t.id)) {
+    console.log(`NOTE: ${approvedFile(other)} needs re-approval (npm run reviews:queue lists why).`);
+  }
+  const approval = invalid[t.id]?.problems ?? [];
+  for (const p of approval) console.log(`APPROVAL PROBLEM: ${p}`);
+  if (approval.length) console.log(`${approvedFile(t.id)} fails today's checks: re-approve it with npm run reviews:approve -- ${t.id}`);
   const problems = checkProposal(await readProposal(t.id), answerSets[t.id]);
   for (const p of problems) console.log(`PROBLEM: ${p}`);
   console.log(problems.length ? `${problems.length} problems in ${proposalFile(t.id)}` : `${proposalFile(t.id)} is complete.`);
-  if (problems.length) process.exit(1);
+  if (problems.length || approval.length) process.exit(1);
 }
 
 async function approve(id: string | undefined) {
-  const { templates, answerSets } = await loadInputs();
+  const { templates, answerSets, invalid } = await loadInputs();
   const t = template(templates, id);
   const proposal = await readProposal(t.id);
   const problems = checkProposal(proposal, answerSets[t.id]);
   if (problems.length) throw new Error(`Fix the proposal first (npm run reviews:validate -- ${t.id}):\n${problems.join("\n")}`);
-  if (existsSync(approvedFile(t.id)) && !process.argv.includes("--force")) {
+  // An approval that fails today's checks can't reach a Puzzle anyway, so it is replaced without --force.
+  const replacingInvalid = Boolean(invalid[t.id]);
+  if (existsSync(approvedFile(t.id)) && !replacingInvalid && !process.argv.includes("--force")) {
     throw new Error(`${approvedFile(t.id)} exists; pass --force to replace it.`);
   }
+  if (replacingInvalid) console.log(`Replacing ${approvedFile(t.id)}, which failed today's checks.`);
   await mkdir(`${REVIEWS_DIR}/approved`, { recursive: true });
   await writeFile(approvedFile(t.id), json(approveProposal(proposal)));
   console.log(

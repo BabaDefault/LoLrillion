@@ -103,7 +103,7 @@ export const TYPICALITY_MARGIN = 0.05;
 const near = (a: number, b: number) => Math.abs(a - b) <= TYPICALITY_MARGIN + 1e-9;
 
 /** Template review proposals, most uncertain first, with reasons. */
-export function reviewUncertaintyQueue(
+export function templateQueue(
   proposals: readonly ReviewProposal[],
   inputs: TemplateUncertaintyInputs,
 ): Ranked<ReviewProposal>[] {
