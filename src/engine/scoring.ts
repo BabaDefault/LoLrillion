@@ -21,6 +21,19 @@ export const TIER_NAMES: Readonly<Record<Tier, string>> = {
 /** Points for a Prompt that closed with no Accepted Guess. */
 export const MISS_POINTS = 0;
 
+/** The emoji for each Tier, as used in the score animation and the share line. */
+export const TIER_EMOJI: Readonly<Record<Tier, string>> = {
+  minion: "🟦",
+  "too-clever": "🤡",
+  kill: "🟩",
+  "triple-kill": "🟨",
+  "quadra-kill": "🟧",
+  pentakill: "💎",
+};
+
+/** The emoji for a Prompt that closed with no Accepted Guess. */
+export const MISS_EMOJI = "⬛";
+
 export function pointsFor(tier: Tier): number {
   return TIER_POINTS[tier];
 }

@@ -1,7 +1,7 @@
 // Game Engine: the pure, I/O-free module that owns all gameplay rules.
 export { normalizeGuess } from "./normalize";
 export * from "./types";
-export { TIER_POINTS, TIER_NAMES, MISS_POINTS } from "./scoring";
+export { TIER_POINTS, TIER_NAMES, TIER_EMOJI, MISS_POINTS, MISS_EMOJI } from "./scoring";
 export {
   READ_WINDOW_MS,
   ANSWER_WINDOW_MS,
@@ -19,4 +19,4 @@ export {
   type PromptPlay,
 } from "./play";
 export { puzzleProgress, type PuzzleProgress, type PromptProgress } from "./progress";
-export { dayTitle, type DayTitle } from "./results";
+export { dayTitle, shareLine, type DayTitle, type ShareLineInput } from "./results";
