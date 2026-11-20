@@ -10,7 +10,7 @@ import type { Nicknames } from "./build-registry";
  */
 export const NICKNAMES: Nicknames = {
   // Champions
-  "champion:AurelionSol": ["Asol"],
+  "champion:AurelionSol": ["Asol", "Aurelion"],
   "champion:Blitzcrank": ["Blitz"],
   "champion:Caitlyn": ["Cait"],
   "champion:Cassiopeia": ["Cass", "Cassio"],

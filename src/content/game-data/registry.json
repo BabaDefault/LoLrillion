@@ -10,7 +10,7 @@
 {"id":"champion:Annie","name":"Annie","answerType":"champion","aliases":[]},
 {"id":"champion:Aphelios","name":"Aphelios","answerType":"champion","aliases":[]},
 {"id":"champion:Ashe","name":"Ashe","answerType":"champion","aliases":[]},
-{"id":"champion:AurelionSol","name":"Aurelion Sol","answerType":"champion","aliases":["Asol"]},
+{"id":"champion:AurelionSol","name":"Aurelion Sol","answerType":"champion","aliases":["Asol","Aurelion"]},
 {"id":"champion:Aurora","name":"Aurora","answerType":"champion","aliases":[]},
 {"id":"champion:Azir","name":"Azir","answerType":"champion","aliases":[]},
 {"id":"champion:Bard","name":"Bard","answerType":"champion","aliases":[]},
