@@ -2,6 +2,7 @@ import {
   dayTitle,
   openPrompt,
   percentileBetterThan,
+  personalStats,
   promptWindow,
   puzzleDayOf,
   puzzleProgress,
@@ -14,13 +15,15 @@ import {
   type AttemptResult,
   type DayTitle,
   type EntityId,
+  type FinishedGame,
+  type PersonalStats,
   type ScoreDistribution,
   type PromptPlay,
   type PromptProgress,
   type Tier,
 } from "@/engine";
 import type { Clock } from "./clock";
-import type { PuzzleSource } from "./puzzle-source";
+import type { ArchiveDay, DailyPuzzle, PuzzleSource } from "./puzzle-source";
 import type { AnswerCountSource } from "./storage/answer-counts";
 import type { PlayKey, PlayStore } from "./storage/play-store";
 
@@ -148,6 +151,16 @@ export interface GameService {
    * curve; refused until all Prompts are finished.
    */
   getResults(deviceId: string, archiveDay?: string): Promise<ResultsResponse>;
+  /** Personal stats over this device's finished games, live and archive. */
+  getStats(deviceId: string): Promise<PersonalStats>;
+  /** Past Puzzle Days that can be played in archive mode (never today or later), newest first. */
+  listArchive(deviceId: string): Promise<ArchiveEntryView[]>;
+}
+
+/** A past Puzzle in the archive list. */
+export interface ArchiveEntryView extends ArchiveDay {
+  /** This device has finished that day's Puzzle (live or in the archive). */
+  finished: boolean;
 }
 
 function toResultView(o: PromptProgress): PromptResultView | null {
@@ -314,7 +327,47 @@ export function createGameService({
         },
       };
     },
+
+    async getStats(deviceId) {
+      return personalStats(await finishedGames(deviceId, clock.now()));
+    },
+
+    async listArchive(deviceId) {
+      const now = clock.now();
+      const [days, games] = await Promise.all([puzzles.pastDays?.(now) ?? [], finishedGames(deviceId, now)]);
+      const finished = new Set(games.map((g) => g.puzzleDay));
+      return days.map((day) => ({ ...day, finished: finished.has(day.puzzleDay) }));
+    },
   };
+
+  /** The Puzzle a stored play belongs to: today's live Puzzle, or a dated one. */
+  async function puzzleFor(puzzleDay: string, now: number): Promise<DailyPuzzle | null> {
+    if (puzzleDay === puzzleDayOf(now)) return puzzles.current(now);
+    return (await puzzles.forDay?.(puzzleDay)) ?? null;
+  }
+
+  /** This device's finished runs (live and archive), each with its Prompts' Tiers. */
+  async function finishedGames(deviceId: string, now: number): Promise<FinishedGame[]> {
+    const runs = new Map<string, { puzzleDay: string; plays: PromptPlay[] }>();
+    for (const p of await store.getDevicePlays(deviceId)) {
+      const id = `${p.puzzleDay}|${p.archive}`;
+      const run = runs.get(id) ?? { puzzleDay: p.puzzleDay, plays: [] };
+      run.plays[p.promptIndex] = p.play;
+      runs.set(id, run);
+    }
+    const games: FinishedGame[] = [];
+    for (const run of runs.values()) {
+      const daily = await puzzleFor(run.puzzleDay, now);
+      if (!daily) continue;
+      const progress = puzzleProgress(daily.puzzle.prompts.length, run.plays, now);
+      if (!progress.finished) continue;
+      games.push({
+        puzzleDay: run.puzzleDay,
+        results: progress.outcomes.map((o) => (o.status === "accepted" ? o.tier : null)),
+      });
+    }
+    return games;
+  }
 
   /** Run one engine step against the current, started Prompt, then persist and log it. */
   async function attempt(
