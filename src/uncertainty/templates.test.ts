@@ -47,12 +47,12 @@ describe("Template review queue, most uncertain first", () => {
     expect(queue[1]).toMatchObject({ score: 0, reasons: [] });
   });
 
-  it("raises uncertainty for each missing entry, so more missing answers rank higher", () => {
+  it("raises uncertainty for each missing entry, so more missing Entities rank higher", () => {
     const one = proposal("a-one", { missing: [{ entity: "Yuumi", why: "Players think she fits." }] });
-    const two = proposal("b-two", { missing: [...one.missing, { entity: "Kled", why: "Rides a Yordle." }] });
+    const two = proposal("b-two", { missing: [...one.missing, { entity: "Kled", why: "Players count his Jousting (E) as a dash." }] });
     const queue = templateQueue([one, two], inputs);
     expect(order(queue)).toEqual(["b-two", "a-one"]);
-    expect(queue[0].reasons).toEqual(["missing: Yuumi (Players think she fits.)", "missing: Kled (Rides a Yordle.)"]);
+    expect(queue[0].reasons).toEqual(["missing: Yuumi (Players think she fits.)", "missing: Kled (Players count his Jousting (E) as a dash.)"]);
   });
 
   it("raises uncertainty for Answer Set entries resting on a fact older than the current snapshot", () => {
@@ -79,6 +79,33 @@ describe("Template review queue, most uncertain first", () => {
     expect(order(queue)).toEqual(["b-near", "a-far"]);
     expect(queue[0].reasons).toContain(
       "Gem candidate champion:H has Typicality 0.27, near the Gem threshold 0.25: a small change decides whether it can be the Gem",
+    );
+  });
+
+  it("ranks a Template whose Gem candidate sits at the edge of the likeliest half above one whose doesn't", () => {
+    // Five Entities above H (0.12): just enough to keep it out of the likeliest half; at 0.17 it would pass E.
+    const atEdge = proposal("b-edge");
+    atEdge.typicality["champion:E"] = { value: 0.14, why: "" };
+    atEdge.typicality["champion:F"] = { value: 0.04, why: "" };
+    atEdge.typicality["champion:G"] = { value: 0.03, why: "" };
+    const queue = templateQueue([proposal("a-far"), atEdge], inputs);
+    expect(order(queue)).toEqual(["b-edge", "a-far"]);
+    expect(queue[0].reasons).toContain(
+      "Gem candidate champion:H is 6th of 10 by Typicality, at the edge of the likeliest half of the Answer Set " +
+        "(Too Clever left out): a small change decides whether it can be the Gem",
+    );
+  });
+
+  it("flags a Gem candidate already in the likeliest half of the Answer Set", () => {
+    const likely = proposal("t");
+    likely.typicality["champion:I"] = { value: 0.2, why: "" };
+    likely.typicality["champion:F"] = { value: 0.1, why: "" };
+    likely.typicality["champion:G"] = { value: 0.09, why: "" };
+    likely.typicality["champion:E"] = { value: 0.08, why: "" };
+    const [ranked] = templateQueue([likely], inputs);
+    expect(ranked.reasons).toContain(
+      "Gem candidate champion:I is 5th of 10 by Typicality, in the likeliest half of the Answer Set " +
+        "(Too Clever left out): it can't be the Gem",
     );
   });
 

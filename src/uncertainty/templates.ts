@@ -1,6 +1,6 @@
 import { bandByPrior } from "@/builder";
 import type { EntityId } from "@/engine";
-import { GEM_MAX_TYPICALITY, type ReviewProposal } from "@/reviews";
+import { GEM_MAX_TYPICALITY, gemRank, ordinal, type ReviewProposal } from "@/reviews";
 import { rankByUncertainty, uncertaintyTally, type Ranked, type Uncertainty } from "./rank";
 
 /** What a Template review proposal's uncertainty is judged against. */
@@ -25,9 +25,12 @@ export const TEMPLATE_WEIGHTS = {
   olderPatch: 2,
   /** Per Answer Set entry resting on a fact older than the current snapshot. */
   staleFact: 1,
-  /** Per Gem candidate within `TYPICALITY_MARGIN` of `GEM_MAX_TYPICALITY`: the Gem scores 100. */
+  /**
+   * Per Gem candidate within `TYPICALITY_MARGIN` of `GEM_MAX_TYPICALITY`, or in or at the edge of the
+   * likeliest half of the Answer Set (the approval rule, #18): the Gem scores 100.
+   */
   nearGemThreshold: 2,
-  /** Per pair of neighbouring answers across a band edge within `TYPICALITY_MARGIN` of each other. */
+  /** Per pair of neighbouring Entities across a band edge within `TYPICALITY_MARGIN` of each other. */
   nearBandEdge: 1,
 } as const;
 
@@ -49,12 +52,32 @@ export function templateUncertainty(proposal: ReviewProposal, inputs: TemplateUn
     if (staleFacts[id]) raise(TEMPLATE_WEIGHTS.staleFact, `stale fact: ${id} (${staleFacts[id]})`);
   }
   const typicality = proposal.typicality ?? {};
+  const set = {
+    answerSet: proposal.answerSet ?? [],
+    typicality: Object.fromEntries(Object.entries(typicality).map(([id, t]) => [id, t.value])),
+    tooClever: new Set((proposal.tooClever ?? []).map((c) => c.entity)),
+  };
   for (const { entity } of proposal.gemCandidates ?? []) {
     const value = typicality[entity]?.value;
-    if (typeof value === "number" && near(value, GEM_MAX_TYPICALITY)) {
+    if (typeof value !== "number") continue;
+    if (near(value, GEM_MAX_TYPICALITY)) {
       raise(
         TEMPLATE_WEIGHTS.nearGemThreshold,
         `Gem candidate ${entity} has Typicality ${value}, near the Gem threshold ${GEM_MAX_TYPICALITY}: a small change decides whether it can be the Gem`,
+      );
+    }
+    const rank = gemRank(entity, value, set);
+    const where = `${ordinal(rank.place)} of ${rank.count} by Typicality`;
+    if (rank.inLikeliestHalf) {
+      raise(
+        TEMPLATE_WEIGHTS.nearGemThreshold,
+        `Gem candidate ${entity} is ${where}, in the likeliest half of the Answer Set (Too Clever left out): it can't be the Gem`,
+      );
+    } else if (gemRank(entity, value + TYPICALITY_MARGIN + 1e-9, set).inLikeliestHalf) {
+      raise(
+        TEMPLATE_WEIGHTS.nearGemThreshold,
+        `Gem candidate ${entity} is ${where}, at the edge of the likeliest half of the Answer Set (Too Clever left out): ` +
+          "a small change decides whether it can be the Gem",
       );
     }
   }
@@ -69,7 +92,7 @@ export function templateUncertainty(proposal: ReviewProposal, inputs: TemplateUn
 }
 
 /**
- * Neighbouring answers on either side of a band edge whose Typicality estimates are close. Banded
+ * Neighbouring Entities on either side of a band edge whose Typicality estimates are close. Banded
  * as the Builder would with the drafted approval: by estimated Typicality, the first Gem candidate
  * and every Too Clever candidate left out, ties sharing a band.
  */
