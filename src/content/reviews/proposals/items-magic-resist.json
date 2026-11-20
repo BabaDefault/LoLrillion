@@ -1,0 +1,276 @@
+{
+  "templateId": "items-magic-resist",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1033",
+    "item:1057",
+    "item:1120",
+    "item:2504",
+    "item:2524",
+    "item:3050",
+    "item:3065",
+    "item:3091",
+    "item:3102",
+    "item:3111",
+    "item:3139",
+    "item:3140",
+    "item:3155",
+    "item:3156",
+    "item:3173",
+    "item:3190",
+    "item:3211",
+    "item:4401",
+    "item:4632",
+    "item:6664",
+    "item:6665",
+    "item:8020"
+  ],
+  "missing": [
+    {
+      "entity": "Terminus",
+      "why": "Light attacks grant Armor and Magic Resist from its passive, but MR isn't a base stat, so the Rule correctly excludes it. Players who know the item may try it; including it would be a Rule change (count passive stats), not data."
+    },
+    {
+      "entity": "Guardian Angel",
+      "why": "Gave MR for years before its rework; a common wrong answer. Rule-correct out (Armor + AD only now). No fix needed."
+    },
+    {
+      "entity": "Mikael's Blessing",
+      "why": "Historically an MR support item; players will try it. Rule-correct out (no MR stat on this patch)."
+    },
+    {
+      "entity": "Edge of Night",
+      "why": "Had MR in older versions and is a spell-shield item, so it 'feels' like MR. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:2524",
+      "why": "Bandlepipes started life as an Arena item; many players won't believe it's in the SR shop. It passes this patch's SR shop filter, so keep it, but expect 'that's Arena-only' complaints."
+    },
+    {
+      "entity": "item:3173",
+      "why": "Chainlaced Crushers is a tier-3 upgrade of Mercury's Treads from the boots upgrade system, not a normal buy. Players may argue it isn't a 'shop item'; it does appear in the SR shop data."
+    },
+    {
+      "entity": "item:1120",
+      "why": "Doran's Helm is a recent starter; veterans may not know it exists or that it carries a little MR (8)."
+    },
+    {
+      "entity": "item:3102",
+      "why": "Players think of Banshee's Veil as an AP item and may be surprised it carries MR; membership is correct (40 MR)."
+    }
+  ],
+  "wording": [
+    {
+      "why": "'Gives Magic Resist' could be read to include passives that grant MR (Terminus light attacks, Hullbreaker minions). The Rule says stats only.",
+      "suggestion": "Name an item with Magic Resist in its stats"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "item:1033",
+      "alias": "Mantle",
+      "why": "Common short form in build talk."
+    },
+    {
+      "entity": "item:1033",
+      "alias": "Null Magic",
+      "why": "Common shortened name."
+    },
+    {
+      "entity": "item:1057",
+      "alias": "Negatron",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3156",
+      "alias": "Maw",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:3156",
+      "alias": "Malmortius",
+      "why": "Players type the distinctive part."
+    },
+    {
+      "entity": "item:3139",
+      "alias": "Scimitar",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3139",
+      "alias": "Merc Scimitar",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3190",
+      "alias": "Locket",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:3211",
+      "alias": "Spectre's",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3211",
+      "alias": "Cowl",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:6665",
+      "alias": "Jak'Sho",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:2504",
+      "alias": "Kaenic",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:2504",
+      "alias": "Rookern",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3050",
+      "alias": "Zeke's",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:8020",
+      "alias": "Abyssal",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:6664",
+      "alias": "Hollow",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:3091",
+      "alias": "Wits",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:4632",
+      "alias": "Verdant",
+      "why": "Short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone can name Mercs, Spirit Visage or Negatron, but 22 answers spread across tanks, fighters, ADCs (Wit's End, Scimitar, Maw), mages (Banshee's, Verdant Barrier) and supports (Locket, Zeke's) mean few will get them all."
+  },
+  "typicality": {
+    "item:1033": {
+      "value": 0.45,
+      "why": "The basic MR component; many players' reflex answer."
+    },
+    "item:1057": {
+      "value": 0.55,
+      "why": "The iconic MR component; top-of-mind for most."
+    },
+    "item:1120": {
+      "value": 0.05,
+      "why": "New starter; few remember it has MR."
+    },
+    "item:2504": {
+      "value": 0.25,
+      "why": "Popular modern MR item, but fewer reach for it first."
+    },
+    "item:2524": {
+      "value": 0.02,
+      "why": "Obscure support item, small MR."
+    },
+    "item:3050": {
+      "value": 0.04,
+      "why": "Support item; its MR is minor."
+    },
+    "item:3065": {
+      "value": 0.45,
+      "why": "Classic MR tank item, very commonly named."
+    },
+    "item:3091": {
+      "value": 0.25,
+      "why": "Go-to MR item for on-hit players."
+    },
+    "item:3102": {
+      "value": 0.25,
+      "why": "Well-known 'anti-magic' item."
+    },
+    "item:3111": {
+      "value": 0.55,
+      "why": "Mercs: the MR boots; a very common first answer."
+    },
+    "item:3139": {
+      "value": 0.15,
+      "why": "Known, but players think QSS before Scimitar."
+    },
+    "item:3140": {
+      "value": 0.1,
+      "why": "Known for its cleanse, not its MR."
+    },
+    "item:3155": {
+      "value": 0.1,
+      "why": "Known early MR component for AD champions."
+    },
+    "item:3156": {
+      "value": 0.25,
+      "why": "The AD MR item; commonly named by fighters and assassins."
+    },
+    "item:3173": {
+      "value": 0.02,
+      "why": "Tier-3 boot upgrade few remember by name."
+    },
+    "item:3190": {
+      "value": 0.08,
+      "why": "Support item; some remember its resists."
+    },
+    "item:3211": {
+      "value": 0.12,
+      "why": "Common component, sometimes named."
+    },
+    "item:4401": {
+      "value": 0.3,
+      "why": "Classic MR stacking item; very recognizable."
+    },
+    "item:4632": {
+      "value": 0.04,
+      "why": "Obscure mage component."
+    },
+    "item:6664": {
+      "value": 0.08,
+      "why": "Tank item; less top-of-mind."
+    },
+    "item:6665": {
+      "value": 0.15,
+      "why": "Common dual-resist tank item."
+    },
+    "item:8020": {
+      "value": 0.08,
+      "why": "Known MR tank item but rarely a first answer."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "item:1120",
+      "why": "Players who know Doran's Helm will reach for it precisely because it's a starter few think of."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "item:3102",
+      "why": "An AP item everyone knows but few file under MR: 'oh, of course, it's the spell-shield item'."
+    },
+    {
+      "entity": "item:3190",
+      "why": "Universally known support item whose resists are forgotten until revealed."
+    },
+    {
+      "entity": "item:3155",
+      "why": "Familiar laning component that people overlook in favor of Maw."
+    }
+  ]
+}

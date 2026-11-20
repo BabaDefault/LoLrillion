@@ -85,4 +85,18 @@ export const NICKNAMES: Nicknames = {
   "item:3742": ["DMP", "Dead Man's"],
   "item:4401": ["FoN"],
   "item:6653": ["Liandrys", "Liandry"],
+  // From the items-magic-resist review
+  "item:1033": ["Mantle", "Null Magic"],
+  "item:1057": ["Negatron"],
+  "item:3156": ["Maw", "Malmortius"],
+  "item:3139": ["Scimitar", "Merc Scimitar"],
+  "item:3190": ["Locket"],
+  "item:3211": ["Spectre's", "Cowl"],
+  "item:6665": ["Jak'Sho"],
+  "item:2504": ["Kaenic", "Rookern"],
+  "item:3050": ["Zeke's"],
+  "item:8020": ["Abyssal"],
+  "item:6664": ["Hollow"],
+  "item:3091": ["Wits"],
+  "item:4632": ["Verdant"],
 };
