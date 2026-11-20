@@ -1,5 +1,8 @@
 import { systemClock } from "./clock";
 import { createGameService, type GameService } from "./game-service";
+import { entityRegistry } from "@/content/game-data";
+import { datedPuzzles } from "@/content/puzzles";
+import { createDatedPuzzleSource } from "./dated-puzzle-source";
 import { samplePuzzleSource } from "./puzzle-source";
 import { supabaseEnv } from "./env";
 import { InMemoryPlayStore } from "./storage/in-memory-play-store";
@@ -23,7 +26,8 @@ export function getGameService(): GameService {
   globalForGame.lolrillionGame ??= createGameService({
     clock: systemClock,
     store: createPlayStore(),
-    puzzles: samplePuzzleSource,
+    // Today's Sydney-dated generated Puzzle; the sample when none is generated for today.
+    puzzles: createDatedPuzzleSource({ puzzles: datedPuzzles, entities: entityRegistry, fallback: samplePuzzleSource }),
   });
   return globalForGame.lolrillionGame;
 }
