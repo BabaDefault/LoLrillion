@@ -60,6 +60,10 @@ export const NICKNAMES: Nicknames = {
   "champion:Taliyah": ["Tali"],
   "champion:Lissandra": ["Liss"],
   "champion:Renekton": ["Renek"],
+  "champion:Kaisa": ["Kai"],
+  "champion:Belveth": ["Bel"],
+  "champion:RekSai": ["Rek"],
+  "champion:Camille": ["Cam"],
   // Items
   "item:1038": ["BF"],
   "item:1052": ["Amp Tome"],
