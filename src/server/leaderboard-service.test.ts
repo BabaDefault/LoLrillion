@@ -34,6 +34,9 @@ const puzzles: PuzzleSource = {
   async pastDays() {
     return [];
   },
+  async upcomingDays() {
+    return [];
+  },
 };
 
 function setup(random?: () => number) {

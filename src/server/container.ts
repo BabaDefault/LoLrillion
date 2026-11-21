@@ -5,7 +5,7 @@ import { entityRegistry } from "@/content/game-data";
 import { datedPuzzles } from "@/content/puzzles";
 import { createDatedPuzzleSource } from "./dated-puzzle-source";
 import { samplePuzzleSource, type PuzzleSource } from "./puzzle-source";
-import { supabaseEnv } from "./env";
+import { playAheadEnabled, supabaseEnv } from "./env";
 import { smokeTestMode } from "./smoke-mode";
 import { smokePuzzleSource } from "./smoke-puzzle";
 import { InMemoryPlayStore } from "./storage/in-memory-play-store";
@@ -89,7 +89,12 @@ export function smokeControls(): SmokeControls | null {
 }
 
 export function getGameService(): GameService {
-  globalForGame.lolrillionGame ??= createGameService({ clock: clock(), store: stores().plays, puzzles });
+  globalForGame.lolrillionGame ??= createGameService({
+    clock: clock(),
+    store: stores().plays,
+    puzzles,
+    playAhead: playAheadEnabled(process.env),
+  });
   return globalForGame.lolrillionGame;
 }
 

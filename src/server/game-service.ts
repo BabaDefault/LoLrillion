@@ -133,12 +133,17 @@ export interface GameServiceDeps {
   puzzles: PuzzleSource;
   /** Answer Share counts for the end screen; the store's own counts when omitted. */
   answerCounts?: AnswerCountSource;
+  /**
+   * Beta play-ahead: future Puzzles can also be played from the archive, as uncounted runs, so
+   * testers can play more than one Puzzle a day. Off by default; it spoils those days.
+   */
+  playAhead?: boolean;
 }
 
 /**
  * Every method acts on today's counted run, or, given `archiveDay` (a past Puzzle Day), on an
  * archive run of that day's Puzzle with the same rules. An `archiveDay` that is today, in the
- * future, or has no Puzzle throws ArchiveUnavailableError.
+ * future (unless play-ahead is on), or has no Puzzle throws ArchiveUnavailableError.
  */
 export interface GameService {
   getState(deviceId: string, archiveDay?: string): Promise<PuzzleStateView>;
@@ -168,10 +173,12 @@ export interface GameService {
   listArchive(deviceId: string): Promise<ArchiveEntryView[]>;
 }
 
-/** A past Puzzle in the archive list. */
+/** A Puzzle in the archive list: a past day, or with play-ahead an upcoming one. */
 export interface ArchiveEntryView extends ArchiveDay {
   /** This device has finished that day's Puzzle (live or in the archive). */
   finished: boolean;
+  /** A future day, playable early only because play-ahead is on. */
+  upcoming: boolean;
 }
 
 function toResultView(o: PromptProgress): PromptResultView | null {
@@ -187,6 +194,7 @@ export function createGameService({
   store,
   puzzles,
   answerCounts = store,
+  playAhead = false,
 }: GameServiceDeps): GameService {
   /**
    * The run a request acts on: today's counted run, or with `archiveDay` an archive run of that
@@ -202,8 +210,10 @@ export function createGameService({
       const plays = await store.getPromptPlays(key, promptCount);
       return { now, served, key, promptCount, plays };
     }
-    // Only a past day with a generated Puzzle is in the archive.
-    const served = archiveDay < puzzleDayOf(now) ? await puzzles.forDay(archiveDay) : null;
+    // Only a past day (or with play-ahead, a future day) with a generated Puzzle is in the archive.
+    const today = puzzleDayOf(now);
+    const open = archiveDay < today || (playAhead && archiveDay > today);
+    const served = open ? await puzzles.forDay(archiveDay) : null;
     if (!served?.generated) throw new ArchiveUnavailableError(archiveDay);
     const promptCount = served.puzzle.prompts.length;
     const liveKey: PlayKey = { deviceId, puzzleDay: served.puzzleDay, archive: false };
@@ -351,9 +361,16 @@ export function createGameService({
 
     async listArchive(deviceId) {
       const now = clock.now();
-      const [days, games] = await Promise.all([puzzles.pastDays(now), finishedGames(deviceId, now)]);
+      const [past, upcoming, games] = await Promise.all([
+        puzzles.pastDays(now),
+        playAhead ? puzzles.upcomingDays(now) : [],
+        finishedGames(deviceId, now),
+      ]);
       const finished = new Set(games.map((g) => g.puzzleDay));
-      return days.map((day) => ({ ...day, finished: finished.has(day.puzzleDay) }));
+      return [
+        ...upcoming.map((day) => ({ ...day, finished: finished.has(day.puzzleDay), upcoming: true })),
+        ...past.map((day) => ({ ...day, finished: finished.has(day.puzzleDay), upcoming: false })),
+      ];
     },
   };
 

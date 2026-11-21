@@ -20,14 +20,17 @@ export interface ServedPuzzle {
 export interface PuzzleSource {
   /**
    * The Puzzle served on `puzzleDay`: the one generated for it, else the fallback. Callers decide
-   * whether that day may be played (today live, past days in the archive, never the future).
+   * whether that day may be played (today live, past days in the archive, future days only with
+   * the beta's play-ahead).
    */
   forDay(puzzleDay: string): Promise<ServedPuzzle>;
   /** The archive: Puzzle Days with a generated Puzzle strictly before today's, newest first. */
   pastDays(now: number): Promise<ArchiveDay[]>;
+  /** Puzzle Days with a generated Puzzle strictly after today's, soonest first (beta play-ahead). */
+  upcomingDays(now: number): Promise<ArchiveDay[]>;
 }
 
-/** One past Puzzle listed in the archive. */
+/** One Puzzle Day listed in the archive. */
 export interface ArchiveDay {
   puzzleDay: string;
   puzzleNumber: number;
@@ -45,6 +48,9 @@ export const samplePuzzleSource: PuzzleSource = {
     };
   },
   async pastDays() {
+    return [];
+  },
+  async upcomingDays() {
     return [];
   },
 };

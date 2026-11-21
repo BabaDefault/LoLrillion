@@ -15,3 +15,11 @@ export function supabaseEnv(env: Record<string, string | undefined>): SupabaseEn
   if (!serviceRoleKey) throw new Error("SUPABASE_URL is set but SUPABASE_SERVICE_ROLE_KEY is missing");
   return { url, serviceRoleKey };
 }
+
+/**
+ * Beta play-ahead (see GameServiceDeps.playAhead): on only when LOLRILLION_PLAY_AHEAD is "1".
+ * Set it in Vercel for the friends beta; remove it before launch.
+ */
+export function playAheadEnabled(env: Record<string, string | undefined>): boolean {
+  return env.LOLRILLION_PLAY_AHEAD === "1";
+}

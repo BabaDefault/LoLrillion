@@ -29,6 +29,9 @@ const puzzles: PuzzleSource = {
   async pastDays() {
     return [];
   },
+  async upcomingDays() {
+    return [];
+  },
 };
 
 const DEVICE = "device-1";

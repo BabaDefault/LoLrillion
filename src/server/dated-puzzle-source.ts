@@ -39,5 +39,13 @@ export function createDatedPuzzleSource({ puzzles, entities, fallback }: DatedPu
         .reverse()
         .map((puzzleDay) => ({ puzzleDay, puzzleNumber: puzzles[puzzleDay].puzzleNumber }));
     },
+
+    async upcomingDays(now) {
+      const today = puzzleDayOf(now);
+      return Object.keys(puzzles)
+        .filter((day) => day > today)
+        .sort()
+        .map((puzzleDay) => ({ puzzleDay, puzzleNumber: puzzles[puzzleDay].puzzleNumber }));
+    },
   };
 }

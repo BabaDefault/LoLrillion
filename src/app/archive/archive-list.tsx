@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import type { ArchiveEntryView } from "@/server/game-service";
 import { Empty, ErrorState, Loading } from "../status";
 
-/** Past Puzzles, newest first. Today's and future Puzzles are never listed. */
+/**
+ * Past Puzzles, newest first. Today's Puzzle is never listed; upcoming ones are listed first only
+ * while the beta's play-ahead is on.
+ */
 export function ArchiveList() {
   const [days, setDays] = useState<ArchiveEntryView[] | null>(null);
   const [error, setError] = useState(false);
@@ -30,9 +33,10 @@ export function ArchiveList() {
               LoLrillion <span className="num">#{day.puzzleNumber}</span>{" "}
               <span className="muted">
                 · <span className="num">{day.puzzleDay}</span>
+                {day.upcoming && " · Upcoming"}
               </span>
             </span>
-            <span className={day.finished ? "muted" : "chip"}>{day.finished ? "Results" : "Play"}</span>
+            <span className={day.finished ? "muted" : "chip"}>{day.finished ? "Results" : day.upcoming ? "Play early" : "Play"}</span>
           </Link>
         </li>
       ))}

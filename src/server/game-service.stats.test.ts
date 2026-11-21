@@ -94,8 +94,8 @@ describe("the archive list, through the Game Service", () => {
     await play("me", ["Teemo", "Teemo"]);
     clock.set(noon(22));
     expect(await game.listArchive("me")).toEqual([
-      { puzzleDay: "2026-11-21", puzzleNumber: 2, finished: true },
-      { puzzleDay: "2026-11-20", puzzleNumber: 1, finished: false },
+      { puzzleDay: "2026-11-21", puzzleNumber: 2, finished: true, upcoming: false },
+      { puzzleDay: "2026-11-20", puzzleNumber: 1, finished: false, upcoming: false },
     ]);
   });
 });

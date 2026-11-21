@@ -32,6 +32,9 @@ const puzzles: PuzzleSource = {
   async pastDays() {
     return [];
   },
+  async upcomingDays() {
+    return [];
+  },
 };
 
 const T0 = 1_700_000_000_000;

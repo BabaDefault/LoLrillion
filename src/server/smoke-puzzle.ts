@@ -46,4 +46,7 @@ export const smokePuzzleSource: PuzzleSource = {
   async pastDays() {
     return [];
   },
+  async upcomingDays() {
+    return [];
+  },
 };

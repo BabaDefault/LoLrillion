@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { supabaseEnv } from "./env";
+import { playAheadEnabled, supabaseEnv } from "./env";
 
 describe("choosing Supabase from environment variables", () => {
   it("uses Supabase when both the URL and the service-role key are set", () => {
@@ -17,5 +17,13 @@ describe("choosing Supabase from environment variables", () => {
   it("refuses a half-configured setup rather than silently losing plays", () => {
     expect(() => supabaseEnv({ SUPABASE_URL: "https://x.supabase.co" })).toThrow(/SUPABASE_SERVICE_ROLE_KEY/);
     expect(() => supabaseEnv({ SUPABASE_SERVICE_ROLE_KEY: "k" })).toThrow(/SUPABASE_URL/);
+  });
+});
+
+describe("the beta play-ahead switch", () => {
+  it("is on only when LOLRILLION_PLAY_AHEAD is exactly 1", () => {
+    expect(playAheadEnabled({ LOLRILLION_PLAY_AHEAD: "1" })).toBe(true);
+    expect(playAheadEnabled({})).toBe(false);
+    expect(playAheadEnabled({ LOLRILLION_PLAY_AHEAD: "true" })).toBe(false);
   });
 });

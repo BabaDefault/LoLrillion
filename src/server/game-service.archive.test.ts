@@ -31,7 +31,7 @@ const NOV_22_NOON = Date.parse("2026-11-22T01:00:00Z");
 /** 12:00 on 2026-11-21 in Sydney. */
 const NOV_21_NOON = Date.parse("2026-11-21T01:00:00Z");
 
-function setup(start = NOV_22_NOON) {
+function setup(start = NOV_22_NOON, playAhead = false) {
   const clock = new ManualClock(start);
   const store = new InMemoryPlayStore();
   const puzzles = createDatedPuzzleSource({
@@ -44,7 +44,7 @@ function setup(start = NOV_22_NOON) {
     entities,
     fallback: samplePuzzleSource,
   });
-  const game = createGameService({ clock, store, puzzles });
+  const game = createGameService({ clock, store, puzzles, playAhead });
 
   /** Play every Prompt of a run with the same Guess (null = let the window run out). */
   async function playAll(deviceId: string, guess: string | null, archiveDay?: string) {
@@ -136,6 +136,29 @@ describe("archive play", () => {
       await expect(game.getState("archivist", day)).rejects.toBeInstanceOf(ArchiveUnavailableError);
       await expect(game.startPrompt("archivist", day)).rejects.toBeInstanceOf(ArchiveUnavailableError);
     }
+  });
+
+  it("with play-ahead (the beta), plays a future day as an uncounted run and lists it as upcoming", async () => {
+    const { clock, game, playAll } = setup(NOV_22_NOON, true);
+    await playAll("friend", "Amumu", "2026-11-23");
+
+    expect(await game.getState("friend", "2026-11-23")).toMatchObject({ archive: true, finished: true, total: 200 });
+    expect(await game.listArchive("friend")).toEqual([
+      { puzzleDay: "2026-11-23", puzzleNumber: 4, finished: true, upcoming: true },
+      { puzzleDay: "2026-11-21", puzzleNumber: 2, finished: false, upcoming: false },
+      { puzzleDay: "2026-11-20", puzzleNumber: 1, finished: false, upcoming: false },
+    ]);
+    // Today is still played live, never from the archive.
+    await expect(game.getState("friend", "2026-11-22")).rejects.toBeInstanceOf(ArchiveUnavailableError);
+
+    // When the day arrives, the live run is fresh and counted.
+    clock.set(Date.parse("2026-11-23T01:00:00Z"));
+    expect(await game.getState("friend")).toMatchObject({ puzzleDay: "2026-11-23", archive: false, finished: false });
+  });
+
+  it("without play-ahead, lists no upcoming days", async () => {
+    const { game } = setup();
+    expect((await game.listArchive("anyone")).map((d) => d.upcoming)).toEqual([false, false]);
   });
 
   it("shows a day the player already finished live instead of replaying it", async () => {

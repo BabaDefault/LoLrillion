@@ -28,6 +28,9 @@ const fallback: PuzzleSource = {
   async pastDays() {
     return [];
   },
+  async upcomingDays() {
+    return [];
+  },
 };
 
 const source = createDatedPuzzleSource({
@@ -72,6 +75,14 @@ describe("dated Puzzle source: the archive", () => {
     expect(past).toEqual([
       { puzzleDay: "2026-11-21", puzzleNumber: 2 },
       { puzzleDay: "2026-11-20", puzzleNumber: 1 },
+    ]);
+  });
+
+  it("lists upcoming Puzzle Days, soonest first: never today or a past day", async () => {
+    // 12:00 on the 20th in Sydney.
+    expect(await three.upcomingDays(Date.parse("2026-11-20T01:00:00Z"))).toEqual([
+      { puzzleDay: "2026-11-21", puzzleNumber: 2 },
+      { puzzleDay: "2026-11-22", puzzleNumber: 3 },
     ]);
   });
 
