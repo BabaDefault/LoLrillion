@@ -1,0 +1,396 @@
+{
+  "templateId": "players-worlds-winners",
+  "dataVersion": "esports:2026-11-21",
+  "answerSet": [
+    "pro-player:Ambition",
+    "pro-player:Bang",
+    "pro-player:Baolan",
+    "pro-player:BeBe (Chang Bo-Wei)",
+    "pro-player:Bengi",
+    "pro-player:BeryL",
+    "pro-player:Bin (Chen Ze-Bin)",
+    "pro-player:Blank (Kang Sun-gu)",
+    "pro-player:Canyon",
+    "pro-player:CoreJJ",
+    "pro-player:Crisp",
+    "pro-player:Crown",
+    "pro-player:CuVee",
+    "pro-player:Cyanide",
+    "pro-player:DanDy",
+    "pro-player:Deft",
+    "pro-player:Doinb",
+    "pro-player:Doran (Choi Hyeon-jun)",
+    "pro-player:Duke (Lee Ho-seong)",
+    "pro-player:Easyhoon",
+    "pro-player:Faker",
+    "pro-player:Flandre",
+    "pro-player:Ghost (Jang Yong-jun)",
+    "pro-player:GimGoon",
+    "pro-player:Gumayusi",
+    "pro-player:Haru",
+    "pro-player:Imp",
+    "pro-player:Impact",
+    "pro-player:JackeyLove",
+    "pro-player:Jiejie",
+    "pro-player:Juhan",
+    "pro-player:Keria",
+    "pro-player:Kingen",
+    "pro-player:Knight (Zhuo Ding)",
+    "pro-player:LaMiaZeaLoT",
+    "pro-player:Lilballz",
+    "pro-player:Looper",
+    "pro-player:Lwx",
+    "pro-player:MaRin",
+    "pro-player:Mata",
+    "pro-player:Meiko",
+    "pro-player:Mellisan",
+    "pro-player:MiSTakE",
+    "pro-player:Ning",
+    "pro-player:Nuguri",
+    "pro-player:ON",
+    "pro-player:Oner",
+    "pro-player:PawN",
+    "pro-player:Piglet",
+    "pro-player:PoohManDu",
+    "pro-player:Pyosik",
+    "pro-player:Rookie",
+    "pro-player:Ruler",
+    "pro-player:Scout",
+    "pro-player:ShowMaker",
+    "pro-player:Shushei",
+    "pro-player:Stanley",
+    "pro-player:TheShy",
+    "pro-player:Tian",
+    "pro-player:Toyz",
+    "pro-player:Viper (Park Do-hyeon)",
+    "pro-player:Wewillfailer",
+    "pro-player:Wolf (Lee Jae-wan)",
+    "pro-player:XPeke",
+    "pro-player:Xun",
+    "pro-player:Zeka (Kim Geon-woo)",
+    "pro-player:Zeus"
+  ],
+  "missing": [
+    {
+      "entity": "Uzi",
+      "why": "The most common wrong answer: famous, reached the 2013 final, never won. Rule-correct out (decoy)."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "pro-player:Haru",
+      "why": "2017 SSG substitute; Rule includes subs but players may object."
+    },
+    {
+      "entity": "pro-player:Juhan",
+      "why": "2022 DRX substitute who barely played."
+    }
+  ],
+  "wording": [
+    {
+      "why": "\"won Worlds\" could include coaches (kkOma); the Rule excludes them.",
+      "suggestion": "Name a player who won Worlds (players only, no coaches)"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "pro-player:Gumayusi",
+      "alias": "Guma",
+      "why": "Common short form."
+    },
+    {
+      "entity": "pro-player:JackeyLove",
+      "alias": "Jackey",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone gets Faker and the T1 roster; naming the whole list across 16 years is hard."
+  },
+  "typicality": {
+    "pro-player:Ambition": {
+      "value": 0.06,
+      "why": "2017 SSG jungler, the veteran's redemption arc."
+    },
+    "pro-player:Bang": {
+      "value": 0.15,
+      "why": "Two-time SKT champion."
+    },
+    "pro-player:Baolan": {
+      "value": 0.04,
+      "why": "2018 IG support."
+    },
+    "pro-player:BeBe (Chang Bo-Wei)": {
+      "value": 0.01,
+      "why": "2012 TPA ADC."
+    },
+    "pro-player:Bengi": {
+      "value": 0.15,
+      "why": "Three-time champion with Faker."
+    },
+    "pro-player:BeryL": {
+      "value": 0.1,
+      "why": "Two-time champion support, known for weird picks."
+    },
+    "pro-player:Bin (Chen Ze-Bin)": {
+      "value": 0.15,
+      "why": "Fresh 2026 BLG champion; recency."
+    },
+    "pro-player:Blank (Kang Sun-gu)": {
+      "value": 0.04,
+      "why": "2016 SKT sub jungler."
+    },
+    "pro-player:Canyon": {
+      "value": 0.15,
+      "why": "Widely rated best jungler; 2020 champion."
+    },
+    "pro-player:CoreJJ": {
+      "value": 0.1,
+      "why": "Known to NA fans via TL."
+    },
+    "pro-player:Crisp": {
+      "value": 0.04,
+      "why": "2019 FPX support."
+    },
+    "pro-player:Crown": {
+      "value": 0.05,
+      "why": "2017 SSG mid who beat Faker in the final."
+    },
+    "pro-player:CuVee": {
+      "value": 0.04,
+      "why": "2017 SSG top."
+    },
+    "pro-player:Cyanide": {
+      "value": 0.02,
+      "why": "S1 Fnatic jungler."
+    },
+    "pro-player:DanDy": {
+      "value": 0.04,
+      "why": "2014 SSW jungler."
+    },
+    "pro-player:Deft": {
+      "value": 0.25,
+      "why": "The 2022 DRX underdog story is widely known."
+    },
+    "pro-player:Doinb": {
+      "value": 0.15,
+      "why": "Memorable 2019 FPX mid, streamer."
+    },
+    "pro-player:Doran (Choi Hyeon-jun)": {
+      "value": 0.12,
+      "why": "2025 T1 top laner; recency."
+    },
+    "pro-player:Duke (Lee Ho-seong)": {
+      "value": 0.06,
+      "why": "Two titles, two teams."
+    },
+    "pro-player:Easyhoon": {
+      "value": 0.04,
+      "why": "Shared mid with Faker in 2015."
+    },
+    "pro-player:Faker": {
+      "value": 0.9,
+      "why": "The face of Worlds; nearly everyone's first answer."
+    },
+    "pro-player:Flandre": {
+      "value": 0.04,
+      "why": "2021 EDG top."
+    },
+    "pro-player:Ghost (Jang Yong-jun)": {
+      "value": 0.05,
+      "why": "2020 DWG ADC."
+    },
+    "pro-player:GimGoon": {
+      "value": 0.05,
+      "why": "2019 FPX top."
+    },
+    "pro-player:Gumayusi": {
+      "value": 0.3,
+      "why": "Three straight T1 titles; memes and visibility."
+    },
+    "pro-player:Haru": {
+      "value": 0.02,
+      "why": "2017 SSG sub jungler."
+    },
+    "pro-player:Imp": {
+      "value": 0.06,
+      "why": "2014 SSW ADC."
+    },
+    "pro-player:Impact": {
+      "value": 0.06,
+      "why": "2013 SKT top, later NA."
+    },
+    "pro-player:JackeyLove": {
+      "value": 0.12,
+      "why": "2018 IG ADC, famous aggressive player."
+    },
+    "pro-player:Jiejie": {
+      "value": 0.03,
+      "why": "2021 EDG jungler."
+    },
+    "pro-player:Juhan": {
+      "value": 0.01,
+      "why": "2022 DRX sub."
+    },
+    "pro-player:Keria": {
+      "value": 0.35,
+      "why": "Current T1 star, three-time champion, highly visible."
+    },
+    "pro-player:Kingen": {
+      "value": 0.05,
+      "why": "2022 DRX top."
+    },
+    "pro-player:Knight (Zhuo Ding)": {
+      "value": 0.08,
+      "why": "Star mid of 2026 BLG."
+    },
+    "pro-player:LaMiaZeaLoT": {
+      "value": 0.01,
+      "why": "S1 Fnatic support."
+    },
+    "pro-player:Lilballz": {
+      "value": 0.01,
+      "why": "2012 TPA support."
+    },
+    "pro-player:Looper": {
+      "value": 0.03,
+      "why": "2014 SSW top."
+    },
+    "pro-player:Lwx": {
+      "value": 0.05,
+      "why": "2019 FPX ADC."
+    },
+    "pro-player:MaRin": {
+      "value": 0.05,
+      "why": "2015 SKT top, Finals MVP."
+    },
+    "pro-player:Mata": {
+      "value": 0.05,
+      "why": "Legendary 2014 SSW support; a satisfying recall."
+    },
+    "pro-player:Meiko": {
+      "value": 0.06,
+      "why": "2021 EDG support."
+    },
+    "pro-player:Mellisan": {
+      "value": 0.01,
+      "why": "S1 Fnatic support."
+    },
+    "pro-player:MiSTakE": {
+      "value": 0.01,
+      "why": "2012 TPA jungler."
+    },
+    "pro-player:Ning": {
+      "value": 0.1,
+      "why": "2018 IG jungler, MVP of that Worlds."
+    },
+    "pro-player:Nuguri": {
+      "value": 0.06,
+      "why": "2020 DWG top laner."
+    },
+    "pro-player:ON": {
+      "value": 0.05,
+      "why": "2026 BLG support."
+    },
+    "pro-player:Oner": {
+      "value": 0.3,
+      "why": "Three straight T1 titles."
+    },
+    "pro-player:PawN": {
+      "value": 0.03,
+      "why": "2014 SSW mid."
+    },
+    "pro-player:Piglet": {
+      "value": 0.08,
+      "why": "2013 SKT ADC, later in NA."
+    },
+    "pro-player:PoohManDu": {
+      "value": 0.03,
+      "why": "2013 SKT support."
+    },
+    "pro-player:Pyosik": {
+      "value": 0.05,
+      "why": "2022 DRX jungler."
+    },
+    "pro-player:Rookie": {
+      "value": 0.25,
+      "why": "Famous 2018 IG mid."
+    },
+    "pro-player:Ruler": {
+      "value": 0.15,
+      "why": "2017 SSG ADC, still a top pro."
+    },
+    "pro-player:Scout": {
+      "value": 0.06,
+      "why": "2021 EDG mid."
+    },
+    "pro-player:ShowMaker": {
+      "value": 0.15,
+      "why": "2020 DWG star mid."
+    },
+    "pro-player:Shushei": {
+      "value": 0.02,
+      "why": "S1 Fnatic mid/top."
+    },
+    "pro-player:Stanley": {
+      "value": 0.02,
+      "why": "2012 TPA."
+    },
+    "pro-player:TheShy": {
+      "value": 0.3,
+      "why": "Iconic 2018 IG top laner; fan favourite."
+    },
+    "pro-player:Tian": {
+      "value": 0.08,
+      "why": "2019 FPX jungler and Finals MVP."
+    },
+    "pro-player:Toyz": {
+      "value": 0.05,
+      "why": "2012 TPA mid, famous ex-pro streamer."
+    },
+    "pro-player:Viper (Park Do-hyeon)": {
+      "value": 0.12,
+      "why": "2021 EDG and 2026 BLG ADC."
+    },
+    "pro-player:Wewillfailer": {
+      "value": 0.01,
+      "why": "S1 Fnatic."
+    },
+    "pro-player:Wolf (Lee Jae-wan)": {
+      "value": 0.12,
+      "why": "SKT support turned streamer; known to Western fans."
+    },
+    "pro-player:XPeke": {
+      "value": 0.12,
+      "why": "The backdoor; but players forget he won S1."
+    },
+    "pro-player:Xun": {
+      "value": 0.04,
+      "why": "2026 BLG jungler."
+    },
+    "pro-player:Zeka (Kim Geon-woo)": {
+      "value": 0.06,
+      "why": "2022 DRX mid."
+    },
+    "pro-player:Zeus": {
+      "value": 0.3,
+      "why": "2023-24 T1 top laner, very visible."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "pro-player:Mata",
+      "why": "Legendary 2014 support; an \"oh, of course\" for veterans."
+    },
+    {
+      "entity": "pro-player:Toyz",
+      "why": "Famous 2012 champion and streamer; few remember he won."
+    },
+    {
+      "entity": "pro-player:Crown",
+      "why": "Beat Faker in the 2017 final; satisfying recall."
+    }
+  ]
+}
