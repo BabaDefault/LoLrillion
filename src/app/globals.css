@@ -1071,14 +1071,68 @@ button.cta-inline {
 
 /* The afterglow: a soft round halo of the Tier colour left behind the poro once the burst clears */
 .tier-poro-halo {
+  --halo-a: 60%; /* colour strength at the centre */
+  --halo-r: 7; /* reach past the poro, in pixels */
+  --halo-glow: var(--blur-md);
   position: absolute;
-  inset: calc(var(--px) * -6);
+  inset: calc(var(--px) * var(--halo-r) * -1);
   border-radius: 50%;
-  background: radial-gradient(circle, color-mix(in srgb, var(--glow-c) 45%, transparent) 0%, transparent 68%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--glow-c) var(--halo-a), transparent) 0%,
+    color-mix(in srgb, var(--glow-c) calc(var(--halo-a) * 0.5), transparent) 40%,
+    transparent 70%
+  );
+  filter: drop-shadow(0 0 var(--halo-glow) var(--glow-c));
   pointer-events: none;
   animation:
     poro-halo-in 0.6s steps(6, end) both,
     poro-halo-pulse 2.4s steps(4, end) 0.6s infinite alternate;
+}
+
+/* The higher the Tier, the bigger and brighter the afterglow */
+.tier-poro-halo.glow-green {
+  --halo-a: 70%;
+  --halo-r: 8;
+}
+
+.tier-poro-halo.glow-yellow {
+  --halo-a: 85%;
+  --halo-r: 10;
+  --halo-glow: var(--blur-lg);
+}
+
+.tier-poro-halo.glow-orange {
+  --halo-a: 95%;
+  --halo-r: 12;
+  --halo-glow: var(--blur-lg);
+}
+
+.tier-poro-halo.glow-gem {
+  --halo-a: 100%;
+  --halo-r: 14;
+  --halo-glow: var(--blur-lg);
+  animation:
+    poro-halo-in 0.6s steps(6, end) both,
+    poro-halo-pulse 1.2s steps(4, end) 0.6s infinite alternate;
+}
+
+/* Triple and up: the shockwave flies further */
+.tier-poro-burst.glow-yellow,
+.tier-poro-burst.glow-orange,
+.tier-poro-burst.glow-gem {
+  --burst-to: 2.8;
+  border-width: calc(var(--px) * 3);
+}
+
+.tier-poro-burst.glow-gem {
+  --burst-to: 3.4;
+}
+
+.tier-poro-burst.is-echo.glow-yellow,
+.tier-poro-burst.is-echo.glow-orange,
+.tier-poro-burst.is-echo.glow-gem {
+  border-width: calc(var(--px) * 2);
 }
 
 /* The Tier name and Points wait for the poro */
@@ -1163,7 +1217,7 @@ button.cta-inline {
   }
   100% {
     opacity: 0;
-    transform: scale(2.1);
+    transform: scale(var(--burst-to, 2.1));
   }
 }
 
@@ -1177,19 +1231,19 @@ button.cta-inline {
     transform: scale(1.15);
   }
   100% {
-    opacity: 0.85;
+    opacity: 1;
     transform: scale(1);
   }
 }
 
 @keyframes poro-halo-pulse {
   0% {
-    opacity: 0.85;
+    opacity: 1;
     transform: scale(1);
   }
   100% {
-    opacity: 0.55;
-    transform: scale(0.94);
+    opacity: 0.7;
+    transform: scale(0.92);
   }
 }
 
