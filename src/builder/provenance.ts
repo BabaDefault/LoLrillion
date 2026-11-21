@@ -11,7 +11,7 @@ export function provenanceOf(template: TemplateDefinition, inputs: BuilderInputs
   const review = inputs.reviews?.[template.id];
   const common = {
     review: review ? contentHash(review) : "unreviewed",
-    labels: labelsHash(labelTermsOf(template.filter), inputs),
+    labels: template.filter.kind === "trait" ? traitsHash(template.filter.trait, inputs) : labelsHash(labelTermsOf(template.filter), inputs),
     scoring: contentHash(scoring),
   };
   if (isEsportsAnswerType(template.answerType)) {
@@ -51,12 +51,24 @@ export function explainPrompt(stored: BuiltPrompt, rebuilt: BuiltPrompt): Prompt
 
 const PROVENANCE_FIELDS: readonly (keyof PromptProvenance)[] = ["dataVersion", "review", "labels", "familiarity", "scoring"];
 
-/** The approved labels a `champion-label` filter reads: those with its term, in a stable order. */
-/** One term hashes its labels alone (as before combined filters), several hash the list per term. */
+/**
+ * The approved labels a filter reads, those with its terms in a stable order. One term hashes its labels
+ * alone (as before combined filters), several hash the list per term.
+ */
 function labelsHash(terms: readonly string[], inputs: BuilderInputs): string {
   if (terms.length === 0) return "unused";
   if (terms.length === 1) return contentHash(labelsUsed(terms[0], inputs));
   return contentHash(terms.map((term) => labelsUsed(term, inputs)));
+}
+
+/** Curated traits are hand-approved facts like labels, so a `trait` filter's traits fill the labels field. */
+function traitsHash(trait: string, { traits = [] }: BuilderInputs): string {
+  return contentHash(
+    traits
+      .filter((t) => t.trait === trait)
+      .map(canonical)
+      .sort(),
+  );
 }
 
 function labelsUsed(term: string, { labels = [] }: BuilderInputs): string[] {

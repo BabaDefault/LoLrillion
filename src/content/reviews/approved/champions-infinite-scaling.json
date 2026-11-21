@@ -1,0 +1,38 @@
+{
+  "templateId": "champions-infinite-scaling",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:Bard",
+    "champion:Belveth",
+    "champion:Chogath",
+    "champion:Kindred",
+    "champion:Locke",
+    "champion:Nasus",
+    "champion:Senna",
+    "champion:Shyvana",
+    "champion:Sion",
+    "champion:Smolder",
+    "champion:Swain",
+    "champion:Thresh",
+    "champion:Veigar"
+  ],
+  "typicality": {
+    "champion:Nasus": 0.8,
+    "champion:Veigar": 0.7,
+    "champion:Senna": 0.4,
+    "champion:Smolder": 0.35,
+    "champion:AurelionSol": 0.2,
+    "champion:Chogath": 0.3,
+    "champion:Swain": 0.15,
+    "champion:Thresh": 0.3,
+    "champion:Kindred": 0.2,
+    "champion:Sion": 0.2,
+    "champion:Belveth": 0.1,
+    "champion:Shyvana": 0.04,
+    "champion:Locke": 0.03,
+    "champion:Bard": 0.12
+  },
+  "tooClever": [],
+  "gem": "champion:Swain"
+}

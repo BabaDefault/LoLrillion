@@ -1,0 +1,127 @@
+{
+  "templateId": "champions-non-humanoid",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Anivia",
+    "champion:AurelionSol",
+    "champion:Belveth",
+    "champion:Chogath",
+    "champion:Hecarim",
+    "champion:KogMaw",
+    "champion:Naafiri",
+    "champion:Rammus",
+    "champion:RekSai",
+    "champion:Skarner",
+    "champion:Smolder",
+    "champion:Velkoz",
+    "champion:Yuumi"
+  ],
+  "missing": [
+    {
+      "entity": "Kha'Zix",
+      "why": "Players will type him for \"Void monster\", though he stands upright on two legs; Rule call (currently excluded)."
+    },
+    {
+      "entity": "Kindred",
+      "why": "Wolf is a beast; Lamb is humanoid. Rule call for duo champions."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Rammus",
+      "why": "He walks upright on two legs with two arms when not rolling; by the body-plan Rule he is humanoid."
+    },
+    {
+      "entity": "champion:Chogath",
+      "why": "He stands on two legs with two arms, a humanoid body plan despite being a monster."
+    },
+    {
+      "entity": "champion:Hecarim",
+      "why": "A centaur has a human upper body; players may argue."
+    },
+    {
+      "entity": "champion:Belveth",
+      "why": "Her upper body is humanoid; only her lower body is insectoid."
+    }
+  ],
+  "wording": [
+    {
+      "why": "The Prompt says \"beasts and monsters\" but the Rule uses body plan, so upright monsters (Kha'Zix, Cho'Gath, Volibear) are ambiguous.",
+      "suggestion": "Name a champion who isn't humanoid (not two arms, two legs, upright)"
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Void monsters come fast; Skarner, Naafiri and Smolder need more thought."
+  },
+  "typicality": {
+    "champion:Anivia": {
+      "value": 0.1,
+      "why": "Ice bird; many recall it, but behind the Void and dragon picks."
+    },
+    "champion:AurelionSol": {
+      "value": 0.14,
+      "why": "Cosmic dragon, obvious beast."
+    },
+    "champion:Belveth": {
+      "value": 0.06,
+      "why": "Void empress with insect legs; some will name her among Void picks."
+    },
+    "champion:Chogath": {
+      "value": 0.22,
+      "why": "Archetypal monster."
+    },
+    "champion:Hecarim": {
+      "value": 0.04,
+      "why": "Centaur, half-human, rarely first."
+    },
+    "champion:KogMaw": {
+      "value": 0.14,
+      "why": "Iconic Void creature."
+    },
+    "champion:Naafiri": {
+      "value": 0.05,
+      "why": "Newer champion; dog pack."
+    },
+    "champion:Rammus": {
+      "value": 0.08,
+      "why": "Armadillo, some recall."
+    },
+    "champion:RekSai": {
+      "value": 0.12,
+      "why": "Void burrower."
+    },
+    "champion:Skarner": {
+      "value": 0.06,
+      "why": "Scorpion, less played."
+    },
+    "champion:Smolder": {
+      "value": 0.1,
+      "why": "Baby dragon, popular recently."
+    },
+    "champion:Velkoz": {
+      "value": 0.12,
+      "why": "Floating eye."
+    },
+    "champion:Yuumi": {
+      "value": 0.12,
+      "why": "A cat is an easy pick."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Skarner",
+      "why": "\"Of course, the giant scorpion!\": plainly non-humanoid but rarely first."
+    },
+    {
+      "entity": "champion:Naafiri",
+      "why": "A literal pack of dogs, satisfying when revealed."
+    },
+    {
+      "entity": "champion:Anivia",
+      "why": "The maintainer's pick: the ice phoenix; at 0.10 it ties Smolder at the median and passes only because ties count in its favour, so it is the weakest of the three."
+    }
+  ]
+}

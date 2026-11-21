@@ -1,0 +1,229 @@
+{
+  "templateId": "champions-one-syllable",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Ashe",
+    "champion:Bard",
+    "champion:Brand",
+    "champion:Braum",
+    "champion:Briar",
+    "champion:Fizz",
+    "champion:Gnar",
+    "champion:Graves",
+    "champion:Gwen",
+    "champion:Hwei",
+    "champion:Jax",
+    "champion:Jayce",
+    "champion:Jhin",
+    "champion:Jinx",
+    "champion:Kayle",
+    "champion:Kayn",
+    "champion:Kled",
+    "champion:Locke",
+    "champion:Lux",
+    "champion:Mel",
+    "champion:Ornn",
+    "champion:Pyke",
+    "champion:Quinn",
+    "champion:Rell",
+    "champion:Ryze",
+    "champion:Sett",
+    "champion:Shen",
+    "champion:Singed",
+    "champion:Swain",
+    "champion:Thresh",
+    "champion:Twitch",
+    "champion:Vayne",
+    "champion:Vex",
+    "champion:Vi",
+    "champion:Zac",
+    "champion:Zed",
+    "champion:Ziggs"
+  ],
+  "missing": [],
+  "disputable": [
+    {
+      "entity": "champion:Hwei",
+      "why": "Players are unsure how to say Hwei (\"hway\" vs \"hoo-ay\"); one syllable is the official pronunciation."
+    },
+    {
+      "entity": "champion:Singed",
+      "why": "Some players jokingly say \"sing-ed\"; the standard reading is one syllable."
+    },
+    {
+      "entity": "champion:Briar",
+      "why": "Dictionaries give two syllables (BRY-er), though many say it as one; expect arguments either way."
+    }
+  ],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "36 answers and easy to start (Jax, Lux, Zed), but long one-syllable names (Singed, Thresh, Twitch, Swain) need real thought."
+  },
+  "typicality": {
+    "champion:Ashe": {
+      "value": 0.06,
+      "why": "Short and popular."
+    },
+    "champion:Bard": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Bard on this Prompt."
+    },
+    "champion:Brand": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Brand on this Prompt."
+    },
+    "champion:Braum": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Braum on this Prompt."
+    },
+    "champion:Briar": {
+      "value": 0.02,
+      "why": "Newer champion; the one-vs-two syllable doubt makes players skip her."
+    },
+    "champion:Fizz": {
+      "value": 0.07,
+      "why": "Short, punchy name."
+    },
+    "champion:Gnar": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Gnar on this Prompt."
+    },
+    "champion:Graves": {
+      "value": 0.04,
+      "why": "Longer word; players scanning short names miss it."
+    },
+    "champion:Gwen": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Gwen on this Prompt."
+    },
+    "champion:Hwei": {
+      "value": 0.03,
+      "why": "Pronunciation doubts make players hesitate."
+    },
+    "champion:Jax": {
+      "value": 0.18,
+      "why": "Archetypal short name."
+    },
+    "champion:Jayce": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Jayce on this Prompt."
+    },
+    "champion:Jhin": {
+      "value": 0.05,
+      "why": "Estimated first-answer share for Jhin on this Prompt."
+    },
+    "champion:Jinx": {
+      "value": 0.08,
+      "why": "Short, very popular."
+    },
+    "champion:Kayle": {
+      "value": 0.03,
+      "why": "Estimated first-answer share for Kayle on this Prompt."
+    },
+    "champion:Kayn": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Kayn on this Prompt."
+    },
+    "champion:Kled": {
+      "value": 0.05,
+      "why": "Estimated first-answer share for Kled on this Prompt."
+    },
+    "champion:Locke": {
+      "value": 0.02,
+      "why": "Newest champion, little exposure yet."
+    },
+    "champion:Lux": {
+      "value": 0.12,
+      "why": "Three letters, very popular."
+    },
+    "champion:Mel": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Mel on this Prompt."
+    },
+    "champion:Ornn": {
+      "value": 0.03,
+      "why": "Estimated first-answer share for Ornn on this Prompt."
+    },
+    "champion:Pyke": {
+      "value": 0.06,
+      "why": "Estimated first-answer share for Pyke on this Prompt."
+    },
+    "champion:Quinn": {
+      "value": 0.03,
+      "why": "Estimated first-answer share for Quinn on this Prompt."
+    },
+    "champion:Rell": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Rell on this Prompt."
+    },
+    "champion:Ryze": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Ryze on this Prompt."
+    },
+    "champion:Sett": {
+      "value": 0.05,
+      "why": "Estimated first-answer share for Sett on this Prompt."
+    },
+    "champion:Shen": {
+      "value": 0.07,
+      "why": "Estimated first-answer share for Shen on this Prompt."
+    },
+    "champion:Singed": {
+      "value": 0.02,
+      "why": "The -ed spelling looks two-syllable."
+    },
+    "champion:Swain": {
+      "value": 0.03,
+      "why": "Estimated first-answer share for Swain on this Prompt."
+    },
+    "champion:Thresh": {
+      "value": 0.03,
+      "why": "Six letters, rarely thought of as a short name."
+    },
+    "champion:Twitch": {
+      "value": 0.03,
+      "why": "Estimated first-answer share for Twitch on this Prompt."
+    },
+    "champion:Vayne": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Vayne on this Prompt."
+    },
+    "champion:Vex": {
+      "value": 0.05,
+      "why": "Estimated first-answer share for Vex on this Prompt."
+    },
+    "champion:Vi": {
+      "value": 0.12,
+      "why": "Two letters; very typical."
+    },
+    "champion:Zac": {
+      "value": 0.06,
+      "why": "Estimated first-answer share for Zac on this Prompt."
+    },
+    "champion:Zed": {
+      "value": 0.15,
+      "why": "Archetypal short name."
+    },
+    "champion:Ziggs": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Ziggs on this Prompt."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Singed",
+      "why": "\"Oh, of course\": the -ed spelling looks two-syllable but is said in one."
+    },
+    {
+      "entity": "champion:Thresh",
+      "why": "Hugely popular champion that nobody files under \"short name\"."
+    },
+    {
+      "entity": "champion:Graves",
+      "why": "The maintainer's pick: a longer one-syllable name players overlook (0.04, bottom half)."
+    }
+  ]
+}

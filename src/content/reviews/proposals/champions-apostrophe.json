@@ -1,0 +1,82 @@
+{
+  "templateId": "champions-apostrophe",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Belveth",
+    "champion:Chogath",
+    "champion:KSante",
+    "champion:Kaisa",
+    "champion:Khazix",
+    "champion:KogMaw",
+    "champion:RekSai",
+    "champion:Velkoz"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Players may offer Dr. Mundo (period) or Nunu & Willump (ampersand) as 'punctuation'; only an apostrophe counts. An example would make that instant.",
+      "suggestion": "The champion's official name contains an apostrophe ('), e.g. Kai'Sa. Other punctuation (Dr. Mundo, Nunu & Willump) doesn't count."
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:Velkoz",
+      "alias": "Vel",
+      "why": "Short form matching the other Void champions' aliases (Cho, Kha, Kog, Rek, Bel)."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "Only 8 answers and the 'Void names have apostrophes' shortcut lets veterans name nearly all; K'Sante is the one real trap, so the rare end is thin."
+  },
+  "typicality": {
+    "champion:Chogath": {
+      "value": 0.45,
+      "why": "Classic Void name, first to mind."
+    },
+    "champion:Khazix": {
+      "value": 0.45,
+      "why": "Very popular jungler, apostrophe is part of his identity."
+    },
+    "champion:Kaisa": {
+      "value": 0.45,
+      "why": "Most-played ADC of the set."
+    },
+    "champion:KogMaw": {
+      "value": 0.35,
+      "why": "Old, well-known Void ADC."
+    },
+    "champion:Velkoz": {
+      "value": 0.28,
+      "why": "Known but low play; still reached by a Void scan."
+    },
+    "champion:RekSai": {
+      "value": 0.22,
+      "why": "Niche jungler; often forgotten in a Void scan."
+    },
+    "champion:Belveth": {
+      "value": 0.22,
+      "why": "Newest Void champion, low play."
+    },
+    "champion:KSante": {
+      "value": 0.15,
+      "why": "Not Void, and the apostrophe follows a single letter; widely forgotten."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:KSante",
+      "why": "Maintainer's suggestion holds: the only non-Void answer, a clear 'oh of course' when revealed. Typicality 0.15, lowest in the set."
+    },
+    {
+      "entity": "champion:Belveth",
+      "why": "Newest Void champion, often missed in the scan; 0.22, bottom half."
+    },
+    {
+      "entity": "champion:RekSai",
+      "why": "Low-play jungler players forget; 0.22, bottom half."
+    }
+  ]
+}

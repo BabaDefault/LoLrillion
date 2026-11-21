@@ -2,6 +2,7 @@ import type { EsportsSnapshot } from "@/content/esports/snapshot";
 import type { GameDataSnapshot } from "@/content/game-data/snapshot";
 import type { FamiliarityFile } from "@/content/familiarity/types";
 import type { MechanicsLabel } from "@/labels";
+import type { ApprovedTrait } from "@/traits";
 import type { AnswerType, EntityId, Tier } from "@/engine";
 
 /** An approved mechanics label (#9), from `approvedLabels` in `@/content/labels`. */
@@ -28,7 +29,12 @@ export interface TemplateReview {
 /** Which Entities a Template's Answer Set holds. Data, so Templates can live in JSON. */
 export type TemplateFilter =
   | { kind: "champion-label"; term: string }
-  | { kind: "champion-name-length"; atMost: number }
+  /** Champions whose official name, counting letters only, is at most `atMost` and at least `atLeast` long. */
+  | { kind: "champion-name-length"; atMost?: number; atLeast?: number }
+  /** Champions whose official name matches the regular expression `pattern` (with optional RegExp `flags`). */
+  | { kind: "champion-name-pattern"; pattern: string; flags?: string }
+  /** Champions and items in the current data with an approved curated trait (`@/traits`). */
+  | { kind: "trait"; trait: string }
   | { kind: "item-stat"; stat: string }
   /** Champions whose base attack range is ranged (`RANGED_ATTACK_RANGE` or more) or melee (less). */
   | { kind: "champion-range"; ranged: boolean }
@@ -56,6 +62,8 @@ export interface BuilderInputs {
   /** Leaguepedia data; esports Template filters need it. */
   esports?: EsportsSnapshot;
   labels?: readonly ApprovedLabel[];
+  /** Approved curated traits (`@/content/traits`); `trait` filters need them. */
+  traits?: readonly ApprovedTrait[];
   familiarity?: FamiliarityData;
   reviews?: Readonly<Record<string, TemplateReview>>;
   /** The Builder's scoring constants; `SCORING_CONSTANTS` when absent. */
@@ -82,7 +90,7 @@ export interface PromptProvenance {
   dataVersion: string;
   /** Hash of the Template's approved review, or `"unreviewed"` when defaults were used. */
   review: string;
-  /** Hash of the approved labels a `champion-label` filter read, or `"unused"` for other filters. */
+  /** Hash of the approved labels a `champion-label` filter read (or the curated traits a `trait` filter read), or `"unused"`. */
   labels: string;
   /**
    * The Familiarity file used (its patch and a hash of its contents), or `"none"`. For pro players it

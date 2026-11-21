@@ -1,0 +1,201 @@
+{
+  "templateId": "champions-double-letter",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:Ambessa",
+    "champion:Annie",
+    "champion:Camille",
+    "champion:Cassiopeia",
+    "champion:Ekko",
+    "champion:Evelynn",
+    "champion:Fiddlesticks",
+    "champion:Fizz",
+    "champion:Illaoi",
+    "champion:Janna",
+    "champion:Kassadin",
+    "champion:Kennen",
+    "champion:LeeSin",
+    "champion:Lillia",
+    "champion:Lissandra",
+    "champion:MissFortune",
+    "champion:Naafiri",
+    "champion:Neeko",
+    "champion:Nidalee",
+    "champion:Nunu",
+    "champion:Orianna",
+    "champion:Ornn",
+    "champion:Poppy",
+    "champion:Quinn",
+    "champion:Rammus",
+    "champion:Rell",
+    "champion:Senna",
+    "champion:Sett",
+    "champion:Teemo",
+    "champion:Yuumi",
+    "champion:Zaahen",
+    "champion:Ziggs"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Players may offer repeated syllables (Amumu, Lulu) or 'Nunu' thinking of the nu-nu; only adjacent same letters count. Nunu & Willump counts via the 'll' in Willump, which surprises players.",
+      "suggestion": "The same letter appears twice in a row in the champion's official name, ignoring case (Aatrox counts; Lulu doesn't)."
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "33 answers; easy to start (Aatrox, Annie, Poppy, Teemo) but many hidden mid-word doubles (Miss Fortune, Kassadin, Fiddlesticks) make a long tail."
+  },
+  "typicality": {
+    "champion:Aatrox": {
+      "value": 0.45,
+      "why": "The Rule's example, and starts with the double."
+    },
+    "champion:Annie": {
+      "value": 0.4,
+      "why": "Obvious nn."
+    },
+    "champion:Poppy": {
+      "value": 0.4,
+      "why": "Obvious pp."
+    },
+    "champion:LeeSin": {
+      "value": 0.35,
+      "why": "Obvious ee."
+    },
+    "champion:Teemo": {
+      "value": 0.35,
+      "why": "Obvious ee."
+    },
+    "champion:Fizz": {
+      "value": 0.3,
+      "why": "Obvious zz."
+    },
+    "champion:Yuumi": {
+      "value": 0.3,
+      "why": "Obvious uu."
+    },
+    "champion:Ekko": {
+      "value": 0.3,
+      "why": "Obvious kk."
+    },
+    "champion:Ziggs": {
+      "value": 0.25,
+      "why": "gg stands out."
+    },
+    "champion:Rammus": {
+      "value": 0.25,
+      "why": "mm, well known."
+    },
+    "champion:Kennen": {
+      "value": 0.25,
+      "why": "nn, known."
+    },
+    "champion:Neeko": {
+      "value": 0.25,
+      "why": "ee, known."
+    },
+    "champion:Janna": {
+      "value": 0.2,
+      "why": "nn, short name."
+    },
+    "champion:Sett": {
+      "value": 0.2,
+      "why": "tt, short name."
+    },
+    "champion:Senna": {
+      "value": 0.2,
+      "why": "nn, short name."
+    },
+    "champion:Ornn": {
+      "value": 0.2,
+      "why": "nn at the end."
+    },
+    "champion:Quinn": {
+      "value": 0.15,
+      "why": "nn at the end, low play."
+    },
+    "champion:Rell": {
+      "value": 0.15,
+      "why": "ll at the end, low play."
+    },
+    "champion:Illaoi": {
+      "value": 0.15,
+      "why": "ll, but the name is rarely scanned."
+    },
+    "champion:Lillia": {
+      "value": 0.15,
+      "why": "ll, low play."
+    },
+    "champion:Evelynn": {
+      "value": 0.15,
+      "why": "nn at the end of a longer name."
+    },
+    "champion:Kassadin": {
+      "value": 0.12,
+      "why": "ss mid-word in a longer name."
+    },
+    "champion:Cassiopeia": {
+      "value": 0.12,
+      "why": "ss mid-word."
+    },
+    "champion:Nidalee": {
+      "value": 0.12,
+      "why": "ee at the end of a longer name."
+    },
+    "champion:Camille": {
+      "value": 0.12,
+      "why": "ll mid-word."
+    },
+    "champion:Orianna": {
+      "value": 0.12,
+      "why": "nn mid-word."
+    },
+    "champion:MissFortune": {
+      "value": 0.12,
+      "why": "ss hidden in a name everyone shortens to MF."
+    },
+    "champion:Lissandra": {
+      "value": 0.1,
+      "why": "ss mid-word."
+    },
+    "champion:Fiddlesticks": {
+      "value": 0.1,
+      "why": "dd mid-word."
+    },
+    "champion:Naafiri": {
+      "value": 0.1,
+      "why": "Newer champion."
+    },
+    "champion:Nunu": {
+      "value": 0.08,
+      "why": "Thought of as 'Nunu'; the ll in Willump is easy to miss."
+    },
+    "champion:Ambessa": {
+      "value": 0.08,
+      "why": "Newer champion, ss mid-word."
+    },
+    "champion:Zaahen": {
+      "value": 0.05,
+      "why": "Newest champion, low awareness."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:MissFortune",
+      "why": "Everyone knows her as MF, so the ss in 'Miss' is a satisfying 'oh of course'. 0.12, bottom half."
+    },
+    {
+      "entity": "champion:Kassadin",
+      "why": "Maintainer's suggestion holds: double s hidden mid-word in a well-known name. 0.12, bottom half."
+    },
+    {
+      "entity": "champion:Fiddlesticks",
+      "why": "Iconic champion with a hidden dd; 0.1, bottom half."
+    }
+  ]
+}

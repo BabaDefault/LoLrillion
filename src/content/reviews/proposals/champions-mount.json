@@ -1,0 +1,104 @@
+{
+  "templateId": "champions-mount",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Corki",
+    "champion:Kled",
+    "champion:Nunu",
+    "champion:Rell",
+    "champion:Rumble",
+    "champion:Sejuani",
+    "champion:Seraphine",
+    "champion:Taliyah",
+    "champion:Yuumi"
+  ],
+  "missing": [],
+  "disputable": [
+    {
+      "entity": "champion:Taliyah",
+      "why": "Rock Surfing is a terrain ride; players won't think of it as a mount even though the Rule names it."
+    },
+    {
+      "entity": "champion:Yuumi",
+      "why": "Riding an ally is a stretch of \"get around\" for many players, though the Rule names it."
+    },
+    {
+      "entity": "champion:Rell",
+      "why": "She dismounts with W and remounts; mounted most of the time, so it fits."
+    },
+    {
+      "entity": "champion:Seraphine",
+      "why": "She stands on a hovering stage; some players won't call that riding a vehicle."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "champion:Kled",
+      "alias": "Skaarl",
+      "why": "Players often name the mount instead of the rider."
+    },
+    {
+      "entity": "champion:Sejuani",
+      "alias": "Bristle",
+      "why": "Players often name the mount instead of the rider."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "9 answers and the top ones (Kled, Sejuani, Nunu, Corki) are instant; little depth."
+  },
+  "typicality": {
+    "champion:Corki": {
+      "value": 0.15,
+      "why": "Re-estimated without the Rule naming him; the Prompt's \"vehicle\" still points straight at his plane."
+    },
+    "champion:Kled": {
+      "value": 0.25,
+      "why": "Skaarl is the iconic mount."
+    },
+    "champion:Nunu": {
+      "value": 0.2,
+      "why": "Boy riding a yeti, very well known."
+    },
+    "champion:Rell": {
+      "value": 0.1,
+      "why": "The iron horse is part of her identity but less famous."
+    },
+    "champion:Rumble": {
+      "value": 0.1,
+      "why": "Re-estimated without the Rule naming him; the mech is a vehicle but players lock onto animals."
+    },
+    "champion:Sejuani": {
+      "value": 0.22,
+      "why": "Rides Bristle; a top animal-mount answer."
+    },
+    "champion:Seraphine": {
+      "value": 0.02,
+      "why": "Few think of her stage as something she rides."
+    },
+    "champion:Taliyah": {
+      "value": 0.02,
+      "why": "No longer named in the Rule; few think of Rock Surfing as riding."
+    },
+    "champion:Yuumi": {
+      "value": 0.07,
+      "why": "Re-estimated without the Rule naming her; the Prompt's \"ally\" hints at her."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Rumble",
+      "why": "\"Oh, the mech!\": a vehicle players forget once they lock onto animal mounts."
+    },
+    {
+      "entity": "champion:Yuumi",
+      "why": "Riding an ally is the defining Yuumi image, satisfying when revealed."
+    },
+    {
+      "entity": "champion:Rell",
+      "why": "Iron horse is iconic but often forgotten next to Sejuani and Kled."
+    }
+  ]
+}

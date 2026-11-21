@@ -1,0 +1,219 @@
+{
+  "templateId": "items-named-after-person",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1054",
+    "item:1055",
+    "item:1056",
+    "item:1086",
+    "item:1120",
+    "item:2065",
+    "item:3036",
+    "item:3041",
+    "item:3050",
+    "item:3053",
+    "item:3083",
+    "item:3085",
+    "item:3089",
+    "item:3111",
+    "item:3115",
+    "item:3116",
+    "item:3124",
+    "item:3133",
+    "item:3142",
+    "item:3143",
+    "item:3156",
+    "item:3157",
+    "item:3165",
+    "item:3222",
+    "item:3871",
+    "item:6653",
+    "item:6655",
+    "item:6660",
+    "item:6665",
+    "item:6694"
+  ],
+  "missing": [],
+  "disputable": [
+    {
+      "entity": "item:3111",
+      "why": "Mercury is a god, not a lore person; fits \"character\", but many players read the name as the metal or a brand."
+    },
+    {
+      "entity": "item:3115",
+      "why": "Named after Baron Nashor, a monster rather than a person; fits \"character\", but expect arguments."
+    },
+    {
+      "entity": "item:3871",
+      "why": "Zaz'Zak is a Void creature, not a person; fits \"character\" only."
+    },
+    {
+      "entity": "item:3124",
+      "why": "Guinsoo is a real designer's handle (Steve Feak), not a lore character; fits \"person\"."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:1120",
+      "alias": "D Helm",
+      "why": "Same short form players use for D Blade, D Ring and D Shield."
+    },
+    {
+      "entity": "item:3165",
+      "alias": "Morellos",
+      "why": "Common shorthand alongside Morello."
+    },
+    {
+      "entity": "item:6665",
+      "alias": "Jaksho",
+      "why": "Typed without the apostrophe and the subtitle."
+    },
+    {
+      "entity": "item:3156",
+      "alias": "Malmo",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone can name Rabadon's or Zhonya's, but 30 answers including Morellonomicon, Mercury's Treads and Nashor's Tooth means few find them all."
+  },
+  "typicality": {
+    "item:1054": {
+      "value": 0.1,
+      "why": "Dorans are bought every game; many say a Doran's early."
+    },
+    "item:1055": {
+      "value": 0.14,
+      "why": "Most-bought Doran's, likely the first one typed."
+    },
+    "item:1056": {
+      "value": 0.1,
+      "why": "Common mid-lane first buy."
+    },
+    "item:1086": {
+      "value": 0.01,
+      "why": "Rarely bought; few remember it exists."
+    },
+    "item:1120": {
+      "value": 0.01,
+      "why": "Newer niche Doran's, rarely remembered."
+    },
+    "item:2065": {
+      "value": 0.01,
+      "why": "Support item with an unfamiliar name."
+    },
+    "item:3036": {
+      "value": 0.04,
+      "why": "\"Lord\" makes the person obvious once remembered."
+    },
+    "item:3041": {
+      "value": 0.04,
+      "why": "Meme item with an obvious possessive."
+    },
+    "item:3050": {
+      "value": 0.01,
+      "why": "Niche support item."
+    },
+    "item:3053": {
+      "value": 0.04,
+      "why": "Common bruiser item with a possessive name."
+    },
+    "item:3083": {
+      "value": 0.05,
+      "why": "Classic, iconic possessive item."
+    },
+    "item:3085": {
+      "value": 0.03,
+      "why": "Usually called Hurricane, so the person is overlooked."
+    },
+    "item:3089": {
+      "value": 0.2,
+      "why": "The canonical example; top of mind."
+    },
+    "item:3111": {
+      "value": 0.02,
+      "why": "Called Mercs; few connect Mercury to a character."
+    },
+    "item:3115": {
+      "value": 0.03,
+      "why": "The Baron Nashor link clicks only on reflection."
+    },
+    "item:3116": {
+      "value": 0.03,
+      "why": "Clear possessive, mid-popular item."
+    },
+    "item:3124": {
+      "value": 0.04,
+      "why": "Often called Rageblade; some say Guinsoo's."
+    },
+    "item:3133": {
+      "value": 0.01,
+      "why": "Component nobody thinks of by name."
+    },
+    "item:3142": {
+      "value": 0.03,
+      "why": "Usually called Ghostblade."
+    },
+    "item:3143": {
+      "value": 0.03,
+      "why": "Classic tank possessive."
+    },
+    "item:3156": {
+      "value": 0.01,
+      "why": "Not a possessive, so the name hides."
+    },
+    "item:3157": {
+      "value": 0.2,
+      "why": "The most famous possessive item; many say it first."
+    },
+    "item:3165": {
+      "value": 0.005,
+      "why": "Hidden name; almost nobody spots Morello."
+    },
+    "item:3222": {
+      "value": 0.02,
+      "why": "Support item, rarely top of mind."
+    },
+    "item:3871": {
+      "value": 0.005,
+      "why": "Obscure support item."
+    },
+    "item:6653": {
+      "value": 0.06,
+      "why": "Popular AP item with a clear possessive."
+    },
+    "item:6655": {
+      "value": 0.06,
+      "why": "Popular mage item, clear possessive."
+    },
+    "item:6660": {
+      "value": 0.005,
+      "why": "Component few remember."
+    },
+    "item:6665": {
+      "value": 0.02,
+      "why": "Recent tank item; the apostrophe name reads as a person."
+    },
+    "item:6694": {
+      "value": 0.02,
+      "why": "Lethality item, middling recall."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:3115",
+      "why": "\"Oh, Baron Nashor!\" is the purest reveal: the name hides in plain sight on a popular item."
+    },
+    {
+      "entity": "item:3111",
+      "why": "Everyone buys Mercs but forgets Mercury is a god; a satisfying \"of course\"."
+    },
+    {
+      "entity": "item:3222",
+      "why": "The maintainer's pick: a clear possessive support item rarely guessed (0.02, bottom half)."
+    }
+  ]
+}

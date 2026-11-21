@@ -53,6 +53,17 @@ describe("Prompt provenance", () => {
     expect(changedFields(before, buildPrompt(invisible, { ...full, labels }).provenance)).toEqual(["labels"]);
   });
 
+  it("a curated trait Template records its traits in the labels field; another trait changing leaves it alone", () => {
+    const gun: TemplateDefinition = { ...invisible, id: "champions-gun", filter: { kind: "trait", trait: "uses-gun" } };
+    const traits = [{ entityId: "champion:Tristana", trait: "uses-gun", why: "Boomer." }];
+    const before = buildPrompt(gun, { ...fixtureInputs, traits }).provenance!;
+    expect(before.labels).toMatch(/^sha256:/);
+    const reworded = [{ ...traits[0], why: "Her cannon, Boomer." }];
+    expect(changedFields(before, buildPrompt(gun, { ...fixtureInputs, traits: reworded }).provenance)).toEqual(["labels"]);
+    const other = [...traits, { entityId: "champion:Zed", trait: "masked", why: "Helmet." }];
+    expect(buildPrompt(gun, { ...fixtureInputs, traits: other }).provenance).toEqual(before);
+  });
+
   it("a label for another term doesn't change a Prompt's provenance", () => {
     const before = buildPrompt(invisible, full).provenance;
     const labels = [...full.labels!, { ...full.labels![0], term: "dash" }];

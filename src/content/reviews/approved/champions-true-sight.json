@@ -1,0 +1,32 @@
+{
+  "templateId": "champions-true-sight",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Caitlyn",
+    "champion:Fizz",
+    "champion:Kaisa",
+    "champion:Leblanc",
+    "champion:LeeSin",
+    "champion:Lulu",
+    "champion:Nidalee",
+    "champion:Rengar",
+    "champion:Thresh",
+    "champion:TwistedFate",
+    "champion:Zyra"
+  ],
+  "typicality": {
+    "champion:LeeSin": 0.4,
+    "champion:TwistedFate": 0.4,
+    "champion:Rengar": 0.35,
+    "champion:Caitlyn": 0.15,
+    "champion:Kaisa": 0.15,
+    "champion:Lulu": 0.1,
+    "champion:Nidalee": 0.1,
+    "champion:Thresh": 0.1,
+    "champion:Fizz": 0.08,
+    "champion:Leblanc": 0.06,
+    "champion:Zyra": 0.04
+  },
+  "tooClever": [],
+  "gem": "champion:Thresh"
+}

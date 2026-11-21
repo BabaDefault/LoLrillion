@@ -1,0 +1,211 @@
+{
+  "templateId": "champions-zero-damage-ult",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:Alistar",
+    "champion:Bard",
+    "champion:Camille",
+    "champion:DrMundo",
+    "champion:Heimerdinger",
+    "champion:Janna",
+    "champion:Jayce",
+    "champion:Kaisa",
+    "champion:Kalista",
+    "champion:Karma",
+    "champion:Khazix",
+    "champion:Kindred",
+    "champion:Lulu",
+    "champion:MasterYi",
+    "champion:Milio",
+    "champion:Mordekaiser",
+    "champion:Nidalee",
+    "champion:Olaf",
+    "champion:Renata",
+    "champion:Rengar",
+    "champion:Ryze",
+    "champion:Shen",
+    "champion:Singed",
+    "champion:Sivir",
+    "champion:Soraka",
+    "champion:Taliyah",
+    "champion:Taric",
+    "champion:Tryndamere",
+    "champion:TwistedFate",
+    "champion:Twitch",
+    "champion:Vayne",
+    "champion:Yunara",
+    "champion:Zilean",
+    "champion:Zoe"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Sylas's Hijack itself deals no damage, but the stolen ultimate he casts usually does; players will argue both ways and the Rule doesn't say.",
+      "suggestion": "Add to the excludes: 'Sylas's Hijack (the stolen ultimate counts)'."
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone has a few (Soraka, Tryndamere, Kindred, Shen), the set is big (33) and full of forgettable ones (Aatrox, Ryze, Taliyah, Yunara), so nobody lists it all."
+  },
+  "typicality": {
+    "champion:Soraka": {
+      "value": 0.45,
+      "why": "Wish is the iconic pure-heal ult."
+    },
+    "champion:Tryndamere": {
+      "value": 0.4,
+      "why": "Undying Rage is the classic no-damage ult."
+    },
+    "champion:Kindred": {
+      "value": 0.4,
+      "why": "Lamb's Respite is a famous no-death zone."
+    },
+    "champion:MasterYi": {
+      "value": 0.3,
+      "why": "Highlander is a well-known pure buff."
+    },
+    "champion:Shen": {
+      "value": 0.35,
+      "why": "Stand United shield is well known."
+    },
+    "champion:Zilean": {
+      "value": 0.35,
+      "why": "Chronoshift revive is iconic."
+    },
+    "champion:Taric": {
+      "value": 0.3,
+      "why": "Cosmic Radiance invulnerability is well known."
+    },
+    "champion:Bard": {
+      "value": 0.3,
+      "why": "Tempered Fate stasis comes to mind quickly."
+    },
+    "champion:Janna": {
+      "value": 0.3,
+      "why": "Monsoon heal/knockback; many forget it does no damage."
+    },
+    "champion:Karma": {
+      "value": 0.2,
+      "why": "Mantra empowers her next spell; support players know it."
+    },
+    "champion:Kalista": {
+      "value": 0.12,
+      "why": "Fate's Call knocks up but deals no damage; ADC/support players know it, few think of it first."
+    },
+    "champion:Lulu": {
+      "value": 0.25,
+      "why": "Wild Growth is a well-known no-damage ult."
+    },
+    "champion:TwistedFate": {
+      "value": 0.25,
+      "why": "Destiny teleport is famous."
+    },
+    "champion:Alistar": {
+      "value": 0.2,
+      "why": "Unbreakable Will is known to tank players."
+    },
+    "champion:DrMundo": {
+      "value": 0.2,
+      "why": "Maximum Dosage heal is fairly obvious."
+    },
+    "champion:Nidalee": {
+      "value": 0.15,
+      "why": "Transform ults are an easy category once thought of."
+    },
+    "champion:Jayce": {
+      "value": 0.15,
+      "why": "Same transform logic as Nidalee."
+    },
+    "champion:Olaf": {
+      "value": 0.15,
+      "why": "Ragnarok cleanse/immunity is moderately known."
+    },
+    "champion:Sivir": {
+      "value": 0.15,
+      "why": "On The Hunt team speed is moderately known."
+    },
+    "champion:Singed": {
+      "value": 0.12,
+      "why": "Insanity Potion is pure stats."
+    },
+    "champion:Khazix": {
+      "value": 0.12,
+      "why": "Void Assault stealth only."
+    },
+    "champion:Mordekaiser": {
+      "value": 0.12,
+      "why": "Players feel the Death Realm 'damages', so few name it."
+    },
+    "champion:Vayne": {
+      "value": 0.12,
+      "why": "Final Hour is a buff players rarely think of as an ult answer."
+    },
+    "champion:Twitch": {
+      "value": 0.1,
+      "why": "Spray and Pray is a buff; some will think it deals damage."
+    },
+    "champion:Milio": {
+      "value": 0.12,
+      "why": "Breath of Life cleanse/heal."
+    },
+    "champion:Renata": {
+      "value": 0.12,
+      "why": "Hostile Takeover berserk; some forget it."
+    },
+    "champion:Heimerdinger": {
+      "value": 0.08,
+      "why": "Upgrade!!! is easy to forget as a no-damage ult."
+    },
+    "champion:Ryze": {
+      "value": 0.08,
+      "why": "Realm Warp teleport rarely comes to mind."
+    },
+    "champion:Kaisa": {
+      "value": 0.08,
+      "why": "Killer Instinct dash+shield is overlooked."
+    },
+    "champion:Aatrox": {
+      "value": 0.06,
+      "why": "World Ender feels like a power spike, but it deals no damage."
+    },
+    "champion:Taliyah": {
+      "value": 0.08,
+      "why": "Weaver's Wall is pure terrain."
+    },
+    "champion:Zoe": {
+      "value": 0.05,
+      "why": "Portal Jump is forgotten."
+    },
+    "champion:Yunara": {
+      "value": 0.03,
+      "why": "New champion, little known."
+    },
+    "champion:Camille": {
+      "value": 0.08,
+      "why": "Players remember the arena, not that the R itself deals no damage."
+    },
+    "champion:Rengar": {
+      "value": 0.15,
+      "why": "'Stealth ult' comes to mind for some."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Aatrox",
+      "why": "'Oh of course!': World Ender is his biggest power spike, yet it only fears minions and grants speed and healing. About 0.06."
+    },
+    {
+      "entity": "champion:Kalista",
+      "why": "Fate's Call throws her Oathsworn and knocks enemies up but deals 0 damage. About 0.12, well outside the likeliest half now the Rule no longer names her."
+    },
+    {
+      "entity": "champion:Ryze",
+      "why": "Realm Warp is a famous play-maker that never touches an enemy; about 0.08."
+    }
+  ]
+}

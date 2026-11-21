@@ -1,0 +1,108 @@
+{
+  "templateId": "champions-death-defy",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Anivia",
+    "champion:Karthus",
+    "champion:Kindred",
+    "champion:KogMaw",
+    "champion:Sion",
+    "champion:Tryndamere",
+    "champion:Zaahen",
+    "champion:Zac",
+    "champion:Zilean"
+  ],
+  "missing": [
+    {
+      "entity": "Kled",
+      "why": "Not missing: Kled himself doesn't die when Skaarl's health empties (label rejected). Expect rejected Guesses."
+    },
+    {
+      "entity": "Ekko",
+      "why": "Chronobreak can save him from lethal damage, but it heals rather than stopping death. Not missing; expect rejected Guesses."
+    },
+    {
+      "entity": "Kayle",
+      "why": "Self-cast Divine Judgment is invulnerability, excluded by the term. Not missing."
+    },
+    {
+      "entity": "Renata Glasc",
+      "why": "Bailout revives an ally only (no self-cast). Not missing."
+    },
+    {
+      "entity": "Akshan",
+      "why": "Comeuppance revives allies only. Not missing."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Kindred",
+      "why": "Lamb's Respite stops everyone dying, enemies too; players may not count it as Kindred cheating death."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "champion:KogMaw",
+      "alias": "Kogmaw",
+      "why": "The ability text itself spells it this way; check it already normalises."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "With the Rule no longer naming answers, Sion and Karthus come fast but Kog'Maw, Kindred and Zaahen reward deeper knowledge; small set but satisfying."
+  },
+  "typicality": {
+    "champion:Sion": {
+      "value": 0.5,
+      "why": "Glory in Death is the archetype."
+    },
+    "champion:Karthus": {
+      "value": 0.45,
+      "why": "Death Defied is iconic."
+    },
+    "champion:Tryndamere": {
+      "value": 0.4,
+      "why": "Undying Rage is a first 'can't die' ult for many."
+    },
+    "champion:Anivia": {
+      "value": 0.45,
+      "why": "The egg is famous."
+    },
+    "champion:Zac": {
+      "value": 0.3,
+      "why": "Cell Division is known but second-tier."
+    },
+    "champion:KogMaw": {
+      "value": 0.2,
+      "why": "Icathian Surprise is a known meme, but fewer think of it as cheating death."
+    },
+    "champion:Zilean": {
+      "value": 0.4,
+      "why": "Self-cast Chronoshift is the classic revive."
+    },
+    "champion:Kindred": {
+      "value": 0.15,
+      "why": "Lamb's Respite is known but read as a team ult."
+    },
+    "champion:Zaahen": {
+      "value": 0.05,
+      "why": "Newer champion; his revive is little known."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:KogMaw",
+      "why": "Icathian Surprise: of course he keeps fighting after dying. Classic 'oh!' reveal that a few players get."
+    },
+    {
+      "entity": "champion:Kindred",
+      "why": "Lamb's Respite keeps Kindred alive too; a fair reveal."
+    },
+    {
+      "entity": "champion:Zaahen",
+      "why": "His revive is real but few know it; a fallback."
+    }
+  ]
+}

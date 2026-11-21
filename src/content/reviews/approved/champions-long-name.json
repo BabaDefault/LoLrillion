@@ -1,0 +1,32 @@
+{
+  "templateId": "champions-long-name",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:Blitzcrank",
+    "champion:Cassiopeia",
+    "champion:Fiddlesticks",
+    "champion:Heimerdinger",
+    "champion:MissFortune",
+    "champion:Mordekaiser",
+    "champion:Nunu",
+    "champion:Renata",
+    "champion:Tryndamere",
+    "champion:TwistedFate"
+  ],
+  "typicality": {
+    "champion:Heimerdinger": 0.55,
+    "champion:Fiddlesticks": 0.5,
+    "champion:Mordekaiser": 0.35,
+    "champion:AurelionSol": 0.3,
+    "champion:TwistedFate": 0.25,
+    "champion:MissFortune": 0.25,
+    "champion:Blitzcrank": 0.2,
+    "champion:Cassiopeia": 0.2,
+    "champion:Tryndamere": 0.15,
+    "champion:Nunu": 0.15,
+    "champion:Renata": 0.12
+  },
+  "tooClever": [],
+  "gem": "champion:Nunu"
+}

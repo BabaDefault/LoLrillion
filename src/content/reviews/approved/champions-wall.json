@@ -1,0 +1,26 @@
+{
+  "templateId": "champions-wall",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Anivia",
+    "champion:Azir",
+    "champion:Camille",
+    "champion:JarvanIV",
+    "champion:Ornn",
+    "champion:Taliyah",
+    "champion:Trundle",
+    "champion:Yorick"
+  ],
+  "typicality": {
+    "champion:Anivia": 0.7,
+    "champion:JarvanIV": 0.5,
+    "champion:Taliyah": 0.45,
+    "champion:Trundle": 0.35,
+    "champion:Azir": 0.2,
+    "champion:Yorick": 0.12,
+    "champion:Ornn": 0.15,
+    "champion:Camille": 0.1
+  },
+  "tooClever": [],
+  "gem": "champion:Ornn"
+}

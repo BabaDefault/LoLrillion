@@ -1,0 +1,151 @@
+{
+  "templateId": "champions-masked",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akali",
+    "champion:Hecarim",
+    "champion:Jax",
+    "champion:Jhin",
+    "champion:Kassadin",
+    "champion:Kayle",
+    "champion:Kennen",
+    "champion:Kindred",
+    "champion:MasterYi",
+    "champion:Mordekaiser",
+    "champion:Nautilus",
+    "champion:Pantheon",
+    "champion:Rell",
+    "champion:Shaco",
+    "champion:Shen",
+    "champion:Sion",
+    "champion:Yone",
+    "champion:Zed"
+  ],
+  "missing": [
+    {
+      "entity": "Fiddlesticks",
+      "why": "The scarecrow's face is a stitched burlap-sack mask; Rule call whether a sack head counts."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:MasterYi",
+      "why": "His covering is multi-lens goggles, not a mask or helmet; fits \"visor\" only."
+    },
+    {
+      "entity": "champion:Kindred",
+      "why": "Only Lamb is masked; Wolf is not."
+    },
+    {
+      "entity": "champion:Sion",
+      "why": "His helmet sits over an exposed undead jaw; the face is only partly covered."
+    },
+    {
+      "entity": "champion:Rell",
+      "why": "Her helmet covers the upper face but not the whole face."
+    },
+    {
+      "entity": "champion:Shaco",
+      "why": "His grinning face reads as his own puppet face as much as a mask."
+    },
+    {
+      "entity": "champion:Kayle",
+      "why": "Her face is covered only once she ascends at higher level; at level 1 it's visible."
+    }
+  ],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Jhin, Zed and Jax are instant, but Nautilus, Hecarim, Kassadin and Pantheon reward visual memory."
+  },
+  "typicality": {
+    "champion:Akali": {
+      "value": 0.06,
+      "why": "Mask is visible but not her defining feature."
+    },
+    "champion:Hecarim": {
+      "value": 0.03,
+      "why": "Players see a horse, not a helmet."
+    },
+    "champion:Jax": {
+      "value": 0.12,
+      "why": "Lamp mask is iconic."
+    },
+    "champion:Jhin": {
+      "value": 0.22,
+      "why": "Theatrical mask is his identity."
+    },
+    "champion:Kassadin": {
+      "value": 0.06,
+      "why": "Void helmet is visible; moderate recall."
+    },
+    "champion:Kayle": {
+      "value": 0.04,
+      "why": "Helmet only in her ascended form; some remember old helmeted Kayle."
+    },
+    "champion:Kennen": {
+      "value": 0.04,
+      "why": "Small ninja mask, rarely noticed."
+    },
+    "champion:Kindred": {
+      "value": 0.08,
+      "why": "Lamb's mask is iconic."
+    },
+    "champion:MasterYi": {
+      "value": 0.06,
+      "why": "Goggles are distinctive."
+    },
+    "champion:Mordekaiser": {
+      "value": 0.06,
+      "why": "Full helm is obvious once considered."
+    },
+    "champion:Nautilus": {
+      "value": 0.04,
+      "why": "Diving helmet reads as his head, not a mask."
+    },
+    "champion:Pantheon": {
+      "value": 0.05,
+      "why": "Spartan helmet, middling recall."
+    },
+    "champion:Rell": {
+      "value": 0.02,
+      "why": "Few picture her face."
+    },
+    "champion:Shaco": {
+      "value": 0.05,
+      "why": "Some recall a jester mask."
+    },
+    "champion:Shen": {
+      "value": 0.08,
+      "why": "Ninja mask."
+    },
+    "champion:Sion": {
+      "value": 0.02,
+      "why": "Rarely thought of as helmeted."
+    },
+    "champion:Yone": {
+      "value": 0.08,
+      "why": "His demon mask is prominent; many will name him."
+    },
+    "champion:Zed": {
+      "value": 0.16,
+      "why": "Masked ninja archetype."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Nautilus",
+      "why": "\"Oh, the diving helmet!\": obvious in hindsight, overlooked because it reads as his head."
+    },
+    {
+      "entity": "champion:Hecarim",
+      "why": "His whole head is a helmet, but players see a horse."
+    },
+    {
+      "entity": "champion:Pantheon",
+      "why": "Spartan helmet is iconic yet rarely named first."
+    }
+  ]
+}

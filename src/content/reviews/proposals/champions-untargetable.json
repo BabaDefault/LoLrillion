@@ -1,0 +1,173 @@
+{
+  "templateId": "champions-untargetable",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Bard",
+    "champion:Camille",
+    "champion:Ekko",
+    "champion:Elise",
+    "champion:Evelynn",
+    "champion:Fizz",
+    "champion:Gwen",
+    "champion:Kayn",
+    "champion:Lissandra",
+    "champion:Maokai",
+    "champion:MasterYi",
+    "champion:Naafiri",
+    "champion:RekSai",
+    "champion:Shaco",
+    "champion:TahmKench",
+    "champion:Vladimir",
+    "champion:Xayah",
+    "champion:Yuumi",
+    "champion:Zed",
+    "champion:Zilean"
+  ],
+  "missing": [
+    {
+      "entity": "Kalista",
+      "why": "Players may type her for Fate's Call, but it puts her Oathsworn ally into Stasis, never Kalista herself. Not missing."
+    },
+    {
+      "entity": "Kayle",
+      "why": "Divine Judgment makes her Invulnerable but still targetable; the term excludes it. Not missing, but expect rejected Guesses."
+    },
+    {
+      "entity": "Viego",
+      "why": "Checked: the snapshot text for Sovereign's Domination and Heartbreaker never makes Viego Untargetable. Not missing unless the maintainer confirms an untargetable window while possessing in game."
+    },
+    {
+      "entity": "Poppy",
+      "why": "Keeper's Verdict makes the knocked-back enemies Untargetable, not Poppy. Not missing."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Gwen",
+      "why": "Hallowed Mist only makes her Untargetable to enemies outside the zone (and never to towers); players inside can still click her."
+    },
+    {
+      "entity": "champion:Shaco",
+      "why": "The untargetable frame at the start of Hallucinate rests on an in-game label only; many players know R as a clone, not as untargetability."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "champion:TahmKench",
+      "alias": "Kench",
+      "why": "Players type the surname as often as Tahm."
+    },
+    {
+      "entity": "champion:Lissandra",
+      "alias": "Lisandra",
+      "why": "Common one-s misspelling."
+    },
+    {
+      "entity": "champion:Evelynn",
+      "alias": "Evelyn",
+      "why": "Common misspelling."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Twenty answers across every role; most players name Fizz, Vlad or Yi quickly, but self-cast Stasis (Bard, Lissandra, Zilean) and Tahm's dive reward deeper kit knowledge."
+  },
+  "typicality": {
+    "champion:Fizz": {
+      "value": 0.45,
+      "why": "Playful / Trickster is the textbook untargetable."
+    },
+    "champion:Vladimir": {
+      "value": 0.45,
+      "why": "Sanguine Pool is the other classic everyone cites."
+    },
+    "champion:MasterYi": {
+      "value": 0.4,
+      "why": "Alpha Strike dodging is widely known."
+    },
+    "champion:Maokai": {
+      "value": 0.08,
+      "why": "Twisted Advance's untargetability is rarely remembered now that the Rule no longer names it."
+    },
+    "champion:Yuumi": {
+      "value": 0.35,
+      "why": "Attached Yuumi being untargetable is a famous complaint."
+    },
+    "champion:Zed": {
+      "value": 0.3,
+      "why": "Death Mark dodge is well known among mid players."
+    },
+    "champion:Xayah": {
+      "value": 0.3,
+      "why": "Featherstorm is a known dodge tool, often listed with Fizz."
+    },
+    "champion:Elise": {
+      "value": 0.18,
+      "why": "Rappel is known by junglers."
+    },
+    "champion:Ekko": {
+      "value": 0.2,
+      "why": "Chronobreak's untargetability is known but players think of the rewind first."
+    },
+    "champion:Kayn": {
+      "value": 0.18,
+      "why": "Umbral Trespass is untargetable; fairly well known."
+    },
+    "champion:Lissandra": {
+      "value": 0.15,
+      "why": "Self-cast Frozen Tomb is remembered by mid players."
+    },
+    "champion:Camille": {
+      "value": 0.14,
+      "why": "Players think of the hexcage, not the untargetable leap."
+    },
+    "champion:Evelynn": {
+      "value": 0.12,
+      "why": "Last Caress's backward hop is rarely framed as untargetable."
+    },
+    "champion:RekSai": {
+      "value": 0.11,
+      "why": "Void Rush's dive is untargetable, rarely remembered."
+    },
+    "champion:Zilean": {
+      "value": 0.1,
+      "why": "Self-Chronoshift Stasis is known, but players think 'revive' not 'untargetable'."
+    },
+    "champion:Bard": {
+      "value": 0.09,
+      "why": "Self-hit Tempered Fate is a known trick but a second-tier recall."
+    },
+    "champion:TahmKench": {
+      "value": 0.07,
+      "why": "Abyssal Dive is untargetable, but players think of the devour."
+    },
+    "champion:Gwen": {
+      "value": 0.07,
+      "why": "Hallowed Mist is usually described as 'can't be hit from outside'."
+    },
+    "champion:Naafiri": {
+      "value": 0.05,
+      "why": "Hounds' Pursuit untargetability is niche knowledge."
+    },
+    "champion:Shaco": {
+      "value": 0.05,
+      "why": "The Hallucinate vanish frame is very niche."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Maokai",
+      "why": "Twisted Advance: he's a mass of roots mid-dash, so of course he can't be targeted. Strong reveal, and a few players know it."
+    },
+    {
+      "entity": "champion:TahmKench",
+      "why": "Abyssal Dive: untargetable while underground; satisfying reveal."
+    },
+    {
+      "entity": "champion:Bard",
+      "why": "Hitting himself with Tempered Fate is a known outplay; strong 'oh, right' moment."
+    }
+  ]
+}

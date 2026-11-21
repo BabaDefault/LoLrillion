@@ -1,0 +1,138 @@
+{
+  "templateId": "champions-floats",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Anivia",
+    "champion:AurelionSol",
+    "champion:Bard",
+    "champion:Corki",
+    "champion:Janna",
+    "champion:Karthus",
+    "champion:Lissandra",
+    "champion:Malzahar",
+    "champion:Nami",
+    "champion:Nocturne",
+    "champion:Seraphine",
+    "champion:Sona",
+    "champion:Syndra",
+    "champion:Thresh",
+    "champion:Velkoz",
+    "champion:Xerath"
+  ],
+  "missing": [
+    {
+      "entity": "Kayle",
+      "why": "Her ascended winged form hovers; Rule call whether a late-level form of the base skin counts."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Corki",
+      "why": "He flies a vehicle rather than floating himself."
+    },
+    {
+      "entity": "champion:Seraphine",
+      "why": "She stands on a floating stage rather than floating herself."
+    },
+    {
+      "entity": "champion:Bard",
+      "why": "His hover is subtle; many think he walks."
+    },
+    {
+      "entity": "champion:Nami",
+      "why": "Some players picture her slithering on her tail rather than hovering."
+    }
+  ],
+  "wording": [
+    {
+      "why": "Winged champions who walk (Morgana, Swain) may be typed.",
+      "suggestion": "Add to the Rule: \"Wings alone don't count.\""
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Anivia, Aurelion Sol and Vel'Koz come quickly; Thresh, Nocturne and Karthus need a mental picture."
+  },
+  "typicality": {
+    "champion:Anivia": {
+      "value": 0.18,
+      "why": "Flying bird."
+    },
+    "champion:AurelionSol": {
+      "value": 0.18,
+      "why": "Floating dragon."
+    },
+    "champion:Bard": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Bard on this Prompt."
+    },
+    "champion:Corki": {
+      "value": 0.06,
+      "why": "Flies, though via a vehicle."
+    },
+    "champion:Janna": {
+      "value": 0.1,
+      "why": "Wind spirit."
+    },
+    "champion:Karthus": {
+      "value": 0.05,
+      "why": "Lich hover is subtle."
+    },
+    "champion:Lissandra": {
+      "value": 0.04,
+      "why": "Her glide is rarely noticed."
+    },
+    "champion:Malzahar": {
+      "value": 0.07,
+      "why": "Hover is part of his look; middling recall."
+    },
+    "champion:Nami": {
+      "value": 0.05,
+      "why": "Mermaid tail; some picture her swimming in the air."
+    },
+    "champion:Nocturne": {
+      "value": 0.05,
+      "why": "Legless, overlooked."
+    },
+    "champion:Seraphine": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Seraphine on this Prompt."
+    },
+    "champion:Sona": {
+      "value": 0.05,
+      "why": "Estimated first-answer share for Sona on this Prompt."
+    },
+    "champion:Syndra": {
+      "value": 0.07,
+      "why": "Estimated first-answer share for Syndra on this Prompt."
+    },
+    "champion:Thresh": {
+      "value": 0.04,
+      "why": "No-legs robe rarely noticed."
+    },
+    "champion:Velkoz": {
+      "value": 0.1,
+      "why": "Floating eye."
+    },
+    "champion:Xerath": {
+      "value": 0.07,
+      "why": "Energy being."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Thresh",
+      "why": "\"He has no legs!\": a champion everyone has seen thousands of times."
+    },
+    {
+      "entity": "champion:Nocturne",
+      "why": "Legless nightmare, obvious in hindsight."
+    },
+    {
+      "entity": "champion:Karthus",
+      "why": "The floating lich is easy to forget."
+    }
+  ]
+}

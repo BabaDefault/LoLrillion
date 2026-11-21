@@ -1,0 +1,101 @@
+{
+  "templateId": "champions-two-word-name",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:DrMundo",
+    "champion:JarvanIV",
+    "champion:LeeSin",
+    "champion:MasterYi",
+    "champion:MissFortune",
+    "champion:Renata",
+    "champion:TahmKench",
+    "champion:TwistedFate",
+    "champion:XinZhao"
+  ],
+  "missing": [],
+  "disputable": [
+    {
+      "entity": "champion:JarvanIV",
+      "why": "Some players won't count a Roman numeral as a word; the Rule's space-separated definition keeps him in."
+    }
+  ],
+  "wording": [
+    {
+      "why": "Wukong's alternate name 'Monkey King' is two words; a player typing it may expect credit, but the official name is one word.",
+      "suggestion": "Add to the Rule: 'Wukong counts as one word, even though he's also called the Monkey King.'"
+    },
+    {
+      "why": "Players may treat apostrophes (Kai'Sa, Cho'Gath) or the ampersand as word breaks; the Rule only says spaces and only covers Nunu & Willump.",
+      "suggestion": "Words are separated by spaces in the champion's official name: Dr. Mundo and Jarvan IV are two words; Kai'Sa is one; Nunu & Willump is three."
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:JarvanIV",
+      "alias": "Jarvan 4",
+      "why": "Players type the numeral as a digit."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "Only 10 answers and the famous ones (Lee Sin, Master Yi, MF, TF) come instantly; veterans can name nearly all, so the rare end is thin."
+  },
+  "typicality": {
+    "champion:LeeSin": {
+      "value": 0.5,
+      "why": "First two-word name most players reach for."
+    },
+    "champion:MasterYi": {
+      "value": 0.45,
+      "why": "Iconic, always called 'Master Yi'."
+    },
+    "champion:MissFortune": {
+      "value": 0.4,
+      "why": "Famous; MF reminds players it's two words."
+    },
+    "champion:TwistedFate": {
+      "value": 0.4,
+      "why": "TF, same as MF."
+    },
+    "champion:XinZhao": {
+      "value": 0.3,
+      "why": "Well known, full name used often."
+    },
+    "champion:DrMundo": {
+      "value": 0.25,
+      "why": "Players debate whether 'Dr.' counts, which slows them."
+    },
+    "champion:AurelionSol": {
+      "value": 0.2,
+      "why": "Often just 'ASol'; full name less front-of-mind."
+    },
+    "champion:JarvanIV": {
+      "value": 0.2,
+      "why": "Usually 'J4'; numeral as a word is easy to overlook."
+    },
+    "champion:TahmKench": {
+      "value": 0.18,
+      "why": "Often called just 'Tahm'; low-play support."
+    },
+    "champion:Renata": {
+      "value": 0.1,
+      "why": "Most players only know 'Renata'; few recall the surname Glasc."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Renata",
+      "why": "Maintainer's suggestion holds: she's known as 'Renata', so 'Renata Glasc' is an 'oh, right, she has a surname' reveal. Typicality 0.1, bottom of the set."
+    },
+    {
+      "entity": "champion:TahmKench",
+      "why": "Everyone knows him but says 'Tahm'; a satisfying full-name reveal at 0.18, bottom half."
+    },
+    {
+      "entity": "champion:JarvanIV",
+      "why": "'IV is a word!' is a fun reveal at 0.2; ranked third because some players dispute numerals as words."
+    }
+  ]
+}

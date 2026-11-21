@@ -2,6 +2,8 @@
  * Maintainer script: the first step of `/tag-patch`.
  *
  *   npm run labels:worklist          write the work file for champions changed since the last tagging
+ *   npm run labels:worklist -- --all --terms a,b
+ *                                    every champion, judged for the named (new) terms only
  *   npm run labels:worklist -- --mark-tagged
  *                                    record the committed snapshot as tagged (after proposals are reviewed)
  *
@@ -36,8 +38,17 @@ async function main() {
   }
 
   const baseline = JSON.parse(await readFile(TAGGED_FILE, "utf8")) as TaggedBaseline;
-  const changed = changedChampions(gameDataSnapshot, baseline);
-  const suggestions = prelabel(gameDataSnapshot, changed);
+  // A newly added term has no labels yet, so every champion needs judging for it, changed or not.
+  const all = process.argv.includes("--all");
+  const termsArg = process.argv[process.argv.indexOf("--terms") + 1];
+  const onlyTerms = process.argv.includes("--terms") ? new Set(termsArg?.split(",") ?? []) : undefined;
+  const unknown = [...(onlyTerms ?? [])].filter((id) => !MECHANICS_TERMS.some((t) => t.id === id));
+  if (unknown.length > 0) throw new Error(`Unknown terms: ${unknown.join(", ")}`);
+  const inScope = (term: string) => !onlyTerms || onlyTerms.has(term);
+  const changed = all
+    ? gameDataSnapshot.champions.map((c) => championEntityId(c.id))
+    : changedChampions(gameDataSnapshot, baseline);
+  const suggestions = prelabel(gameDataSnapshot, changed).filter((s) => inScope(s.term));
   const champions = changed.map((entityId) => {
     const champion = gameDataSnapshot.champions.find((c) => championEntityId(c.id) === entityId)!;
     return {
@@ -49,7 +60,7 @@ async function main() {
         description: abilityText(a, "description"),
         tooltip: abilityText(a, "tooltip"),
       })),
-      approvedLabels: approvedLabels.filter((l) => l.entityId === entityId),
+      approvedLabels: approvedLabels.filter((l) => l.entityId === entityId && inScope(l.term)),
       suggestions: suggestions.filter((s) => s.entityId === entityId),
     };
   });
@@ -59,14 +70,14 @@ async function main() {
   const worklist = {
     patch: gameDataSnapshot.patch,
     previousPatch: baseline.patch,
-    terms: MECHANICS_TERMS.map(({ id, name, definition, excludes }) => ({ id, name, definition, excludes })),
+    terms: MECHANICS_TERMS.filter((t) => inScope(t.id)).map(({ id, name, definition, excludes }) => ({ id, name, definition, excludes })),
     borrowedAbilities: BORROWED_ABILITIES,
     champions,
   };
   await writeFile(file, JSON.stringify(worklist, null, 2) + "\n");
-  console.log(
-    `${changed.length} changed champions since ${baseline.patch ?? "never"} (patch ${gameDataSnapshot.patch}) -> ${file}`,
-  );
+  const scope = all ? "champions" : `changed champions since ${baseline.patch ?? "never"}`;
+  const terms = onlyTerms ? ` for ${[...onlyTerms].join(", ")}` : "";
+  console.log(`${changed.length} ${scope}${terms} (patch ${gameDataSnapshot.patch}) -> ${file}`);
 }
 
 main().catch((err) => {

@@ -1,0 +1,112 @@
+{
+  "templateId": "champions-infinite-scaling",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:Bard",
+    "champion:Belveth",
+    "champion:Chogath",
+    "champion:Kindred",
+    "champion:Locke",
+    "champion:Nasus",
+    "champion:Senna",
+    "champion:Shyvana",
+    "champion:Sion",
+    "champion:Smolder",
+    "champion:Swain",
+    "champion:Thresh",
+    "champion:Veigar"
+  ],
+  "missing": [],
+  "disputable": [
+    {
+      "entity": "champion:Shyvana",
+      "why": "The evidence ('Takedowns ... grant Shyvana Scalemail stacks, improving her defenses') says nothing about the stacks being permanent or uncapped; her old dragon stacks were effectively capped. Verify the reworked Scalemail has no maximum before keeping her."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "champion:Nasus",
+      "alias": "doge",
+      "why": "Common community nickname for Nasus."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Almost everyone gets Nasus or Veigar, a good share find Senna, Smolder, Cho'Gath or Thresh, and very few list all 14 (Swain, Bard, Bel'Veth, Kindred, Sion are satisfying finds)."
+  },
+  "typicality": {
+    "champion:Nasus": {
+      "value": 0.8,
+      "why": "Siphoning Strike stacks are the definition of infinite scaling."
+    },
+    "champion:Veigar": {
+      "value": 0.7,
+      "why": "Phenomenal Evil Power is the other textbook answer."
+    },
+    "champion:Senna": {
+      "value": 0.4,
+      "why": "Mist souls are well known to scale forever."
+    },
+    "champion:Smolder": {
+      "value": 0.35,
+      "why": "Recent, stack-centred champion; Q stacks are his whole identity."
+    },
+    "champion:AurelionSol": {
+      "value": 0.2,
+      "why": "Stardust stacks are his rework identity but less top-of-mind."
+    },
+    "champion:Chogath": {
+      "value": 0.3,
+      "why": "Feast stacks making him huge is iconic."
+    },
+    "champion:Swain": {
+      "value": 0.15,
+      "why": "Ravenous Flock's permanent max Health is known to Swain players but rarely the first thought."
+    },
+    "champion:Thresh": {
+      "value": 0.3,
+      "why": "Soul collection is famous among support players."
+    },
+    "champion:Kindred": {
+      "value": 0.2,
+      "why": "Marks scale range and damage forever; jungle players know it."
+    },
+    "champion:Sion": {
+      "value": 0.2,
+      "why": "W max Health per kill is known, but players think of Sion's passive/ult first."
+    },
+    "champion:Belveth": {
+      "value": 0.1,
+      "why": "R's stacking true damage is easy to forget; most remember her attack speed."
+    },
+    "champion:Shyvana": {
+      "value": 0.04,
+      "why": "Reworked Scalemail stacks are barely known."
+    },
+    "champion:Locke": {
+      "value": 0.03,
+      "why": "New champion; few know his R threshold grows."
+    },
+    "champion:Bard": {
+      "value": 0.12,
+      "why": "Chimes scaling Meeps forever is known to support players, rarely first."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Swain",
+      "why": "'Oh of course!': his ravens' Soul Fragments permanently raise his max Health, and late-game Swain is huge. About 0.15, outside the likeliest half now the Rule no longer names him."
+    },
+    {
+      "entity": "champion:Sion",
+      "why": "His W gives max Health on every kill, and tank-Sion players stack thousands of HP. About 0.2."
+    },
+    {
+      "entity": "champion:Belveth",
+      "why": "Her R passive true damage 'stacking infinitely' is in the tooltip but rarely remembered; about 0.1."
+    }
+  ]
+}

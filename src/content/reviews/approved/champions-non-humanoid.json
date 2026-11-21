@@ -1,0 +1,36 @@
+{
+  "templateId": "champions-non-humanoid",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Anivia",
+    "champion:AurelionSol",
+    "champion:Belveth",
+    "champion:Chogath",
+    "champion:Hecarim",
+    "champion:KogMaw",
+    "champion:Naafiri",
+    "champion:Rammus",
+    "champion:RekSai",
+    "champion:Skarner",
+    "champion:Smolder",
+    "champion:Velkoz",
+    "champion:Yuumi"
+  ],
+  "typicality": {
+    "champion:Anivia": 0.1,
+    "champion:AurelionSol": 0.14,
+    "champion:Belveth": 0.06,
+    "champion:Chogath": 0.22,
+    "champion:Hecarim": 0.04,
+    "champion:KogMaw": 0.14,
+    "champion:Naafiri": 0.05,
+    "champion:Rammus": 0.08,
+    "champion:RekSai": 0.12,
+    "champion:Skarner": 0.06,
+    "champion:Smolder": 0.1,
+    "champion:Velkoz": 0.12,
+    "champion:Yuumi": 0.12
+  },
+  "tooClever": [],
+  "gem": "champion:Skarner"
+}

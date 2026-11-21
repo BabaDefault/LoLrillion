@@ -1,0 +1,28 @@
+{
+  "templateId": "champions-mount",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Corki",
+    "champion:Kled",
+    "champion:Nunu",
+    "champion:Rell",
+    "champion:Rumble",
+    "champion:Sejuani",
+    "champion:Seraphine",
+    "champion:Taliyah",
+    "champion:Yuumi"
+  ],
+  "typicality": {
+    "champion:Corki": 0.15,
+    "champion:Kled": 0.25,
+    "champion:Nunu": 0.2,
+    "champion:Rell": 0.1,
+    "champion:Rumble": 0.1,
+    "champion:Sejuani": 0.22,
+    "champion:Seraphine": 0.02,
+    "champion:Taliyah": 0.02,
+    "champion:Yuumi": 0.07
+  },
+  "tooClever": [],
+  "gem": "champion:Rumble"
+}

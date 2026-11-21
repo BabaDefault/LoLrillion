@@ -1,0 +1,151 @@
+{
+  "templateId": "champions-z-or-x",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:Azir",
+    "champion:Blitzcrank",
+    "champion:Ezreal",
+    "champion:Fizz",
+    "champion:Jax",
+    "champion:Jinx",
+    "champion:Khazix",
+    "champion:Lux",
+    "champion:Malzahar",
+    "champion:Ryze",
+    "champion:Velkoz",
+    "champion:Vex",
+    "champion:Xayah",
+    "champion:Xerath",
+    "champion:XinZhao",
+    "champion:Zaahen",
+    "champion:Zac",
+    "champion:Zed",
+    "champion:Zeri",
+    "champion:Ziggs",
+    "champion:Zilean",
+    "champion:Zoe",
+    "champion:Zyra"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "24 answers; everyone names Zed or Zoe, few think of mid-word letters (Blitzcrank, Malzahar, Ryze), giving a long satisfying tail."
+  },
+  "typicality": {
+    "champion:Zed": {
+      "value": 0.45,
+      "why": "First Z champion for most."
+    },
+    "champion:Zoe": {
+      "value": 0.35,
+      "why": "Short, starts with Z."
+    },
+    "champion:Zac": {
+      "value": 0.35,
+      "why": "Short, starts with Z."
+    },
+    "champion:Xayah": {
+      "value": 0.3,
+      "why": "Most known X starter."
+    },
+    "champion:Xerath": {
+      "value": 0.3,
+      "why": "X starter."
+    },
+    "champion:XinZhao": {
+      "value": 0.3,
+      "why": "Has both letters, starts with X."
+    },
+    "champion:Ziggs": {
+      "value": 0.3,
+      "why": "Z starter."
+    },
+    "champion:Zyra": {
+      "value": 0.28,
+      "why": "Z starter."
+    },
+    "champion:Zilean": {
+      "value": 0.28,
+      "why": "Z starter."
+    },
+    "champion:Zeri": {
+      "value": 0.25,
+      "why": "Z starter, a bit newer."
+    },
+    "champion:Jax": {
+      "value": 0.25,
+      "why": "Ending X is easy to spot in short names."
+    },
+    "champion:Jinx": {
+      "value": 0.25,
+      "why": "Ending X, very popular."
+    },
+    "champion:Lux": {
+      "value": 0.25,
+      "why": "Ending X, very popular."
+    },
+    "champion:Ezreal": {
+      "value": 0.2,
+      "why": "Z second letter; popular."
+    },
+    "champion:Khazix": {
+      "value": 0.2,
+      "why": "Z after the apostrophe; noticed by some."
+    },
+    "champion:Fizz": {
+      "value": 0.15,
+      "why": "Double Z but not at the start; less scanned."
+    },
+    "champion:Vex": {
+      "value": 0.15,
+      "why": "Ending X, lower play."
+    },
+    "champion:Aatrox": {
+      "value": 0.15,
+      "why": "Ending X in a longer name."
+    },
+    "champion:Blitzcrank": {
+      "value": 0.12,
+      "why": "Z buried mid-word."
+    },
+    "champion:Malzahar": {
+      "value": 0.12,
+      "why": "Z buried mid-word."
+    },
+    "champion:Azir": {
+      "value": 0.12,
+      "why": "Z second letter, lower play."
+    },
+    "champion:Ryze": {
+      "value": 0.1,
+      "why": "Z mid-word, rarely noticed."
+    },
+    "champion:Velkoz": {
+      "value": 0.1,
+      "why": "Z after the apostrophe, low play."
+    },
+    "champion:Zaahen": {
+      "value": 0.08,
+      "why": "Newest champion; Z start but low awareness."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Blitzcrank",
+      "why": "Maintainer's suggestion holds: iconic champion with the Z hidden mid-word, a strong 'oh of course'. 0.12, bottom half."
+    },
+    {
+      "entity": "champion:Ryze",
+      "why": "Everyone knows Ryze; the Z is easy to miss. 0.1, bottom half."
+    },
+    {
+      "entity": "champion:Malzahar",
+      "why": "Mid-word Z in a well-known name; 0.12, bottom half."
+    }
+  ]
+}

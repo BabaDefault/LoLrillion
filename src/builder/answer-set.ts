@@ -1,6 +1,7 @@
 import { championEntityId, itemEntityId, proPlayerEntityId, skinEntityId } from "@/content/game-data/build-registry";
 import type { EntityId } from "@/engine";
 import { entitiesWithTerm } from "@/labels";
+import { entitiesWithTrait } from "@/traits";
 import { requireEsports } from "./esports";
 import type { BuilderInputs, TemplateDefinition, TemplateFilter } from "./types";
 
@@ -65,10 +66,24 @@ function select(filter: TemplateFilter, inputs: BuilderInputs): EntityId[] {
       const labelled = new Set(entitiesWithTerm(labels, filter.term));
       return champions.map((c) => championEntityId(c.id)).filter((id) => labelled.has(id));
     }
-    case "champion-name-length":
+    case "champion-name-length": {
+      const { atMost = Infinity, atLeast = 0 } = filter;
       return champions
-        .filter((c) => c.name.replace(/[^\p{L}]/gu, "").length <= filter.atMost)
+        .filter((c) => {
+          const letters = c.name.replace(/[^\p{L}]/gu, "").length;
+          return letters <= atMost && letters >= atLeast;
+        })
         .map((c) => championEntityId(c.id));
+    }
+    case "champion-name-pattern": {
+      const pattern = new RegExp(filter.pattern, filter.flags);
+      return champions.filter((c) => pattern.test(c.name)).map((c) => championEntityId(c.id));
+    }
+    case "trait": {
+      const traited = new Set(entitiesWithTrait(inputs.traits ?? [], filter.trait));
+      const current = [...champions.map((c) => championEntityId(c.id)), ...snapshot.items.map((i) => itemEntityId(i.id))];
+      return current.filter((id) => traited.has(id));
+    }
     case "item-stat":
       return snapshot.items
         .filter((i) => (i.stats[filter.stat] ?? 0) > 0 || tooltipStatLabels(i.description).has(TOOLTIP_STAT_LABEL[filter.stat]))

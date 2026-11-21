@@ -1,0 +1,185 @@
+{
+  "templateId": "champions-takedown-reset",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Ahri",
+    "champion:Akshan",
+    "champion:Annie",
+    "champion:AurelionSol",
+    "champion:Aurora",
+    "champion:Darius",
+    "champion:Fizz",
+    "champion:Irelia",
+    "champion:Kalista",
+    "champion:Katarina",
+    "champion:Khazix",
+    "champion:Leblanc",
+    "champion:Locke",
+    "champion:MasterYi",
+    "champion:Naafiri",
+    "champion:Nidalee",
+    "champion:Pyke",
+    "champion:Samira",
+    "champion:Talon",
+    "champion:Tristana",
+    "champion:Twitch",
+    "champion:Vex",
+    "champion:Xerath",
+    "champion:Zyra"
+  ],
+  "missing": [
+    {
+      "entity": "Sivir",
+      "why": "Takedowns refresh On The Hunt's duration, not a cooldown. Not missing; expect some rejected Guesses."
+    },
+    {
+      "entity": "Vayne",
+      "why": "Final Hour's duration is extended on takedowns, not reset. Not missing."
+    },
+    {
+      "entity": "Olaf",
+      "why": "Reckless Swing refunds its Health cost on kill, not its cooldown. Not missing."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Xerath",
+      "why": "Only his passive's cooldown drops, and only on kills, not assists; players will argue a mana-restore passive isn't 'an ability that resets'."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "champion:Khazix",
+      "alias": "Khazix",
+      "why": "Players drop the apostrophe; check it already normalises, else add."
+    },
+    {
+      "entity": "champion:AurelionSol",
+      "alias": "ASol",
+      "why": "Standard short form with no space."
+    },
+    {
+      "entity": "champion:Katarina",
+      "alias": "Katerina",
+      "why": "Common misspelling."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Katarina and Darius come instantly, but 22 answers spread across every role, with satisfying finds like Vex, Akshan and Aurora."
+  },
+  "typicality": {
+    "champion:Katarina": {
+      "value": 0.55,
+      "why": "The reset champion everyone names first."
+    },
+    "champion:Tristana": {
+      "value": 0.25,
+      "why": "Rocket Jump resets are widely known even without the Rule naming her."
+    },
+    "champion:Darius": {
+      "value": 0.4,
+      "why": "Noxian Guillotine resets are iconic."
+    },
+    "champion:MasterYi": {
+      "value": 0.35,
+      "why": "Yi resets are a meme."
+    },
+    "champion:Pyke": {
+      "value": 0.35,
+      "why": "Death from Below recasts are famous."
+    },
+    "champion:Khazix": {
+      "value": 0.3,
+      "why": "Evolved Leap reset is well known."
+    },
+    "champion:Irelia": {
+      "value": 0.25,
+      "why": "Bladesurge resets are known, mostly from minion kills."
+    },
+    "champion:Samira": {
+      "value": 0.2,
+      "why": "Wild Rush reset is known to ADC players."
+    },
+    "champion:Ahri": {
+      "value": 0.15,
+      "why": "Extra Spirit Rush charges on takedown are moderately known."
+    },
+    "champion:Talon": {
+      "value": 0.13,
+      "why": "Noxian Diplomacy refund is a second-tier recall."
+    },
+    "champion:Kalista": {
+      "value": 0.12,
+      "why": "Rend resets on kill are known, mostly from last-hitting."
+    },
+    "champion:Akshan": {
+      "value": 0.08,
+      "why": "Heroic Swing reset is real but not his headline mechanic."
+    },
+    "champion:Leblanc": {
+      "value": 0.08,
+      "why": "Sigil of Malice refund is rarely named."
+    },
+    "champion:Naafiri": {
+      "value": 0.08,
+      "why": "The Call of the Pack recast is niche."
+    },
+    "champion:Vex": {
+      "value": 0.07,
+      "why": "Shadow Surge reset is known by Vex players."
+    },
+    "champion:Twitch": {
+      "value": 0.06,
+      "why": "Ambush refresh on takedown is little known."
+    },
+    "champion:Fizz": {
+      "value": 0.05,
+      "why": "Seastone Trident's on-kill cooldown is obscure."
+    },
+    "champion:Annie": {
+      "value": 0.05,
+      "why": "Disintegrate refund is thought of as a minion trick."
+    },
+    "champion:Aurora": {
+      "value": 0.04,
+      "why": "Newer champion; W reset not widely known."
+    },
+    "champion:AurelionSol": {
+      "value": 0.04,
+      "why": "Astral Flight refund is obscure."
+    },
+    "champion:Zyra": {
+      "value": 0.03,
+      "why": "Seed recharge on takedown is very obscure."
+    },
+    "champion:Locke": {
+      "value": 0.03,
+      "why": "Newest champion; few know his kit."
+    },
+    "champion:Nidalee": {
+      "value": 0.05,
+      "why": "Pounce resetting on takedowns is known mostly to Nidalee players."
+    },
+    "champion:Xerath": {
+      "value": 0.01,
+      "why": "Mana Surge's on-kill cooldown is almost unknown and not an ability players think of."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Vex",
+      "why": "Shadow Surge recasting after a takedown is her signature teamfight chain; 'oh, of course' at reveal."
+    },
+    {
+      "entity": "champion:Akshan",
+      "why": "Heroic Swing refreshing on takedowns is a satisfying reveal for a well-known champion."
+    },
+    {
+      "entity": "champion:Twitch",
+      "why": "Ambush refreshing on takedown is real and fun to learn. The suggested Tristana still fails: about 0.25 and 6th of 24 by Typicality."
+    }
+  ]
+}

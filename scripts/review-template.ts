@@ -22,7 +22,9 @@ import { entityRegistry } from "../src/content/game-data";
 import { esportsSnapshot } from "../src/content/esports";
 import { gameDataSnapshot } from "../src/content/game-data/snapshot-data";
 import { approvedLabels } from "../src/content/labels";
+import { approvedTraits } from "../src/content/traits";
 import { changedChampions, mechanicsTerm, type TaggedBaseline } from "../src/labels";
+import { traitDefinition } from "../src/traits";
 import { approveProposal, checkProposal, reviewQueue, type ReviewProposal } from "../src/reviews";
 import { readApprovedReviewFiles } from "../src/reviews/files";
 import { templateQueue } from "../src/uncertainty";
@@ -41,7 +43,7 @@ const json = (value: unknown) => JSON.stringify(value, null, 2) + "\n";
 async function loadInputs() {
   const templates = await readJson<TemplateDefinition[]>(content("templates/templates.json"));
   const { valid: reviews, invalid } = await readApprovedReviewFiles(REVIEWS_DIR);
-  const inputs: BuilderInputs = { snapshot: gameDataSnapshot, esports: esportsSnapshot, labels: approvedLabels, reviews };
+  const inputs: BuilderInputs = { snapshot: gameDataSnapshot, esports: esportsSnapshot, labels: approvedLabels, traits: approvedTraits, reviews };
   const answerSets = Object.fromEntries(templates.map((t) => [t.id, answerSetOf(t, inputs).sort()]));
   return { templates, inputs, reviews, invalid, answerSets };
 }
@@ -124,7 +126,18 @@ async function worklist(id: string | undefined) {
   const inSet = new Set(answerSets[t.id]);
   const built = buildPrompt(t, inputs);
   const [entry] = reviewQueue({ [t.id]: answerSets[t.id] }, reviews, invalid);
-  const terms = labelTermsOf(t.filter).flatMap((id) => mechanicsTerm(id) ?? []);
+  const termIds = labelTermsOf(t.filter);
+  const terms = termIds.flatMap((id) => mechanicsTerm(id) ?? []);
+  const trait = t.filter.kind === "trait" ? traitDefinition(t.filter.trait) : undefined;
+  /** Why each Entity is in the set, for hand-maintained facts: its label quotes or its trait reason. */
+  const evidence = (entity: string) => {
+    const labels = approvedLabels
+      .filter((l) => l.entityId === entity && termIds.includes(l.term))
+      .map((l) => `${l.term} (${l.ability}): ${l.inGame ? `in game: ${l.inGame}` : `"${l.quote}"`}`);
+    const traits = trait ? approvedTraits.filter((a) => a.entityId === entity && a.trait === trait.id).map((a) => a.why) : [];
+    const all = [...labels, ...traits];
+    return all.length > 0 ? all : undefined;
+  };
 
   const work = {
     templateId: t.id,
@@ -134,6 +147,7 @@ async function worklist(id: string | undefined) {
     rule: t.rule,
     filter: t.filter,
     terms: terms.map((term) => ({ id: term.id, definition: term.definition, excludes: term.excludes })),
+    trait: trait && { id: trait.id, definition: trait.definition, excludes: trait.excludes },
     queue: entry?.status === "unreviewed" ? { status: entry.status } : (entry ?? { status: "approved, unchanged" }),
     approved: reviews[t.id] ?? invalid[t.id]?.review ?? null,
     answerSet: answerSets[t.id].map((entity) => ({
@@ -141,6 +155,7 @@ async function worklist(id: string | undefined) {
       name: entities.get(entity)?.name,
       aliases: entities.get(entity)?.aliases ?? [],
       currentTier: built.answerSet[entity],
+      evidence: evidence(entity),
     })),
     notInAnswerSet: entityRegistry.filter((e) => e.answerType === t.answerType && !inSet.has(e.id)).map((e) => e.name),
   };

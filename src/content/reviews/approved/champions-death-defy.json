@@ -1,0 +1,28 @@
+{
+  "templateId": "champions-death-defy",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Anivia",
+    "champion:Karthus",
+    "champion:Kindred",
+    "champion:KogMaw",
+    "champion:Sion",
+    "champion:Tryndamere",
+    "champion:Zaahen",
+    "champion:Zac",
+    "champion:Zilean"
+  ],
+  "typicality": {
+    "champion:Sion": 0.5,
+    "champion:Karthus": 0.45,
+    "champion:Tryndamere": 0.4,
+    "champion:Anivia": 0.45,
+    "champion:Zac": 0.3,
+    "champion:KogMaw": 0.2,
+    "champion:Zilean": 0.4,
+    "champion:Kindred": 0.15,
+    "champion:Zaahen": 0.05
+  },
+  "tooClever": [],
+  "gem": "champion:KogMaw"
+}

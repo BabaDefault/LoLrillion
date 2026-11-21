@@ -1,0 +1,139 @@
+{
+  "templateId": "champions-gun",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akshan",
+    "champion:Aphelios",
+    "champion:Caitlyn",
+    "champion:Corki",
+    "champion:Gangplank",
+    "champion:Graves",
+    "champion:Jayce",
+    "champion:Jhin",
+    "champion:Jinx",
+    "champion:Lucian",
+    "champion:MissFortune",
+    "champion:Rumble",
+    "champion:Samira",
+    "champion:Senna",
+    "champion:Tristana",
+    "champion:Urgot",
+    "champion:Zeri"
+  ],
+  "missing": [
+    {
+      "entity": "Heimerdinger",
+      "why": "His turrets are cannons and he fires micro-rockets; Rule call whether deployed turrets count (currently not in the set)."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Rumble",
+      "why": "Flamethrower and rocket barrage from a mech, not a hand-held gun."
+    },
+    {
+      "entity": "champion:Jayce",
+      "why": "His hammer turns into a cannon only in one form."
+    },
+    {
+      "entity": "champion:Corki",
+      "why": "Guns are mounted on his gyrocopter, not hand-held."
+    }
+  ],
+  "wording": [
+    {
+      "why": "Crossbows (Twitch, Vayne) look gun-like to many players.",
+      "suggestion": "Keep \"Bows and crossbows don't count\" in the player-facing Rule."
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "ADCs come instantly, but Urgot, Jayce, Rumble and Gangplank reward lateral thinking."
+  },
+  "typicality": {
+    "champion:Akshan": {
+      "value": 0.04,
+      "why": "Gunslinger, less played."
+    },
+    "champion:Aphelios": {
+      "value": 0.04,
+      "why": "Guns are many but the champion is niche."
+    },
+    "champion:Caitlyn": {
+      "value": 0.2,
+      "why": "Sniper rifle; the first answer for many."
+    },
+    "champion:Corki": {
+      "value": 0.03,
+      "why": "Seen as a plane, not a gunner."
+    },
+    "champion:Gangplank": {
+      "value": 0.05,
+      "why": "Pistol is iconic for GP players."
+    },
+    "champion:Graves": {
+      "value": 0.15,
+      "why": "Shotgun outlaw."
+    },
+    "champion:Jayce": {
+      "value": 0.03,
+      "why": "Seen as a hammer champion."
+    },
+    "champion:Jhin": {
+      "value": 0.08,
+      "why": "Whisper is iconic."
+    },
+    "champion:Jinx": {
+      "value": 0.18,
+      "why": "Minigun and rockets."
+    },
+    "champion:Lucian": {
+      "value": 0.1,
+      "why": "Twin pistols."
+    },
+    "champion:MissFortune": {
+      "value": 0.1,
+      "why": "Dual pistols."
+    },
+    "champion:Rumble": {
+      "value": 0.02,
+      "why": "Flamethrower rarely framed as a gun."
+    },
+    "champion:Samira": {
+      "value": 0.04,
+      "why": "Estimated first-answer share for Samira on this Prompt."
+    },
+    "champion:Senna": {
+      "value": 0.05,
+      "why": "Estimated first-answer share for Senna on this Prompt."
+    },
+    "champion:Tristana": {
+      "value": 0.05,
+      "why": "Cannon Boomer."
+    },
+    "champion:Urgot": {
+      "value": 0.04,
+      "why": "Shotgun knees overlooked among ADCs."
+    },
+    "champion:Zeri": {
+      "value": 0.03,
+      "why": "Estimated first-answer share for Zeri on this Prompt."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Urgot",
+      "why": "The maintainer's pick and the best: shotgun knees and chaingun are obvious in hindsight."
+    },
+    {
+      "entity": "champion:Jayce",
+      "why": "The Mercury Cannon is half his kit, yet he's seen as a hammer champion."
+    },
+    {
+      "entity": "champion:Corki",
+      "why": "Gunship pilot forgotten among hand-held gunners."
+    }
+  ]
+}

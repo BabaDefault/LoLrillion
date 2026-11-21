@@ -1,0 +1,86 @@
+{
+  "templateId": "champions-true-sight",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Caitlyn",
+    "champion:Fizz",
+    "champion:Kaisa",
+    "champion:Leblanc",
+    "champion:LeeSin",
+    "champion:Lulu",
+    "champion:Nidalee",
+    "champion:Rengar",
+    "champion:Thresh",
+    "champion:TwistedFate",
+    "champion:Zyra"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "ok",
+    "why": "Lee Sin, Twisted Fate and Rengar are easy; the rest (Fizz R, Thresh Q, LeBlanc E, Zyra seeds) are real deep cuts, so it skews hard. Many players will waste attempts on plain-reveal champions."
+  },
+  "typicality": {
+    "champion:LeeSin": {
+      "value": 0.4,
+      "why": "Sonic Wave on Evelynn/Shaco is the classic answer."
+    },
+    "champion:TwistedFate": {
+      "value": 0.4,
+      "why": "Destiny reveals every enemy champion."
+    },
+    "champion:Rengar": {
+      "value": 0.35,
+      "why": "Thrill of the Hunt is well known."
+    },
+    "champion:Caitlyn": {
+      "value": 0.15,
+      "why": "Trap True Sight is semi-known."
+    },
+    "champion:Kaisa": {
+      "value": 0.15,
+      "why": "Void Seeker True Sight is semi-known."
+    },
+    "champion:Lulu": {
+      "value": 0.1,
+      "why": "Pix on an enemy grants True Sight; few remember."
+    },
+    "champion:Nidalee": {
+      "value": 0.1,
+      "why": "Hunt True Sight; jungle players know."
+    },
+    "champion:Thresh": {
+      "value": 0.1,
+      "why": "Death Sentence True Sight is rarely known."
+    },
+    "champion:Fizz": {
+      "value": 0.08,
+      "why": "The fish grants True Sight; surprising."
+    },
+    "champion:Leblanc": {
+      "value": 0.06,
+      "why": "Ethereal Chains True Sight; rarely known."
+    },
+    "champion:Zyra": {
+      "value": 0.04,
+      "why": "Seeds granting True Sight is a deep cut."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Fizz",
+      "why": "'Oh of course!': the shark-bait fish sticks to them, so stealth can't save them. About 0.08."
+    },
+    {
+      "entity": "champion:Thresh",
+      "why": "The hook latch grants True Sight, which explains landing it on Evelynn; about 0.1."
+    },
+    {
+      "entity": "champion:Leblanc",
+      "why": "Ethereal Chains grants True Sight; LeBlanc players will know it. About 0.06."
+    }
+  ]
+}

@@ -56,6 +56,10 @@ _Avoid_: Resolution, correction
 An approved mechanics fact about a champion's own kit (e.g. has a dash), with an evidence quote from its ability text.
 _Avoid_: Tag, attribute
 
+**Trait**:
+An approved, hand-curated fact about an Entity that no game data or ability text shows (e.g. wears a mask on the base skin, an item named after a person), stored with a one-line reason. Visual only; lore facts such as region or Yordle stay out.
+_Avoid_: Tag, attribute, Label (Labels quote ability text)
+
 ### Scoring
 
 **Prior**:

@@ -1,0 +1,162 @@
+{
+  "templateId": "champions-three-hit",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akshan",
+    "champion:Brand",
+    "champion:Corki",
+    "champion:Diana",
+    "champion:Ekko",
+    "champion:Gnar",
+    "champion:Ivern",
+    "champion:Jax",
+    "champion:Kennen",
+    "champion:Kindred",
+    "champion:Mordekaiser",
+    "champion:Neeko",
+    "champion:Nunu",
+    "champion:Riven",
+    "champion:Seraphine",
+    "champion:Skarner",
+    "champion:Sona",
+    "champion:TahmKench",
+    "champion:Talon",
+    "champion:Vayne",
+    "champion:Velkoz",
+    "champion:Vi",
+    "champion:XinZhao",
+    "champion:Yasuo",
+    "champion:Yone"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "champion:Velkoz",
+      "alias": "vel",
+      "why": "Common short form for Vel'Koz."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Vayne, Yasuo, Ekko and Vi are easy, but 25 answers across every role (Corki R, Talon, Sona, Ivern's Daisy) means nobody gets them all."
+  },
+  "typicality": {
+    "champion:Vayne": {
+      "value": 0.6,
+      "why": "Silver Bolts is the archetypal third-hit passive."
+    },
+    "champion:Kennen": {
+      "value": 0.2,
+      "why": "Mark of the Storm three-stack stun is known but not first."
+    },
+    "champion:Ekko": {
+      "value": 0.3,
+      "why": "Z-Drive Resonance is well known."
+    },
+    "champion:Vi": {
+      "value": 0.25,
+      "why": "Denting Blows is moderately known."
+    },
+    "champion:Riven": {
+      "value": 0.25,
+      "why": "Third Q knock-up is famous."
+    },
+    "champion:XinZhao": {
+      "value": 0.2,
+      "why": "Determination third-hit is known."
+    },
+    "champion:Jax": {
+      "value": 0.2,
+      "why": "Grandmaster third-hit is known to Jax players."
+    },
+    "champion:Gnar": {
+      "value": 0.15,
+      "why": "Hyper W stacks are moderately known."
+    },
+    "champion:Brand": {
+      "value": 0.15,
+      "why": "Blaze detonation at 3 stacks is moderately known."
+    },
+    "champion:Diana": {
+      "value": 0.12,
+      "why": "Moonsilver Blade third strike."
+    },
+    "champion:Akshan": {
+      "value": 0.1,
+      "why": "Dirty Fighting three hits."
+    },
+    "champion:TahmKench": {
+      "value": 0.1,
+      "why": "Three Acquired Taste stacks stun/devour."
+    },
+    "champion:Velkoz": {
+      "value": 0.1,
+      "why": "Organic Deconstruction three stacks."
+    },
+    "champion:Talon": {
+      "value": 0.08,
+      "why": "Blade's End three Wounds; often forgotten."
+    },
+    "champion:Corki": {
+      "value": 0.05,
+      "why": "Every third Missile Barrage is the Big One, rarely thought of."
+    },
+    "champion:Neeko": {
+      "value": 0.05,
+      "why": "Shapesplitter third attack; forgotten."
+    },
+    "champion:Mordekaiser": {
+      "value": 0.05,
+      "why": "Darkness Rise after three hits; few connect it."
+    },
+    "champion:Kindred": {
+      "value": 0.04,
+      "why": "Mounting Dread third attack; forgotten."
+    },
+    "champion:Nunu": {
+      "value": 0.03,
+      "why": "Snowball Barrage three hits; very few think of it."
+    },
+    "champion:Skarner": {
+      "value": 0.03,
+      "why": "Reworked Q third attack; very few know."
+    },
+    "champion:Ivern": {
+      "value": 0.02,
+      "why": "Daisy's third attack; deep cut."
+    },
+    "champion:Yasuo": {
+      "value": 0.35,
+      "why": "'Q3' is one of the best-known third-cast effects in the game."
+    },
+    "champion:Yone": {
+      "value": 0.2,
+      "why": "Same Q3 pattern as Yasuo, slightly less top-of-mind."
+    },
+    "champion:Seraphine": {
+      "value": 0.12,
+      "why": "Every third spell echoes; known to her players."
+    },
+    "champion:Sona": {
+      "value": 0.08,
+      "why": "Power Chord after three spells; few remember the count."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Corki",
+      "why": "'Oh of course!': every third Missile Barrage is the Big One, visible every game but rarely remembered. About 0.05."
+    },
+    {
+      "entity": "champion:Talon",
+      "why": "Blade's End bleed after three hits is his core passive but players forget it; about 0.08."
+    },
+    {
+      "entity": "champion:TahmKench",
+      "why": "Three Acquired Taste stacks to stun or devour is his signature, rarely framed as 'three-hit'; about 0.1, just outside the likeliest half."
+    }
+  ]
+}

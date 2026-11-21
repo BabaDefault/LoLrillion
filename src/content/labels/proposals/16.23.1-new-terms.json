@@ -1,0 +1,1100 @@
+{
+ "patch": "16.23.1",
+ "labels": [
+  {
+   "entityId": "champion:AurelionSol",
+   "term": "infinite-scaling",
+   "ability": "P",
+   "quote": "Aurelion Sol's damaging Abilities break down enemies into stacks of Stardust, which permanently improves each of his abilities.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Belveth",
+   "term": "infinite-scaling",
+   "ability": "R",
+   "quote": "Passive: Attacks deal an additional {{ finalonhitdamage }} true damage, stacking infinitely.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Chogath",
+   "term": "infinite-scaling",
+   "ability": "R",
+   "quote": "If this kills the target, Cho'Gath gains a stack, which causes him to grow in size and gain {{ rhealthperstack }} max Health.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Aatrox",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Aatrox reveals his true demonic form, Fearing nearby minions for {{ rminionfearduration }} seconds and gaining {{ rmovementspeedbonus*100 }}% Move Speed decaying over {{ rduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Alistar",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Alistar immediately cleanses all Disabling effects and takes {{ rdamagereduction }}% reduced damage for {{ rduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Bard",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Bard hurls magical protective energy to an area, placing all units and structures hit into Stasis for {{ rstasisduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:DrMundo",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Dr. Mundo pumps himself with chemicals, gaining {{ missinghealthheal*100 }}% of his missing Health as max Health, {{ speedboostamount*100 }}% Move Speed, and regenerating {{ maxhealthhot*100 }}% max Health over {{ duration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Akshan",
+   "term": "three-hit",
+   "ability": "P",
+   "quote": "Every three hits from Akshan's Attacks and Abilities deals bonus damage and grants him a Shield if the target was a champion.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Brand",
+   "term": "three-hit",
+   "ability": "P",
+   "quote": "Brand's spells light his targets ablaze, dealing damage over 4 seconds, stacking up to 3 times.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Corki",
+   "term": "three-hit",
+   "ability": "R",
+   "quote": "Every third missile instead deals {{ rbigmissiledamage }} physical damage.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Diana",
+   "term": "three-hit",
+   "ability": "P",
+   "quote": "Every third strike cleaves nearby enemies for an additional magic damage.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Caitlyn",
+   "term": "true-sight",
+   "ability": "W",
+   "quote": "granting True Sight of them for 3 seconds",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Anivia",
+   "term": "terrain",
+   "ability": "W",
+   "quote": "Anivia condenses the moisture in the air into an impassable wall of ice to block all movement.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Camille",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "Camille briefly becomes Untargetable",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Bard",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "placing all units and structures hit into Stasis for {{ rstasisduration }} seconds",
+   "sourceField": "tooltip",
+   "inGame": "Bard can hit himself with Tempered Fate, putting himself in Stasis"
+  },
+  {
+   "entityId": "champion:Ahri",
+   "term": "takedown-reset",
+   "ability": "R",
+   "quote": "Spirit Rush can be cast up to three times before going on cooldown, and gains additional recasts when taking down enemy champions.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Akshan",
+   "term": "takedown-reset",
+   "ability": "E",
+   "quote": "Champion takedowns refresh this Ability's Cooldown.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Annie",
+   "term": "takedown-reset",
+   "ability": "Q",
+   "quote": "If the target dies, Annie refunds the Mana cost and reduces the Cooldown by 50%.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:AurelionSol",
+   "term": "takedown-reset",
+   "ability": "W",
+   "quote": "Takedowns on champions within {{ resetwindow }} seconds of damaging them refunds {{ tooltiptakedowncooldownmultiplier }}% of this Ability's Cooldown.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Aurora",
+   "term": "takedown-reset",
+   "ability": "W",
+   "quote": "Scoring a takedown on an enemy champion resets this Ability's Cooldown.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Darius",
+   "term": "takedown-reset",
+   "ability": "R",
+   "quote": "If this kills the target, Darius may Recast this Ability once within {{ rrecastduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Akali",
+   "term": "non-mana-resource",
+   "ability": "W",
+   "quote": "Akali increases her max Energy by {{ energyrestore }} while the shroud is active.",
+   "sourceField": "tooltip",
+   "inGame": "Energy"
+  },
+  {
+   "entityId": "champion:Ambessa",
+   "term": "non-mana-resource",
+   "ability": "P",
+   "quote": "refunding energy",
+   "sourceField": "description",
+   "inGame": "Energy"
+  },
+  {
+   "entityId": "champion:Anivia",
+   "term": "death-defy",
+   "ability": "P",
+   "quote": "Upon taking fatal damage, Anivia reverts to an egg and is reborn with full health.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Ekko",
+   "term": "three-hit",
+   "ability": "P",
+   "quote": "Every third attack or damaging spell on the same target deals bonus magic damage",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Gnar",
+   "term": "three-hit",
+   "ability": "W",
+   "quote": "Every third Attack or Ability on the same enemy",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Jax",
+   "term": "three-hit",
+   "ability": "R",
+   "quote": "Every third Attack within {{ passivefallofftime }} seconds deals an additional {{ onhitdamage }} magic damage",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Ivern",
+   "term": "three-hit",
+   "ability": "R",
+   "quote": "Daisy's 3rd consecutive Attack on the same champion or epic monster will launch a shockwave",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Kalista",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Kalista puts her Oathsworn into Stasis and draws them to herself for up to 4 seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Janna",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Janna summons a magical monsoon, Knocking Back nearby enemies then healing nearby allies",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Kaisa",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Kai'Sa warps near an enemy champion affected by Plasma and gains {{ rcalculatedshieldvalue }} Shield",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Fizz",
+   "term": "true-sight",
+   "ability": "R",
+   "quote": "The victim is afflicted with True Sight",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Kaisa",
+   "term": "true-sight",
+   "ability": "W",
+   "quote": "grants True Sight of the first enemy hit",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:JarvanIV",
+   "term": "terrain",
+   "ability": "R",
+   "quote": "creating an arena of impassable terrain around them",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Ekko",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "Ekko turns back time, entering Stasis",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Evelynn",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "becoming Untargetable and teleporting backwards",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Fizz",
+   "term": "untargetable",
+   "ability": "E",
+   "quote": "Fizz hops onto his trident, becoming Untargetable for 0.75 seconds",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Gwen",
+   "term": "untargetable",
+   "ability": "W",
+   "quote": "making her Untargetable to all enemies (except towers) outside the zone",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Elise",
+   "term": "untargetable",
+   "ability": "E",
+   "quote": "Spider Form: Elise and her Spiderlings ascend into the air and then descend upon target enemy.",
+   "sourceField": "description",
+   "inGame": "Elise is Untargetable while ascended during Rappel."
+  },
+  {
+   "entityId": "champion:Fizz",
+   "term": "takedown-reset",
+   "ability": "W",
+   "quote": "If this Attack kills its target, Fizz refunds {{ onkillmanarefund }} Mana and reduces the cooldown of this Ability to {{ onkillnewcooldown }} second.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Irelia",
+   "term": "takedown-reset",
+   "ability": "Q",
+   "quote": "If the enemy dies or was Unsteady, the Cooldown is refreshed.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Kalista",
+   "term": "takedown-reset",
+   "ability": "E",
+   "quote": "If this Ability kills at least one target, its Cooldown is refreshed",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Gnar",
+   "term": "non-mana-resource",
+   "ability": "P",
+   "quote": "While in combat Gnar generates Rage.",
+   "sourceField": "description",
+   "inGame": "Gnar's resource bar is Rage (no Mana)."
+  },
+  {
+   "entityId": "champion:Karthus",
+   "term": "death-defy",
+   "ability": "P",
+   "quote": "Upon dying, Karthus enters a spirit form that allows him to continue casting spells.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Katarina",
+   "term": "takedown-reset",
+   "ability": "P",
+   "quote": "Whenever an enemy champion dies that Katarina has damaged recently, her remaining ability cooldowns are dramatically reduced.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Kayn",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "Kayn infests a marked enemy, becoming Untargetable.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Kennen",
+   "term": "three-hit",
+   "ability": "P",
+   "quote": "Kennen stuns enemies he hits 3 times with his abilities.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Kennen",
+   "term": "non-mana-resource",
+   "ability": "E",
+   "quote": "If Kennen damages at least one enemy, he gains {{ energyrefund }} Energy.",
+   "sourceField": "tooltip",
+   "inGame": "Kennen's resource bar is Energy."
+  },
+  {
+   "entityId": "champion:Khazix",
+   "term": "takedown-reset",
+   "ability": "E",
+   "quote": "If he chooses to Evolve Wings, Leap's range increases and the cooldown resets on champion kill or assist.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Khazix",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Active: Kha'Zix becomes Invisible for {{ stealthduration }} seconds and gains {{ bonusmovementspeedpercent*100 }}% Move Speed.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Kindred",
+   "term": "infinite-scaling",
+   "ability": "P",
+   "quote": "Successfully completing a Hunt permanently empowers Kindred's basic abilities.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Kindred",
+   "term": "three-hit",
+   "ability": "E",
+   "quote": "Kindred's third Attack against the target within {{ totalduration }} seconds of each other directs Wolf to pounce on the enemy",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Kindred",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Kindred blesses the ground for {{ buffduration }} seconds, allowing no unit, ally, enemy, or neutral to die while inside.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Kindred",
+   "term": "death-defy",
+   "ability": "R",
+   "quote": "allowing no unit, ally, enemy, or neutral to die while inside",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Kled",
+   "term": "non-mana-resource",
+   "ability": "P",
+   "quote": "Kled can restore Skaarl's courage by fighting enemies.",
+   "sourceField": "description",
+   "inGame": "Kled's resource bar is Courage."
+  },
+  {
+   "entityId": "champion:KogMaw",
+   "term": "death-defy",
+   "ability": "P",
+   "quote": "4 seconds after dying, Kogmaw explodes, dealing true damage to surrounding enemies.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Leblanc",
+   "term": "true-sight",
+   "ability": "E",
+   "quote": "granting True Sight",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Leblanc",
+   "term": "takedown-reset",
+   "ability": "Q",
+   "quote": "If either part kills the target, Leblanc refunds {{ manarefund*100 }}% of the Mana cost and {{ cooldownrefund*100 }}% of this spell's remaining Cooldown.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:LeeSin",
+   "term": "true-sight",
+   "ability": "Q",
+   "quote": "granting True Sight of them",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:LeeSin",
+   "term": "non-mana-resource",
+   "ability": "P",
+   "quote": "After Lee Sin uses an ability, his next 2 basic attacks gain Attack Speed and return Energy.",
+   "sourceField": "description",
+   "inGame": "Lee Sin's resource bar is Energy."
+  },
+  {
+   "entityId": "champion:Lissandra",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "When self cast, Lissandra enters Stasis for {{ selfcastduration }} seconds",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Locke",
+   "term": "takedown-reset",
+   "ability": "E",
+   "quote": "If Locke scores a takedown, the Cooldown of this Ability is reset.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Locke",
+   "term": "infinite-scaling",
+   "ability": "R",
+   "quote": "Locke can pick up the artifact to permanently increase its execution threshold by {{ executethresholdperstack*100 }}%",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Lulu",
+   "term": "true-sight",
+   "ability": "E",
+   "quote": "granting True Sight of them for {{ pixonenemyduration }} seconds",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Lulu",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Lulu enlarges an ally, Knocking Up surrounding enemies for {{ knockbackduration }} second.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Maokai",
+   "term": "untargetable",
+   "ability": "W",
+   "quote": "Maokai transforms into a moving mass of roots, becoming Untargetable and dashing to an enemy.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:MasterYi",
+   "term": "untargetable",
+   "ability": "Q",
+   "quote": "Master Yi becomes Untargetable",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:MasterYi",
+   "term": "takedown-reset",
+   "ability": "R",
+   "quote": "Passive: Champion takedowns reduce the remaining Cooldown of Master Yi's basic Abilities by {{ rcooldownrefund*100 }}%.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:MasterYi",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Active: Master Yi enters a trance, gaining {{ rmsbonus }}% Move Speed, {{ rasbonus }}% Attack Speed, and immunity to Slows for {{ rduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Milio",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Milio unleashes a wave of soothing flames that heal and remove crowd control effects from allies in range.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Mordekaiser",
+   "term": "three-hit",
+   "ability": "P",
+   "quote": "Mordekaiser gains a powerful damage aura and Move Speed after landing 3 attacks or spells against champions or monsters.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Mordekaiser",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Mordekaiser banishes a champion to the Death Realm with him for {{ spiritrealmduration }}s, stealing {{ statstealpercentscalar*100 }}% of their core stats for the duration.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Nasus",
+   "term": "infinite-scaling",
+   "ability": "Q",
+   "quote": "Killing an enemy with this Attack permanently increases its damage by {{ basicstacks }}",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Nidalee",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Nidalee transforms into a cougar, gaining new abilities.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Olaf",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Active: Olaf cleanses all Immobilizing and Disabling effects on himself and becomes immune to them for {{ duration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Ryze",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Active: Ryze opens a portal to another location.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Renata",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Renata sends out a wave of chemicals, Berserking enemies for {{ berserkduration }} seconds",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Neeko",
+   "term": "three-hit",
+   "ability": "W",
+   "quote": "Every 3rd Attack deals an additional {{ passivebonusdamagecalc }} bonus magic damage",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Nunu",
+   "term": "three-hit",
+   "ability": "E",
+   "quote": "Slowing enemies hit by all three",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Riven",
+   "term": "three-hit",
+   "ability": "Q",
+   "quote": "with the third hit knocking back nearby enemies",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Nidalee",
+   "term": "true-sight",
+   "ability": "P",
+   "quote": "granting True Sight of them for 4 seconds",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Rengar",
+   "term": "true-sight",
+   "ability": "R",
+   "quote": "True Sight in a small area around the nearest enemy champion",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Ornn",
+   "term": "terrain",
+   "ability": "Q",
+   "quote": "A pillar of rock forms at the fissure's end for {{ pillarduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Naafiri",
+   "term": "untargetable",
+   "ability": "W",
+   "quote": "Naafiri becomes Untargetable for {{ untargetableduration }} second",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:RekSai",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "dives underground, becoming Untargetable",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Naafiri",
+   "term": "takedown-reset",
+   "ability": "R",
+   "quote": "If Naafiri scores a Takedown within {{ takedownwindow }} seconds she reveals nearby enemies and can recast this Ability once.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Pyke",
+   "term": "takedown-reset",
+   "ability": "R",
+   "quote": "When an enemy champion dies inside the X, Pyke can Recast this Ability for free",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Samira",
+   "term": "takedown-reset",
+   "ability": "E",
+   "quote": "If an enemy champion is killed within 3 seconds of Samira damaging them, This Ability's Cooldown is reset.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:RekSai",
+   "term": "non-mana-resource",
+   "ability": "P",
+   "quote": "Rek'Sai generates Fury by Attacking and hitting with basic Abilities.",
+   "sourceField": "description",
+   "inGame": "Fury"
+  },
+  {
+   "entityId": "champion:Renekton",
+   "term": "non-mana-resource",
+   "ability": "P",
+   "quote": "Renekton's attacks generate Fury",
+   "sourceField": "description",
+   "inGame": "Fury"
+  },
+  {
+   "entityId": "champion:Rengar",
+   "term": "non-mana-resource",
+   "ability": "P",
+   "quote": "Rengar generates Ferocity whenever he casts an ability.",
+   "sourceField": "description",
+   "inGame": "Ferocity"
+  },
+  {
+   "entityId": "champion:Rumble",
+   "term": "non-mana-resource",
+   "ability": "P",
+   "quote": "Every spell Rumble casts gives him Heat.",
+   "sourceField": "description",
+   "inGame": "Heat"
+  },
+  {
+   "entityId": "champion:Senna",
+   "term": "infinite-scaling",
+   "ability": "P",
+   "quote": "Mist fuels her Relic Cannon's power with increased Attack Damage, Attack Range, and Critical Strike Chance.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Shyvana",
+   "term": "infinite-scaling",
+   "ability": "P",
+   "quote": "Takedowns on enemy champions, large minions, and large monsters grant Shyvana Scalemail stacks, improving her defenses.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Sion",
+   "term": "infinite-scaling",
+   "ability": "W",
+   "quote": "Sion gains {{ hpperkill }} max Health when he kills a unit",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Smolder",
+   "term": "infinite-scaling",
+   "ability": "P",
+   "quote": "Stacks increase the damage of Smolders basic Abilities.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Swain",
+   "term": "infinite-scaling",
+   "ability": "P",
+   "quote": "Swain's ravens collect Soul Fragments that heal him and permanently increase his maximum health.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Thresh",
+   "term": "infinite-scaling",
+   "ability": "P",
+   "quote": "Thresh can harvest the souls of enemies that die near him, permanently granting him Armor and Ability Power.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Shen",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Shen grants an allied champion anywhere on the map between {{ shield }} and {{ maxshield }} Shield",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Singed",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Singed drinks a potent brew of chemicals, granting him {{ statamount }} Ability Power, Armor, Magic Resist, Move Speed, Health Regen, and Mana Regen for {{ duration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Sivir",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Sivir rallies her nearby allies, granting them {{ maxms*100 }}% Move Speed for {{ ultduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Soraka",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Soraka calls upon divine powers, restoring {{ healingcalc }} Health to all allied champions, regardless of distance.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Taliyah",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Taliyah creates a massive earthen wall for {{ wallduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Taric",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "After {{ initialdelay }} seconds, nearby ally champions become invulnerable for {{ invulnduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Tryndamere",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Tryndamere becomes completely immune to death for {{ tryndrduration }} seconds",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:TwistedFate",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "granting True Sight of all enemy champions on the map for {{ e1 }} seconds and allowing him to Recast. Recast: Twisted Fate teleports up to {{ e4 }} units away.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Twitch",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Twitch unleashes his crossbow, gaining {{ bonusrange }} Attack Range and {{ bonusad }} Attack Damage, and causing his Attacks to become piercing bolts for {{ duration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Skarner",
+   "term": "three-hit",
+   "ability": "Q",
+   "quote": "empowering his next 3 Attacks with {{ attackspeed*100 }}% Attack Speed and dealing {{ abilitydamage }} physical damage to surrounding enemies. His final Attack will deal an additional {{ maxhppercent*100 }}% max Health physical damage",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:TahmKench",
+   "term": "three-hit",
+   "ability": "Q",
+   "quote": "If that champion already had 3 stacks of An Acquired Taste, they will also be Stunned",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Talon",
+   "term": "three-hit",
+   "ability": "P",
+   "quote": "When Talon attacks a champion with 3 stacks of Wound, they bleed for heavy damage over time.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Thresh",
+   "term": "true-sight",
+   "ability": "Q",
+   "quote": "also grants True Sight for the duration",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:TwistedFate",
+   "term": "true-sight",
+   "ability": "R",
+   "quote": "granting True Sight of all enemy champions on the map",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Taliyah",
+   "term": "terrain",
+   "ability": "R",
+   "quote": "Taliyah creates a massive earthen wall",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Trundle",
+   "term": "terrain",
+   "ability": "E",
+   "quote": "Trundle creates an ice pillar at target location, becoming impassable terrain",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Shaco",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "Shaco briefly disappears, then reappears with a clone",
+   "sourceField": "tooltip",
+   "inGame": "Shaco is briefly Untargetable while he vanishes at the start of Hallucinate."
+  },
+  {
+   "entityId": "champion:TahmKench",
+   "term": "untargetable",
+   "ability": "W",
+   "quote": "Dive down and then re-appear at target location",
+   "sourceField": "tooltip",
+   "inGame": "Tahm Kench is Untargetable while submerged during Abyssal Dive."
+  },
+  {
+   "entityId": "champion:Tristana",
+   "term": "takedown-reset",
+   "ability": "W",
+   "quote": "Champion takedowns and max stack Explosive Charge detonations on champions refresh this Ability's Cooldown.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Talon",
+   "term": "takedown-reset",
+   "ability": "Q",
+   "quote": "If this Ability kills the target, Talon restores {{ totalhealing }} Health and refunds {{ cooldownrefund*100 }}% of its Cooldown.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Twitch",
+   "term": "takedown-reset",
+   "ability": "Q",
+   "quote": "When an enemy champion dies while afflicted with Venom, this Ability's Cooldown is refreshed.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Sett",
+   "term": "non-mana-resource",
+   "ability": "W",
+   "quote": "Sett passively stores damage he takes as Grit.",
+   "sourceField": "description",
+   "inGame": "Sett's resource bar is Grit."
+  },
+  {
+   "entityId": "champion:Shen",
+   "term": "non-mana-resource",
+   "ability": "E",
+   "quote": "recovers {{ energyrefund }} Energy",
+   "sourceField": "tooltip",
+   "inGame": "Shen's resource bar is Energy."
+  },
+  {
+   "entityId": "champion:Shyvana",
+   "term": "non-mana-resource",
+   "ability": "R",
+   "quote": "Shyvana generates {{ fury_generation }} Dragon Fury",
+   "sourceField": "tooltip",
+   "inGame": "Shyvana's resource bar is Fury."
+  },
+  {
+   "entityId": "champion:Tryndamere",
+   "term": "non-mana-resource",
+   "ability": "P",
+   "quote": "Tryndamere gains Fury for each attack, critical strike, and killing blow he makes.",
+   "sourceField": "description",
+   "inGame": "Tryndamere's resource bar is Fury."
+  },
+  {
+   "entityId": "champion:Sion",
+   "term": "death-defy",
+   "ability": "P",
+   "quote": "After being killed, Sion will temporarily reanimate with rapidly decaying Health.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Tryndamere",
+   "term": "death-defy",
+   "ability": "R",
+   "quote": "Tryndamere becomes completely immune to death",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Veigar",
+   "term": "infinite-scaling",
+   "ability": "P",
+   "quote": "Striking an enemy Champion with a spell or scoring a takedown grants Veigar permanently increased Ability Power.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Vayne",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Vayne gains {{ bonusattackdamage }} Attack Damage for {{ baseduration }} seconds",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Yunara",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Yunara enters a Transcendent State for {{ buff_duration }} seconds upgrading her basic Abilities for the duration.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Zilean",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Zilean grants a protective time rune to an allied champion for {{ rduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Zoe",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Zoe teleports to a nearby position for 1 second. Afterwards, she teleports back.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Vayne",
+   "term": "three-hit",
+   "ability": "W",
+   "quote": "Every third consecutive Attack or Ability against an enemy deals an additional {{ totaldamage }} max Health true damage.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Vi",
+   "term": "three-hit",
+   "ability": "W",
+   "quote": "Every 3rd Attack on the same target deals an additional {{ totaldamagetooltip }} max Health physical damage",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Velkoz",
+   "term": "three-hit",
+   "ability": "P",
+   "quote": "If 3 stacks are accumulated, the enemy will take a burst of true damage.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:XinZhao",
+   "term": "three-hit",
+   "ability": "P",
+   "quote": "Every third attack deals bonus damage and heals Xin Zhao.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Zyra",
+   "term": "true-sight",
+   "ability": "W",
+   "quote": "These Seeds grant True Sight of enemy champions that step on them",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Yorick",
+   "term": "terrain",
+   "ability": "W",
+   "quote": "Yorick summons a wall of spirits blocking enemies' path, but not allies'.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Vladimir",
+   "term": "untargetable",
+   "ability": "W",
+   "quote": "Vladimir sinks into a pool of blood, becoming untargetable for 2 seconds.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Xayah",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "Xayah leaps into the air becoming Untargetable and Ghosted for 1.5 seconds",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Yuumi",
+   "term": "untargetable",
+   "ability": "W",
+   "quote": "While Yuumi is Attached, she follows her partner's movement and is Untargetable except from towers.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Zed",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "Zed becomes Untargetable and dashes to an enemy champion, marking them.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Zilean",
+   "term": "untargetable",
+   "ability": "R",
+   "quote": "putting them into Stasis for {{ revivestateduration }} seconds",
+   "sourceField": "tooltip",
+   "inGame": "Zilean can cast Chronoshift on himself, so he enters Stasis on lethal damage."
+  },
+  {
+   "entityId": "champion:Vex",
+   "term": "takedown-reset",
+   "ability": "R",
+   "quote": "If the marked champion dies within {{ spell.vexr:takedownwindow }} seconds of taking damage from this Ability, its Cooldown is temporarily reset.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Zyra",
+   "term": "takedown-reset",
+   "ability": "W",
+   "quote": "Champion takedowns reduce the recharge time by {{ killammorefundchamp*100 }}% instead.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Yasuo",
+   "term": "non-mana-resource",
+   "ability": "R",
+   "quote": "Yasuo also gains maximum Flow",
+   "sourceField": "tooltip",
+   "inGame": "Flow"
+  },
+  {
+   "entityId": "champion:Zed",
+   "term": "non-mana-resource",
+   "ability": "W",
+   "quote": "Zed gains {{ energyrestoredoublehit }} Energy",
+   "sourceField": "tooltip",
+   "inGame": "Energy"
+  },
+  {
+   "entityId": "champion:Zac",
+   "term": "death-defy",
+   "ability": "P",
+   "quote": "If any bloblets remain, he will revive with an amount of Health depending on the Health of the surviving bloblets.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Zaahen",
+   "term": "death-defy",
+   "ability": "P",
+   "quote": "When filled with Determination, Zaahen gains increased Attack Damage and can revive.",
+   "sourceField": "description"
+  },
+  {
+   "entityId": "champion:Zilean",
+   "term": "death-defy",
+   "ability": "R",
+   "quote": "If the target would die, the rune rewinds their timeline",
+   "sourceField": "tooltip",
+   "inGame": "Zilean can cast Chronoshift on himself, reviving himself from lethal damage."
+  },
+  {
+   "entityId": "champion:Azir",
+   "term": "terrain",
+   "ability": "R",
+   "quote": "The soldiers remain, blocking enemy paths for {{ wallduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Camille",
+   "term": "terrain",
+   "ability": "R",
+   "quote": "locking them into an area they cannot escape by any means for {{ rduration }} seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Jayce",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Jayce transforms his weapon into the Mercury Cannon, gaining Attack Range and new Abilities.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Karma",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Karma empowers her next Ability used within 8 seconds.",
+   "sourceField": "tooltip"
+  },
+  {
+   "entityId": "champion:Heimerdinger",
+   "term": "zero-damage-ult",
+   "ability": "R",
+   "quote": "Heimerdinger upgrades his next non-ultimate Ability.",
+   "sourceField": "tooltip"
+  }
+ ],
+ "remove": [],
+ "notes": []
+}

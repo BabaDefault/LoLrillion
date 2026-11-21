@@ -73,6 +73,30 @@ describe("Template filters", () => {
     expect(set.sort()).toEqual(["champion:Vi", "champion:Zed"]);
   });
 
+  it("champion name length can set a minimum instead, still counting letters only", () => {
+    const set = answerSetOf(template({ kind: "champion-name-length", atLeast: 6 }, "champion"), fixtureInputs);
+    expect(set.sort()).toEqual(["champion:Tristana"]);
+  });
+
+  it("champion name patterns match the official name, ignoring case when asked", () => {
+    const apostrophe = answerSetOf(template({ kind: "champion-name-pattern", pattern: "'" }, "champion"), fixtureInputs);
+    expect(apostrophe).toEqual(["champion:Kaisa"]);
+    const doubled = answerSetOf(template({ kind: "champion-name-pattern", pattern: "(\\p{L})\\1", flags: "iu" }, "champion"), fixtureInputs);
+    expect(doubled.sort()).toEqual(["champion:Teemo", "champion:Yuumi"]);
+  });
+
+  it("curated traits select champions and items in the current data that carry the trait", () => {
+    const traits = [
+      { entityId: "champion:Tristana", trait: "uses-gun", why: "Boomer, her cannon." },
+      { entityId: "champion:Shaco", trait: "uses-gun", why: "Not in this snapshot." },
+      { entityId: "item:3111", trait: "named-after-person", why: "Mercury." },
+    ];
+    const inputs = { ...fixtureInputs, traits };
+    expect(answerSetOf(template({ kind: "trait", trait: "uses-gun" }, "champion"), inputs)).toEqual(["champion:Tristana"]);
+    expect(answerSetOf(template({ kind: "trait", trait: "named-after-person" }, "item"), inputs)).toEqual(["item:3111"]);
+    expect(answerSetOf(template({ kind: "trait", trait: "uses-gun" }, "champion"), fixtureInputs)).toEqual([]);
+  });
+
   it("champions with an approved mechanics label term; none when no labels are approved yet", () => {
     const labelled = template({ kind: "champion-label", term: "invisible" }, "champion");
     expect(answerSetOf(labelled, fixtureInputs)).toEqual([]);

@@ -1,0 +1,150 @@
+{
+  "templateId": "champions-non-mana-resource",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akali",
+    "champion:Ambessa",
+    "champion:Gnar",
+    "champion:Kennen",
+    "champion:Kled",
+    "champion:LeeSin",
+    "champion:Mordekaiser",
+    "champion:RekSai",
+    "champion:Renekton",
+    "champion:Rengar",
+    "champion:Rumble",
+    "champion:Sett",
+    "champion:Shen",
+    "champion:Shyvana",
+    "champion:Tryndamere",
+    "champion:Vladimir",
+    "champion:Yasuo",
+    "champion:Zed"
+  ],
+  "missing": [
+    {
+      "entity": "Aatrox",
+      "why": "Blood Well was removed in his 2018 rework; he has no resource bar now. Not missing."
+    },
+    {
+      "entity": "Yone",
+      "why": "Players may assume Flow like Yasuo, but Yone has no resource bar. Not missing."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Vladimir",
+      "why": "He pays Health for abilities; players may argue his Bloodthirst bar is a counter, not a resource."
+    },
+    {
+      "entity": "champion:Mordekaiser",
+      "why": "His bar shows stored Shield; players may argue it isn't a resource."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "champion:RekSai",
+      "alias": "Reksai",
+      "why": "Players drop the apostrophe; check it already normalises."
+    },
+    {
+      "entity": "champion:Shyvana",
+      "alias": "Shyvanna",
+      "why": "Common misspelling."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Energy ninjas come instantly, but Fury, Grit, Courage and Ferocity reward players who know resource bars; few will name all 16."
+  },
+  "typicality": {
+    "champion:Zed": {
+      "value": 0.55,
+      "why": "The archetypal Energy champion."
+    },
+    "champion:LeeSin": {
+      "value": 0.5,
+      "why": "Energy is iconic for Lee."
+    },
+    "champion:Akali": {
+      "value": 0.45,
+      "why": "Energy assassin, well known."
+    },
+    "champion:Shen": {
+      "value": 0.4,
+      "why": "Completes the Kinkou energy trio."
+    },
+    "champion:Kennen": {
+      "value": 0.35,
+      "why": "Often forgotten among the Kinkou but still common."
+    },
+    "champion:Tryndamere": {
+      "value": 0.35,
+      "why": "Fury bar driving his crit is well known."
+    },
+    "champion:Renekton": {
+      "value": 0.35,
+      "why": "Fury-empowered abilities are his identity."
+    },
+    "champion:Rumble": {
+      "value": 0.3,
+      "why": "Heat is named in the Prompt."
+    },
+    "champion:Yasuo": {
+      "value": 0.3,
+      "why": "Flow shield is widely known."
+    },
+    "champion:Gnar": {
+      "value": 0.3,
+      "why": "Rage bar transformation is iconic."
+    },
+    "champion:Rengar": {
+      "value": 0.25,
+      "why": "Ferocity is known to many."
+    },
+    "champion:Shyvana": {
+      "value": 0.2,
+      "why": "Fury for dragon form, moderately known."
+    },
+    "champion:Sett": {
+      "value": 0.17,
+      "why": "Grit is remembered as a W mechanic, not a bar."
+    },
+    "champion:Kled": {
+      "value": 0.17,
+      "why": "Courage is known by Kled fans."
+    },
+    "champion:RekSai": {
+      "value": 0.12,
+      "why": "Players often think she is simply manaless and forget Fury."
+    },
+    "champion:Ambessa": {
+      "value": 0.08,
+      "why": "Newer champion; her Energy is little known."
+    },
+    "champion:Vladimir": {
+      "value": 0.15,
+      "why": "Vlad players know the Bloodthirst bar; others think he just pays Health."
+    },
+    "champion:Mordekaiser": {
+      "value": 0.1,
+      "why": "His shield bar is seen every game but rarely thought of as a resource."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:RekSai",
+      "why": "Fury is easy to forget; 'oh, of course' when revealed. The suggested pick clears the threshold."
+    },
+    {
+      "entity": "champion:Sett",
+      "why": "Grit is a resource bar players see every game but rarely think of as one."
+    },
+    {
+      "entity": "champion:Ambessa",
+      "why": "Energy on a non-ninja is a fun surprise, though fewer players know her kit."
+    }
+  ]
+}

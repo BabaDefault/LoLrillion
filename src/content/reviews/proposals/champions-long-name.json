@@ -1,0 +1,106 @@
+{
+  "templateId": "champions-long-name",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:Blitzcrank",
+    "champion:Cassiopeia",
+    "champion:Fiddlesticks",
+    "champion:Heimerdinger",
+    "champion:MissFortune",
+    "champion:Mordekaiser",
+    "champion:Nunu",
+    "champion:Renata",
+    "champion:Tryndamere",
+    "champion:TwistedFate"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Near misses will feel bad under time pressure: Gangplank, Lissandra, Seraphine and Tahm Kench all have 9 letters; Jarvan IV has 8.",
+      "suggestion": "Count only the letters in the champion's official name, across every word (Twisted Fate has 11; Gangplank has 9, so it doesn't count)."
+    },
+    {
+      "why": "'Monkey King' (10 letters) is Wukong's well-known alternate name; the official name Wukong has 6.",
+      "suggestion": "Mention in the Rule that only the official name counts (Wukong, not Monkey King)."
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:Tryndamere",
+      "alias": "Trynda",
+      "why": "Common shortening not in aliases."
+    },
+    {
+      "entity": "champion:Heimerdinger",
+      "alias": "Heim",
+      "why": "Common short form alongside Heimer."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "Heimerdinger and Fiddlesticks are instant, and counting letters under time pressure is fiddly with frustrating 9-letter near misses; 11 answers gives a modest tail."
+  },
+  "typicality": {
+    "champion:Heimerdinger": {
+      "value": 0.55,
+      "why": "The archetypal long name."
+    },
+    "champion:Fiddlesticks": {
+      "value": 0.5,
+      "why": "Second-most obvious long name."
+    },
+    "champion:Mordekaiser": {
+      "value": 0.35,
+      "why": "Long and well known."
+    },
+    "champion:AurelionSol": {
+      "value": 0.3,
+      "why": "Long two-word name, often thought of."
+    },
+    "champion:TwistedFate": {
+      "value": 0.25,
+      "why": "Two-word names come up for those counting across words."
+    },
+    "champion:MissFortune": {
+      "value": 0.25,
+      "why": "Same as TF."
+    },
+    "champion:Blitzcrank": {
+      "value": 0.2,
+      "why": "Needs counting; exactly 10."
+    },
+    "champion:Cassiopeia": {
+      "value": 0.2,
+      "why": "Needs counting; exactly 10."
+    },
+    "champion:Tryndamere": {
+      "value": 0.15,
+      "why": "Usually 'Trynd'; exactly 10, easy to dismiss."
+    },
+    "champion:Nunu": {
+      "value": 0.15,
+      "why": "Thought of as 'Nunu' (4); the full name counts."
+    },
+    "champion:Renata": {
+      "value": 0.12,
+      "why": "Players say 'Renata' (6); the full name is needed."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Nunu",
+      "why": "Players think 'Nunu' is short; 'Nunu & Willump' has 11 letters, a great 'oh of course'. 0.15, bottom half."
+    },
+    {
+      "entity": "champion:Tryndamere",
+      "why": "Maintainer's suggestion holds: a 10-letter single word people call 'Trynd' and forget. 0.15, bottom half."
+    },
+    {
+      "entity": "champion:Cassiopeia",
+      "why": "Exactly 10, usually called 'Cass'; 0.2, bottom half."
+    }
+  ]
+}

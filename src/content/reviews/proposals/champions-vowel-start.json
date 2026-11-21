@@ -1,0 +1,172 @@
+{
+  "templateId": "champions-vowel-start",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:Ahri",
+    "champion:Akali",
+    "champion:Akshan",
+    "champion:Alistar",
+    "champion:Ambessa",
+    "champion:Amumu",
+    "champion:Anivia",
+    "champion:Annie",
+    "champion:Aphelios",
+    "champion:Ashe",
+    "champion:AurelionSol",
+    "champion:Aurora",
+    "champion:Azir",
+    "champion:Ekko",
+    "champion:Elise",
+    "champion:Evelynn",
+    "champion:Ezreal",
+    "champion:Illaoi",
+    "champion:Irelia",
+    "champion:Ivern",
+    "champion:Olaf",
+    "champion:Orianna",
+    "champion:Ornn",
+    "champion:Udyr",
+    "champion:Urgot"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Players will type Yasuo, Yone, Yorick, Yuumi or Yunara; the Rule excludes Y, but only players who read the Rule see that.",
+      "suggestion": "Name a champion whose name starts with A, E, I, O or U"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:Amumu",
+      "alias": "Mumu",
+      "why": "Common nickname."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "26 answers; everyone names Ahri or Ashe, few remember all the I, O and U champions."
+  },
+  "typicality": {
+    "champion:Ahri": {
+      "value": 0.45,
+      "why": "First A champion for many."
+    },
+    "champion:Ashe": {
+      "value": 0.45,
+      "why": "Classic starter champion."
+    },
+    "champion:Akali": {
+      "value": 0.35,
+      "why": "Popular A champion."
+    },
+    "champion:Aatrox": {
+      "value": 0.35,
+      "why": "Popular A champion."
+    },
+    "champion:Annie": {
+      "value": 0.35,
+      "why": "Classic starter champion."
+    },
+    "champion:Ezreal": {
+      "value": 0.3,
+      "why": "Most popular E champion."
+    },
+    "champion:Ekko": {
+      "value": 0.3,
+      "why": "Popular E champion."
+    },
+    "champion:Amumu": {
+      "value": 0.25,
+      "why": "Well known A."
+    },
+    "champion:Alistar": {
+      "value": 0.25,
+      "why": "Well known A."
+    },
+    "champion:Irelia": {
+      "value": 0.25,
+      "why": "Most known I champion."
+    },
+    "champion:Aphelios": {
+      "value": 0.2,
+      "why": "A, mid popularity."
+    },
+    "champion:Azir": {
+      "value": 0.2,
+      "why": "A, mid popularity."
+    },
+    "champion:Anivia": {
+      "value": 0.2,
+      "why": "A, older champion."
+    },
+    "champion:Evelynn": {
+      "value": 0.2,
+      "why": "E, well known."
+    },
+    "champion:Olaf": {
+      "value": 0.2,
+      "why": "Most known O."
+    },
+    "champion:Orianna": {
+      "value": 0.2,
+      "why": "Popular mid, O."
+    },
+    "champion:AurelionSol": {
+      "value": 0.18,
+      "why": "A, often thought of as 'ASol'."
+    },
+    "champion:Aurora": {
+      "value": 0.18,
+      "why": "Newer A champion."
+    },
+    "champion:Akshan": {
+      "value": 0.15,
+      "why": "Lower-play A."
+    },
+    "champion:Elise": {
+      "value": 0.15,
+      "why": "Lower-play E."
+    },
+    "champion:Illaoi": {
+      "value": 0.15,
+      "why": "I champion, mid awareness."
+    },
+    "champion:Ornn": {
+      "value": 0.12,
+      "why": "O, lower play."
+    },
+    "champion:Udyr": {
+      "value": 0.12,
+      "why": "U champions are rarely scanned."
+    },
+    "champion:Urgot": {
+      "value": 0.12,
+      "why": "U champions are rarely scanned."
+    },
+    "champion:Ambessa": {
+      "value": 0.1,
+      "why": "Newer A champion."
+    },
+    "champion:Ivern": {
+      "value": 0.08,
+      "why": "Low-play I champion."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Udyr",
+      "why": "Maintainer's suggestion holds: players dump A names and forget U. 0.12, bottom half."
+    },
+    {
+      "entity": "champion:Urgot",
+      "why": "The other U champion, equally forgotten; 0.12, bottom half."
+    },
+    {
+      "entity": "champion:Illaoi",
+      "why": "Well-known top laner rarely thought of for I; 0.15, bottom half."
+    }
+  ]
+}

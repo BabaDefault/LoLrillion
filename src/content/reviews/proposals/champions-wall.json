@@ -1,0 +1,76 @@
+{
+  "templateId": "champions-wall",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Anivia",
+    "champion:Azir",
+    "champion:Camille",
+    "champion:JarvanIV",
+    "champion:Ornn",
+    "champion:Taliyah",
+    "champion:Trundle",
+    "champion:Yorick"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Players will guess Veigar's Event Horizon (a cage that stuns) and Aurora's R (slows on the edge); the excludes don't name them.",
+      "suggestion": "Add to the excludes: 'cages that stun or slow rather than block (Veigar's Event Horizon, Aurora's ultimate)'."
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "ok",
+    "why": "Only 8 answers; Anivia, Jarvan IV and Taliyah are easy, but Yorick, Ornn and Camille are real finds."
+  },
+  "typicality": {
+    "champion:Anivia": {
+      "value": 0.7,
+      "why": "Crystallize is the canonical wall."
+    },
+    "champion:JarvanIV": {
+      "value": 0.5,
+      "why": "Cataclysm arena is famous."
+    },
+    "champion:Taliyah": {
+      "value": 0.45,
+      "why": "Weaver's Wall is a famous wall."
+    },
+    "champion:Trundle": {
+      "value": 0.35,
+      "why": "Pillar of Ice is well known."
+    },
+    "champion:Azir": {
+      "value": 0.2,
+      "why": "Emperor's Divide is known to mid players, not first."
+    },
+    "champion:Yorick": {
+      "value": 0.12,
+      "why": "Dark Procession's ring is easily forgotten as a wall."
+    },
+    "champion:Ornn": {
+      "value": 0.15,
+      "why": "Volcanic Rupture's pillar is often forgotten."
+    },
+    "champion:Camille": {
+      "value": 0.1,
+      "why": "Hextech Ultimatum is an arena, rarely thought of as a wall."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Yorick",
+      "why": "'Oh of course!': Dark Procession is a ring of spirits enemies can't walk through. About 0.12 now the Rule no longer names him."
+    },
+    {
+      "entity": "champion:Ornn",
+      "why": "His Q pillar is terrain he then smashes enemies into. About 0.15."
+    },
+    {
+      "entity": "champion:Camille",
+      "why": "Her ult arena is inescapable for the target; about 0.1."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "templateId": "champions-two-word-name",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:DrMundo",
+    "champion:JarvanIV",
+    "champion:LeeSin",
+    "champion:MasterYi",
+    "champion:MissFortune",
+    "champion:Renata",
+    "champion:TahmKench",
+    "champion:TwistedFate",
+    "champion:XinZhao"
+  ],
+  "typicality": {
+    "champion:LeeSin": 0.5,
+    "champion:MasterYi": 0.45,
+    "champion:MissFortune": 0.4,
+    "champion:TwistedFate": 0.4,
+    "champion:XinZhao": 0.3,
+    "champion:DrMundo": 0.25,
+    "champion:AurelionSol": 0.2,
+    "champion:JarvanIV": 0.2,
+    "champion:TahmKench": 0.18,
+    "champion:Renata": 0.1
+  },
+  "tooClever": [],
+  "gem": "champion:TahmKench"
+}

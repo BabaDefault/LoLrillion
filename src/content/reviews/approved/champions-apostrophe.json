@@ -1,0 +1,26 @@
+{
+  "templateId": "champions-apostrophe",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Belveth",
+    "champion:Chogath",
+    "champion:KSante",
+    "champion:Kaisa",
+    "champion:Khazix",
+    "champion:KogMaw",
+    "champion:RekSai",
+    "champion:Velkoz"
+  ],
+  "typicality": {
+    "champion:Chogath": 0.45,
+    "champion:Khazix": 0.45,
+    "champion:Kaisa": 0.45,
+    "champion:KogMaw": 0.35,
+    "champion:Velkoz": 0.28,
+    "champion:RekSai": 0.22,
+    "champion:Belveth": 0.22,
+    "champion:KSante": 0.15
+  },
+  "tooClever": [],
+  "gem": "champion:KSante"
+}

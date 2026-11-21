@@ -4,7 +4,9 @@ import { entityRegistry } from "@/content/game-data";
 import { gameDataSnapshot } from "@/content/game-data/snapshot-data";
 import templatesJson from "@/content/templates/templates.json";
 import { approvedLabels } from "@/content/labels";
+import { approvedTraits } from "@/content/traits";
 import { mechanicsTerm } from "@/labels";
+import { traitDefinition } from "@/traits";
 import { addDays, ESPORTS_ANSWER_TYPES } from "@/engine";
 import { readGuess } from "@/engine/resolve";
 import {
@@ -20,7 +22,7 @@ import {
 
 /** The committed content: real snapshots and Templates. */
 const templates = templatesJson as TemplateDefinition[];
-const inputs: BuilderInputs = { snapshot: gameDataSnapshot, esports: esportsSnapshot };
+const inputs: BuilderInputs = { snapshot: gameDataSnapshot, esports: esportsSnapshot, traits: approvedTraits };
 const template = (id: string) => templates.find((t) => t.id === id)!;
 const names = (ids: string[]) => {
   const byId = new Map(entityRegistry.map((e) => [e.id, e.name]));
@@ -38,6 +40,29 @@ describe("Templates on the committed data", () => {
       if (t.filter.kind !== "champion-label") continue;
       expect(t.rule, t.id).toBe(mechanicsTerm(t.filter.term)?.definition);
     }
+  });
+
+  it("trait Templates use a defined trait of their Answer Type and show its definition as the Rule", () => {
+    for (const t of templates) {
+      if (t.filter.kind !== "trait") continue;
+      const trait = traitDefinition(t.filter.trait);
+      expect(trait?.answerType, t.id).toBe(t.answerType);
+      expect(t.rule, t.id).toBe(trait?.definition);
+    }
+  });
+
+  it("name Templates read the official name: apostrophes, exact word count, letters anywhere, letter count across words", () => {
+    const withLabels = { ...inputs, labels: approvedLabels };
+    expect(names(answerSetOf(template("champions-apostrophe"), withLabels))).toEqual(expect.arrayContaining(["K'Sante", "Kai'Sa"]));
+    const twoWords = names(answerSetOf(template("champions-two-word-name"), withLabels));
+    expect(twoWords).toEqual(expect.arrayContaining(["Renata Glasc", "Dr. Mundo", "Jarvan IV"]));
+    expect(twoWords).not.toContain("Nunu & Willump");
+    expect(names(answerSetOf(template("champions-z-or-x"), withLabels))).toEqual(expect.arrayContaining(["Blitzcrank", "Malzahar", "Ezreal"]));
+    const long = names(answerSetOf(template("champions-long-name"), withLabels));
+    expect(long).toEqual(expect.arrayContaining(["Tryndamere", "Cassiopeia", "Twisted Fate"]));
+    expect(long).not.toContain("Wukong");
+    expect(names(answerSetOf(template("champions-vowel-start"), withLabels))).toEqual(expect.arrayContaining(["Udyr", "Urgot", "Olaf"]));
+    expect(names(answerSetOf(template("champions-double-letter"), withLabels))).toEqual(expect.arrayContaining(["Aatrox", "Kassadin", "Lee Sin"]));
   });
 
   it("champions with approved labels: Kai'Sa is invisible", () => {
@@ -66,17 +91,19 @@ describe("Templates on the committed data", () => {
     expect(added).toEqual({ "items-crit": ["Yun Tal Wildarrows"] });
   });
 
-  it("no lore Templates: kit labels, range, name length, item stats and build paths, skin names, esports, and combinations of them", () => {
+  it("no lore Templates: kit labels, range, names, item stats and build paths, skin names, esports, visual traits, and combinations of them", () => {
     const kinds = (f: TemplateFilter): string[] => (f.kind === "all" ? [f.kind, ...f.of.flatMap(kinds)] : [f.kind]);
     const used = new Set(templates.flatMap((t) => kinds(t.filter)));
     expect([...used].sort()).toEqual([
       "all",
       "champion-label",
       "champion-name-length",
+      "champion-name-pattern",
       "champion-range",
       "item-builds-from",
       "item-stat",
       "skin-name-word",
+      "trait",
       "worlds-winner",
     ]);
   });

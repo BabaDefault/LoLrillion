@@ -95,6 +95,11 @@ it uses fixed Tiers set from a familiarity database plus LLM assistance and a ma
   Stay within the rate limits by refreshing once per patch, not live.
 - Some attributes aren't in Data Dragon ("has a dash", global ult, stuns) —
   they come from approved mechanics labels (`/tag-patch`), each quoting the ability text.
+- Facts no data or ability text shows (wears a mask on the base skin, rides a mount, an item named after a
+  person, a one-syllable name) are curated Traits (`src/content/traits/approved.json`, definitions in
+  `src/traits`), each with a one-line reason. Visual traits only: lore facts (region, Yordle, royalty) stay out.
+- A new mechanics term needs every champion judged, not only changed ones:
+  `npm run labels:worklist -- --all --terms <id,...>`.
 - Snapshot data per puzzle (store the data version with the puzzle) so mid-day patches can't change answers.
 
 ## Puzzle generation
