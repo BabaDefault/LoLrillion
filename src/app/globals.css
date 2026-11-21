@@ -1011,6 +1011,23 @@ button.cta-inline {
 .poro-gem { --poro-fur: var(--poro-gem-fur); --poro-shade: var(--poro-gem-shade); }
 .poro-miss { --poro-fur: var(--poro-miss-fur); --poro-shade: var(--poro-miss-shade); }
 
+/* A still Tier poro inline with list text (end screen, stats) */
+.poro-icon {
+  display: inline-block;
+  vertical-align: -0.2em;
+  margin-right: var(--space-1);
+}
+
+.poro-icon-art {
+  display: block;
+  width: calc(var(--space-6) + var(--space-1));
+  height: auto;
+}
+
+.poro-gem .poro-icon-art {
+  filter: drop-shadow(0 0 var(--space-1) var(--tone-gem));
+}
+
 @keyframes poro-drop {
   0% {
     opacity: 0;

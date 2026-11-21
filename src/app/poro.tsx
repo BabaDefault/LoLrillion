@@ -90,3 +90,12 @@ export function TierPoro({ tone, cell }: { tone: TierTone; cell: number }) {
     </span>
   );
 }
+
+/** A small, still Tier poro for lists (end screen, stats), sized to the text. Decorative. */
+export function PoroIcon({ tone }: { tone: TierTone }) {
+  return (
+    <span className={`poro-icon poro-${tone}`} aria-hidden="true">
+      <PixelArt rows={tone === "miss" ? PORO_MISS : PORO} cell={1} className="poro-icon-art" palette={PORO_COLOURS} />
+    </span>
+  );
+}

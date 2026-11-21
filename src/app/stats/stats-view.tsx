@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MISS_EMOJI, TIER_EMOJI, TIER_NAMES, type PersonalStats, type Tier } from "@/engine";
+import { TIER_NAMES, type PersonalStats, type Tier } from "@/engine";
+import { PoroIcon } from "../poro";
 import { Empty, ErrorState, Loading } from "../status";
 import { tierTone } from "../tier-tone";
 
@@ -59,13 +60,15 @@ export function StatsView() {
           {TIERS.map((tier) => (
             <li key={tier} className={`tone-${tierTone(tier)}`}>
               <span>
-                {TIER_EMOJI[tier]} {TIER_NAMES[tier]}
+                <PoroIcon tone={tierTone(tier)} /> {TIER_NAMES[tier]}
               </span>
               <span className="num">{stats.tierCounts[tier]}</span>
             </li>
           ))}
           <li className="tone-miss">
-            <span>{MISS_EMOJI} Miss</span>
+            <span>
+              <PoroIcon tone="miss" /> Miss
+            </span>
             <span className="num">{stats.tierCounts.miss}</span>
           </li>
         </ul>

@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ANSWER_TYPE_LABEL, shareLine, TIER_EMOJI, TIER_NAMES } from "@/engine";
+import { ANSWER_TYPE_LABEL, shareLine, TIER_NAMES } from "@/engine";
 import type { AnswerSetEntryView, PuzzleResultsView, ResultsResponse } from "@/server/game-service";
+import { PoroIcon } from "./poro";
 import { ErrorState, Loading } from "./status";
 import { tierTone } from "./tier-tone";
 
@@ -178,12 +179,12 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
             >
               {prompt.result.status === "accepted" ? (
                 <>
-                  {TIER_EMOJI[prompt.result.tier]} {prompt.result.entityName}: {TIER_NAMES[prompt.result.tier]}{" "}
+                  <PoroIcon tone={tierTone(prompt.result.tier)} /> {prompt.result.entityName}: {TIER_NAMES[prompt.result.tier]}{" "}
                   <span className="num">(+{prompt.result.points})</span>
                 </>
               ) : (
                 <>
-                  ⬛ Miss <span className="num">(+0)</span>
+                  <PoroIcon tone="miss" /> Miss <span className="num">(+0)</span>
                 </>
               )}
             </p>
@@ -194,7 +195,7 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
               return (
                 <li key={entry.entityId} className={`tone-${tierTone(entry.tier)}${entry.gem ? " gem" : ""}${yours ? " yours" : ""}`}>
                   <span>
-                    {TIER_EMOJI[entry.tier]} {entry.name}
+                    <PoroIcon tone={tierTone(entry.tier)} /> {entry.name}
                     {entry.gem && <span className="gem-label"> Gem</span>}
                   </span>
                   <span className="muted">
