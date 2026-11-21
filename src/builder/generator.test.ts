@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { addDays, type AnswerType, type Tier } from "@/engine";
-import { generatePuzzles, type BuiltPrompt, type GenerateInput } from "./index";
+import { generatePuzzles, PROMPTS_PER_PUZZLE, type BuiltPrompt, type GenerateInput } from "./index";
 
 /** A built Prompt with `size` answers, `rare` of them Triple Kill or better. */
 function prompt(templateId: string, answerType: AnswerType, size = 20, rare = 6): BuiltPrompt {
@@ -44,14 +44,13 @@ describe("Puzzle generator", () => {
     expect(ids(puzzle).sort()).toEqual(onlyGood.map((p) => p.templateId).sort());
   });
 
-  it("mixes Answer Types: no more than four Prompts of one type", () => {
-    for (const day of ["2026-11-20", "2026-11-21", "2026-11-22", "2026-11-23"]) {
-      const [puzzle] = generatePuzzles({ ...base, dates: [day] });
-      const counts = new Map<string, number>();
-      for (const p of puzzle.prompts) counts.set(p.answerType, (counts.get(p.answerType) ?? 0) + 1);
-      expect(Math.max(...counts.values())).toBeLessThanOrEqual(4);
-      expect(counts.size).toBeGreaterThanOrEqual(2);
-    }
+  it("puts no cap on Prompts of one Answer Type, so a Puzzle can be all Champions", () => {
+    const champions = pool.filter((p) => p.answerType === "champion");
+    const items = pool.filter((p) => p.answerType === "item");
+    // Every Item ran yesterday, so only Champions are eligible today.
+    const history = { "2026-11-19": items.map((p) => p.templateId) };
+    const [puzzle] = generatePuzzles({ ...base, prompts: [...champions, ...items], history, noRepeatDays: 1 });
+    expect(puzzle.prompts.map((p) => p.answerType)).toEqual(Array(PROMPTS_PER_PUZZLE).fill("champion"));
   });
 
   it("puts at most one esports Prompt in a Puzzle", () => {

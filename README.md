@@ -143,7 +143,7 @@ npm run puzzles:build -- --include-unreviewed     # opt in: also use Templates w
 ```
 
 By default only Templates with an approved review file in `src/content/reviews/approved/` are eligible, so
-until at least seven are approved (within the generator's per-Answer-Type limits) a build of new days fails
+until at least seven are approved (within the generator's esports and Family limits) a build of new days fails
 with a "not enough Prompts" error. `--include-unreviewed` restores the old behaviour of drawing from every
 Template (unreviewed ones use the Builder's defaults).
 Already-generated dated Puzzles in `src/content/puzzles/` are never rewritten (unless `--force`), so a live

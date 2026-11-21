@@ -3,14 +3,16 @@ import type { BuiltPrompt } from "./types";
 
 export const PROMPTS_PER_PUZZLE = 7;
 
-/** Default generator constraints (spec: Answer Sets of about 8-100, a few rare answers, a type mix, one esports Prompt at most). */
+/**
+ * Default generator constraints (spec: Answer Sets of about 8-100, a few rare answers, one esports
+ * Prompt at most). There is no cap per Answer Type: the mix is left to chance so a Puzzle has no
+ * fixed shape players could learn.
+ */
 export const GENERATOR_DEFAULTS = {
   minAnswers: 8,
   maxAnswers: 100,
   /** At least this many answers at Triple Kill or better (the Gem counts). */
   minRareAnswers: 3,
-  /** At most this many Prompts of one Answer Type, so every Puzzle mixes types. */
-  maxPerAnswerType: 4,
   /** At most this many esports Prompts (Pro Player), since many players don't follow pro play. */
   maxEsports: 1,
   /**
@@ -59,7 +61,6 @@ export interface GenerateInput {
   minAnswers?: number;
   maxAnswers?: number;
   minRareAnswers?: number;
-  maxPerAnswerType?: number;
   maxEsports?: number;
 }
 
@@ -136,7 +137,7 @@ function pick(
   );
 }
 
-/** Greedily take the stalest Templates that fit the type, esports and family limits. */
+/** Greedily take the stalest Templates that fit the esports and family limits. */
 function choose(
   eligible: readonly BuiltPrompt[],
   staleness: (templateId: string) => number,
@@ -153,19 +154,15 @@ function choose(
     .map(({ p }) => p);
 
   const chosen: BuiltPrompt[] = [];
-  const perType = new Map<string, number>();
   const familiesToday = new Set<string>();
   let esports = 0;
   for (const p of ranked) {
     if (chosen.length === PROMPTS_PER_PUZZLE) break;
-    const count = perType.get(p.answerType) ?? 0;
-    if (count >= options.maxPerAnswerType) continue;
     const families = familiesOf(p.templateId);
     if (families.some((f) => familiesToday.has(f))) continue;
     const isEsports = ESPORTS_ANSWER_TYPES.has(p.answerType);
     if (isEsports && esports >= options.maxEsports) continue;
     if (isEsports) esports++;
-    perType.set(p.answerType, count + 1);
     families.forEach((f) => familiesToday.add(f));
     chosen.push(p);
   }
@@ -179,9 +176,8 @@ function lookup(byId: ReadonlyMap<string, BuiltPrompt>, id: string, day: string)
 }
 
 function definedOnly(input: GenerateInput): Partial<typeof GENERATOR_DEFAULTS> {
-  const { noRepeatDays, familyCreditDays, jitterDays, minAnswers, maxAnswers, minRareAnswers, maxPerAnswerType, maxEsports } =
-    input;
-  const all = { noRepeatDays, familyCreditDays, jitterDays, minAnswers, maxAnswers, minRareAnswers, maxPerAnswerType, maxEsports };
+  const { noRepeatDays, familyCreditDays, jitterDays, minAnswers, maxAnswers, minRareAnswers, maxEsports } = input;
+  const all = { noRepeatDays, familyCreditDays, jitterDays, minAnswers, maxAnswers, minRareAnswers, maxEsports };
   return Object.fromEntries(Object.entries(all).filter(([, v]) => v !== undefined));
 }
 

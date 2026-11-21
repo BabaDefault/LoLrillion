@@ -106,7 +106,8 @@ it uses fixed Tiers set from a familiarity database plus LLM assistance and a ma
 - Prompt *templates* = filter functions over the data snapshot, e.g. `champions labelled dash`,
   `items with tag=SpellBlock`, `skins in line=Star Guardian`, `Worlds-winning players from LCK`.
 - Generator picks 7 templates/day with constraints: answer-set size in a good range (≈8–100),
-  category mix (**at most 1 esports prompt per day**; many players don't follow pro play),
+  **at most 1 esports prompt per day** (many players don't follow pro play), with the Answer Type mix
+  otherwise left to chance so a Puzzle has no fixed shape,
   no repeat of a template within N days. Pre-generate a week ahead; allow manual override.
 - Answer normalization: see **Answer accuracy** below.
 
@@ -227,7 +228,7 @@ never runs while people are playing. Every output is a *suggestion with evidence
   - a template's answers only change when a patch does, so after `/tag-patch` a script diffs every template's
     answer set and puts only the **changed** ones back in the review queue;
   - the generator checks every day's puzzle automatically: answer-set size in range, at least a few
-    genuinely rare answers (Triple Kill or above), category mix, no recent repeats.
+    genuinely rare answers (Triple Kill or above), at most one esports Prompt, no recent repeats.
 - `/triage` (optional, v1.1): Claude Code sorts player reports and unmatched answers into the five failure types,
   with evidence. At friends-scale you can also just read them yourself on the admin page.
 

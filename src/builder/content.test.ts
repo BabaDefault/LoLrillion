@@ -190,7 +190,7 @@ describe("generator on the committed Templates", () => {
   const prompts = templates.map((t) => buildPrompt(t, { ...inputs, labels: approvedLabels }));
   const days = Array.from({ length: 28 }, (_, i) => addDays("2027-01-01", i));
 
-  it("fills four weeks of Puzzles: Answer Set sizes, rare answers and Answer Type mix", () => {
+  it("fills four weeks of Puzzles: Answer Set sizes, rare answers and the esports limit", () => {
     const puzzles = generatePuzzles({
       dates: days,
       prompts,
@@ -201,19 +201,13 @@ describe("generator on the committed Templates", () => {
     expect(puzzles.map((p) => p.puzzleDay)).toEqual(days);
     for (const puzzle of puzzles) {
       expect(puzzle.prompts, puzzle.puzzleDay).toHaveLength(PROMPTS_PER_PUZZLE);
-      const perType = new Map<string, number>();
       for (const p of puzzle.prompts) {
-        perType.set(p.answerType, (perType.get(p.answerType) ?? 0) + 1);
         const size = Object.keys(p.answerSet).length;
         expect(size, p.templateId).toBeGreaterThanOrEqual(GENERATOR_DEFAULTS.minAnswers);
         expect(size, p.templateId).toBeLessThanOrEqual(GENERATOR_DEFAULTS.maxAnswers);
         const rare = Object.values(p.answerSet).filter((t) => ["triple-kill", "quadra-kill", "pentakill"].includes(t));
         expect(rare.length, p.templateId).toBeGreaterThanOrEqual(GENERATOR_DEFAULTS.minRareAnswers);
       }
-      for (const [type, count] of perType) {
-        expect(count, `${puzzle.puzzleDay} ${type}`).toBeLessThanOrEqual(GENERATOR_DEFAULTS.maxPerAnswerType);
-      }
-      expect(perType.size, puzzle.puzzleDay).toBeGreaterThan(1);
       const esports = puzzle.prompts.filter((p) => ESPORTS_ANSWER_TYPES.has(p.answerType));
       expect(esports.length, puzzle.puzzleDay).toBeLessThanOrEqual(GENERATOR_DEFAULTS.maxEsports);
     }
