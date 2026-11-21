@@ -500,6 +500,7 @@ button.chip:hover:not(:disabled) {
 
 .chip.active,
 .chip[aria-pressed="true"],
+.chip[aria-current="page"],
 button.chip.active:hover {
   border-color: var(--highlight);
   color: var(--highlight);
@@ -1094,6 +1095,61 @@ button.cta-inline {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* ==========================================================================
+   Admin dashboard (/admin): Answer Sets, pick counts and Rejected Guesses
+   ========================================================================== */
+.admin {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.admin-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.admin-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.admin-days .chip {
+  text-decoration: none;
+}
+
+.admin-today {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.admin-rejected {
+  margin-top: var(--space-3);
+}
+
+.admin-rejected summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.admin-flag {
+  color: var(--action-text);
+}
+
+.answer-set li.admin-missing {
+  border-left-color: var(--action);
+}
+
+.admin-login form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 /* ==========================================================================

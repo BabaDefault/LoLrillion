@@ -98,6 +98,11 @@ export function getGameService(): GameService {
   return globalForGame.lolrillionGame;
 }
 
+/** The play store, for the admin dashboard's read of logged Attempts. */
+export function getPlayStore(): PlayStore {
+  return stores().plays;
+}
+
 export function getLeaderboardService(): LeaderboardService {
   globalForGame.lolrillionLeaderboards ??= createLeaderboardService({
     clock: clock(),

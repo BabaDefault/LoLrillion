@@ -56,6 +56,8 @@ export interface PlayStore extends AnswerCountSource {
   getOfferedCandidates(key: PlayKey, promptIndex: number): Promise<EntityId[]>;
   /** Log an Attempt and its result, for finding missing answers and Aliases. */
   logAttempt(entry: AttemptLogEntry): Promise<void>;
+  /** Every Attempt logged for a Puzzle Day, live and archive, oldest first (the admin dashboard). */
+  getAttempts(puzzleDay: string): Promise<AttemptLogEntry[]>;
   /**
    * Answer Share counts (from AnswerCountSource): per Prompt, how many players' Accepted Guess
    * was each Entity, and how many players played today. Archive plays are not counted.

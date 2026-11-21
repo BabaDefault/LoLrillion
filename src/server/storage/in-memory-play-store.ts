@@ -58,6 +58,10 @@ export class InMemoryPlayStore implements PlayStore {
     this.attempts.push(entry);
   }
 
+  async getAttempts(puzzleDay: string): Promise<AttemptLogEntry[]> {
+    return this.attempts.filter((a) => a.puzzleDay === puzzleDay).sort((a, b) => a.at - b.at);
+  }
+
   async getAnswerCounts(puzzleDay: string, promptCount: number): Promise<AnswerCounts> {
     const players = new Set<string>();
     for (const { key } of this.plays.values()) {

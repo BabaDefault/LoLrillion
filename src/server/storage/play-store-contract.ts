@@ -30,6 +30,48 @@ export function describePlayStoreContract(name: string, makeStore: () => PlaySto
       await store.updatePromptPlay(key, promptIndex, next);
     }
 
+    it("returns a day's logged Attempts, live and archive, oldest first, and no other day's", async () => {
+      const store = makeStore();
+      const day = freshDay();
+      const live = { deviceId: device("log-live"), puzzleDay: day, archive: false };
+      const early = { deviceId: device("log-early"), puzzleDay: day, archive: true };
+      await store.logAttempt({
+        ...live,
+        promptIndex: 0,
+        guess: "Zac",
+        result: { kind: "rejected", reason: "not-in-answer-set" },
+        at: T0,
+      });
+      await store.logAttempt({
+        ...early,
+        promptIndex: 1,
+        guess: "kasadin",
+        confirmedEntityId: "champion:Kassadin",
+        result: accepted("champion:Kassadin", 100),
+        at: T0 + 1_000,
+      });
+      await store.logAttempt({
+        ...live,
+        puzzleDay: freshDay(),
+        promptIndex: 0,
+        guess: "Other day",
+        result: { kind: "rejected", reason: "no-match" },
+        at: T0,
+      });
+
+      expect(await store.getAttempts(day)).toEqual([
+        { ...live, promptIndex: 0, guess: "Zac", result: { kind: "rejected", reason: "not-in-answer-set" }, at: T0 },
+        {
+          ...early,
+          promptIndex: 1,
+          guess: "kasadin",
+          confirmedEntityId: "champion:Kassadin",
+          result: accepted("champion:Kassadin", 100),
+          at: T0 + 1_000,
+        },
+      ]);
+    });
+
     it("keeps the first window-open time when a Prompt is started twice (reload)", async () => {
       const store = makeStore();
       const key = { deviceId: device("reload"), puzzleDay: freshDay(), archive: false };

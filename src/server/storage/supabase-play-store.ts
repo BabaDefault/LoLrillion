@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { closedWindowsOpenedBy, type EntityId, type PromptPlay, type Tier } from "@/engine";
+import { closedWindowsOpenedBy, type AttemptResult, type EntityId, type PromptPlay, type Tier } from "@/engine";
 import type { AnswerCounts } from "./answer-counts";
 import type { AttemptLogEntry, DevicePlay, PlayKey, PlayStore } from "./play-store";
 
@@ -27,6 +27,20 @@ function toPromptPlay(row: PromptPlayRow): PromptPlay {
             points: row.points,
           },
   };
+}
+
+/** Supabase returns at most 1000 rows per request. */
+const ATTEMPTS_PAGE = 1000;
+
+interface AttemptRow {
+  puzzle_day: string;
+  prompt_index: number;
+  is_archive: boolean;
+  guess: string | null;
+  confirmed_entity_id: string | null;
+  detail: AttemptResult;
+  attempted_at: string;
+  players: { device_id: string };
 }
 
 function check<T>(res: { data: T; error: { message: string } | null }, what: string): T {
@@ -128,6 +142,34 @@ export class SupabasePlayStore implements PlayStore {
       }),
       "logAttempt",
     );
+  }
+
+  async getAttempts(puzzleDay: string): Promise<AttemptLogEntry[]> {
+    const rows: AttemptRow[] = [];
+    for (let from = 0; ; from += ATTEMPTS_PAGE) {
+      const page = check(
+        await this.db
+          .from("attempts")
+          .select("puzzle_day, prompt_index, is_archive, guess, confirmed_entity_id, detail, attempted_at, players!inner(device_id)")
+          .eq("puzzle_day", puzzleDay)
+          .order("attempted_at")
+          .order("id")
+          .range(from, from + ATTEMPTS_PAGE - 1),
+        "getAttempts",
+      ) as unknown as AttemptRow[];
+      rows.push(...page);
+      if (page.length < ATTEMPTS_PAGE) break;
+    }
+    return rows.map((r) => ({
+      deviceId: r.players.device_id,
+      puzzleDay: r.puzzle_day,
+      archive: r.is_archive,
+      promptIndex: r.prompt_index,
+      guess: r.guess,
+      ...(r.confirmed_entity_id ? { confirmedEntityId: r.confirmed_entity_id } : {}),
+      result: r.detail,
+      at: Date.parse(r.attempted_at),
+    }));
   }
 
   async addOfferedCandidates(key: PlayKey, promptIndex: number, entityIds: readonly EntityId[]): Promise<void> {
