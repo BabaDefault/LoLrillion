@@ -1,0 +1,28 @@
+{
+  "templateId": "champions-pull-stun",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:KSante",
+    "champion:Nautilus",
+    "champion:Pyke",
+    "champion:Rell",
+    "champion:Sett",
+    "champion:Skarner",
+    "champion:Thresh",
+    "champion:Urgot"
+  ],
+  "typicality": {
+    "champion:Thresh": 0.5,
+    "champion:Nautilus": 0.45,
+    "champion:Pyke": 0.4,
+    "champion:Sett": 0.3,
+    "champion:Skarner": 0.2,
+    "champion:Urgot": 0.15,
+    "champion:Rell": 0.1,
+    "champion:KSante": 0.08,
+    "champion:AurelionSol": 0.05
+  },
+  "tooClever": [],
+  "gem": "champion:Urgot"
+}

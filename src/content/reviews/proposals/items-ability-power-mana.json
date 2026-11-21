@@ -1,0 +1,85 @@
+{
+  "templateId": "items-ability-power-mana",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2503",
+    "item:2522",
+    "item:3003",
+    "item:3040",
+    "item:3118",
+    "item:3802",
+    "item:6655",
+    "item:6657"
+  ],
+  "missing": [
+    {
+      "entity": "Catalyst of Aeons",
+      "why": "Rod of Ages' component; players assume it has AP but its stats are Health and Mana. Rule-correct out."
+    },
+    {
+      "entity": "Muramana",
+      "why": "The AD Tear line (Manamune, Muramana) has Mana but AD, not AP. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3040",
+      "why": "Transformed from Archangel's Staff, not bought directly; some will say it isn't a shop item (same as items-mana)."
+    }
+  ],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "ok",
+    "why": "Only 8 answers and the mage Tear items are obvious, but Blackfire Torch, Malignance and Actualizer make completing it hard."
+  },
+  "typicality": {
+    "item:3003": {
+      "value": 0.45,
+      "why": "The AP Tear item; first thought for most."
+    },
+    "item:6655": {
+      "value": 0.35,
+      "why": "Mage staple with Mana."
+    },
+    "item:6657": {
+      "value": 0.35,
+      "why": "Scaling AP and Mana item."
+    },
+    "item:3802": {
+      "value": 0.25,
+      "why": "Common mage component."
+    },
+    "item:3040": {
+      "value": 0.18,
+      "why": "Archangel's upgrade; remembered after Archangel's."
+    },
+    "item:3118": {
+      "value": 0.18,
+      "why": "Ult-haste mage item; its Mana is less known."
+    },
+    "item:2503": {
+      "value": 0.15,
+      "why": "Burn mage item; Mana often forgotten."
+    },
+    "item:2522": {
+      "value": 0.04,
+      "why": "Newer item; few know it."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:2503",
+      "why": "Mage players know the Torch; its Mana lands as an \"oh, of course\"."
+    },
+    {
+      "entity": "item:3118",
+      "why": "Mage players get it; others smile at the reveal."
+    },
+    {
+      "entity": "item:3040",
+      "why": "The finished Archangel's; obvious once revealed."
+    }
+  ]
+}

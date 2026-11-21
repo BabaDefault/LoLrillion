@@ -1,0 +1,30 @@
+{
+  "templateId": "items-attack-speed-move-speed",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2512",
+    "item:3006",
+    "item:3046",
+    "item:3085",
+    "item:3086",
+    "item:3087",
+    "item:3094",
+    "item:3172",
+    "item:6672",
+    "item:6675"
+  ],
+  "typicality": {
+    "item:3006": 0.45,
+    "item:3046": 0.4,
+    "item:3086": 0.35,
+    "item:3094": 0.25,
+    "item:3085": 0.2,
+    "item:6675": 0.12,
+    "item:3087": 0.12,
+    "item:6672": 0.08,
+    "item:3172": 0.04,
+    "item:2512": 0.03
+  },
+  "tooClever": [],
+  "gem": "item:3087"
+}

@@ -1,0 +1,38 @@
+{
+  "templateId": "champions-invisible-dash",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akali",
+    "champion:Akshan",
+    "champion:Aurora",
+    "champion:Evelynn",
+    "champion:Kaisa",
+    "champion:Khazix",
+    "champion:Leblanc",
+    "champion:MonkeyKing",
+    "champion:Pyke",
+    "champion:Qiyana",
+    "champion:Rengar",
+    "champion:Talon",
+    "champion:Vayne",
+    "champion:Viego"
+  ],
+  "typicality": {
+    "champion:Vayne": 0.4,
+    "champion:Khazix": 0.4,
+    "champion:Akali": 0.35,
+    "champion:Rengar": 0.35,
+    "champion:Talon": 0.3,
+    "champion:Evelynn": 0.25,
+    "champion:Pyke": 0.2,
+    "champion:Leblanc": 0.15,
+    "champion:MonkeyKing": 0.15,
+    "champion:Akshan": 0.15,
+    "champion:Qiyana": 0.1,
+    "champion:Kaisa": 0.1,
+    "champion:Aurora": 0.05,
+    "champion:Viego": 0.05
+  },
+  "tooClever": [],
+  "gem": "champion:MonkeyKing"
+}

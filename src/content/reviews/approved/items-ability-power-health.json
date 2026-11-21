@@ -1,0 +1,42 @@
+{
+  "templateId": "items-ability-power-health",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1056",
+    "item:1082",
+    "item:2510",
+    "item:3041",
+    "item:3112",
+    "item:3116",
+    "item:3147",
+    "item:3152",
+    "item:3165",
+    "item:4629",
+    "item:4633",
+    "item:6617",
+    "item:6620",
+    "item:6653",
+    "item:6657",
+    "item:8010"
+  ],
+  "typicality": {
+    "item:3116": 0.35,
+    "item:6657": 0.35,
+    "item:4633": 0.3,
+    "item:6653": 0.3,
+    "item:3152": 0.25,
+    "item:1056": 0.15,
+    "item:3165": 0.12,
+    "item:4629": 0.1,
+    "item:3147": 0.08,
+    "item:8010": 0.06,
+    "item:1082": 0.06,
+    "item:3041": 0.05,
+    "item:2510": 0.04,
+    "item:6617": 0.02,
+    "item:6620": 0.02,
+    "item:3112": 0.02
+  },
+  "tooClever": [],
+  "gem": "item:1082"
+}

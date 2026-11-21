@@ -1,0 +1,144 @@
+{
+  "templateId": "items-ability-power-health",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1056",
+    "item:1082",
+    "item:2510",
+    "item:3041",
+    "item:3112",
+    "item:3116",
+    "item:3147",
+    "item:3152",
+    "item:3165",
+    "item:4629",
+    "item:4633",
+    "item:6617",
+    "item:6620",
+    "item:6653",
+    "item:6657",
+    "item:8010"
+  ],
+  "missing": [
+    {
+      "entity": "Abyssal Mask",
+      "why": "Was an AP item (Abyssal Scepter lineage) for years; current stats are Health, Magic Resist and Ability Haste. Rule-correct out."
+    },
+    {
+      "entity": "Zhonya's Hourglass",
+      "why": "Defensive AP item players assume is bulky; it has Armor, not Health. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3112",
+      "why": "Guardian's Orb is an ARAM-style starter; players may say it isn't an SR item. It is in the shop data, so it is in (same as earlier item reviews)."
+    },
+    {
+      "entity": "item:2510",
+      "why": "Dusk and Dawn is Arena-origin; many players think it isn't on SR."
+    },
+    {
+      "entity": "item:1082",
+      "why": "Players think of Dark Seal as AP only; its 50 Health surprises them, but it is in."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:3152",
+      "alias": "Belt",
+      "why": "Short form some players use."
+    },
+    {
+      "entity": "item:3147",
+      "alias": "Guise",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Battlemage players reel off Rylai's, Rod of Ages, Riftmaker and Liandry's; few remember the starters, support items and Haunting Guise."
+  },
+  "typicality": {
+    "item:3116": {
+      "value": 0.35,
+      "why": "The bulky AP slow item; first thought for many."
+    },
+    "item:6657": {
+      "value": 0.35,
+      "why": "The scaling Health and AP item."
+    },
+    "item:4633": {
+      "value": 0.3,
+      "why": "Battlemage staple with Health."
+    },
+    "item:6653": {
+      "value": 0.3,
+      "why": "Common burn item; its Health is remembered."
+    },
+    "item:3152": {
+      "value": 0.25,
+      "why": "AP assassin item; its Health is known."
+    },
+    "item:1056": {
+      "value": 0.15,
+      "why": "Mid starter; many know it gives Health."
+    },
+    "item:3165": {
+      "value": 0.12,
+      "why": "Anti-heal item; Health often forgotten."
+    },
+    "item:4629": {
+      "value": 0.1,
+      "why": "Newer battlemage item."
+    },
+    "item:3147": {
+      "value": 0.08,
+      "why": "Liandry's component; some remember it."
+    },
+    "item:8010": {
+      "value": 0.06,
+      "why": "Newer tank-mage item; few name it."
+    },
+    "item:1082": {
+      "value": 0.06,
+      "why": "Thought of as AP only."
+    },
+    "item:3041": {
+      "value": 0.05,
+      "why": "Same as Dark Seal."
+    },
+    "item:2510": {
+      "value": 0.04,
+      "why": "Arena-origin; few know it is on SR."
+    },
+    "item:6617": {
+      "value": 0.02,
+      "why": "Enchanter item; rarely first."
+    },
+    "item:6620": {
+      "value": 0.02,
+      "why": "Enchanter item; rarely first."
+    },
+    "item:3112": {
+      "value": 0.02,
+      "why": "ARAM-style starter; almost nobody."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:1082",
+      "why": "Everyone has bought Dark Seal; its Health is an \"oh, of course\" on reveal."
+    },
+    {
+      "entity": "item:3147",
+      "why": "Liandry's component with clear Health; mage players find it."
+    },
+    {
+      "entity": "item:8010",
+      "why": "Tank-mage item; those who build it get it, others nod at the reveal."
+    }
+  ]
+}

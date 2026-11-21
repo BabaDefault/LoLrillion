@@ -91,7 +91,7 @@ describe("Templates on the committed data", () => {
     expect(added).toEqual({ "items-crit": ["Yun Tal Wildarrows"] });
   });
 
-  it("no lore Templates: kit labels, range, names, item stats and build paths, skin names, esports, visual traits, and combinations of them", () => {
+  it("no lore Templates: kit labels, range, names, item stats, skin names, esports, visual traits, and combinations of them", () => {
     const kinds = (f: TemplateFilter): string[] => (f.kind === "all" ? [f.kind, ...f.of.flatMap(kinds)] : [f.kind]);
     const used = new Set(templates.flatMap((t) => kinds(t.filter)));
     expect([...used].sort()).toEqual([
@@ -100,7 +100,6 @@ describe("Templates on the committed data", () => {
       "champion-name-length",
       "champion-name-pattern",
       "champion-range",
-      "item-builds-from",
       "item-stat",
       "skin-name-word",
       "trait",
@@ -139,7 +138,8 @@ describe("Templates on the committed data", () => {
   });
 
   it("build paths are one step: Kindlegem builds into Spirit Visage, not into what Spirit Visage builds into", () => {
-    const set = names(answerSetOf(template("items-from-kindlegem"), inputs));
+    const fromKindlegem = { ...template("items-armor"), filter: { kind: "item-builds-from", item: "3067" } } as TemplateDefinition;
+    const set = names(answerSetOf(fromKindlegem, inputs));
     expect(set).toEqual(expect.arrayContaining(["Spirit Visage", "Locket of the Iron Solari"]));
     expect(set).not.toContain("Kindlegem");
     expect(set).not.toContain("Ruby Crystal");
