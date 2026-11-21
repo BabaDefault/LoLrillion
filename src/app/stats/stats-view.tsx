@@ -33,28 +33,28 @@ export function StatsView() {
 
   return (
     <div className="stats-view">
-      <section className="card stats-grid">
-        <div>
+      <section className="stats-grid">
+        <div className="stat-tile">
+          <p className="stat-label">Games played</p>
           <p className="stat" data-testid="games-played">{stats.gamesPlayed}</p>
-          <p className="muted">Games played</p>
         </div>
-        <div>
+        <div className="stat-tile">
+          <p className="stat-label">Average score</p>
           <p className="stat" data-testid="average-score">{Math.round(stats.averageScore ?? 0)}</p>
-          <p className="muted">Average score</p>
         </div>
-        <div>
+        <div className="stat-tile">
+          <p className="stat-label">Gems found</p>
           <p className="stat" data-testid="gems-found">{stats.gemsFound}</p>
-          <p className="muted">Gems found</p>
         </div>
-        <div>
-          <p className="stat" data-testid="best-day">{stats.bestDay?.total ?? 0}</p>
-          <p className="muted">
+        <div className="stat-tile">
+          <p className="stat-label">
             Best day{stats.bestDay && <> (<span className="num">{stats.bestDay.puzzleDay}</span>)</>}
           </p>
+          <p className="stat" data-testid="best-day">{stats.bestDay?.total ?? 0}</p>
         </div>
       </section>
       <section className="card">
-        <h3>Tiers</h3>
+        <h3 className="kicker">Tiers</h3>
         <ul className="answer-set">
           {TIERS.map((tier) => (
             <li key={tier} className={`tone-${tierTone(tier)}`}>

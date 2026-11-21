@@ -23,7 +23,7 @@ export function ScoreInterlude({
   const accepted = result.status === "accepted";
   return (
     <section className="card center">
-      <p className="muted">
+      <p className="kicker">
         Prompt <span className="num">{index + 1}</span> of <span className="num">{promptCount}</span>
       </p>
       <div className={`score-pop tone-${tierTone(accepted ? result.tier : null)}`} key={index} aria-live="polite">

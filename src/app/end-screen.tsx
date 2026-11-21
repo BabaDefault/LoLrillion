@@ -111,15 +111,14 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
   return (
     <div className="end-screen">
       <section className="card center">
-        <p className="muted">
+        <p className="kicker">
           LoLrillion <span className="num">#{results.puzzleNumber}</span>
-          {results.archive && (
-            <>
-              {" "}
-              · <span data-testid="archive-flag">Archive play: not counted on leaderboards or in Answer Share</span>
-            </>
-          )}
         </p>
+        {results.archive && (
+          <p className="muted" data-testid="archive-flag">
+            Archive play: not counted on leaderboards or in Answer Share
+          </p>
+        )}
         {results.played ? (
           <>
             <p className="total" data-testid="total">
@@ -138,7 +137,7 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
         <DistributionCurve results={results} />
         {results.played && (
           <>
-            <button className="primary" onClick={share}>
+            <button className="cta cta-inline" onClick={share}>
               {copied === "copied" ? "Copied!" : "Share"}
             </button>
             <p className="muted" role="status">
@@ -169,7 +168,7 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
 
       {results.prompts.map((prompt, i) => (
         <section className="card reveal" key={i}>
-          <p className="muted">
+          <p className="kicker">
             Prompt <span className="num">{i + 1}</span> · {prompt.answerType.toUpperCase()}
           </p>
           <h3>{prompt.text}</h3>

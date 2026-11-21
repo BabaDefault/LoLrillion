@@ -13,7 +13,6 @@
   --bg: #0a0f1f;
   --surface: rgba(14, 21, 48, 0.95); /* panels: --surface-solid, a touch see-through */
   --surface-solid: #0e1530;
-  --surface-raised: #1c2750;
   --border: #36457a;
   --glow: rgba(79, 224, 239, 0.45);
   --glow-soft: rgba(79, 224, 239, 0.15);
@@ -44,14 +43,11 @@
   --depths-2: #0d1a36;
   --depths-3: #0b1530;
   --scanline: rgba(0, 0, 0, 0.12);
-  --bevel-light: rgba(255, 255, 255, 0.07);
-  --bevel-dark: rgba(0, 0, 0, 0.35);
   --shadow: #04060d;
   --text: #f1ecdc; /* 14:1 */
-  --muted: #a3acc9; /* 7.5:1, 6.4:1 on --surface-raised */
+  --muted: #a3acc9; /* 7.5:1 */
   --accent: #e0b552; /* gold, 8.7:1 */
   --accent-strong: #f5d27e;
-  --accent-deep: #8c6a1f;
   --accent-soft: rgba(224, 181, 82, 0.14);
   --on-accent: #0a0f1f; /* 9:1 on --accent */
   --highlight: #4fe0ef; /* cyan, 10:1 */
@@ -79,13 +75,14 @@
   --text-md: 18px;
   --text-lg: 21px;
   --text-2xs: 11px; /* HUD labels and hints: uppercase, bold, widely tracked */
-  --text-xl: 26px;
   --text-2xl: clamp(24px, 6vw, 34px);
   --display-2xs: 8px;
   --display-xs: 10px;
   --display-sm: 12px;
   --display-md: 16px;
   --display-lg: 20px;
+  --display-xl: 32px; /* big Points on the score interlude */
+  --display-hero: 64px; /* the end screen total at full size */
 
   /* Space and the pixel grid */
   --px: 3px; /* one "pixel" of the art */
@@ -101,16 +98,21 @@
   --header-height: 72px;
   --pip: 14px;
   --timer-size: 56px;
+  --curve-height: 80px;
   --notch: 6px; /* the cut corner on panels */
   --tracking: 0.2em; /* letter-spacing for uppercase terminal labels */
   --tracking-wide: 0.3em;
 
   /* Stepped borders and hard (blur-free) drop shadows */
-  --bevel: inset calc(var(--px) * -1) calc(var(--px) * -1) 0 var(--bevel-dark),
-    inset var(--px) var(--px) 0 var(--bevel-light);
   --drop: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--shadow);
   --drop-sm: var(--px) var(--px) 0 var(--shadow);
   --hairline: 1px solid var(--border);
+  --hairline-dashed: 1px dashed var(--border);
+  --frame: 2px; /* the glowing frame on primary buttons, the CTA and the curve baseline */
+  /* Glow blur radii, small to large */
+  --blur-sm: 8px;
+  --blur-md: 12px;
+  --blur-lg: 20px;
   /* The CRT split-colour ghost behind titles */
   --ghost: -2px 0 0 var(--action), 2px 0 0 var(--highlight);
   --ghost-lg: -4px 0 0 var(--action), 4px 0 0 var(--highlight);
@@ -173,8 +175,6 @@ h3 {
 /* The display face: hard pixel edges, no smoothing. */
 h1,
 .title,
-.leaderboard-screen h3,
-.stats-view h3,
 .wordmark,
 .badge,
 .countdown,
@@ -303,7 +303,7 @@ input {
 .site-nav a[aria-current="page"] {
   color: var(--highlight);
   border-color: var(--highlight);
-  box-shadow: 0 0 8px var(--glow);
+  box-shadow: 0 0 var(--blur-sm) var(--glow);
 }
 
 /* On phones the nav gets its own full-width row with evenly spread items. */
@@ -406,42 +406,47 @@ button:disabled {
   cursor: default;
 }
 
+/*
+ * Buttons. Primary: a dark terminal key with a glowing cyan frame (the Start button, smaller).
+ * Secondary: the same key with a plain hairline frame.
+ */
 button.primary,
 button.secondary {
-  font-size: var(--text-md);
+  padding: var(--space-3) var(--space-6);
+  background: var(--surface-solid);
+  color: var(--text);
+  font-size: var(--text-sm);
   font-weight: 700;
-  padding: var(--space-2) 20px;
-  border: var(--px) solid var(--shadow);
-  box-shadow: var(--bevel), var(--drop-sm);
-  transition: background-color var(--duration) steps(2);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  transition: box-shadow var(--duration) steps(2), color var(--duration) steps(2), border-color var(--duration) steps(2);
 }
 
 button.primary {
-  background: var(--accent);
-  color: var(--on-accent);
-  box-shadow: inset calc(var(--px) * -1) calc(var(--px) * -1) 0 var(--accent-deep),
-    inset var(--px) var(--px) 0 var(--accent-strong), var(--drop-sm);
+  border: var(--frame) solid var(--highlight);
+  box-shadow: 0 0 var(--blur-md) var(--glow), inset 0 0 var(--blur-md) var(--highlight-soft);
 }
 
 button.primary:hover:not(:disabled) {
-  background: var(--accent-strong);
+  color: var(--highlight);
+  box-shadow: 0 0 var(--blur-lg) var(--highlight), inset 0 0 var(--blur-lg) var(--glow-soft);
 }
 
 button.secondary {
-  background: var(--surface-raised);
-  color: var(--text);
+  border: var(--hairline);
+  color: var(--muted);
 }
 
 button.secondary:hover:not(:disabled) {
-  background: var(--border);
+  border-color: var(--highlight);
+  color: var(--text);
 }
 
-/* Pressed: the button drops into its shadow by one art pixel. */
+/* Pressed: the key sinks by one art pixel. */
 button.primary:active:not(:disabled),
 button.secondary:active:not(:disabled),
 button.chip:active:not(:disabled) {
-  transform: translate(var(--px), var(--px));
-  box-shadow: none;
+  transform: translateY(var(--px));
 }
 
 button.primary:disabled,
@@ -449,27 +454,30 @@ button.secondary:disabled {
   opacity: 0.6;
 }
 
+/* Chips: small uppercase terminal tabs, like the site nav. The pressed one glows cyan. */
 .chip {
   display: inline-block;
-  font-size: var(--text-sm);
-  font-weight: 600;
-  padding: 5px var(--space-3);
-  border: var(--px) solid var(--border);
-  background: var(--surface);
-  color: var(--text);
-  box-shadow: var(--drop-sm);
+  padding: var(--space-1) var(--space-3);
+  border: var(--hairline);
+  background: var(--surface-solid);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
 }
 
 button.chip:hover:not(:disabled) {
-  background: var(--surface-raised);
+  border-color: var(--highlight);
+  color: var(--text);
 }
 
 .chip.active,
 .chip[aria-pressed="true"],
 button.chip.active:hover {
-  background: var(--accent);
-  border-color: var(--accent-deep);
-  color: var(--on-accent);
+  border-color: var(--highlight);
+  color: var(--highlight);
+  box-shadow: 0 0 var(--blur-sm) var(--glow);
 }
 
 .chip:disabled {
@@ -485,18 +493,19 @@ button.chip.active:hover {
 .badge {
   font-size: var(--display-xs);
   line-height: 1;
-  padding: 6px var(--space-2);
+  padding: var(--space-1) var(--space-2);
   background: var(--highlight);
   color: var(--on-accent);
-  box-shadow: var(--drop-sm);
+  letter-spacing: 0;
 }
 
+/* Notices: a panel with a pink action bar down its left edge */
 .notice {
   margin: var(--space-3) 0 0;
-  padding: var(--space-3) 14px;
-  border: var(--px) solid var(--accent);
-  background: var(--surface-raised);
-  box-shadow: var(--drop-sm);
+  padding: var(--space-3) var(--space-4);
+  border: var(--hairline);
+  border-left: var(--px) solid var(--action);
+  background: var(--surface-solid);
 }
 
 .notice p {
@@ -513,7 +522,10 @@ button.chip.active:hover {
 
 .inline-form label {
   width: 100%;
-  font-size: var(--text-sm);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
   color: var(--muted);
 }
 
@@ -532,8 +544,10 @@ button.chip.active:hover {
   gap: var(--space-3);
   margin: var(--space-4) 0;
   padding: var(--space-6) var(--space-4);
-  border: var(--px) dashed var(--border);
+  border: var(--hairline-dashed);
+  background: var(--surface);
   color: var(--muted);
+  font-size: var(--text-sm);
   text-align: center;
 }
 
@@ -549,7 +563,7 @@ button.chip.active:hover {
   width: 12px;
   height: 12px;
   background: var(--border);
-  box-shadow: inset 6px 6px 0 var(--accent);
+  box-shadow: inset 6px 6px 0 var(--highlight);
   animation: spin 0.8s steps(4) infinite;
 }
 
@@ -600,7 +614,7 @@ button.chip.active:hover {
 .hud-value {
   font-size: var(--display-md);
   color: var(--highlight);
-  text-shadow: 0 0 8px var(--glow);
+  text-shadow: 0 0 var(--blur-sm) var(--glow);
 }
 
 .hud-value small {
@@ -628,7 +642,7 @@ button.chip.active:hover {
 .pip-current {
   background: var(--action);
   border-color: var(--action-text);
-  box-shadow: 0 0 6px var(--action);
+  box-shadow: 0 0 var(--blur-sm) var(--action);
 }
 
 /* A played Prompt's pip takes its Tier tone (see promptPips in hud.ts). */
@@ -663,7 +677,7 @@ button.chip.active:hover {
   font-size: var(--text-2xl);
   font-weight: 700;
   line-height: 1.3;
-  text-shadow: 0 0 12px var(--text-glow);
+  text-shadow: 0 0 var(--blur-md) var(--text-glow);
 }
 
 .rule {
@@ -692,7 +706,7 @@ button.chip.active:hover {
   margin-top: var(--space-6);
   padding: var(--space-2);
   background: var(--surface);
-  box-shadow: inset 0 0 0 1px var(--border), 0 0 24px var(--shadow);
+  box-shadow: inset 0 0 0 1px var(--border), 0 0 var(--blur-lg) var(--shadow);
 }
 
 .answer-bar input {
@@ -703,7 +717,7 @@ button.chip.active:hover {
 }
 
 .answer-bar input:focus-visible {
-  box-shadow: inset 0 -2px 0 var(--highlight), 0 0 12px var(--glow);
+  box-shadow: inset 0 -2px 0 var(--highlight), 0 0 var(--blur-md) var(--glow);
 }
 
 button.lock-in {
@@ -717,7 +731,7 @@ button.lock-in {
   font-weight: 700;
   letter-spacing: var(--tracking);
   text-transform: uppercase;
-  box-shadow: inset 0 calc(var(--px) * -1) 0 var(--action-deep), 0 0 12px var(--action-glow);
+  box-shadow: inset 0 calc(var(--px) * -1) 0 var(--action-deep), 0 0 var(--blur-md) var(--action-glow);
 }
 
 button.lock-in:hover:not(:disabled) {
@@ -754,7 +768,7 @@ button.lock-in:disabled {
   stroke: var(--highlight);
   stroke-width: 4;
   transition: stroke-dashoffset 100ms linear;
-  filter: drop-shadow(0 0 3px var(--glow));
+  filter: drop-shadow(0 0 var(--px) var(--glow));
 }
 
 .timer.reading .timer-fill {
@@ -808,19 +822,19 @@ button.lock-in:disabled {
 button.cta {
   width: 100%;
   padding: var(--space-6) var(--space-4);
-  border: 2px solid var(--highlight);
+  border: var(--frame) solid var(--highlight);
   background: var(--surface-solid);
   color: var(--text);
   font-size: var(--display-md);
   letter-spacing: var(--tracking);
   text-transform: uppercase;
-  box-shadow: 0 0 0 2px var(--surface-solid), 0 0 18px var(--glow), inset 0 0 18px var(--highlight-soft);
+  box-shadow: 0 0 0 var(--frame) var(--surface-solid), 0 0 var(--blur-lg) var(--glow), inset 0 0 var(--blur-lg) var(--highlight-soft);
   transition: box-shadow var(--duration) steps(2), color var(--duration) steps(2);
 }
 
 button.cta:hover:not(:disabled) {
   color: var(--highlight);
-  box-shadow: 0 0 0 2px var(--surface-solid), 0 0 28px var(--highlight), inset 0 0 24px var(--glow-soft);
+  box-shadow: 0 0 0 var(--frame) var(--surface-solid), 0 0 var(--blur-lg) var(--highlight), inset 0 0 var(--blur-lg) var(--glow-soft);
 }
 
 button.cta:active:not(:disabled) {
@@ -829,6 +843,13 @@ button.cta:active:not(:disabled) {
 
 button.cta:disabled {
   opacity: 0.6;
+}
+
+/* The CTA at button size, for actions inside a panel (Share) */
+button.cta-inline {
+  width: auto;
+  padding: var(--space-3) var(--space-8);
+  font-size: var(--display-sm);
 }
 
 /* The home title over the sky: an outlined pixel wordmark with a split-colour (CRT) ghost */
@@ -858,7 +879,7 @@ button.cta:disabled {
   letter-spacing: 0.5em;
   text-transform: uppercase;
   color: var(--highlight);
-  text-shadow: 0 0 8px var(--glow);
+  text-shadow: 0 0 var(--blur-sm) var(--glow);
 }
 
 .hero-tagline {
@@ -945,12 +966,18 @@ button.cta:disabled {
   font-size: var(--display-lg);
   line-height: 1.3;
   color: var(--tone, var(--text));
-  text-shadow: var(--px) var(--px) 0 var(--shadow);
+  text-shadow: 0 0 var(--blur-md) var(--tone, var(--glow));
 }
 
 .score-points {
-  font-size: var(--display-md);
+  font-size: var(--display-xl);
   color: var(--accent);
+  text-shadow: var(--ghost);
+}
+
+/* Kickers centred in centred panels (score interlude, end screen) */
+.center .kicker {
+  justify-content: center;
 }
 
 @keyframes score-pop {
@@ -999,30 +1026,37 @@ button.cta:disabled {
   gap: var(--space-4);
 }
 
+/* The day's total: the home title's ghosted pixel style, in gold */
 .total {
-  font-size: clamp(44px, 15vw, 64px);
+  font-size: clamp(var(--display-lg), 15vw, var(--display-hero));
   line-height: 1;
-  margin: var(--space-3) 0 var(--space-2);
+  margin: var(--space-4) 0 var(--space-2);
   color: var(--accent);
-  text-shadow: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--accent-deep);
+  text-shadow: var(--ghost-lg);
 }
 
 .day-title {
   font-size: var(--display-md);
   line-height: 1.5;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
   color: var(--highlight);
+  text-shadow: 0 0 var(--blur-md) var(--glow);
   margin: var(--space-3) 0 var(--space-4);
 }
 
 .reveal h3 {
-  margin: var(--space-1) 0 var(--space-2);
+  margin: var(--space-2) 0 var(--space-3);
   font-size: var(--text-lg);
+  line-height: 1.3;
+  text-shadow: 0 0 var(--blur-md) var(--text-glow);
 }
 
 .your-answer {
   font-weight: 700;
   padding-left: var(--space-2);
   border-left: var(--px) solid var(--tone, var(--accent));
+  color: var(--tone, var(--text));
 }
 
 .answer-set {
@@ -1039,62 +1073,70 @@ button.cta:disabled {
   justify-content: space-between;
   gap: var(--space-2);
   flex-wrap: wrap;
-  padding: 6px var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border: var(--hairline);
   border-left: var(--px) solid var(--tone, var(--border));
-  background: var(--bg);
+  background: var(--surface-solid);
   font-size: var(--text-sm);
 }
 
 .answer-set li.yours {
-  outline: var(--px) solid var(--accent);
-  outline-offset: calc(var(--px) * -1);
+  border-color: var(--accent);
+  box-shadow: 0 0 var(--blur-sm) var(--accent-soft);
 }
 
 .answer-set li.gem {
   background: var(--highlight-soft);
-  border-left-color: var(--tone-gem);
-  box-shadow: inset 0 0 0 var(--px) var(--tone-gem);
+  border-color: var(--tone-gem);
+  box-shadow: 0 0 var(--blur-md) var(--glow);
   font-weight: 700;
 }
 
 .gem-label {
-  font-family: var(--font-display);
-  font-size: var(--display-xs);
-  -webkit-font-smoothing: none;
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
   color: var(--tone-gem);
   margin-left: var(--space-1);
 }
 
-/* Score-distribution curve: blocky bars on a baseline */
+/* Score-distribution curve: blocky bars on a glowing river-line baseline */
 .curve {
   display: flex;
   align-items: flex-end;
   gap: var(--px);
   width: 100%;
-  height: 64px;
-  margin: var(--space-3) 0 var(--space-1);
-  border-bottom: var(--px) solid var(--border);
+  height: var(--curve-height);
+  margin: var(--space-3) 0 var(--space-4);
+  padding: 0 var(--space-1);
+  border-bottom: var(--frame) solid var(--highlight);
+  box-shadow: 0 var(--space-2) var(--blur-md) calc(var(--space-2) * -1) var(--highlight);
 }
 
 .curve .bar {
   flex: 1;
   background: var(--border);
+  box-shadow: inset 0 var(--frame) 0 var(--muted);
 }
 
 .curve .bar.you {
-  background: var(--accent);
-  box-shadow: inset 0 var(--px) 0 var(--accent-strong);
+  background: var(--action);
+  box-shadow: inset 0 var(--frame) 0 var(--action-text), 0 0 var(--blur-md) var(--action-glow);
 }
 
 /* ==========================================================================
    Leaderboards
    ========================================================================== */
-.leaderboard-screen h3,
-.stats-view h3 {
-  margin: 0 0 var(--space-3);
-  font-size: var(--display-sm);
-  line-height: 1.5;
-  color: var(--accent);
+/* Panel headings are kickers (see .kicker); they just need room below */
+h3.kicker {
+  margin-bottom: var(--space-3);
+}
+
+/* The board's meta line: Puzzle number, day, phase, player count */
+.board-meta {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
 }
 
 .scope-tabs {
@@ -1103,8 +1145,9 @@ button.cta:disabled {
 
 .group-code {
   font-size: var(--display-sm);
-  letter-spacing: 0.15em;
+  letter-spacing: var(--tracking);
   color: var(--highlight);
+  text-shadow: 0 0 var(--blur-sm) var(--glow);
 }
 
 .day-nav {
@@ -1126,18 +1169,25 @@ button.cta:disabled {
   grid-template-areas: "rank name day score";
   gap: var(--space-2);
   align-items: center;
-  padding: 6px var(--space-2);
-  background: var(--bg);
+  padding: var(--space-2);
+  border: var(--hairline);
+  background: var(--surface-solid);
   font-size: var(--text-sm);
+}
+
+/* The podium: gold ranks with a gold edge */
+.leaderboard li:nth-child(-n + 3) {
+  border-left: var(--px) solid var(--accent);
 }
 
 .leaderboard li:nth-child(-n + 3) .rank {
   color: var(--accent);
+  text-shadow: 0 0 var(--blur-sm) var(--accent-soft);
 }
 
 .leaderboard li.you {
-  outline: var(--px) solid var(--highlight);
-  outline-offset: calc(var(--px) * -1);
+  border-color: var(--highlight);
+  box-shadow: 0 0 var(--blur-md) var(--glow), inset 0 0 var(--blur-md) var(--highlight-soft);
 }
 
 .leaderboard .rank {
@@ -1161,6 +1211,7 @@ button.cta:disabled {
   grid-area: score;
   text-align: right;
   font-size: var(--display-sm);
+  color: var(--highlight);
 }
 
 /* On phones the day title drops under the nickname so names keep their room. */
@@ -1190,15 +1241,28 @@ button.cta:disabled {
   gap: var(--space-3);
 }
 
+/* Each past day is a terminal row that lights up cyan on hover */
 .archive-list a {
   color: var(--text);
   text-decoration: none;
   padding: var(--space-3) var(--space-4);
-  transition: border-color var(--duration) steps(2);
+  transition: box-shadow var(--duration) steps(2);
 }
 
 .archive-list a:hover {
-  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--highlight), inset 0 0 var(--blur-lg) var(--highlight-soft);
+}
+
+/* The panel's notch clips the usual outside outline, so keyboard focus is a thick inset ring. */
+.archive-list a:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--px) var(--focus), inset 0 0 var(--blur-lg) var(--highlight-soft);
+}
+
+.archive-list a:hover .chip,
+.archive-list a:focus-visible .chip {
+  border-color: var(--highlight);
+  color: var(--highlight);
 }
 
 /* ==========================================================================
@@ -1210,22 +1274,41 @@ button.cta:disabled {
   gap: var(--space-4);
 }
 
+/* Stat tiles: HUD panels, a label over a glowing number */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-4);
-  text-align: center;
+  gap: var(--space-3);
 }
 
-.stats-grid p {
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+  clip-path: var(--notched);
+}
+
+.stat-tile p {
   margin: 0;
 }
 
+.stat-label {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 .stat {
-  font-size: var(--text-xl);
+  font-size: var(--display-lg);
   line-height: 1.4;
-  color: var(--accent);
-  text-shadow: var(--px) var(--px) 0 var(--accent-deep);
+  color: var(--highlight);
+  text-shadow: 0 0 var(--blur-sm) var(--glow);
 }
 
 .stats-view .answer-set li > span:first-child {
@@ -1240,8 +1323,8 @@ button.cta:disabled {
   max-width: var(--content-width);
   margin: 0 auto;
   padding: var(--space-4);
-  border-top: var(--px) dashed var(--border);
-  font-size: var(--text-xs);
+  border-top: var(--hairline-dashed);
+  font-size: var(--text-2xs);
   color: var(--muted);
   text-align: center;
 }
@@ -1326,7 +1409,7 @@ body > :not(.scene, .scanlines, .skip-link) {
   right: 0;
   height: var(--river-height);
   background: linear-gradient(var(--river-light) 0 2px, var(--river) 2px 100%);
-  box-shadow: 0 0 24px var(--glow);
+  box-shadow: 0 0 var(--blur-lg) var(--glow);
 }
 
 .scene-depths {
@@ -1345,14 +1428,14 @@ body > :not(.scene, .scanlines, .skip-link) {
   width: 3px;
   height: 3px;
   background: var(--highlight);
-  box-shadow: 0 0 6px var(--highlight);
+  box-shadow: 0 0 var(--blur-sm) var(--highlight);
   opacity: 0;
   animation: rise 14s steps(70) infinite;
 }
 
 .spark:nth-child(3n) {
   background: var(--accent);
-  box-shadow: 0 0 6px var(--accent);
+  box-shadow: 0 0 var(--blur-sm) var(--accent);
 }
 
 @keyframes rise {

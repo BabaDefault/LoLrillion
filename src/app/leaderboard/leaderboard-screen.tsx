@@ -48,7 +48,7 @@ function Board({ board }: { board: LeaderboardView }) {
   const youShown = board.entries.some((e) => e.you);
   return (
     <>
-      <p className="muted">
+      <p className="muted board-meta">
         LoLrillion <span className="num">#{board.puzzleNumber}</span> · <span className="num">{board.puzzleDay}</span> ·{" "}
         {board.phase === "final" ? "Final" : "Live"} · <span className="num">{board.playerCount}</span>{" "}
         {board.playerCount === 1 ? "player" : "players"}
@@ -232,7 +232,7 @@ export function LeaderboardScreen() {
       </section>
 
       <section className="card">
-        <h3>Friend groups</h3>
+        <h3 className="kicker">Friend groups</h3>
         <form onSubmit={createGroup} className="inline-form">
           <label htmlFor="group-name">New group</label>
           <input
