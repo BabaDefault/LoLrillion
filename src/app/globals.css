@@ -986,9 +986,10 @@ button.cta-inline {
 
 /*
  * The Tier poro (driven by tier-poro.tsx). A plain poro drops in, then glows up the Tier ladder,
- * fur and glow snapping Minion → Kill → Triple → Quadra → Pentakill, and stops on the Tier earned
- * with a white flash and a burst ring. On a Miss it dims and fades to grey. Nothing shows the
- * Tier's colour before the climb reaches it.
+ * fur and glow snapping Minion → Kill → Triple → Quadra → Pentakill, holds one rung short and
+ * trembles as it charges, then bursts into the Tier earned with a white flash, a round shockwave and
+ * a lingering halo. On a Miss the charge dims and fades to grey. Nothing shows the Tier's colour
+ * before the climb reaches it.
  */
 .tier-poro {
   position: relative;
@@ -1018,11 +1019,21 @@ button.cta-inline {
 /* One rung of the climb: snap to the colour with a pulse of light */
 .tier-poro-charge[class*="glow-"] {
   filter: drop-shadow(0 0 var(--blur-md) var(--glow-c)) brightness(1.2);
-  animation: poro-step 0.32s steps(4, end) both;
+  animation: poro-step 0.52s steps(5, end) both;
+}
+
+/* The held breath before the reveal: trembling harder and burning brighter */
+.tier-poro-charge.is-charging {
+  animation: poro-charge 0.9s steps(18, end) both;
+}
+
+.tier-poro-charge.is-charging:not([class*="glow-"]) {
+  --glow-c: #fff;
 }
 
 .tier-poro-charge.is-flash {
   filter: drop-shadow(0 0 var(--blur-lg) #fff) brightness(2.6);
+  animation: poro-pop 0.24s steps(3, end) both;
 }
 
 .tier-poro-charge.is-settled {
@@ -1035,17 +1046,39 @@ button.cta-inline {
 }
 
 .tier-poro-charge.is-fizzle {
-  animation: poro-fizzle 0.6s steps(6, end) both;
+  animation: poro-fizzle 0.7s steps(7, end) both;
 }
 
-/* A ring of the Tier colour bursting out once the poro lands on its Tier */
+/* A round shockwave of the Tier colour bursting out once the poro lands on its Tier, with an echo */
 .tier-poro-burst {
   position: absolute;
   inset: calc(var(--px) * -4);
+  border-radius: 50%;
   border: calc(var(--px) * 2) solid var(--glow-c);
-  box-shadow: 0 0 var(--blur-md) var(--glow-c);
+  box-shadow:
+    0 0 var(--blur-md) var(--glow-c),
+    inset 0 0 var(--blur-md) var(--glow-c);
   pointer-events: none;
-  animation: poro-burst 0.5s steps(5, end) forwards;
+  animation: poro-burst 0.8s steps(8, end) forwards;
+}
+
+.tier-poro-burst.is-echo {
+  border-width: var(--px);
+  animation-delay: 0.18s;
+  animation-duration: 1s;
+  opacity: 0;
+}
+
+/* The afterglow: a soft round halo of the Tier colour left behind the poro once the burst clears */
+.tier-poro-halo {
+  position: absolute;
+  inset: calc(var(--px) * -6);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--glow-c) 45%, transparent) 0%, transparent 68%);
+  pointer-events: none;
+  animation:
+    poro-halo-in 0.6s steps(6, end) both,
+    poro-halo-pulse 2.4s steps(4, end) 0.6s infinite alternate;
 }
 
 /* The Tier name and Points wait for the poro */
@@ -1082,14 +1115,81 @@ button.cta-inline {
   }
 }
 
+@keyframes poro-charge {
+  0% {
+    filter: drop-shadow(0 0 var(--blur-md) var(--glow-c)) brightness(1.2);
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(calc(var(--px) * -1), 0);
+  }
+  40% {
+    transform: translate(var(--px), 0);
+  }
+  55% {
+    transform: translate(calc(var(--px) * -1), calc(var(--px) * -1));
+  }
+  65% {
+    transform: translate(var(--px), 0) scale(1.03);
+  }
+  75% {
+    transform: translate(calc(var(--px) * -2), 0) scale(1.05);
+  }
+  85% {
+    transform: translate(calc(var(--px) * 2), calc(var(--px) * -1)) scale(1.07);
+  }
+  92% {
+    transform: translate(calc(var(--px) * -2), 0) scale(1.08);
+  }
+  100% {
+    filter: drop-shadow(0 0 var(--blur-lg) #fff) brightness(2);
+    transform: translate(0, 0) scale(1.1);
+  }
+}
+
+@keyframes poro-pop {
+  0% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 @keyframes poro-burst {
   0% {
     opacity: 1;
-    transform: scale(0.7);
+    transform: scale(0.6);
   }
   100% {
     opacity: 0;
-    transform: scale(1.5);
+    transform: scale(2.1);
+  }
+}
+
+@keyframes poro-halo-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+}
+
+@keyframes poro-halo-pulse {
+  0% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(0.94);
   }
 }
 
