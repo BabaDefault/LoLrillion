@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Pixelify_Sans, Press_Start_2P } from "next/font/google";
+import { Press_Start_2P, Space_Mono } from "next/font/google";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { Scene } from "./scene";
 import { SiteNav } from "./site-nav";
 import "./globals.css";
 
-/* Pixel fonts, downloaded at build time and served from our own origin (no runtime font CDN). */
+/* A pixel display face and a terminal-style mono body face, downloaded at build time and served from our own origin (no runtime font CDN). */
 const display = Press_Start_2P({ weight: "400", subsets: ["latin"], display: "swap", variable: "--font-display" });
-const body = Pixelify_Sans({ subsets: ["latin"], display: "swap", variable: "--font-body" });
+const body = Space_Mono({ weight: ["400", "700"], subsets: ["latin"], display: "swap", variable: "--font-body" });
 
 export const metadata: Metadata = {
   title: { default: "LoLrillion", template: "%s · LoLrillion" },
@@ -17,13 +18,14 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0a0f1f", // --bg in globals.css
+  themeColor: "#1a2452", // --sky-1 in globals.css: the top of the sky
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body>
+        <Scene />
         <a className="skip-link" href="#content">
           Skip to content
         </a>

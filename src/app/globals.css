@@ -1,17 +1,49 @@
 /* ==========================================================================
-   LoLrillion design tokens: a pixel-art Hextech theme. Every colour, size,
-   step and shadow used below comes from here; components never hard-code
-   their own. Contrast ratios are against --surface unless noted.
+   LoLrillion design tokens: a retro CRT "dusk over the Rift" theme, with a
+   pixel sky and river behind glowing terminal panels in Hextech gold and
+   arcane cyan. Every colour, size, step and shadow used below comes from
+   here; components never hard-code their own. Contrast ratios are against
+   --surface-solid (panels are near-opaque, so they hold over any sky band)
+   unless noted.
    ========================================================================== */
 :root {
   color-scheme: dark;
 
   /* Colour: deep navy, Hextech gold, arcane cyan */
   --bg: #0a0f1f;
-  --bg-grid: rgba(79, 224, 239, 0.035);
-  --surface: #131b36;
+  --surface: rgba(14, 21, 48, 0.95); /* panels: --surface-solid, a touch see-through */
+  --surface-solid: #0e1530;
   --surface-raised: #1c2750;
   --border: #36457a;
+  --glow: rgba(79, 224, 239, 0.45);
+  --glow-soft: rgba(79, 224, 239, 0.15);
+  --text-glow: rgba(241, 236, 220, 0.35);
+
+  /* Action colour: the pink of the Lock in button, the current pip and kickers */
+  --action: #e2577f;
+  --action-hover: #ec6c91;
+  --action-deep: #8f2a4b;
+  --action-glow: rgba(226, 87, 127, 0.4);
+  --on-action: #0a0f1f; /* 5.2:1 on --action */
+  --action-text: #ff8fae; /* kickers on panels, 7:1 */
+
+  /* The backdrop (scene.tsx): sky bands top to bottom, river, depths bands */
+  --sky-1: #1a2452;
+  --sky-2: #232c60;
+  --sky-3: #2e346c;
+  --sky-4: #3a3f7a;
+  --sky-5: #6a4d84;
+  --sky-6: #b86a8e;
+  --cloud: rgba(205, 214, 245, 0.16);
+  --cloud-far: rgba(205, 214, 245, 0.1);
+  --cloud-farthest: rgba(205, 214, 245, 0.08);
+  --silhouette: #0b1024;
+  --river: #2f8f9d;
+  --river-light: #8fe6ee;
+  --depths-1: #0f2140;
+  --depths-2: #0d1a36;
+  --depths-3: #0b1530;
+  --scanline: rgba(0, 0, 0, 0.12);
   --bevel-light: rgba(255, 255, 255, 0.07);
   --bevel-dark: rgba(0, 0, 0, 0.35);
   --shadow: #04060d;
@@ -40,13 +72,16 @@
 
   /* Type: a chunky display face for headings and numbers, a readable pixel face for the rest */
   --font-display: "Press Start 2P", ui-monospace, monospace;
-  --font-body: "Pixelify Sans", system-ui, sans-serif;
+  --font-body: "Space Mono", ui-monospace, monospace;
   --font-mono: var(--font-display);
   --text-xs: 13px;
   --text-sm: 15px;
   --text-md: 18px;
   --text-lg: 21px;
+  --text-2xs: 11px; /* HUD labels and hints: uppercase, bold, widely tracked */
   --text-xl: 26px;
+  --text-2xl: clamp(24px, 6vw, 34px);
+  --display-2xs: 8px;
   --display-xs: 10px;
   --display-sm: 12px;
   --display-md: 16px;
@@ -60,13 +95,30 @@
   --space-4: 16px;
   --space-6: 24px;
   --space-8: 32px;
-  --content-width: 560px;
+  --horizon: 38vh; /* where the sky meets the river in the backdrop */
+  --content-width: 620px;
+  --river-height: 10px;
+  --header-height: 72px;
+  --pip: 14px;
+  --timer-size: 56px;
+  --notch: 6px; /* the cut corner on panels */
+  --tracking: 0.2em; /* letter-spacing for uppercase terminal labels */
+  --tracking-wide: 0.3em;
 
   /* Stepped borders and hard (blur-free) drop shadows */
   --bevel: inset calc(var(--px) * -1) calc(var(--px) * -1) 0 var(--bevel-dark),
     inset var(--px) var(--px) 0 var(--bevel-light);
   --drop: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--shadow);
   --drop-sm: var(--px) var(--px) 0 var(--shadow);
+  --hairline: 1px solid var(--border);
+  /* The CRT split-colour ghost behind titles */
+  --ghost: -2px 0 0 var(--action), 2px 0 0 var(--highlight);
+  --ghost-lg: -4px 0 0 var(--action), 4px 0 0 var(--highlight);
+  /* A panel with its corners cut off by --notch */
+  --notched: polygon(
+    0 var(--notch), var(--notch) 0, calc(100% - var(--notch)) 0, 100% var(--notch),
+    100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, var(--notch) 100%, 0 calc(100% - var(--notch))
+  );
 
   /* Motion: stepped, like sprite frames */
   --duration: 120ms;
@@ -90,9 +142,6 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--bg);
-  background-image: linear-gradient(var(--bg-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
-  background-size: 24px 24px;
   color: var(--text);
   font-family: var(--font-body);
   font-size: var(--text-md);
@@ -107,6 +156,7 @@ canvas {
 }
 
 main {
+  position: relative;
   flex: 1;
   width: 100%;
   max-width: var(--content-width);
@@ -136,21 +186,21 @@ h1,
 .rank,
 .leaderboard .score,
 .group-code,
-.num {
+.hud-value,
+.countdown,
+button.cta,
+.hero-title,
+.hero-sub {
   font-family: var(--font-display);
   font-weight: 400;
   -webkit-font-smoothing: none;
   letter-spacing: 0;
 }
 
-/*
- * Numbers inside body text (Points, counts, percentages, dates, Puzzle numbers). The body face's "5"
- * reads as "S", so every number players read is set in the display face, scaled down to sit beside
- * the body face's x-height.
- */
+/* Numbers inside body text (Points, counts, dates, Puzzle numbers) never break across lines. */
 .num {
-  font-size: 0.72em;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 a {
@@ -194,6 +244,8 @@ input {
    Site header: wordmark + navigation
    ========================================================================== */
 .site-header {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -206,10 +258,10 @@ input {
 }
 
 .wordmark {
-  font-size: var(--display-md);
+  font-size: var(--display-sm);
   color: var(--text);
   text-decoration: none;
-  text-shadow: var(--px) var(--px) 0 var(--shadow);
+  text-shadow: var(--ghost);
 }
 
 .wordmark:hover {
@@ -229,24 +281,29 @@ input {
   list-style: none;
 }
 
+/* Nav items are small bordered terminal tabs. */
 .site-nav a {
   display: block;
-  padding: var(--space-2) var(--space-2);
-  border-bottom: var(--px) solid transparent;
+  padding: var(--space-1) var(--space-3);
+  border: var(--hairline);
+  background: var(--surface);
   color: var(--muted);
-  font-size: var(--text-sm);
-  font-weight: 600;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
   text-decoration: none;
 }
 
 .site-nav a:hover {
   color: var(--text);
-  border-bottom-color: var(--border);
+  border-color: var(--highlight);
 }
 
 .site-nav a[aria-current="page"] {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
+  color: var(--highlight);
+  border-color: var(--highlight);
+  box-shadow: 0 0 8px var(--glow);
 }
 
 /* On phones the nav gets its own full-width row with evenly spread items. */
@@ -256,7 +313,13 @@ input {
   }
 
   .site-nav ul {
+    flex-wrap: nowrap;
     justify-content: space-between;
+  }
+
+  .site-nav a {
+    padding: var(--space-1) var(--space-2);
+    letter-spacing: 0.06em;
   }
 }
 
@@ -264,17 +327,24 @@ input {
    Layout primitives
    ========================================================================== */
 .title {
-  margin: 0 0 var(--space-6);
+  margin: var(--space-4) 0 var(--space-6);
   font-size: var(--display-lg);
-  color: var(--accent);
-  text-shadow: var(--px) var(--px) 0 var(--accent-deep);
+  line-height: 1.4;
+  color: var(--text);
+  letter-spacing: 0.08em;
+  text-shadow: var(--ghost);
 }
 
-.card {
+/*
+ * Panels: dark near-opaque glass with cut (notched) corners. clip-path trims the corners, so
+ * the frame is an inset shadow rather than a border.
+ */
+.card,
+.prompt-panel {
   background: var(--surface);
-  border: var(--px) solid var(--border);
-  box-shadow: var(--bevel), var(--drop);
   padding: var(--space-6);
+  clip-path: var(--notched);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 @media (max-width: 479px) {
@@ -308,12 +378,11 @@ input {
    ========================================================================== */
 input {
   width: 100%;
-  font-size: 20px;
+  font-size: var(--text-md);
   padding: var(--space-3) 14px;
-  border: var(--px) solid var(--border);
-  background: var(--bg);
+  border: var(--hairline);
+  background: var(--surface-solid);
   color: var(--text);
-  box-shadow: inset var(--px) var(--px) 0 var(--bevel-dark);
 }
 
 input::placeholder {
@@ -493,31 +562,337 @@ button.chip.active:hover {
 /* ==========================================================================
    Play screen
    ========================================================================== */
-.prompt-text {
-  margin: var(--space-4) 0 var(--space-2);
-  font-size: var(--text-xl);
+/* HUD: score panel, progress pips, round panel */
+.hud {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-6);
+}
+
+.hud-panel {
+  --notch: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-self: start;
+  min-width: 96px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+  clip-path: var(--notched);
+}
+
+.hud-panel-right {
+  justify-self: end;
+  text-align: right;
+}
+
+.hud-label {
+  font-size: var(--text-2xs);
   font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hud-value {
+  font-size: var(--display-md);
+  color: var(--highlight);
+  text-shadow: 0 0 8px var(--glow);
+}
+
+.hud-value small {
+  font-size: 0.6em;
+  color: var(--muted);
+  text-shadow: none;
+}
+
+.pips {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pip {
+  width: var(--pip);
+  height: var(--pip);
+  border: var(--hairline);
+  background: var(--tone, var(--surface-solid));
+  border-color: var(--tone, var(--border));
+}
+
+.pip-current {
+  background: var(--action);
+  border-color: var(--action-text);
+  box-shadow: 0 0 6px var(--action);
+}
+
+/* A played Prompt's pip takes its Tier tone (see promptPips in hud.ts). */
+.pip-blue { --tone: var(--tone-blue); }
+.pip-clown { --tone: var(--tone-clown); }
+.pip-green { --tone: var(--tone-green); }
+.pip-yellow { --tone: var(--tone-yellow); }
+.pip-orange { --tone: var(--tone-orange); }
+.pip-gem { --tone: var(--tone-gem); }
+.pip-miss { --tone: var(--tone-miss); }
+
+/* The prompt panel: kicker, the Prompt itself in large glowing type, its Rule */
+.prompt-panel {
+  padding: var(--space-6) var(--space-6) var(--space-4);
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--action-text);
+}
+
+.prompt-text {
+  margin: var(--space-3) 0;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.3;
+  text-shadow: 0 0 12px var(--text-glow);
 }
 
 .rule {
+  margin: 0 0 var(--space-3);
   color: var(--muted);
   font-size: var(--text-sm);
   padding-left: var(--space-3);
   border-left: var(--px) solid var(--highlight-deep);
 }
 
-.countdown {
-  font-size: clamp(24px, 8vw, 40px);
-  line-height: 1.2;
-  color: var(--accent);
-  text-shadow: var(--px) var(--px) 0 var(--accent-deep);
-  margin: var(--space-4) 0;
+.prompt-hint {
+  margin: 0;
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking);
+  color: var(--muted);
 }
 
-.countdown.reading {
-  font-size: var(--display-md);
+/* The answer bar: timer ring, Guess input, Lock in. Sticks to the bottom of the screen while playing. */
+.answer-bar {
+  position: sticky;
+  bottom: var(--space-3);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding: var(--space-2);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border), 0 0 24px var(--shadow);
+}
+
+.answer-bar input {
+  flex: 1;
+  min-width: 0;
+  border-color: var(--highlight-deep);
+  box-shadow: inset 0 -2px 0 var(--highlight);
+}
+
+.answer-bar input:focus-visible {
+  box-shadow: inset 0 -2px 0 var(--highlight), 0 0 12px var(--glow);
+}
+
+button.lock-in {
+  flex: none;
+  align-self: stretch;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--action-text);
+  background: var(--action);
+  color: var(--on-action);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  box-shadow: inset 0 calc(var(--px) * -1) 0 var(--action-deep), 0 0 12px var(--action-glow);
+}
+
+button.lock-in:hover:not(:disabled) {
+  background: var(--action-hover);
+}
+
+button.lock-in:disabled {
+  opacity: 0.45;
+  box-shadow: inset 0 calc(var(--px) * -1) 0 var(--action-deep);
+}
+
+/* The timer ring */
+.timer {
+  position: relative;
+  flex: none;
+  width: var(--timer-size);
+  height: var(--timer-size);
+}
+
+.timer svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-track {
+  fill: var(--surface-solid);
+  stroke: var(--border);
+  stroke-width: 4;
+}
+
+.timer-fill {
+  fill: none;
+  stroke: var(--highlight);
+  stroke-width: 4;
+  transition: stroke-dashoffset 100ms linear;
+  filter: drop-shadow(0 0 3px var(--glow));
+}
+
+.timer.reading .timer-fill {
+  stroke: var(--muted);
+}
+
+.timer.low .timer-fill {
+  stroke: var(--action);
+}
+
+.countdown {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: var(--display-sm);
   color: var(--highlight);
-  text-shadow: none;
+  text-align: center;
+}
+
+.timer.reading .countdown {
+  color: var(--muted);
+}
+
+.timer.low .countdown {
+  color: var(--action-text);
+}
+
+.notices:empty {
+  display: none;
+}
+
+/* Before a Prompt starts: the launch button */
+.launch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  text-align: center;
+}
+
+.launch-meta {
+  margin: 0;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+button.cta {
+  width: 100%;
+  padding: var(--space-6) var(--space-4);
+  border: 2px solid var(--highlight);
+  background: var(--surface-solid);
+  color: var(--text);
+  font-size: var(--display-md);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  box-shadow: 0 0 0 2px var(--surface-solid), 0 0 18px var(--glow), inset 0 0 18px var(--highlight-soft);
+  transition: box-shadow var(--duration) steps(2), color var(--duration) steps(2);
+}
+
+button.cta:hover:not(:disabled) {
+  color: var(--highlight);
+  box-shadow: 0 0 0 2px var(--surface-solid), 0 0 28px var(--highlight), inset 0 0 24px var(--glow-soft);
+}
+
+button.cta:active:not(:disabled) {
+  transform: translateY(var(--px));
+}
+
+button.cta:disabled {
+  opacity: 0.6;
+}
+
+/* The home title over the sky: an outlined pixel wordmark with a split-colour (CRT) ghost */
+.hero {
+  /* Fill the sky so the launch button sits just under the river line. */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(var(--horizon) - var(--header-height));
+  padding: var(--space-6) 0;
+  text-align: center;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(var(--display-lg), 8vw, calc(var(--display-lg) * 2.6));
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  color: var(--surface-solid);
+  -webkit-text-stroke: 2px var(--text);
+  text-shadow: var(--ghost-lg);
+}
+
+.hero-sub {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: var(--display-sm);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--highlight);
+  text-shadow: 0 0 8px var(--glow);
+}
+
+.hero-tagline {
+  margin: 0;
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+@media (max-width: 479px) {
+  .hud {
+    gap: var(--space-2);
+  }
+
+  .hud-panel {
+    min-width: 0;
+  }
+
+  .hud {
+    --pip: 10px;
+  }
+
+  .prompt-panel {
+    padding: var(--space-4);
+  }
+
+  button.lock-in {
+    padding: 0 var(--space-3);
+    letter-spacing: 0.1em;
+  }
+
+  .answer-bar {
+    --timer-size: 48px;
+  }
 }
 
 .choices {
@@ -872,9 +1247,154 @@ button.chip.active:hover {
 }
 
 /* ==========================================================================
-   Reduced motion: no shake, no score pop, no spinning, no press shift.
-   Feedback stays visible through colour (the red border on a Rejected
-   Attempt) and text.
+   The backdrop (scene.tsx): sky, clouds, turret, river, depths, scanlines.
+   Fixed behind everything; the horizon sits --horizon from the top.
+   ========================================================================== */
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+body > :not(.scene, .scanlines, .skip-link) {
+  position: relative;
+  z-index: 1;
+}
+
+.scene-sky {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--horizon);
+  /* Hard colour bands, not a smooth gradient: a pixel-art sky. */
+  background: linear-gradient(
+    var(--sky-1) 0 30%,
+    var(--sky-2) 30% 52%,
+    var(--sky-3) 52% 70%,
+    var(--sky-4) 70% 84%,
+    var(--sky-5) 84% 93%,
+    var(--sky-6) 93% 100%
+  );
+}
+
+.cloud {
+  position: absolute;
+  fill: var(--cloud);
+  animation: drift 160s linear infinite;
+}
+
+.cloud-a {
+  top: 14%;
+  left: 6%;
+}
+
+.cloud-b {
+  top: 34%;
+  left: 62%;
+  fill: var(--cloud-far);
+  animation-duration: 220s;
+}
+
+.cloud-c {
+  top: 4%;
+  left: 78%;
+  fill: var(--cloud-farthest);
+  animation-duration: 260s;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-120vw);
+  }
+}
+
+.turret {
+  position: absolute;
+  bottom: 0;
+  left: max(4%, calc(50% - 420px));
+  fill: var(--silhouette);
+}
+
+.scene-river {
+  position: absolute;
+  top: var(--horizon);
+  left: 0;
+  right: 0;
+  height: var(--river-height);
+  background: linear-gradient(var(--river-light) 0 2px, var(--river) 2px 100%);
+  box-shadow: 0 0 24px var(--glow);
+}
+
+.scene-depths {
+  position: absolute;
+  top: calc(var(--horizon) + var(--river-height));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(var(--depths-1) 0 10%, var(--depths-2) 10% 30%, var(--depths-3) 30% 55%, var(--bg) 55% 100%);
+}
+
+/* Hextech sparks drifting up out of the depths */
+.spark {
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  background: var(--highlight);
+  box-shadow: 0 0 6px var(--highlight);
+  opacity: 0;
+  animation: rise 14s steps(70) infinite;
+}
+
+.spark:nth-child(3n) {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(-58vh);
+    opacity: 0;
+  }
+}
+
+/* CRT scanlines over the whole screen, panels included; never catches clicks */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background: repeating-linear-gradient(var(--scanline) 0 1px, transparent 1px 3px);
+}
+
+/* Text for screen readers only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Reduced motion: no shake, no score pop, no spinning, no press shift,
+   no drifting clouds or sparks. Feedback stays visible through colour
+   (the red border on a Rejected Attempt) and text.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -887,7 +1407,9 @@ button.chip.active:hover {
 
   .shake,
   .score-pop,
-  .spinner {
+  .spinner,
+  .cloud,
+  .spark {
     animation: none;
   }
 
