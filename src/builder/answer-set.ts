@@ -53,6 +53,13 @@ export function labelTermsOf(filter: TemplateFilter): string[] {
   return [];
 }
 
+/** The curated traits a filter reads, in order (nested `all` filters included). */
+export function traitIdsOf(filter: TemplateFilter): string[] {
+  if (filter.kind === "trait") return [filter.trait];
+  if (filter.kind === "all") return filter.of.flatMap(traitIdsOf);
+  return [];
+}
+
 /** The Entities a Template's filter selects from the game data and approved labels. */
 export function answerSetOf(template: TemplateDefinition, inputs: BuilderInputs): EntityId[] {
   return select(template.filter, inputs);

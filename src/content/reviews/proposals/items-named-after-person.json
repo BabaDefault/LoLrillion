@@ -15,7 +15,6 @@
     "item:3083",
     "item:3085",
     "item:3089",
-    "item:3111",
     "item:3115",
     "item:3116",
     "item:3124",
@@ -33,12 +32,13 @@
     "item:6665",
     "item:6694"
   ],
-  "missing": [],
-  "disputable": [
+  "missing": [
     {
-      "entity": "item:3111",
-      "why": "Mercury is a god, not a lore person; fits \"character\", but many players read the name as the metal or a brand."
-    },
+      "entity": "3111",
+      "why": "Removed after review: Mercury is a real-world god, not a person or character from League's world, which the Rule requires."
+    }
+  ],
+  "disputable": [
     {
       "entity": "item:3115",
       "why": "Named after Baron Nashor, a monster rather than a person; fits \"character\", but expect arguments."
@@ -132,10 +132,6 @@
       "value": 0.2,
       "why": "The canonical example; top of mind."
     },
-    "item:3111": {
-      "value": 0.02,
-      "why": "Called Mercs; few connect Mercury to a character."
-    },
     "item:3115": {
       "value": 0.03,
       "why": "The Baron Nashor link clicks only on reflection."
@@ -208,8 +204,8 @@
       "why": "\"Oh, Baron Nashor!\" is the purest reveal: the name hides in plain sight on a popular item."
     },
     {
-      "entity": "item:3111",
-      "why": "Everyone buys Mercs but forgets Mercury is a god; a satisfying \"of course\"."
+      "entity": "item:3116",
+      "why": "Panel consensus Gem (round 2, 3-0): a clear possessive on an item every player buys or faces, never read as someone's name."
     },
     {
       "entity": "item:3222",

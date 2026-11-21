@@ -7,7 +7,6 @@
     "champion:Jax",
     "champion:Jhin",
     "champion:Kassadin",
-    "champion:Kayle",
     "champion:Kennen",
     "champion:Kindred",
     "champion:MasterYi",
@@ -25,6 +24,10 @@
     {
       "entity": "Fiddlesticks",
       "why": "The scarecrow's face is a stitched burlap-sack mask; Rule call whether a sack head counts."
+    },
+    {
+      "entity": "Kayle",
+      "why": "Removed after review: her face is uncovered on the base model until she ascends; the Rule judges the base skin."
     }
   ],
   "disputable": [
@@ -47,10 +50,6 @@
     {
       "entity": "champion:Shaco",
       "why": "His grinning face reads as his own puppet face as much as a mask."
-    },
-    {
-      "entity": "champion:Kayle",
-      "why": "Her face is covered only once she ascends at higher level; at level 1 it's visible."
     }
   ],
   "wording": [],
@@ -79,10 +78,6 @@
     "champion:Kassadin": {
       "value": 0.06,
       "why": "Void helmet is visible; moderate recall."
-    },
-    "champion:Kayle": {
-      "value": 0.04,
-      "why": "Helmet only in her ascended form; some remember old helmeted Kayle."
     },
     "champion:Kennen": {
       "value": 0.04,

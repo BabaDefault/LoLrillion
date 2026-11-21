@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { labelTermsOf } from "./answer-set";
+import { labelTermsOf, traitIdsOf } from "./answer-set";
 import { esportsVersion, isEsportsAnswerType, requireEsports } from "./esports";
 import type { BuilderInputs, BuiltPrompt, PromptProvenance, ScoringConstants, TemplateDefinition } from "./types";
 
@@ -11,7 +11,7 @@ export function provenanceOf(template: TemplateDefinition, inputs: BuilderInputs
   const review = inputs.reviews?.[template.id];
   const common = {
     review: review ? contentHash(review) : "unreviewed",
-    labels: template.filter.kind === "trait" ? traitsHash(template.filter.trait, inputs) : labelsHash(labelTermsOf(template.filter), inputs),
+    labels: curatedFactsHash(labelTermsOf(template.filter), traitIdsOf(template.filter), inputs),
     scoring: contentHash(scoring),
   };
   if (isEsportsAnswerType(template.answerType)) {
@@ -61,14 +61,24 @@ function labelsHash(terms: readonly string[], inputs: BuilderInputs): string {
   return contentHash(terms.map((term) => labelsUsed(term, inputs)));
 }
 
-/** Curated traits are hand-approved facts like labels, so a `trait` filter's traits fill the labels field. */
-function traitsHash(trait: string, { traits = [] }: BuilderInputs): string {
-  return contentHash(
-    traits
-      .filter((t) => t.trait === trait)
-      .map(canonical)
-      .sort(),
-  );
+/**
+ * The hand-approved facts a filter reads: its mechanics labels and its curated traits. Filters that read
+ * only labels hash exactly as before traits existed; one trait alone hashes its traits list.
+ */
+function curatedFactsHash(terms: readonly string[], traitIds: readonly string[], inputs: BuilderInputs): string {
+  if (traitIds.length === 0) return labelsHash(terms, inputs);
+  if (terms.length === 0 && traitIds.length === 1) return contentHash(traitsUsed(traitIds[0], inputs));
+  return contentHash({
+    labels: terms.map((term) => labelsUsed(term, inputs)),
+    traits: traitIds.map((id) => traitsUsed(id, inputs)),
+  });
+}
+
+function traitsUsed(trait: string, { traits = [] }: BuilderInputs): string[] {
+  return traits
+    .filter((t) => t.trait === trait)
+    .map(canonical)
+    .sort();
 }
 
 function labelsUsed(term: string, { labels = [] }: BuilderInputs): string[] {

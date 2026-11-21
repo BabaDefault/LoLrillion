@@ -6,7 +6,6 @@
     "champion:Bard",
     "champion:Brand",
     "champion:Braum",
-    "champion:Briar",
     "champion:Fizz",
     "champion:Gnar",
     "champion:Graves",
@@ -40,7 +39,12 @@
     "champion:Zed",
     "champion:Ziggs"
   ],
-  "missing": [],
+  "missing": [
+    {
+      "entity": "Briar",
+      "why": "Removed after review: standard English pronunciation of Briar is two syllables (bri-ar), as the Rule requires."
+    }
+  ],
   "disputable": [
     {
       "entity": "champion:Hwei",
@@ -49,10 +53,6 @@
     {
       "entity": "champion:Singed",
       "why": "Some players jokingly say \"sing-ed\"; the standard reading is one syllable."
-    },
-    {
-      "entity": "champion:Briar",
-      "why": "Dictionaries give two syllables (BRY-er), though many say it as one; expect arguments either way."
     }
   ],
   "wording": [],
@@ -77,10 +77,6 @@
     "champion:Braum": {
       "value": 0.04,
       "why": "Estimated first-answer share for Braum on this Prompt."
-    },
-    "champion:Briar": {
-      "value": 0.02,
-      "why": "Newer champion; the one-vs-two syllable doubt makes players skip her."
     },
     "champion:Fizz": {
       "value": 0.07,

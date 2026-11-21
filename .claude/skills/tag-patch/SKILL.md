@@ -14,6 +14,8 @@ Scope is the champion's **own base kit on the current patch**. Abilities listed 
 
 Run `npm run labels:worklist`. It writes `src/content/labels/proposals/worklist.json` with the term definitions, the borrowed abilities, and one entry per **changed** champion (ability text differs from `src/content/labels/tagged.json`; new champions count as changed): its plain ability text, its current approved labels, and keyword suggestions.
 
+When a new term has just been added to `MECHANICS_TERMS`, no champion has been judged on it yet: run `npm run labels:worklist -- --all --terms <id,...>` instead, which covers every champion for only those terms. Split the work file into chunks if it is too large to judge in one pass.
+
 Done when the command reports the count. If the count is 0, tell the human there is nothing to tag and stop.
 
 ## 2. Label each changed champion

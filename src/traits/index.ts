@@ -76,8 +76,6 @@ export const TRAITS = [
   },
 ] as const satisfies readonly TraitDefinition[];
 
-export type TraitId = (typeof TRAITS)[number]["id"];
-
 export function traitDefinition(id: string): TraitDefinition | undefined {
   return TRAITS.find((t) => t.id === id);
 }

@@ -15,7 +15,7 @@ If no Template ID was given, run `npm run reviews:queue`, show the human the que
 
 ## 1. Build the work file
 
-Run `npm run reviews:worklist -- <templateId>`. It writes `src/content/reviews/proposals/<templateId>.worklist.json`: the Prompt text, Answer Type, Rule, filter (and the mechanics term definition for kit Templates), the queue status (for `changed`: the Entities added and removed since approval), the current approved review if any, every Entity in the Answer Set with its name, Aliases and current Tier, and the names of every other Entity of the Answer Type (`notInAnswerSet`).
+Run `npm run reviews:worklist -- <templateId>`. It writes `src/content/reviews/proposals/<templateId>.worklist.json`: the Prompt text, Answer Type, Rule, filter (and the mechanics term or Trait definitions the filter reads), the queue status (for `changed`: the Entities added and removed since approval), the current approved review if any, every Entity in the Answer Set with its name, Aliases, current Tier and `evidence` (the label quotes or Trait reasons it rests on), and the names of every other Entity of the Answer Type (`notInAnswerSet`).
 
 Done when the command reports the answer count.
 

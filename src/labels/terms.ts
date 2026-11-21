@@ -102,7 +102,6 @@ export const MECHANICS_TERMS = [
       "Items and runes (Kraken Slayer, Electrocute), counts other than three (four-shot or five-stack effects), and empowering each of the next three attacks with nothing special on the third.",
     keywords: /\b(third|three|3 (?:hits|stacks|attacks)|3rd)\b/gi,
   },
-
   {
     id: "true-sight",
     name: "True Sight",
@@ -119,7 +118,6 @@ export const MECHANICS_TERMS = [
     excludes: "Walls that only slow, stun or damage enemies who walk through them (Thresh's The Box, Irelia's Vanguard's Edge, Veigar's Event Horizon, Aurora's Between Worlds), projectile walls (Yasuo's Wind Wall), and dashing over terrain.",
     keywords: /\b(terrain|impassable|wall|pillar|arena)\b/gi,
   },
-
   {
     id: "untargetable",
     name: "Untargetable",
@@ -129,7 +127,6 @@ export const MECHANICS_TERMS = [
     keywords: /\b(untargetable|stasis)\b/gi,
     borderline: "untargetable vs invulnerable or invisible",
   },
-
   {
     id: "takedown-reset",
     name: "Reset on takedown",

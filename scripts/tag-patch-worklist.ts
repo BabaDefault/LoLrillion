@@ -40,16 +40,16 @@ async function main() {
   const baseline = JSON.parse(await readFile(TAGGED_FILE, "utf8")) as TaggedBaseline;
   // A newly added term has no labels yet, so every champion needs judging for it, changed or not.
   const all = process.argv.includes("--all");
-  const termsArg = process.argv[process.argv.indexOf("--terms") + 1];
-  const onlyTerms = process.argv.includes("--terms") ? new Set(termsArg?.split(",") ?? []) : undefined;
+  const termsFlag = process.argv.indexOf("--terms");
+  const onlyTerms = termsFlag >= 0 ? new Set(process.argv[termsFlag + 1]?.split(",") ?? []) : undefined;
   const unknown = [...(onlyTerms ?? [])].filter((id) => !MECHANICS_TERMS.some((t) => t.id === id));
   if (unknown.length > 0) throw new Error(`Unknown terms: ${unknown.join(", ")}`);
   const inScope = (term: string) => !onlyTerms || onlyTerms.has(term);
-  const changed = all
+  const toJudge = all
     ? gameDataSnapshot.champions.map((c) => championEntityId(c.id))
     : changedChampions(gameDataSnapshot, baseline);
-  const suggestions = prelabel(gameDataSnapshot, changed).filter((s) => inScope(s.term));
-  const champions = changed.map((entityId) => {
+  const suggestions = prelabel(gameDataSnapshot, toJudge).filter((s) => inScope(s.term));
+  const champions = toJudge.map((entityId) => {
     const champion = gameDataSnapshot.champions.find((c) => championEntityId(c.id) === entityId)!;
     return {
       entityId,
@@ -77,7 +77,7 @@ async function main() {
   await writeFile(file, JSON.stringify(worklist, null, 2) + "\n");
   const scope = all ? "champions" : `changed champions since ${baseline.patch ?? "never"}`;
   const terms = onlyTerms ? ` for ${[...onlyTerms].join(", ")}` : "";
-  console.log(`${changed.length} ${scope}${terms} (patch ${gameDataSnapshot.patch}) -> ${file}`);
+  console.log(`${toJudge.length} ${scope}${terms} (patch ${gameDataSnapshot.patch}) -> ${file}`);
 }
 
 main().catch((err) => {

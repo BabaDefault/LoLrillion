@@ -64,6 +64,18 @@ describe("Prompt provenance", () => {
     expect(buildPrompt(gun, { ...fixtureInputs, traits: other }).provenance).toEqual(before);
   });
 
+  it("a trait inside a combined filter still records its traits", () => {
+    const rangedGun: TemplateDefinition = {
+      ...invisible,
+      id: "champions-ranged-gun",
+      filter: { kind: "all", of: [{ kind: "champion-range", ranged: false }, { kind: "trait", trait: "uses-gun" }] },
+    };
+    const traits = [{ entityId: "champion:Tristana", trait: "uses-gun", why: "Boomer." }];
+    const before = buildPrompt(rangedGun, { ...fixtureInputs, traits }).provenance!;
+    const reworded = [{ ...traits[0], why: "Her cannon, Boomer." }];
+    expect(changedFields(before, buildPrompt(rangedGun, { ...fixtureInputs, traits: reworded }).provenance)).toEqual(["labels"]);
+  });
+
   it("a label for another term doesn't change a Prompt's provenance", () => {
     const before = buildPrompt(invisible, full).provenance;
     const labels = [...full.labels!, { ...full.labels![0], term: "dash" }];

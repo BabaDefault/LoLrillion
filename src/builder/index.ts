@@ -1,7 +1,7 @@
 // Puzzle Builder: the pure module that turns game data, approved labels and approved reviews into
 // tiered Answer Sets and dated Puzzles. Run by maintainer scripts, never by the live app.
 export * from "./types";
-export { answerSetOf, labelTermsOf, RANGED_ATTACK_RANGE } from "./answer-set";
+export { answerSetOf, labelTermsOf, RANGED_ATTACK_RANGE, traitIdsOf } from "./answer-set";
 export { esportsVersion, isEsportsAnswerType } from "./esports";
 export { explainPrompt, type PromptExplanation } from "./provenance";
 export { bandByPrior, buildPrompt, FAMILIARITY_WEIGHT, BAND_SHARES, DEFAULT_GEM_POSITION, SCORING_CONSTANTS } from "./tiers";

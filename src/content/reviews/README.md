@@ -33,8 +33,10 @@ approved/<templateId>.json             the maintainer's approval: the only revie
    Mechanics labels have the same kind of queue: `npm run labels:queue` (see `/tag-patch`).
 2. In Claude Code, run `/review-template <templateId>`. It runs `npm run reviews:worklist -- <templateId>`,
    writes `proposals/<templateId>.json`, and checks it with `npm run reviews:validate -- <templateId>`.
-3. Read the proposal. Fix the data it flags (labels, Template filter, Rule wording, nicknames) where
-   you agree; those are separate commits through their own workflows.
+3. Read the proposal. Fix the data it flags (labels, Traits, Template filter, Rule wording, nicknames)
+   where you agree; those are separate commits through their own workflows. A Trait is fixed by editing
+   `src/content/traits/approved.json` (definitions in `src/traits`); `npm test` checks every entry.
+   Rules are shown to players under the Prompt while they answer, so a Rule must never name an answer.
 4. `npm run reviews:approve -- <templateId>` drafts `approved/<templateId>.json` from the proposal (Gem = first
    candidate, every Too Clever candidate, every Typicality estimate). Edit it to your picks, commit it, then
    `npm test` and `npm run puzzles:build`. Already-generated Puzzles don't change; new ones use the approval.

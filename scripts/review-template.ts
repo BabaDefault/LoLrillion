@@ -17,7 +17,7 @@
  */
 import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
-import { answerSetOf, buildPrompt, esportsVersion, labelTermsOf, isEsportsAnswerType, type BuilderInputs, type TemplateDefinition } from "../src/builder";
+import { answerSetOf, buildPrompt, esportsVersion, labelTermsOf, traitIdsOf, isEsportsAnswerType, type BuilderInputs, type TemplateDefinition } from "../src/builder";
 import { entityRegistry } from "../src/content/game-data";
 import { esportsSnapshot } from "../src/content/esports";
 import { gameDataSnapshot } from "../src/content/game-data/snapshot-data";
@@ -128,13 +128,15 @@ async function worklist(id: string | undefined) {
   const [entry] = reviewQueue({ [t.id]: answerSets[t.id] }, reviews, invalid);
   const termIds = labelTermsOf(t.filter);
   const terms = termIds.flatMap((id) => mechanicsTerm(id) ?? []);
-  const trait = t.filter.kind === "trait" ? traitDefinition(t.filter.trait) : undefined;
+  const traitDefs = traitIdsOf(t.filter).flatMap((id) => traitDefinition(id) ?? []);
   /** Why each Entity is in the set, for hand-maintained facts: its label quotes or its trait reason. */
   const evidence = (entity: string) => {
     const labels = approvedLabels
       .filter((l) => l.entityId === entity && termIds.includes(l.term))
       .map((l) => `${l.term} (${l.ability}): ${l.inGame ? `in game: ${l.inGame}` : `"${l.quote}"`}`);
-    const traits = trait ? approvedTraits.filter((a) => a.entityId === entity && a.trait === trait.id).map((a) => a.why) : [];
+    const traits = approvedTraits
+      .filter((a) => a.entityId === entity && traitDefs.some((d) => d.id === a.trait))
+      .map((a) => `${a.trait}: ${a.why}`);
     const all = [...labels, ...traits];
     return all.length > 0 ? all : undefined;
   };
@@ -147,7 +149,7 @@ async function worklist(id: string | undefined) {
     rule: t.rule,
     filter: t.filter,
     terms: terms.map((term) => ({ id: term.id, definition: term.definition, excludes: term.excludes })),
-    trait: trait && { id: trait.id, definition: trait.definition, excludes: trait.excludes },
+    traits: traitDefs.map((d) => ({ id: d.id, definition: d.definition, excludes: d.excludes })),
     queue: entry?.status === "unreviewed" ? { status: entry.status } : (entry ?? { status: "approved, unchanged" }),
     approved: reviews[t.id] ?? invalid[t.id]?.review ?? null,
     answerSet: answerSets[t.id].map((entity) => ({
