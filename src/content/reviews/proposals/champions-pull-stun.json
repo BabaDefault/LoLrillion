@@ -1,0 +1,98 @@
+{
+  "templateId": "champions-pull-stun",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:KSante",
+    "champion:Nautilus",
+    "champion:Pyke",
+    "champion:Rell",
+    "champion:Sett",
+    "champion:Skarner",
+    "champion:Thresh",
+    "champion:Urgot"
+  ],
+  "missing": [
+    {
+      "entity": "Blitzcrank",
+      "why": "Players will expect him, but the current Rocket Grab tooltip has no stun (E knocks up); correct per data. Verify in-game; if Rocket Grab stuns, fix: data (label)."
+    },
+    {
+      "entity": "Darius",
+      "why": "Apprehend pulls but he has no stun; not missing."
+    },
+    {
+      "entity": "Zac",
+      "why": "Stretching Strikes moves enemies toward each other (arguably a pull, unlabelled) but Zac has no stun; not missing either way."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:AurelionSol",
+      "why": "Singularity (E) sucks enemies toward its centre and the stun is on R; players rarely think of him as a pull champion."
+    },
+    {
+      "entity": "champion:Urgot",
+      "why": "His pull is R's execute drag and the stun is Disdain's flip; players may think of E as the pull."
+    }
+  ],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "ok",
+    "why": "Small set (9) dominated by hook supports; Thresh/Naut/Pyke are easy, Rell, K'Sante, Urgot reward depth. Blitzcrank's absence will annoy."
+  },
+  "typicality": {
+    "champion:Thresh": {
+      "value": 0.5,
+      "why": "Death Sentence hook stuns."
+    },
+    "champion:Nautilus": {
+      "value": 0.45,
+      "why": "Hook plus Depth Charge."
+    },
+    "champion:Pyke": {
+      "value": 0.4,
+      "why": "Hook plus Phantom Undertow stun."
+    },
+    "champion:Sett": {
+      "value": 0.3,
+      "why": "Facebreaker pulls and stuns in one."
+    },
+    "champion:Skarner": {
+      "value": 0.2,
+      "why": "Wall stun and Impale."
+    },
+    "champion:Urgot": {
+      "value": 0.15,
+      "why": "Flip stun and R drag."
+    },
+    "champion:Rell": {
+      "value": 0.1,
+      "why": "Magnet Storm pull and Attract and Repel stun."
+    },
+    "champion:KSante": {
+      "value": 0.08,
+      "why": "Q3 pull and W stun are niche."
+    },
+    "champion:AurelionSol": {
+      "value": 0.05,
+      "why": "Few connect him to pulls."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Urgot",
+      "why": "Fear Beyond Death drag plus Disdain stun: a satisfying 'of course' reveal."
+    },
+    {
+      "entity": "champion:Rell",
+      "why": "Magnet Storm pull and Attract and Repel stun; known to supports."
+    },
+    {
+      "entity": "champion:KSante",
+      "why": "Q3 pull and Path Maker stun; recognisable on reveal."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "templateId": "items-magic-resist-health",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1120",
+    "item:2504",
+    "item:2524",
+    "item:3050",
+    "item:3065",
+    "item:3190",
+    "item:3211",
+    "item:4401",
+    "item:6664",
+    "item:6665",
+    "item:8020"
+  ],
+  "typicality": {
+    "item:3065": 0.5,
+    "item:4401": 0.35,
+    "item:2504": 0.3,
+    "item:8020": 0.2,
+    "item:6664": 0.15,
+    "item:6665": 0.15,
+    "item:3211": 0.12,
+    "item:3190": 0.1,
+    "item:1120": 0.05,
+    "item:3050": 0.03,
+    "item:2524": 0.02
+  },
+  "tooClever": [
+    "item:1120"
+  ],
+  "gem": "item:3211"
+}

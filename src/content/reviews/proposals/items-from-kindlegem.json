@@ -1,0 +1,145 @@
+{
+  "templateId": "items-from-kindlegem",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2502",
+    "item:2510",
+    "item:2524",
+    "item:2525",
+    "item:3050",
+    "item:3065",
+    "item:3071",
+    "item:3109",
+    "item:3119",
+    "item:3152",
+    "item:3165",
+    "item:3190",
+    "item:3222",
+    "item:4629",
+    "item:6617",
+    "item:6620",
+    "item:8020"
+  ],
+  "missing": [
+    {
+      "entity": "Sunfire Aegis",
+      "why": "Built from Bami's Cinder, which shares Kindlegem's Ruby Crystal + Glowing Mote recipe, so tank players misremember it. Rule-correct out; a likely wrong answer."
+    },
+    {
+      "entity": "Frozen Heart",
+      "why": "A haste-and-armor tank item players lump with Kindlegem items, but it builds from Glacial Buckler and Warden's Mail. Rule-correct out."
+    },
+    {
+      "entity": "Shurelya's Battlesong",
+      "why": "Support haste item built from Bandleglass Mirror and Aether Wisp, not Kindlegem. Rule-correct out; a likely wrong answer from support players."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:2510",
+      "why": "Four-component recipe (Sheen, Blasting Wand, Kindlegem, Dagger); few players expect a Kindlegem inside an AP on-hit item. Rule-correct per Data Dragon, but expect surprise."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:6620",
+      "alias": "Echoes",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:2502",
+      "alias": "UD",
+      "why": "Shorthand in build discussions."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "17 answers spanning tanks, supports, bruisers and mages: nearly everyone can name Spirit Visage or Locket, few remember Morellonomicon, Cosmic Drive or Dusk and Dawn."
+  },
+  "typicality": {
+    "item:2502": {
+      "value": 0.12,
+      "why": "Newer tank item; recipe less known."
+    },
+    "item:2510": {
+      "value": 0.05,
+      "why": "Newer AP on-hit item; the Kindlegem is unexpected."
+    },
+    "item:2524": {
+      "value": 0.04,
+      "why": "Niche support item few have built."
+    },
+    "item:2525": {
+      "value": 0.06,
+      "why": "Newer, niche item."
+    },
+    "item:3050": {
+      "value": 0.2,
+      "why": "Support tank item; recipe moderately known."
+    },
+    "item:3065": {
+      "value": 0.35,
+      "why": "The classic Kindlegem completion; the first thing tops and junglers think of."
+    },
+    "item:3071": {
+      "value": 0.3,
+      "why": "Phage + Kindlegem is an iconic build path."
+    },
+    "item:3109": {
+      "value": 0.2,
+      "why": "Support Kindlegem item, recipe fairly known."
+    },
+    "item:3119": {
+      "value": 0.08,
+      "why": "Players think Tear first, not Kindlegem."
+    },
+    "item:3152": {
+      "value": 0.15,
+      "why": "AP assassin players remember the Kindlegem."
+    },
+    "item:3165": {
+      "value": 0.15,
+      "why": "Everyone builds it, but players think Oblivion Orb and Blasting Wand first."
+    },
+    "item:3190": {
+      "value": 0.3,
+      "why": "Support staple; Kindlegem is its obvious component."
+    },
+    "item:3222": {
+      "value": 0.15,
+      "why": "Enchanter players know the Kindlegem."
+    },
+    "item:4629": {
+      "value": 0.06,
+      "why": "Mage item; a tank component is surprising."
+    },
+    "item:6617": {
+      "value": 0.12,
+      "why": "Enchanter item; Kindlegem + Bandleglass Mirror."
+    },
+    "item:6620": {
+      "value": 0.08,
+      "why": "Built less than Moonstone."
+    },
+    "item:8020": {
+      "value": 0.2,
+      "why": "Kindlegem + Negatron Cloak is well remembered by tank mains."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:6617",
+      "why": "Enchanter mains get it; everyone else says 'oh right' on reveal."
+    },
+    {
+      "entity": "item:4629",
+      "why": "A mage item hiding a tank component: a satisfying reveal mage players can reach."
+    },
+    {
+      "entity": "item:2502",
+      "why": "Recent tank staple; reachable for top laners, well below the likeliest half."
+    }
+  ]
+}

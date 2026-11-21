@@ -1,0 +1,26 @@
+{
+  "templateId": "items-ability-power-mana",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2503",
+    "item:2522",
+    "item:3003",
+    "item:3040",
+    "item:3118",
+    "item:3802",
+    "item:6655",
+    "item:6657"
+  ],
+  "typicality": {
+    "item:3003": 0.45,
+    "item:6655": 0.35,
+    "item:6657": 0.35,
+    "item:3802": 0.25,
+    "item:3040": 0.18,
+    "item:3118": 0.18,
+    "item:2503": 0.15,
+    "item:2522": 0.04
+  },
+  "tooClever": [],
+  "gem": "item:3118"
+}

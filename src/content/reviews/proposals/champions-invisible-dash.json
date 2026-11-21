@@ -1,0 +1,127 @@
+{
+  "templateId": "champions-invisible-dash",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akali",
+    "champion:Akshan",
+    "champion:Aurora",
+    "champion:Evelynn",
+    "champion:Kaisa",
+    "champion:Khazix",
+    "champion:Leblanc",
+    "champion:MonkeyKing",
+    "champion:Pyke",
+    "champion:Qiyana",
+    "champion:Rengar",
+    "champion:Talon",
+    "champion:Vayne",
+    "champion:Viego"
+  ],
+  "missing": [
+    {
+      "entity": "Shaco",
+      "why": "Deceive is a teleport (blink), which the dash term excludes; players will dispute, fix would be the Rule, not data."
+    },
+    {
+      "entity": "Twitch",
+      "why": "Invisible but has no dash; not missing."
+    },
+    {
+      "entity": "Teemo",
+      "why": "Camouflage but no dash; not missing."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Evelynn",
+      "why": "Her dash is the empowered Whiplash (E); her R is a teleport. Players may say she doesn't dash."
+    },
+    {
+      "entity": "champion:Leblanc",
+      "why": "Invisibility only from Mirror Image passive; Distortion counted as a dash though many call it a blink."
+    },
+    {
+      "entity": "champion:Kaisa",
+      "why": "Invisibility needs evolved E; dash from Killer Instinct. Both conditional-feeling."
+    }
+  ],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Assassins (Kha'Zix, Rengar, Akali, Talon) and Vayne are easy; Wukong, Akshan, Qiyana, Viego reward depth. 14 answers, good spread."
+  },
+  "typicality": {
+    "champion:Vayne": {
+      "value": 0.4,
+      "why": "Tumble + Final Hour."
+    },
+    "champion:Khazix": {
+      "value": 0.4,
+      "why": "Leap + Void Assault."
+    },
+    "champion:Akali": {
+      "value": 0.35,
+      "why": "Shroud + Shuriken Flip."
+    },
+    "champion:Rengar": {
+      "value": 0.35,
+      "why": "Brush leap + Thrill of the Hunt."
+    },
+    "champion:Talon": {
+      "value": 0.3,
+      "why": "Assassin's Path + Shadow Assault."
+    },
+    "champion:Evelynn": {
+      "value": 0.25,
+      "why": "Camouflage obvious, dash less so."
+    },
+    "champion:Pyke": {
+      "value": 0.2,
+      "why": "Ghostwater Dive + Phantom Undertow."
+    },
+    "champion:Leblanc": {
+      "value": 0.15,
+      "why": "Distortion + passive."
+    },
+    "champion:MonkeyKing": {
+      "value": 0.15,
+      "why": "Warrior Trickster + Nimbus Strike."
+    },
+    "champion:Akshan": {
+      "value": 0.15,
+      "why": "Heroic Swing + Going Rogue."
+    },
+    "champion:Qiyana": {
+      "value": 0.1,
+      "why": "Grass element invis is niche."
+    },
+    "champion:Kaisa": {
+      "value": 0.1,
+      "why": "Evolved E plus R dash."
+    },
+    "champion:Aurora": {
+      "value": 0.05,
+      "why": "New champion."
+    },
+    "champion:Viego": {
+      "value": 0.05,
+      "why": "Mist camouflage rarely remembered."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:MonkeyKing",
+      "why": "Decoy stealth + Nimbus Strike; clear 'oh, of course' on reveal."
+    },
+    {
+      "entity": "champion:Akshan",
+      "why": "Going Rogue and the swing dash are both signature; satisfying find."
+    },
+    {
+      "entity": "champion:Qiyana",
+      "why": "Grass element stealth plus her dashes; a knowledgeable pick some players get."
+    }
+  ]
+}

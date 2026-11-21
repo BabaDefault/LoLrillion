@@ -1,0 +1,36 @@
+{
+  "templateId": "items-attack-damage-attack-speed",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1086",
+    "item:3032",
+    "item:3051",
+    "item:3073",
+    "item:3078",
+    "item:3087",
+    "item:3095",
+    "item:3124",
+    "item:3153",
+    "item:3302",
+    "item:6631",
+    "item:6672"
+  ],
+  "typicality": {
+    "item:3153": 0.45,
+    "item:6672": 0.35,
+    "item:3124": 0.35,
+    "item:3078": 0.3,
+    "item:3032": 0.25,
+    "item:3087": 0.15,
+    "item:3302": 0.12,
+    "item:3095": 0.08,
+    "item:3073": 0.06,
+    "item:6631": 0.05,
+    "item:3051": 0.05,
+    "item:1086": 0.05
+  },
+  "tooClever": [
+    "item:1086"
+  ],
+  "gem": "item:6631"
+}

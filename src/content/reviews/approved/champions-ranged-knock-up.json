@@ -1,0 +1,32 @@
+{
+  "templateId": "champions-ranged-knock-up",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:Ivern",
+    "champion:Janna",
+    "champion:Lulu",
+    "champion:Nami",
+    "champion:Neeko",
+    "champion:Rakan",
+    "champion:Samira",
+    "champion:Taliyah",
+    "champion:Velkoz",
+    "champion:Zyra"
+  ],
+  "typicality": {
+    "champion:Janna": 0.45,
+    "champion:Nami": 0.35,
+    "champion:Rakan": 0.3,
+    "champion:Lulu": 0.2,
+    "champion:Taliyah": 0.2,
+    "champion:Velkoz": 0.15,
+    "champion:Zyra": 0.12,
+    "champion:Neeko": 0.1,
+    "champion:AurelionSol": 0.1,
+    "champion:Samira": 0.06,
+    "champion:Ivern": 0.05
+  },
+  "tooClever": [],
+  "gem": "champion:Zyra"
+}

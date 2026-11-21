@@ -1,0 +1,28 @@
+{
+  "templateId": "items-from-null-magic-mantle",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1057",
+    "item:2524",
+    "item:3050",
+    "item:3111",
+    "item:3140",
+    "item:3155",
+    "item:3190",
+    "item:3211",
+    "item:4632"
+  ],
+  "typicality": {
+    "item:1057": 0.3,
+    "item:2524": 0.04,
+    "item:3050": 0.06,
+    "item:3111": 0.4,
+    "item:3140": 0.3,
+    "item:3155": 0.2,
+    "item:3190": 0.1,
+    "item:3211": 0.2,
+    "item:4632": 0.12
+  },
+  "tooClever": [],
+  "gem": "item:3190"
+}

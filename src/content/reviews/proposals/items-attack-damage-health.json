@@ -1,0 +1,136 @@
+{
+  "templateId": "items-attack-damage-health",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1055",
+    "item:2021",
+    "item:2501",
+    "item:3044",
+    "item:3071",
+    "item:3073",
+    "item:3078",
+    "item:3161",
+    "item:3177",
+    "item:3181",
+    "item:3184",
+    "item:3748",
+    "item:3814",
+    "item:6609",
+    "item:6610",
+    "item:6631"
+  ],
+  "missing": [
+    {
+      "entity": "Sterak's Gage",
+      "why": "Fighter staple that grants AD through its passive; its stats are Health and Tenacity only. Rule-correct out."
+    },
+    {
+      "entity": "Death's Dance",
+      "why": "Bruiser item players assume has Health; it has AD, Armor and Ability Haste. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3177",
+      "why": "Guardian's Blade and Hammer are ARAM-style starters; players may say they aren't SR items. They are in the shop data (same call as earlier item reviews)."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:6609",
+      "alias": "Chempunk",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:6631",
+      "alias": "Stride",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Bruiser players fire off Black Cleaver, Triforce and Titanic; few complete it with Edge of Night, Tunneler and the Guardian items."
+  },
+  "typicality": {
+    "item:3071": {
+      "value": 0.4,
+      "why": "The AD-and-Health bruiser item."
+    },
+    "item:3044": {
+      "value": 0.3,
+      "why": "The obvious AD-and-Health component."
+    },
+    "item:3078": {
+      "value": 0.3,
+      "why": "Iconic; its Health is known."
+    },
+    "item:3748": {
+      "value": 0.3,
+      "why": "Health-scaling AD item."
+    },
+    "item:1055": {
+      "value": 0.3,
+      "why": "Classic AD starter with Health."
+    },
+    "item:6610": {
+      "value": 0.2,
+      "why": "Popular bruiser item."
+    },
+    "item:3161": {
+      "value": 0.15,
+      "why": "Bruiser item; Health less remembered."
+    },
+    "item:6631": {
+      "value": 0.15,
+      "why": "Bruiser item; known to top laners."
+    },
+    "item:3181": {
+      "value": 0.12,
+      "why": "Split-push item."
+    },
+    "item:2501": {
+      "value": 0.12,
+      "why": "Health-to-AD item; known to top laners."
+    },
+    "item:3073": {
+      "value": 0.1,
+      "why": "Newer bruiser item."
+    },
+    "item:3814": {
+      "value": 0.08,
+      "why": "Lethality item whose Health is forgotten."
+    },
+    "item:6609": {
+      "value": 0.06,
+      "why": "Anti-heal bruiser item; rarely first."
+    },
+    "item:2021": {
+      "value": 0.03,
+      "why": "Obscure new component."
+    },
+    "item:3177": {
+      "value": 0.02,
+      "why": "ARAM-style starter; almost nobody."
+    },
+    "item:3184": {
+      "value": 0.02,
+      "why": "ARAM-style starter; almost nobody."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:3814",
+      "why": "Known as an assassin item; the Health is an \"oh, of course\" once revealed."
+    },
+    {
+      "entity": "item:2501",
+      "why": "Health that turns into AD; top laners get it, others smile at the reveal."
+    },
+    {
+      "entity": "item:3181",
+      "why": "The split-push fighter item; top laners get it."
+    }
+  ]
+}

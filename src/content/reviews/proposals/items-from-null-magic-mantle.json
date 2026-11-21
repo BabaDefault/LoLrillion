@@ -1,0 +1,112 @@
+{
+  "templateId": "items-from-null-magic-mantle",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1057",
+    "item:2524",
+    "item:3050",
+    "item:3111",
+    "item:3140",
+    "item:3155",
+    "item:3190",
+    "item:3211",
+    "item:4632"
+  ],
+  "missing": [
+    {
+      "entity": "Spirit Visage",
+      "why": "Built from Spectre's Cowl. Rule-correct out: it builds from the component two steps up, through an intermediate, not directly."
+    },
+    {
+      "entity": "Maw of Malmortius",
+      "why": "Built from Hexdrinker. Rule-correct out: it builds from the component two steps up, through an intermediate, not directly."
+    },
+    {
+      "entity": "Mercurial Scimitar",
+      "why": "Built from Quicksilver Sash. Rule-correct out: it builds from the component two steps up, through an intermediate, not directly."
+    },
+    {
+      "entity": "Banshee's Veil",
+      "why": "Built from Verdant Barrier. Rule-correct out: it builds from the component two steps up, through an intermediate, not directly."
+    },
+    {
+      "entity": "Wit's End",
+      "why": "Built from Negatron Cloak. Rule-correct out: it builds from the component two steps up, through an intermediate, not directly."
+    },
+    {
+      "entity": "Abyssal Mask",
+      "why": "Built from Negatron Cloak. Rule-correct out: it builds from the component two steps up, through an intermediate, not directly."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:2524",
+      "why": "Newer support item few recognise."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:1057",
+      "alias": "Neg",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "9 items: Mercs and QSS come fast; Zeke's and Bandlepipes are deep cuts."
+  },
+  "typicality": {
+    "item:1057": {
+      "value": 0.3,
+      "why": "Obvious one-step upgrade."
+    },
+    "item:2524": {
+      "value": 0.04,
+      "why": "Newer niche item."
+    },
+    "item:3050": {
+      "value": 0.06,
+      "why": "Support item; recipe less known."
+    },
+    "item:3111": {
+      "value": 0.4,
+      "why": "Mantle + Boots, the obvious recipe."
+    },
+    "item:3140": {
+      "value": 0.3,
+      "why": "Mantle is a known component."
+    },
+    "item:3155": {
+      "value": 0.2,
+      "why": "MR component."
+    },
+    "item:3190": {
+      "value": 0.1,
+      "why": "Support item; Mantle forgotten."
+    },
+    "item:3211": {
+      "value": 0.2,
+      "why": "MR component."
+    },
+    "item:4632": {
+      "value": 0.12,
+      "why": "Banshee's component."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:4632",
+      "why": "The Banshee's component players forget."
+    },
+    {
+      "entity": "item:3190",
+      "why": "Support players get it; 'oh, of course.'"
+    },
+    {
+      "entity": "item:3050",
+      "why": "Support players get it."
+    }
+  ]
+}

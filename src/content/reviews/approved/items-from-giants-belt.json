@@ -1,0 +1,28 @@
+{
+  "templateId": "items-from-giants-belt",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2525",
+    "item:3083",
+    "item:3084",
+    "item:3116",
+    "item:3119",
+    "item:3143",
+    "item:3748",
+    "item:6609",
+    "item:6665"
+  ],
+  "typicality": {
+    "item:2525": 0.06,
+    "item:3083": 0.4,
+    "item:3084": 0.35,
+    "item:3116": 0.2,
+    "item:3119": 0.1,
+    "item:3143": 0.25,
+    "item:3748": 0.25,
+    "item:6609": 0.1,
+    "item:6665": 0.15
+  },
+  "tooClever": [],
+  "gem": "item:6665"
+}
