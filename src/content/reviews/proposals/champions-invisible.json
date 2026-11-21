@@ -1,0 +1,177 @@
+{
+  "templateId": "champions-invisible",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akali",
+    "champion:Akshan",
+    "champion:Aurora",
+    "champion:Evelynn",
+    "champion:Kaisa",
+    "champion:Khazix",
+    "champion:Leblanc",
+    "champion:MonkeyKing",
+    "champion:Neeko",
+    "champion:Pyke",
+    "champion:Qiyana",
+    "champion:Rengar",
+    "champion:Senna",
+    "champion:Shaco",
+    "champion:Talon",
+    "champion:Teemo",
+    "champion:Twitch",
+    "champion:Vayne",
+    "champion:Viego"
+  ],
+  "missing": [
+    {
+      "entity": "Elise",
+      "why": "Rappel makes her untargetable, which players remember as 'vanishing'. The term excludes untargetable, so rule-correct out."
+    },
+    {
+      "entity": "Zed",
+      "why": "Death Mark makes him untargetable and players think of shadows as stealth. Rule-correct out."
+    },
+    {
+      "entity": "Fiddlesticks",
+      "why": "Players remember him hiding as an effigy and lurking unseen, but no ability makes him Invisible or Camouflaged. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Leblanc",
+      "why": "Her invisibility is only the 1-second passive at low health; players remember the Mirror Image, not the stealth."
+    },
+    {
+      "entity": "champion:Neeko",
+      "why": "Shapesplitter's invisibility is brief and players think of Neeko as a disguise champion, which the term doesn't count."
+    },
+    {
+      "entity": "champion:Qiyana",
+      "why": "Only her grass-enchanted Q trail makes her Invisible; players may not remember it."
+    },
+    {
+      "entity": "champion:Viego",
+      "why": "Harrowed Path's Camouflage is real, but players think of his possession, which isn't invisibility."
+    }
+  ],
+  "wording": [
+    {
+      "why": "The Prompt says 'invisible' but the Rule also counts Camouflage (Pyke, Akshan, Viego, Senna). Players who know the difference may hold back those answers.",
+      "suggestion": "Name a champion who can become invisible or camouflaged"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:Twitch",
+      "alias": "rat",
+      "why": "Universal nickname for the Plague Rat."
+    },
+    {
+      "entity": "champion:Shaco",
+      "alias": "clown",
+      "why": "Common nickname."
+    },
+    {
+      "entity": "champion:MonkeyKing",
+      "alias": "monkey",
+      "why": "Players type 'monkey' for Wukong."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Twitch, Evelynn, Shaco and Teemo come instantly, then a tail of camouflage and conditional stealth (Pyke, Senna, Viego, Kai'Sa's evolved E) that few players get all of."
+  },
+  "typicality": {
+    "champion:Twitch": {
+      "value": 0.6,
+      "why": "Ambush is the textbook stealth; many players' first answer."
+    },
+    "champion:Evelynn": {
+      "value": 0.55,
+      "why": "Permanent camouflage is her identity."
+    },
+    "champion:Shaco": {
+      "value": 0.5,
+      "why": "Deceive is iconic."
+    },
+    "champion:Teemo": {
+      "value": 0.45,
+      "why": "Guerrilla Warfare in brush is famous and infamous."
+    },
+    "champion:Akali": {
+      "value": 0.4,
+      "why": "Twilight Shroud is one of the best-known stealth tools."
+    },
+    "champion:Khazix": {
+      "value": 0.4,
+      "why": "Void Assault stealth is well known."
+    },
+    "champion:Vayne": {
+      "value": 0.35,
+      "why": "Tumble during Final Hour is classic ADC stealth."
+    },
+    "champion:Rengar": {
+      "value": 0.35,
+      "why": "Thrill of the Hunt is memorable from being jumped on."
+    },
+    "champion:Talon": {
+      "value": 0.25,
+      "why": "Shadow Assault stealth is known by assassin players."
+    },
+    "champion:MonkeyKing": {
+      "value": 0.25,
+      "why": "Warrior Trickster's decoy-and-stealth is well known."
+    },
+    "champion:Kaisa": {
+      "value": 0.2,
+      "why": "Evolved Supercharge stealth is known to ADC players, forgotten by others."
+    },
+    "champion:Pyke": {
+      "value": 0.15,
+      "why": "Ghostwater Dive is camouflage; support players get it."
+    },
+    "champion:Akshan": {
+      "value": 0.12,
+      "why": "Going Rogue camouflage; Akshan is less played."
+    },
+    "champion:Leblanc": {
+      "value": 0.12,
+      "why": "Passive stealth is brief; mid players remember it."
+    },
+    "champion:Neeko": {
+      "value": 0.08,
+      "why": "Players think disguise, not invisibility."
+    },
+    "champion:Senna": {
+      "value": 0.08,
+      "why": "Curse of the Black Mist camouflage is known to her players."
+    },
+    "champion:Qiyana": {
+      "value": 0.07,
+      "why": "The grass Q trail is a detail few remember."
+    },
+    "champion:Viego": {
+      "value": 0.06,
+      "why": "Harrowed Path camouflage is overshadowed by possession."
+    },
+    "champion:Aurora": {
+      "value": 0.05,
+      "why": "Newer champion; her W invisibility is little known."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Pyke",
+      "why": "Ghostwater Dive is the 'oh, of course' camouflage once revealed; support players actually get it."
+    },
+    {
+      "entity": "champion:Kaisa",
+      "why": "Her evolved E is a real stealth tool many forget; very satisfying for ADC players."
+    },
+    {
+      "entity": "champion:Akshan",
+      "why": "Going Rogue is a signature camouflage that's easy to miss under his revive."
+    }
+  ]
+}

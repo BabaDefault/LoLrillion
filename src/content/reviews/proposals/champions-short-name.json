@@ -1,0 +1,225 @@
+{
+  "templateId": "champions-short-name",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Ahri",
+    "champion:Ashe",
+    "champion:Azir",
+    "champion:Bard",
+    "champion:Ekko",
+    "champion:Fizz",
+    "champion:Gnar",
+    "champion:Gwen",
+    "champion:Hwei",
+    "champion:Jax",
+    "champion:Jhin",
+    "champion:Jinx",
+    "champion:Kayn",
+    "champion:Kled",
+    "champion:Lulu",
+    "champion:Lux",
+    "champion:Mel",
+    "champion:Nami",
+    "champion:Olaf",
+    "champion:Ornn",
+    "champion:Pyke",
+    "champion:Rell",
+    "champion:Ryze",
+    "champion:Sett",
+    "champion:Shen",
+    "champion:Sion",
+    "champion:Sona",
+    "champion:Udyr",
+    "champion:Vex",
+    "champion:Vi",
+    "champion:Yone",
+    "champion:Zac",
+    "champion:Zed",
+    "champion:Zeri",
+    "champion:Zoe",
+    "champion:Zyra"
+  ],
+  "missing": [
+    {
+      "entity": "Nunu & Willump",
+      "why": "Players type 'Nunu', but the official name is 'Nunu & Willump'. Rule-correct out; see wording."
+    },
+    {
+      "entity": "Master Yi",
+      "why": "Players think of him as 'Yi'. Official name is 8 letters. Rule-correct out."
+    }
+  ],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "'Name' could mean the common short name (Nunu, Yi) rather than the official name; the Rule counts only the official name's letters.",
+      "suggestion": "Name a champion whose full official name is four letters or fewer"
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone gets Vi, Jax, Lux and Zed instantly, then has to scan the roster for four-letter names; 36 answers mean nobody names them all."
+  },
+  "typicality": {
+    "champion:Vi": {
+      "value": 0.4,
+      "why": "The shortest name; many first answers."
+    },
+    "champion:Jax": {
+      "value": 0.35,
+      "why": "Classic three-letter name."
+    },
+    "champion:Lux": {
+      "value": 0.35,
+      "why": "Classic three-letter name."
+    },
+    "champion:Zed": {
+      "value": 0.3,
+      "why": "Classic three-letter name."
+    },
+    "champion:Zac": {
+      "value": 0.25,
+      "why": "Three letters."
+    },
+    "champion:Zoe": {
+      "value": 0.25,
+      "why": "Three letters."
+    },
+    "champion:Vex": {
+      "value": 0.15,
+      "why": "Three letters, less played."
+    },
+    "champion:Ahri": {
+      "value": 0.15,
+      "why": "Popular four-letter name."
+    },
+    "champion:Ashe": {
+      "value": 0.15,
+      "why": "Popular four-letter name."
+    },
+    "champion:Jinx": {
+      "value": 0.15,
+      "why": "Popular four-letter name."
+    },
+    "champion:Mel": {
+      "value": 0.1,
+      "why": "Three letters but newer champion."
+    },
+    "champion:Ekko": {
+      "value": 0.12,
+      "why": "Popular four-letter name."
+    },
+    "champion:Sett": {
+      "value": 0.12,
+      "why": "Popular four-letter name."
+    },
+    "champion:Pyke": {
+      "value": 0.12,
+      "why": "Popular four-letter name."
+    },
+    "champion:Fizz": {
+      "value": 0.1,
+      "why": "Four letters."
+    },
+    "champion:Jhin": {
+      "value": 0.1,
+      "why": "Four letters."
+    },
+    "champion:Yone": {
+      "value": 0.1,
+      "why": "Four letters."
+    },
+    "champion:Lulu": {
+      "value": 0.1,
+      "why": "Four letters."
+    },
+    "champion:Nami": {
+      "value": 0.1,
+      "why": "Four letters."
+    },
+    "champion:Shen": {
+      "value": 0.1,
+      "why": "Four letters."
+    },
+    "champion:Sona": {
+      "value": 0.1,
+      "why": "Four letters."
+    },
+    "champion:Ryze": {
+      "value": 0.08,
+      "why": "Four letters."
+    },
+    "champion:Gwen": {
+      "value": 0.08,
+      "why": "Four letters."
+    },
+    "champion:Kayn": {
+      "value": 0.08,
+      "why": "Four letters."
+    },
+    "champion:Zyra": {
+      "value": 0.07,
+      "why": "Four letters."
+    },
+    "champion:Azir": {
+      "value": 0.06,
+      "why": "Four letters, less played."
+    },
+    "champion:Bard": {
+      "value": 0.06,
+      "why": "Four letters, less played."
+    },
+    "champion:Gnar": {
+      "value": 0.06,
+      "why": "Four letters, less played."
+    },
+    "champion:Olaf": {
+      "value": 0.06,
+      "why": "Four letters; players forget he's this short."
+    },
+    "champion:Ornn": {
+      "value": 0.05,
+      "why": "Four letters, less played."
+    },
+    "champion:Rell": {
+      "value": 0.05,
+      "why": "Four letters, less played."
+    },
+    "champion:Sion": {
+      "value": 0.05,
+      "why": "Four letters."
+    },
+    "champion:Udyr": {
+      "value": 0.05,
+      "why": "Four letters, less played."
+    },
+    "champion:Zeri": {
+      "value": 0.05,
+      "why": "Four letters, less played."
+    },
+    "champion:Kled": {
+      "value": 0.05,
+      "why": "Four letters, less played."
+    },
+    "champion:Hwei": {
+      "value": 0.04,
+      "why": "Newer champion."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Olaf",
+      "why": "A champion everyone knows but nobody thinks of as a short name; strong 'oh, of course'."
+    },
+    {
+      "entity": "champion:Udyr",
+      "why": "Familiar name that's easy to overlook when scanning for short ones."
+    },
+    {
+      "entity": "champion:Gnar",
+      "why": "Short and familiar, yet rarely a first answer."
+    }
+  ]
+}

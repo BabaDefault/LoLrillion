@@ -1,0 +1,312 @@
+{
+  "templateId": "champions-knock-up",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:Alistar",
+    "champion:AurelionSol",
+    "champion:Belveth",
+    "champion:Blitzcrank",
+    "champion:Braum",
+    "champion:Chogath",
+    "champion:Darius",
+    "champion:Fizz",
+    "champion:Galio",
+    "champion:Gragas",
+    "champion:Ivern",
+    "champion:Janna",
+    "champion:JarvanIV",
+    "champion:Kayn",
+    "champion:LeeSin",
+    "champion:Lulu",
+    "champion:Malphite",
+    "champion:MonkeyKing",
+    "champion:Nami",
+    "champion:Nautilus",
+    "champion:Neeko",
+    "champion:Nunu",
+    "champion:Ornn",
+    "champion:Poppy",
+    "champion:Rakan",
+    "champion:Rammus",
+    "champion:RekSai",
+    "champion:Rell",
+    "champion:Riven",
+    "champion:Samira",
+    "champion:Sejuani",
+    "champion:Singed",
+    "champion:Sion",
+    "champion:Sylas",
+    "champion:TahmKench",
+    "champion:Taliyah",
+    "champion:Velkoz",
+    "champion:Vi",
+    "champion:XinZhao",
+    "champion:Yasuo",
+    "champion:Yone",
+    "champion:Zaahen",
+    "champion:Zac",
+    "champion:Zyra"
+  ],
+  "missing": [
+    {
+      "entity": "Kalista",
+      "why": "Fate's Call knocks up enemies where her bound ally lands. It's the ally landing but Kalista's ability; a data question (knock-up label) for the maintainer."
+    },
+    {
+      "entity": "Gnar",
+      "why": "GNAR! sends enemies flying into walls, but it's a knock-back. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Darius",
+      "why": "Apprehend's text says it Knocks Up, but every player thinks of it as a pull."
+    },
+    {
+      "entity": "champion:LeeSin",
+      "why": "Dragon's Rage knocks the target back; only enemies it collides with are knocked up."
+    },
+    {
+      "entity": "champion:Ivern",
+      "why": "The knock-up comes from Daisy's third attack, not Ivern himself."
+    },
+    {
+      "entity": "champion:Poppy",
+      "why": "Only the uncharged Keeper's Verdict knocks up; the charged one knocks back."
+    },
+    {
+      "entity": "champion:Samira",
+      "why": "Her passive only keeps an already knocked-up enemy airborne; the maintainer counts that as knocking up."
+    }
+  ],
+  "wording": [
+    {
+      "why": "Players treat any airborne effect (knock-backs, Lee Sin's kick, Gnar's ult) as a knock-up; the Rule excludes knock-backs.",
+      "suggestion": "Name a champion who can knock an enemy up into the air"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:Alistar",
+      "alias": "Ali",
+      "why": "Common short form."
+    },
+    {
+      "entity": "champion:Yasuo",
+      "alias": "Yas",
+      "why": "Common short form."
+    },
+    {
+      "entity": "champion:Taliyah",
+      "alias": "Tali",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Yasuo and Malphite come instantly and most players can name several, but 44 answers spread across every role mean nobody names them all."
+  },
+  "typicality": {
+    "champion:Yasuo": {
+      "value": 0.6,
+      "why": "Knock-ups are his whole kit (Last Breath); the textbook answer."
+    },
+    "champion:Malphite": {
+      "value": 0.45,
+      "why": "Unstoppable Force is the iconic knock-up ult."
+    },
+    "champion:Alistar": {
+      "value": 0.35,
+      "why": "Pulverize is the classic support knock-up."
+    },
+    "champion:JarvanIV": {
+      "value": 0.2,
+      "why": "The E-Q combo knock-up is well known."
+    },
+    "champion:Janna": {
+      "value": 0.2,
+      "why": "Howling Gale is a famous knock-up."
+    },
+    "champion:Nami": {
+      "value": 0.2,
+      "why": "Aqua Prison and Tidal Wave both knock up."
+    },
+    "champion:Blitzcrank": {
+      "value": 0.2,
+      "why": "Power Fist is well known."
+    },
+    "champion:XinZhao": {
+      "value": 0.15,
+      "why": "Third-hit knock-up is well known."
+    },
+    "champion:Vi": {
+      "value": 0.15,
+      "why": "Assault and Battery is a memorable knock-up."
+    },
+    "champion:Yone": {
+      "value": 0.15,
+      "why": "Shares Yasuo's Q3 knock-up."
+    },
+    "champion:Zac": {
+      "value": 0.15,
+      "why": "Elastic Slingshot knock-up is memorable."
+    },
+    "champion:MonkeyKing": {
+      "value": 0.15,
+      "why": "Cyclone is a famous teamfight knock-up."
+    },
+    "champion:Chogath": {
+      "value": 0.15,
+      "why": "Rupture knock-up is classic."
+    },
+    "champion:Nautilus": {
+      "value": 0.15,
+      "why": "Passive and Depth Charge knock-ups are known."
+    },
+    "champion:Riven": {
+      "value": 0.12,
+      "why": "Q3 knock-up is known to top laners."
+    },
+    "champion:Gragas": {
+      "value": 0.12,
+      "why": "Body Slam is remembered as a knock-up by some, a stun by others."
+    },
+    "champion:Galio": {
+      "value": 0.12,
+      "why": "Hero's Entrance knock-up is known."
+    },
+    "champion:Sion": {
+      "value": 0.1,
+      "why": "Charged Q knock-up is known."
+    },
+    "champion:Rakan": {
+      "value": 0.1,
+      "why": "Grand Entrance knock-up is known."
+    },
+    "champion:LeeSin": {
+      "value": 0.1,
+      "why": "Players think of the kick as a knock-up."
+    },
+    "champion:Sejuani": {
+      "value": 0.1,
+      "why": "Arctic Assault knock-up is known to junglers."
+    },
+    "champion:Ornn": {
+      "value": 0.1,
+      "why": "Call of the Forge God knock-up is known."
+    },
+    "champion:Nunu": {
+      "value": 0.08,
+      "why": "Giant snowball knock-up."
+    },
+    "champion:Taliyah": {
+      "value": 0.07,
+      "why": "Seismic Shove; Taliyah is less played."
+    },
+    "champion:Rammus": {
+      "value": 0.07,
+      "why": "Players remember the taunt, not the Soaring Slam knock-up."
+    },
+    "champion:Rell": {
+      "value": 0.07,
+      "why": "Ferromancy knock-up; Rell is less played."
+    },
+    "champion:Fizz": {
+      "value": 0.05,
+      "why": "Players remember the shark but not as a knock-up."
+    },
+    "champion:Lulu": {
+      "value": 0.05,
+      "why": "Wild Growth's knock-up is overshadowed by the size boost."
+    },
+    "champion:Velkoz": {
+      "value": 0.05,
+      "why": "Tectonic Disruption knock-up; mid mains get it."
+    },
+    "champion:Braum": {
+      "value": 0.05,
+      "why": "Glacial Fissure knock-up is easy to forget."
+    },
+    "champion:Kayn": {
+      "value": 0.05,
+      "why": "Only in Rhaast form."
+    },
+    "champion:Neeko": {
+      "value": 0.05,
+      "why": "Pop Blossom; players remember the stun."
+    },
+    "champion:RekSai": {
+      "value": 0.05,
+      "why": "Unburrow knock-up is known to junglers only."
+    },
+    "champion:Singed": {
+      "value": 0.05,
+      "why": "Fling is remembered as a throw."
+    },
+    "champion:Sylas": {
+      "value": 0.05,
+      "why": "Abscond's knock-up is easy to forget."
+    },
+    "champion:Aatrox": {
+      "value": 0.04,
+      "why": "The Q edge knock-up is a detail."
+    },
+    "champion:Belveth": {
+      "value": 0.03,
+      "why": "Royal Maelstrom knock-up is little known."
+    },
+    "champion:AurelionSol": {
+      "value": 0.03,
+      "why": "Few remember the big-star knock-up."
+    },
+    "champion:Poppy": {
+      "value": 0.03,
+      "why": "Players think of the ult as a knock-back."
+    },
+    "champion:TahmKench": {
+      "value": 0.03,
+      "why": "Abyssal Dive knock-up is rarely recalled."
+    },
+    "champion:Zyra": {
+      "value": 0.03,
+      "why": "Stranglethorns knock-up is a detail."
+    },
+    "champion:Darius": {
+      "value": 0.02,
+      "why": "Players remember Apprehend as a pull."
+    },
+    "champion:Ivern": {
+      "value": 0.02,
+      "why": "Daisy's knock-up is a deep cut."
+    },
+    "champion:Zaahen": {
+      "value": 0.02,
+      "why": "New champion; few players know his kit."
+    },
+    "champion:Samira": {
+      "value": 0.03,
+      "why": "Her passive keeps knocked-up enemies airborne; almost nobody thinks of her for this Prompt."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "champion:Ivern",
+      "why": "Daisy's slam is the deep cut players reach for to look clever."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "champion:Samira",
+      "why": "Maintainer pick: the passive extends a knock-up, a surprising but fair reveal."
+    },
+    {
+      "entity": "champion:Fizz",
+      "why": "Chum the Waters' shark launching enemies is a big 'oh, of course' once revealed."
+    },
+    {
+      "entity": "champion:Lulu",
+      "why": "Wild Growth's knock-up is forgotten behind the size boost, but obvious in hindsight."
+    }
+  ]
+}

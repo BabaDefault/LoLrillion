@@ -1,0 +1,412 @@
+{
+  "templateId": "items-ability-power",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1026",
+    "item:1052",
+    "item:1056",
+    "item:1058",
+    "item:1082",
+    "item:2065",
+    "item:2420",
+    "item:2421",
+    "item:2503",
+    "item:2508",
+    "item:2510",
+    "item:2522",
+    "item:3003",
+    "item:3040",
+    "item:3041",
+    "item:3087",
+    "item:3089",
+    "item:3100",
+    "item:3102",
+    "item:3107",
+    "item:3108",
+    "item:3112",
+    "item:3113",
+    "item:3115",
+    "item:3116",
+    "item:3118",
+    "item:3124",
+    "item:3135",
+    "item:3137",
+    "item:3145",
+    "item:3146",
+    "item:3147",
+    "item:3152",
+    "item:3157",
+    "item:3165",
+    "item:3504",
+    "item:3802",
+    "item:3916",
+    "item:4005",
+    "item:4628",
+    "item:4629",
+    "item:4630",
+    "item:4632",
+    "item:4633",
+    "item:4642",
+    "item:4645",
+    "item:4646",
+    "item:6616",
+    "item:6617",
+    "item:6620",
+    "item:6621",
+    "item:6653",
+    "item:6655",
+    "item:6657",
+    "item:8010"
+  ],
+  "missing": [
+    {
+      "entity": "Sorcerer's Shoes",
+      "why": "Mage boots give Magic Penetration, not Ability Power; a common wrong answer. Rule-correct out."
+    },
+    {
+      "entity": "Spellslinger's Shoes",
+      "why": "Sorcerer's Shoes upgrade; same confusion. Rule-correct out."
+    },
+    {
+      "entity": "Wit's End",
+      "why": "On-hit magic damage item; some players assume AP. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3087",
+      "why": "Players know it as an AD/attack speed item; its Ability Power surprises them. It has AP in its stats, so it is in."
+    },
+    {
+      "entity": "item:3124",
+      "why": "Hybrid item most players think of as attack speed; it has AP in its stats."
+    },
+    {
+      "entity": "item:3040",
+      "why": "Transformed from Archangel's Staff, not bought directly; some will say it isn't a shop item."
+    },
+    {
+      "entity": "item:2421",
+      "why": "The broken Seeker's Armguard; some will say it isn't a real shop item. It has AP, so it is in."
+    }
+  ],
+  "wording": [
+    {
+      "why": "'Gives Ability Power' could include passives that convert stats to AP, or magic penetration. The Rule means the Ability Power stat only.",
+      "suggestion": "Name an item with Ability Power in its stats"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "item:6655",
+      "alias": "Luden's Tempest",
+      "why": "Its name for several seasons before being renamed back."
+    },
+    {
+      "entity": "item:6655",
+      "alias": "Luden's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3116",
+      "alias": "Rylai's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3165",
+      "alias": "Morello",
+      "why": "Universal short form."
+    },
+    {
+      "entity": "item:3003",
+      "alias": "Archangel's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3040",
+      "alias": "Seraph's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3041",
+      "alias": "Mejai's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3146",
+      "alias": "Gunblade",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:6657",
+      "alias": "RoA",
+      "why": "Standard abbreviation."
+    },
+    {
+      "entity": "item:3145",
+      "alias": "Alternator",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:4005",
+      "alias": "Mandate",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:6617",
+      "alias": "Moonstone",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:6620",
+      "alias": "Helia",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3504",
+      "alias": "Ardent",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone names Rabadon's, Zhonya's or Needlessly Large Rod, but 55 answers spanning mage, support, enchanter and hybrid on-hit items (Guinsoo's, Statikk Shiv, Nashor's) make a full set very hard."
+  },
+  "typicality": {
+    "item:1026": {
+      "value": 0.3,
+      "why": "Common AP component."
+    },
+    "item:1052": {
+      "value": 0.35,
+      "why": "The basic AP component."
+    },
+    "item:1056": {
+      "value": 0.25,
+      "why": "Mid lane starter."
+    },
+    "item:1058": {
+      "value": 0.4,
+      "why": "The big AP component."
+    },
+    "item:1082": {
+      "value": 0.2,
+      "why": "Common mid lane early buy."
+    },
+    "item:2065": {
+      "value": 0.04,
+      "why": "Support active item."
+    },
+    "item:2420": {
+      "value": 0.1,
+      "why": "Zhonya's component."
+    },
+    "item:2421": {
+      "value": 0.03,
+      "why": "Broken Seeker's; rarely named."
+    },
+    "item:2503": {
+      "value": 0.12,
+      "why": "Newer mage item."
+    },
+    "item:2508": {
+      "value": 0.04,
+      "why": "Liandry's component; few remember it."
+    },
+    "item:2510": {
+      "value": 0.05,
+      "why": "Newer spellblade item; few know it."
+    },
+    "item:2522": {
+      "value": 0.03,
+      "why": "New component."
+    },
+    "item:3003": {
+      "value": 0.25,
+      "why": "Tear mage item."
+    },
+    "item:3040": {
+      "value": 0.12,
+      "why": "Named after Archangel's."
+    },
+    "item:3041": {
+      "value": 0.25,
+      "why": "Memorable stacking item."
+    },
+    "item:3087": {
+      "value": 0.05,
+      "why": "Thought of as AD/attack speed."
+    },
+    "item:3089": {
+      "value": 0.7,
+      "why": "The AP item; the reflex answer."
+    },
+    "item:3100": {
+      "value": 0.25,
+      "why": "Classic AP assassin item."
+    },
+    "item:3102": {
+      "value": 0.25,
+      "why": "Classic mage defensive item."
+    },
+    "item:3107": {
+      "value": 0.04,
+      "why": "Support active item."
+    },
+    "item:3108": {
+      "value": 0.1,
+      "why": "Ability haste component."
+    },
+    "item:3112": {
+      "value": 0.04,
+      "why": "ARAM-origin starter."
+    },
+    "item:3113": {
+      "value": 0.06,
+      "why": "Component few name."
+    },
+    "item:3115": {
+      "value": 0.25,
+      "why": "Famous AP on-hit item."
+    },
+    "item:3116": {
+      "value": 0.25,
+      "why": "Classic mage item."
+    },
+    "item:3118": {
+      "value": 0.12,
+      "why": "Newer mage item."
+    },
+    "item:3124": {
+      "value": 0.08,
+      "why": "Thought of as attack speed."
+    },
+    "item:3135": {
+      "value": 0.3,
+      "why": "Core mage item."
+    },
+    "item:3137": {
+      "value": 0.08,
+      "why": "Newer magic penetration item."
+    },
+    "item:3145": {
+      "value": 0.08,
+      "why": "Rarely thought of component."
+    },
+    "item:3146": {
+      "value": 0.12,
+      "why": "Hybrid AD/AP item; known to AP assassin players."
+    },
+    "item:3147": {
+      "value": 0.06,
+      "why": "Component few name."
+    },
+    "item:3152": {
+      "value": 0.2,
+      "why": "AP assassin item."
+    },
+    "item:3157": {
+      "value": 0.55,
+      "why": "Iconic mage item."
+    },
+    "item:3165": {
+      "value": 0.25,
+      "why": "Classic mage item."
+    },
+    "item:3504": {
+      "value": 0.06,
+      "why": "Enchanter item; AP not its headline."
+    },
+    "item:3802": {
+      "value": 0.1,
+      "why": "Mana component; AP is secondary in memory."
+    },
+    "item:3916": {
+      "value": 0.08,
+      "why": "Grievous wounds component."
+    },
+    "item:4005": {
+      "value": 0.05,
+      "why": "Enchanter item."
+    },
+    "item:4628": {
+      "value": 0.1,
+      "why": "Artillery mage item; less common."
+    },
+    "item:4629": {
+      "value": 0.12,
+      "why": "Battle mage item."
+    },
+    "item:4630": {
+      "value": 0.05,
+      "why": "Newer magic penetration component."
+    },
+    "item:4632": {
+      "value": 0.04,
+      "why": "Magic resist component."
+    },
+    "item:4633": {
+      "value": 0.15,
+      "why": "Battle mage item."
+    },
+    "item:4642": {
+      "value": 0.04,
+      "why": "Support component."
+    },
+    "item:4645": {
+      "value": 0.25,
+      "why": "Common burst mage item."
+    },
+    "item:4646": {
+      "value": 0.15,
+      "why": "Burst mage item."
+    },
+    "item:6616": {
+      "value": 0.06,
+      "why": "Enchanter item; AP not its headline."
+    },
+    "item:6617": {
+      "value": 0.05,
+      "why": "Enchanter item."
+    },
+    "item:6620": {
+      "value": 0.03,
+      "why": "Support item few remember."
+    },
+    "item:6621": {
+      "value": 0.04,
+      "why": "Newer support item."
+    },
+    "item:6653": {
+      "value": 0.35,
+      "why": "Core mage item."
+    },
+    "item:6655": {
+      "value": 0.4,
+      "why": "Most-built mage item."
+    },
+    "item:6657": {
+      "value": 0.15,
+      "why": "Stacking mage item."
+    },
+    "item:8010": {
+      "value": 0.05,
+      "why": "Newer item; few know it."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:3124",
+      "why": "Players think attack speed, then remember the hybrid AP: 'oh, of course'."
+    },
+    {
+      "entity": "item:3087",
+      "why": "The surprise of a marksman item carrying AP; some players do know it."
+    },
+    {
+      "entity": "item:6616",
+      "why": "Enchanter staple; support players get it, others smile at the reveal."
+    }
+  ]
+}

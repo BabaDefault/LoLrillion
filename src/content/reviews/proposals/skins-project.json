@@ -1,0 +1,217 @@
+{
+  "templateId": "skins-project",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "skin:110016",
+    "skin:11009",
+    "skin:11116",
+    "skin:113016",
+    "skin:114004",
+    "skin:133024",
+    "skin:15072",
+    "skin:157002",
+    "skin:19016",
+    "skin:202004",
+    "skin:22008",
+    "skin:222020",
+    "skin:235016",
+    "skin:236006",
+    "skin:238003",
+    "skin:238030",
+    "skin:24033",
+    "skin:245003",
+    "skin:254011",
+    "skin:39016",
+    "skin:39017",
+    "skin:39036",
+    "skin:41033",
+    "skin:517013",
+    "skin:517014",
+    "skin:55009",
+    "skin:555016",
+    "skin:58026",
+    "skin:67011",
+    "skin:82013",
+    "skin:84014",
+    "skin:89008",
+    "skin:950011"
+  ],
+  "missing": [
+    {
+      "entity": "Pulsefire Ezreal",
+      "why": "PROJECT-adjacent cyber line (Pulsefire, Omega Squad) gets conflated with PROJECT, but the name lacks the word; correctly out under the Rule."
+    }
+  ],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Rule and Prompt are clear; the colon in \"PROJECT:\" is punctuation and normalized away. No change needed.",
+      "suggestion": "Name a skin with \"PROJECT\" in its name"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "skin:11009",
+      "alias": "PROJECT: Master Yi",
+      "why": "Players type the champion's full name; the skin is named with only 'Yi', which nickname expansion can't reach from 'Master Yi'."
+    },
+    {
+      "entity": "skin:11116",
+      "alias": "PROJECT: Command Line Master Yi",
+      "why": "Same as PROJECT: Yi: full champion name inside the skin name."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Iconic cyberpunk line everyone can start (Yi, Zed, Jinx, Yasuo) with a long tail of forgotten entries (Renekton, Gangplank, Quinn, Sejuani); 33 answers keeps the run going."
+  },
+  "typicality": {
+    "skin:11009": {
+      "value": 0.5,
+      "why": "The original 2014 PROJECT skin; the line's face."
+    },
+    "skin:238003": {
+      "value": 0.45,
+      "why": "Flagship legendary with a Prestige; constant in-game sightings."
+    },
+    "skin:157002": {
+      "value": 0.3,
+      "why": "Original lineup; Yasuo's skins are widely seen."
+    },
+    "skin:222020": {
+      "value": 0.3,
+      "why": "Recent high-profile release on a top-pick ADC."
+    },
+    "skin:245003": {
+      "value": 0.25,
+      "why": "Popular, fits his tech theme."
+    },
+    "skin:114004": {
+      "value": 0.2,
+      "why": "Original lineup legendary-feel skin."
+    },
+    "skin:89008": {
+      "value": 0.2,
+      "why": "Original lineup; ADC/support players see it often."
+    },
+    "skin:254011": {
+      "value": 0.15,
+      "why": "Well-liked, but Vi has many skins."
+    },
+    "skin:236006": {
+      "value": 0.15,
+      "why": "2015 wave; popular ADC."
+    },
+    "skin:55009": {
+      "value": 0.15,
+      "why": "Mid laners remember it."
+    },
+    "skin:67011": {
+      "value": 0.15,
+      "why": "Recent-ish and on a popular ADC."
+    },
+    "skin:22008": {
+      "value": 0.12,
+      "why": "Older; Ashe has many skins."
+    },
+    "skin:84014": {
+      "value": 0.15,
+      "why": "Seen often on a popular mid/top."
+    },
+    "skin:202004": {
+      "value": 0.15,
+      "why": "Jhin skins are memorable."
+    },
+    "skin:39016": {
+      "value": 0.12,
+      "why": "Has Prestige versions, but players name the base less."
+    },
+    "skin:517013": {
+      "value": 0.12,
+      "why": "Mid recall."
+    },
+    "skin:555016": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:82013": {
+      "value": 0.08,
+      "why": "A mech Morde fits but few name it."
+    },
+    "skin:19016": {
+      "value": 0.08,
+      "why": "Cyborg wolf fits; rarely named."
+    },
+    "skin:58026": {
+      "value": 0.08,
+      "why": "Cyborg croc; rarely named."
+    },
+    "skin:110016": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:235016": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:24033": {
+      "value": 0.08,
+      "why": "Quiet; Jax has many skins."
+    },
+    "skin:113016": {
+      "value": 0.05,
+      "why": "Largely forgotten."
+    },
+    "skin:15072": {
+      "value": 0.06,
+      "why": "Recent but quiet."
+    },
+    "skin:41033": {
+      "value": 0.06,
+      "why": "Quiet."
+    },
+    "skin:133024": {
+      "value": 0.04,
+      "why": "Low-playrate champion."
+    },
+    "skin:950011": {
+      "value": 0.05,
+      "why": "Newer champion; low recall."
+    },
+    "skin:11116": {
+      "value": 0.04,
+      "why": "Recent variant; players usually just say PROJECT: Yi."
+    },
+    "skin:238030": {
+      "value": 0.04,
+      "why": "Players name base Zed instead."
+    },
+    "skin:39017": {
+      "value": 0.03,
+      "why": "Players rarely type Prestige."
+    },
+    "skin:39036": {
+      "value": 0.02,
+      "why": "Re-release; almost never typed."
+    },
+    "skin:517014": {
+      "value": 0.03,
+      "why": "Players rarely type Prestige."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "skin:58026",
+      "why": "A cyborg crocodile is the perfect 'oh, of course' reveal; a few top laners will get it."
+    },
+    {
+      "entity": "skin:19016",
+      "why": "Cyber-wolf fits the line obviously once shown; some junglers name it."
+    },
+    {
+      "entity": "skin:82013",
+      "why": "Morde in a mech suit is a natural fit few think of first."
+    }
+  ]
+}

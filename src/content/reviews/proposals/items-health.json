@@ -1,0 +1,511 @@
+{
+  "templateId": "items-health",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1011",
+    "item:1028",
+    "item:1054",
+    "item:1055",
+    "item:1056",
+    "item:1082",
+    "item:1120",
+    "item:2021",
+    "item:2051",
+    "item:2501",
+    "item:2502",
+    "item:2504",
+    "item:2510",
+    "item:2524",
+    "item:2525",
+    "item:2526",
+    "item:2530",
+    "item:3041",
+    "item:3044",
+    "item:3050",
+    "item:3053",
+    "item:3065",
+    "item:3066",
+    "item:3067",
+    "item:3068",
+    "item:3071",
+    "item:3073",
+    "item:3075",
+    "item:3078",
+    "item:3083",
+    "item:3084",
+    "item:3109",
+    "item:3112",
+    "item:3116",
+    "item:3119",
+    "item:3121",
+    "item:3143",
+    "item:3147",
+    "item:3152",
+    "item:3161",
+    "item:3165",
+    "item:3177",
+    "item:3181",
+    "item:3184",
+    "item:3190",
+    "item:3211",
+    "item:3222",
+    "item:3742",
+    "item:3748",
+    "item:3801",
+    "item:3803",
+    "item:3814",
+    "item:3866",
+    "item:3867",
+    "item:3869",
+    "item:3870",
+    "item:3871",
+    "item:3876",
+    "item:3877",
+    "item:4401",
+    "item:4629",
+    "item:4633",
+    "item:6609",
+    "item:6610",
+    "item:6617",
+    "item:6620",
+    "item:6631",
+    "item:6653",
+    "item:6657",
+    "item:6660",
+    "item:6662",
+    "item:6664",
+    "item:6665",
+    "item:8010",
+    "item:8020"
+  ],
+  "missing": [
+    {
+      "entity": "Bloodthirster",
+      "why": "Lifesteal shield items feel like Health; current stats have none. Rule-correct out."
+    },
+    {
+      "entity": "Frozen Heart",
+      "why": "Tank item players assume has Health; it has Armor and Mana. Rule-correct out."
+    },
+    {
+      "entity": "Mercury's Treads",
+      "why": "Tank boots; no Health stat. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3866",
+      "why": "Support quest upgrades (Runic Compass, Bounty of Worlds and the five final support items) aren't bought normally; players argue they aren't shop items."
+    },
+    {
+      "entity": "item:1056",
+      "why": "Players think of it as AP/mana; its Health surprises them but it is in."
+    },
+    {
+      "entity": "item:1082",
+      "why": "Players think of it as AP; it has Health, so it is in."
+    },
+    {
+      "entity": "item:3041",
+      "why": "Same as Dark Seal."
+    },
+    {
+      "entity": "item:3066",
+      "why": "Obscure component; many don't know it exists."
+    }
+  ],
+  "wording": [
+    {
+      "why": "'Gives Health' could include healing, lifesteal or shields. The Rule means the Health stat only.",
+      "suggestion": "Name an item with Health in its stats"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "item:3083",
+      "alias": "Warmog's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:1028",
+      "alias": "Ruby",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3116",
+      "alias": "Rylai's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3165",
+      "alias": "Morello",
+      "why": "Universal short form."
+    },
+    {
+      "entity": "item:6657",
+      "alias": "RoA",
+      "why": "Standard abbreviation."
+    },
+    {
+      "entity": "item:3222",
+      "alias": "Mikael's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:6660",
+      "alias": "Bami's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:2501",
+      "alias": "Bloodmail",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3801",
+      "alias": "Bracer",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3748",
+      "alias": "Titanic",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3814",
+      "alias": "EoN",
+      "why": "Common abbreviation."
+    },
+    {
+      "entity": "item:3041",
+      "alias": "Mejai's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3161",
+      "alias": "Shojin",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Warmog's, Ruby Crystal, Giant's Belt and Heartsteel are instant, but 75 answers spanning tank, fighter, mage, support quest and starter items make a full set nearly impossible."
+  },
+  "typicality": {
+    "item:1011": {
+      "value": 0.5,
+      "why": "The big Health component."
+    },
+    "item:1028": {
+      "value": 0.55,
+      "why": "The basic Health component."
+    },
+    "item:1054": {
+      "value": 0.3,
+      "why": "Top lane Health starter."
+    },
+    "item:1055": {
+      "value": 0.2,
+      "why": "Starter with Health."
+    },
+    "item:1056": {
+      "value": 0.15,
+      "why": "Thought of as AP."
+    },
+    "item:1082": {
+      "value": 0.04,
+      "why": "Thought of as AP."
+    },
+    "item:1120": {
+      "value": 0.1,
+      "why": "Newer starter."
+    },
+    "item:2021": {
+      "value": 0.03,
+      "why": "New component."
+    },
+    "item:2051": {
+      "value": 0.04,
+      "why": "ARAM-origin starter."
+    },
+    "item:2501": {
+      "value": 0.12,
+      "why": "Health-scaling item."
+    },
+    "item:2502": {
+      "value": 0.12,
+      "why": "Tank item."
+    },
+    "item:2504": {
+      "value": 0.15,
+      "why": "Magic resist tank item."
+    },
+    "item:2510": {
+      "value": 0.03,
+      "why": "Newer item."
+    },
+    "item:2524": {
+      "value": 0.04,
+      "why": "Newer support item."
+    },
+    "item:2525": {
+      "value": 0.03,
+      "why": "New item."
+    },
+    "item:2526": {
+      "value": 0.02,
+      "why": "New component."
+    },
+    "item:2530": {
+      "value": 0.02,
+      "why": "New component."
+    },
+    "item:3041": {
+      "value": 0.04,
+      "why": "Thought of as AP."
+    },
+    "item:3044": {
+      "value": 0.15,
+      "why": "Fighter component."
+    },
+    "item:3050": {
+      "value": 0.06,
+      "why": "Support item."
+    },
+    "item:3053": {
+      "value": 0.3,
+      "why": "Fighter Health item."
+    },
+    "item:3065": {
+      "value": 0.25,
+      "why": "Tank item."
+    },
+    "item:3066": {
+      "value": 0.03,
+      "why": "Obscure component."
+    },
+    "item:3067": {
+      "value": 0.25,
+      "why": "Common Health component."
+    },
+    "item:3068": {
+      "value": 0.35,
+      "why": "Classic tank item."
+    },
+    "item:3071": {
+      "value": 0.2,
+      "why": "Fighter item."
+    },
+    "item:3073": {
+      "value": 0.06,
+      "why": "Newer fighter item."
+    },
+    "item:3075": {
+      "value": 0.25,
+      "why": "Tank item."
+    },
+    "item:3078": {
+      "value": 0.15,
+      "why": "Fighter item."
+    },
+    "item:3083": {
+      "value": 0.6,
+      "why": "The Health item; reflex answer."
+    },
+    "item:3084": {
+      "value": 0.45,
+      "why": "Iconic Health-stacking item."
+    },
+    "item:3109": {
+      "value": 0.08,
+      "why": "Support item."
+    },
+    "item:3112": {
+      "value": 0.02,
+      "why": "ARAM-origin starter."
+    },
+    "item:3116": {
+      "value": 0.15,
+      "why": "Mage item with Health."
+    },
+    "item:3119": {
+      "value": 0.06,
+      "why": "Tank Tear item."
+    },
+    "item:3121": {
+      "value": 0.05,
+      "why": "Transformed Winter's Approach."
+    },
+    "item:3143": {
+      "value": 0.25,
+      "why": "Tank item."
+    },
+    "item:3147": {
+      "value": 0.04,
+      "why": "Component."
+    },
+    "item:3152": {
+      "value": 0.05,
+      "why": "AP assassin item."
+    },
+    "item:3161": {
+      "value": 0.06,
+      "why": "Fighter item."
+    },
+    "item:3165": {
+      "value": 0.06,
+      "why": "Mage item; Health forgotten."
+    },
+    "item:3177": {
+      "value": 0.02,
+      "why": "ARAM-origin starter."
+    },
+    "item:3181": {
+      "value": 0.1,
+      "why": "Split-push item."
+    },
+    "item:3184": {
+      "value": 0.02,
+      "why": "ARAM-origin starter."
+    },
+    "item:3190": {
+      "value": 0.12,
+      "why": "Support tank item."
+    },
+    "item:3211": {
+      "value": 0.08,
+      "why": "Component."
+    },
+    "item:3222": {
+      "value": 0.03,
+      "why": "Support active item."
+    },
+    "item:3742": {
+      "value": 0.25,
+      "why": "Tank item."
+    },
+    "item:3748": {
+      "value": 0.25,
+      "why": "Health-scaling fighter item."
+    },
+    "item:3801": {
+      "value": 0.08,
+      "why": "Component."
+    },
+    "item:3803": {
+      "value": 0.08,
+      "why": "RoA component."
+    },
+    "item:3814": {
+      "value": 0.06,
+      "why": "Lethality item."
+    },
+    "item:3866": {
+      "value": 0.03,
+      "why": "Support quest step."
+    },
+    "item:3867": {
+      "value": 0.03,
+      "why": "Support quest step."
+    },
+    "item:3869": {
+      "value": 0.03,
+      "why": "Support quest item."
+    },
+    "item:3870": {
+      "value": 0.03,
+      "why": "Support quest item."
+    },
+    "item:3871": {
+      "value": 0.03,
+      "why": "Support quest item."
+    },
+    "item:3876": {
+      "value": 0.03,
+      "why": "Support quest item."
+    },
+    "item:3877": {
+      "value": 0.03,
+      "why": "Support quest item."
+    },
+    "item:4401": {
+      "value": 0.15,
+      "why": "Magic resist tank item."
+    },
+    "item:4629": {
+      "value": 0.05,
+      "why": "Battle mage item."
+    },
+    "item:4633": {
+      "value": 0.1,
+      "why": "Battle mage item."
+    },
+    "item:6609": {
+      "value": 0.04,
+      "why": "Grievous wounds item."
+    },
+    "item:6610": {
+      "value": 0.08,
+      "why": "Fighter item."
+    },
+    "item:6617": {
+      "value": 0.03,
+      "why": "Enchanter item."
+    },
+    "item:6620": {
+      "value": 0.03,
+      "why": "Enchanter item."
+    },
+    "item:6631": {
+      "value": 0.08,
+      "why": "Fighter item."
+    },
+    "item:6653": {
+      "value": 0.12,
+      "why": "Mage item; Health is secondary."
+    },
+    "item:6657": {
+      "value": 0.25,
+      "why": "Known for Health and Mana."
+    },
+    "item:6660": {
+      "value": 0.1,
+      "why": "Sunfire component."
+    },
+    "item:6662": {
+      "value": 0.15,
+      "why": "Tank item."
+    },
+    "item:6664": {
+      "value": 0.12,
+      "why": "Tank item."
+    },
+    "item:6665": {
+      "value": 0.2,
+      "why": "Tank item."
+    },
+    "item:8010": {
+      "value": 0.03,
+      "why": "Newer item."
+    },
+    "item:8020": {
+      "value": 0.12,
+      "why": "Tank item."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:3165",
+      "why": "Classic mage item players forget has Health: 'oh, of course'."
+    },
+    {
+      "entity": "item:3119",
+      "why": "The tank Tear; tank and support players remember its Health."
+    },
+    {
+      "entity": "item:3152",
+      "why": "AP assassin players know its Health; others smile at the reveal."
+    }
+  ]
+}

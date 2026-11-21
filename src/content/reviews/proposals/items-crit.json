@@ -6,6 +6,7 @@
     "item:2512",
     "item:2523",
     "item:3031",
+    "item:3032",
     "item:3033",
     "item:3036",
     "item:3046",
@@ -20,10 +21,6 @@
     "item:6676"
   ],
   "missing": [
-    {
-      "entity": "Yun Tal Wildarrows",
-      "why": "Its passive permanently grants up to 25% Crit Chance and its tooltip lists '0% Critical Strike Chance' as a stat, but Data Dragon's stats map omits crit, so it's out. Most players will name it as a crit item. Fix as data (overlay fact adding the crit stat) or broaden the Rule."
-    },
     {
       "entity": "Bloodthirster",
       "why": "Was a crit item in past seasons; common wrong answer. Rule-correct out."
@@ -55,52 +52,12 @@
       "why": "Essence Reaver has crit now, but players remember it as a mana/haste item."
     }
   ],
-  "wording": [
-    {
-      "why": "The only ambiguity is items that gain crit through a passive (Yun Tal Wildarrows). The Rule says stats only.",
-      "suggestion": "Name an item with Critical Strike Chance in its stats"
-    }
-  ],
+  "wording": [],
   "aliases": [
-    {
-      "entity": "item:1018",
-      "alias": "Cloak",
-      "why": "Common short name."
-    },
     {
       "entity": "item:3033",
       "alias": "Mortal",
       "why": "Short form."
-    },
-    {
-      "entity": "item:3085",
-      "alias": "Runaan's",
-      "why": "Common short name."
-    },
-    {
-      "entity": "item:3085",
-      "alias": "Hurricane",
-      "why": "Short form."
-    },
-    {
-      "entity": "item:6673",
-      "alias": "Shieldbow",
-      "why": "Universal short name."
-    },
-    {
-      "entity": "item:6675",
-      "alias": "Navori",
-      "why": "Universal short name."
-    },
-    {
-      "entity": "item:6676",
-      "alias": "Collector",
-      "why": "Short form without 'The'."
-    },
-    {
-      "entity": "item:3508",
-      "alias": "ER",
-      "why": "Common abbreviation."
     },
     {
       "entity": "item:3508",
@@ -108,19 +65,14 @@
       "why": "Short form."
     },
     {
-      "entity": "item:2523",
-      "alias": "Hexoptics",
-      "why": "Short form."
-    },
-    {
-      "entity": "item:2512",
-      "alias": "Fiendhunter",
-      "why": "Short form."
+      "entity": "item:3032",
+      "alias": "Wildarrows",
+      "why": "Players drop 'Yun Tal' as often as they drop 'Wildarrows'."
     }
   ],
   "fun": {
     "verdict": "fun",
-    "why": "Every ADC player knows IE, PD and the Cloak, but 16 answers including Arena-origin items, components (Noonquiver, Zeal) and Essence Reaver make a full set hard. Skews toward ADC players."
+    "why": "Every ADC player knows IE, PD and the Cloak, and Yun Tal is now a common early answer, but 17 answers including Arena-origin items, components (Noonquiver, Zeal) and Essence Reaver make a full set hard. Skews toward ADC players."
   },
   "typicality": {
     "item:1018": {
@@ -138,6 +90,10 @@
     "item:3031": {
       "value": 0.85,
       "why": "The crit item; most players' first answer."
+    },
+    "item:3032": {
+      "value": 0.3,
+      "why": "A popular first crit item whose passive is all about crit; ADC players name it early, others don't know it."
     },
     "item:3033": {
       "value": 0.12,

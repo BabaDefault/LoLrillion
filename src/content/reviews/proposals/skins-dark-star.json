@@ -1,0 +1,130 @@
+{
+  "templateId": "skins-dark-star",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "skin:101005",
+    "skin:110006",
+    "skin:121004",
+    "skin:142033",
+    "skin:145069",
+    "skin:31007",
+    "skin:35008",
+    "skin:412005",
+    "skin:43008",
+    "skin:517046",
+    "skin:54023",
+    "skin:54024",
+    "skin:59007",
+    "skin:61007",
+    "skin:82006",
+    "skin:83040"
+  ],
+  "missing": [
+    {
+      "entity": "Dark Cosmic Jhin",
+      "why": "Dark Cosmic skins (Jhin, Lux, Lissandra, Diana) share the cosmic theme and get confused with Dark Star. Rule-correct out."
+    },
+    {
+      "entity": "Star Nemesis Fiddlesticks",
+      "why": "Star Nemesis (Star Guardian villains) gets confused with Dark Star. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "skin:54024",
+      "why": "Counts separately from Dark Star Malphite; players may feel it is one answer."
+    }
+  ],
+  "wording": [
+    {
+      "why": "'Dark Star' could be read to include the cosmic skin family (Dark Cosmic, Star Nemesis). The Rule needs the exact words.",
+      "suggestion": "Name a skin with \"Dark Star\" in its name"
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Thresh and Varus come instantly, but 16 answers spread across eras (2017 Thresh to recent Zoe, Kai'Sa and Malphite) make a full set hard."
+  },
+  "typicality": {
+    "skin:101005": {
+      "value": 0.3,
+      "why": "Well-known skin."
+    },
+    "skin:110006": {
+      "value": 0.35,
+      "why": "Popular skin."
+    },
+    "skin:121004": {
+      "value": 0.3,
+      "why": "Well-known skin."
+    },
+    "skin:142033": {
+      "value": 0.15,
+      "why": "Recent; less remembered."
+    },
+    "skin:145069": {
+      "value": 0.25,
+      "why": "Recent skin on a popular champion."
+    },
+    "skin:31007": {
+      "value": 0.25,
+      "why": "Known skin."
+    },
+    "skin:35008": {
+      "value": 0.25,
+      "why": "Known skin."
+    },
+    "skin:412005": {
+      "value": 0.5,
+      "why": "Iconic legendary-tier skin."
+    },
+    "skin:43008": {
+      "value": 0.2,
+      "why": "Less remembered."
+    },
+    "skin:517046": {
+      "value": 0.15,
+      "why": "Less remembered."
+    },
+    "skin:54023": {
+      "value": 0.3,
+      "why": "Recent, high-profile skin."
+    },
+    "skin:54024": {
+      "value": 0.06,
+      "why": "Players name the base skin."
+    },
+    "skin:59007": {
+      "value": 0.2,
+      "why": "Less remembered."
+    },
+    "skin:61007": {
+      "value": 0.25,
+      "why": "Known skin."
+    },
+    "skin:82006": {
+      "value": 0.25,
+      "why": "Known skin."
+    },
+    "skin:83040": {
+      "value": 0.12,
+      "why": "Less remembered."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "skin:517046",
+      "why": "A skin some players own: 'oh, of course'."
+    },
+    {
+      "entity": "skin:83040",
+      "why": "Yorick mains know it; others smile at the reveal."
+    },
+    {
+      "entity": "skin:43008",
+      "why": "A known skin players rarely think of first."
+    }
+  ]
+}
