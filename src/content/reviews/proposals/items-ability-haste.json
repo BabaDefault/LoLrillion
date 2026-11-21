@@ -1,0 +1,397 @@
+{
+  "templateId": "items-ability-haste",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2020",
+    "item:2022",
+    "item:2065",
+    "item:2502",
+    "item:2503",
+    "item:2510",
+    "item:2520",
+    "item:2522",
+    "item:2524",
+    "item:2525",
+    "item:3003",
+    "item:3004",
+    "item:3024",
+    "item:3040",
+    "item:3042",
+    "item:3050",
+    "item:3057",
+    "item:3065",
+    "item:3067",
+    "item:3068",
+    "item:3071",
+    "item:3074",
+    "item:3078",
+    "item:3100",
+    "item:3107",
+    "item:3108",
+    "item:3109",
+    "item:3110",
+    "item:3115",
+    "item:3118",
+    "item:3119",
+    "item:3121",
+    "item:3133",
+    "item:3137",
+    "item:3152",
+    "item:3156",
+    "item:3158",
+    "item:3165",
+    "item:3171",
+    "item:3177",
+    "item:3179",
+    "item:3190",
+    "item:3222",
+    "item:3508",
+    "item:3802",
+    "item:4005",
+    "item:4628",
+    "item:4629",
+    "item:4633",
+    "item:4642",
+    "item:6333",
+    "item:6609",
+    "item:6610",
+    "item:6616",
+    "item:6617",
+    "item:6620",
+    "item:6655",
+    "item:6660",
+    "item:6662",
+    "item:6664",
+    "item:6692",
+    "item:6694",
+    "item:6696",
+    "item:6697",
+    "item:6698",
+    "item:6699",
+    "item:8010",
+    "item:8020"
+  ],
+  "missing": [
+    {
+      "entity": "Spear of Shojin",
+      "why": "Its haste comes from a passive, not its stats. Rule-correct out; a common wrong answer."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3177",
+      "why": "Guardian's Blade is a starter that players rarely see on Summoner's Rift."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:3158",
+      "alias": "CDR Boots",
+      "why": "The old name for Ionian Boots; still widely typed."
+    },
+    {
+      "entity": "item:3108",
+      "alias": "Codex",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:2022",
+      "alias": "Mote",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "68 answers, so everyone scores, but nobody remembers them all. Haste is on mages, fighters, tanks and supports, so every role has answers."
+  },
+  "typicality": {
+    "item:2020": {
+      "value": 0.05,
+      "why": "The Brutalizer."
+    },
+    "item:2022": {
+      "value": 0.1,
+      "why": "Glowing Mote is the small haste component."
+    },
+    "item:2065": {
+      "value": 0.05,
+      "why": "Shurelya's Battlesong."
+    },
+    "item:2502": {
+      "value": 0.05,
+      "why": "Unending Despair."
+    },
+    "item:2503": {
+      "value": 0.06,
+      "why": "Blackfire Torch."
+    },
+    "item:2510": {
+      "value": 0.03,
+      "why": "Dusk and Dawn."
+    },
+    "item:2520": {
+      "value": 0.03,
+      "why": "Bastionbreaker."
+    },
+    "item:2522": {
+      "value": 0.02,
+      "why": "Actualizer."
+    },
+    "item:2524": {
+      "value": 0.02,
+      "why": "Bandlepipes."
+    },
+    "item:2525": {
+      "value": 0.02,
+      "why": "Protoplasm Harness."
+    },
+    "item:3003": {
+      "value": 0.08,
+      "why": "Archangel's Staff."
+    },
+    "item:3004": {
+      "value": 0.06,
+      "why": "Manamune."
+    },
+    "item:3024": {
+      "value": 0.05,
+      "why": "Glacial Buckler: the Frozen Heart component players forget."
+    },
+    "item:3040": {
+      "value": 0.04,
+      "why": "Seraph's Embrace."
+    },
+    "item:3042": {
+      "value": 0.04,
+      "why": "Muramana."
+    },
+    "item:3050": {
+      "value": 0.05,
+      "why": "Zeke's Convergence."
+    },
+    "item:3057": {
+      "value": 0.05,
+      "why": "Sheen: the Trinity and Lich Bane component players forget has haste."
+    },
+    "item:3065": {
+      "value": 0.1,
+      "why": "Spirit Visage gives haste; tanks know it."
+    },
+    "item:3067": {
+      "value": 0.35,
+      "why": "Kindlegem is the basic haste component."
+    },
+    "item:3068": {
+      "value": 0.05,
+      "why": "Sunfire Aegis."
+    },
+    "item:3071": {
+      "value": 0.3,
+      "why": "Black Cleaver: the fighter haste item."
+    },
+    "item:3074": {
+      "value": 0.05,
+      "why": "Ravenous Hydra."
+    },
+    "item:3078": {
+      "value": 0.12,
+      "why": "Trinity Force has haste among many stats."
+    },
+    "item:3100": {
+      "value": 0.08,
+      "why": "Lich Bane."
+    },
+    "item:3107": {
+      "value": 0.08,
+      "why": "Redemption."
+    },
+    "item:3108": {
+      "value": 0.25,
+      "why": "Fiendish Codex: the AP haste component."
+    },
+    "item:3109": {
+      "value": 0.03,
+      "why": "Knight's Vow."
+    },
+    "item:3110": {
+      "value": 0.2,
+      "why": "Frozen Heart is known for haste and mana."
+    },
+    "item:3115": {
+      "value": 0.1,
+      "why": "Nashor's Tooth."
+    },
+    "item:3118": {
+      "value": 0.1,
+      "why": "Malignance: ultimate-haste mage item."
+    },
+    "item:3119": {
+      "value": 0.04,
+      "why": "Winter's Approach."
+    },
+    "item:3121": {
+      "value": 0.04,
+      "why": "Fimbulwinter."
+    },
+    "item:3133": {
+      "value": 0.25,
+      "why": "Caulfield's Warhammer: the AD haste component."
+    },
+    "item:3137": {
+      "value": 0.06,
+      "why": "Cryptbloom."
+    },
+    "item:3152": {
+      "value": 0.08,
+      "why": "Hextech Rocketbelt."
+    },
+    "item:3156": {
+      "value": 0.05,
+      "why": "Maw of Malmortius."
+    },
+    "item:3158": {
+      "value": 0.45,
+      "why": "Ionian Boots are the haste boots; the classic 'CDR boots' answer."
+    },
+    "item:3165": {
+      "value": 0.08,
+      "why": "Morellonomicon."
+    },
+    "item:3171": {
+      "value": 0.08,
+      "why": "Crimson Lucidity is a newer tier-3 boot."
+    },
+    "item:3177": {
+      "value": 0.02,
+      "why": "Guardian's Blade (ARAM/starter)."
+    },
+    "item:3179": {
+      "value": 0.05,
+      "why": "Umbral Glaive."
+    },
+    "item:3190": {
+      "value": 0.08,
+      "why": "Locket of the Iron Solari."
+    },
+    "item:3222": {
+      "value": 0.05,
+      "why": "Mikael's Blessing."
+    },
+    "item:3508": {
+      "value": 0.2,
+      "why": "Essence Reaver is a haste-and-crit staple."
+    },
+    "item:3802": {
+      "value": 0.12,
+      "why": "Lost Chapter is the mage mana-and-haste component."
+    },
+    "item:4005": {
+      "value": 0.08,
+      "why": "Imperial Mandate."
+    },
+    "item:4628": {
+      "value": 0.1,
+      "why": "Horizon Focus."
+    },
+    "item:4629": {
+      "value": 0.15,
+      "why": "Cosmic Drive is a haste-heavy AP item."
+    },
+    "item:4633": {
+      "value": 0.08,
+      "why": "Riftmaker."
+    },
+    "item:4642": {
+      "value": 0.04,
+      "why": "Bandleglass Mirror."
+    },
+    "item:6333": {
+      "value": 0.1,
+      "why": "Death's Dance."
+    },
+    "item:6609": {
+      "value": 0.04,
+      "why": "Chempunk Chainsword."
+    },
+    "item:6610": {
+      "value": 0.05,
+      "why": "Sundered Sky."
+    },
+    "item:6616": {
+      "value": 0.04,
+      "why": "Staff of Flowing Water."
+    },
+    "item:6617": {
+      "value": 0.1,
+      "why": "Moonstone Renewer: an enchanter staple."
+    },
+    "item:6620": {
+      "value": 0.05,
+      "why": "Echoes of Helia."
+    },
+    "item:6655": {
+      "value": 0.12,
+      "why": "Luden's is a mage staple."
+    },
+    "item:6660": {
+      "value": 0.06,
+      "why": "Bami's Cinder."
+    },
+    "item:6662": {
+      "value": 0.05,
+      "why": "Iceborn Gauntlet."
+    },
+    "item:6664": {
+      "value": 0.04,
+      "why": "Hollow Radiance."
+    },
+    "item:6692": {
+      "value": 0.06,
+      "why": "Eclipse."
+    },
+    "item:6694": {
+      "value": 0.08,
+      "why": "Serylda's Grudge."
+    },
+    "item:6696": {
+      "value": 0.12,
+      "why": "Axiom Arc is the ult-haste lethality item."
+    },
+    "item:6697": {
+      "value": 0.05,
+      "why": "Hubris."
+    },
+    "item:6698": {
+      "value": 0.05,
+      "why": "Profane Hydra."
+    },
+    "item:6699": {
+      "value": 0.04,
+      "why": "Voltaic Cyclosword."
+    },
+    "item:8010": {
+      "value": 0.03,
+      "why": "Bloodletter's Curse."
+    },
+    "item:8020": {
+      "value": 0.04,
+      "why": "Abyssal Mask."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:3057",
+      "why": "Sheen: everyone builds it, few remember it has haste. 'Oh, of course.'"
+    },
+    {
+      "entity": "item:3024",
+      "why": "Glacial Buckler: the Frozen Heart component, a satisfying reveal."
+    },
+    {
+      "entity": "item:2065",
+      "why": "Shurelya's Battlesong: support players get it, others smile at the reveal."
+    }
+  ]
+}

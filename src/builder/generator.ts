@@ -3,10 +3,10 @@ import type { BuiltPrompt } from "./types";
 
 export const PROMPTS_PER_PUZZLE = 7;
 
-/** Default generator constraints (spec: Answer Sets of about 8-80, a few rare answers, a type mix). */
+/** Default generator constraints (spec: Answer Sets of about 8-100, a few rare answers, a type mix). */
 export const GENERATOR_DEFAULTS = {
   minAnswers: 8,
-  maxAnswers: 80,
+  maxAnswers: 100,
   /** At least this many answers at Triple Kill or better (the Gem counts). */
   minRareAnswers: 3,
   /** At most this many Prompts of one Answer Type, so every Puzzle mixes types. */

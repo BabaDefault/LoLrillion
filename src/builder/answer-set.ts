@@ -6,9 +6,10 @@ import type { BuilderInputs, TemplateDefinition, TemplateFilter } from "./types"
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /**
- * How an item tooltip's `<stats>` block names each Data Dragon stat key. Data Dragon's `stats` map
- * leaves out some stats the tooltip lists (Yun Tal Wildarrows' Critical Strike Chance), so the
- * `item-stat` filter reads both.
+ * How an item tooltip's `<stats>` block names each stat key. Data Dragon's `stats` map leaves out some
+ * stats the tooltip lists (Yun Tal Wildarrows' Critical Strike Chance), so the `item-stat` filter reads
+ * both. Keys without a `Mod` suffix are tooltip-only: Data Dragon has no stats-map key for them (Ability
+ * Haste, Lethality, Heal and Shield Power) or splits them (flat and percent Move Speed).
  */
 const TOOLTIP_STAT_LABEL: Readonly<Record<string, string>> = {
   FlatArmorMod: "Armor",
@@ -19,6 +20,10 @@ const TOOLTIP_STAT_LABEL: Readonly<Record<string, string>> = {
   FlatMPPoolMod: "Mana",
   PercentAttackSpeedMod: "Attack Speed",
   FlatCritChanceMod: "Critical Strike Chance",
+  MoveSpeed: "Move Speed",
+  AbilityHaste: "Ability Haste",
+  Lethality: "Lethality",
+  HealShieldPower: "Heal and Shield Power",
 };
 
 /** The stat names in an item description's `<stats>` block, e.g. "Critical Strike Chance" from "<attention>0%</attention> Critical Strike Chance". */

@@ -53,6 +53,7 @@ describe("Templates on the committed data", () => {
     for (const t of templates) {
       if (t.filter.kind !== "item-stat") continue;
       const stat = t.filter.stat;
+      if (!gameDataSnapshot.items.some((i) => stat in i.stats)) continue; // tooltip-only stat
       const inStatsMap = new Set(
         gameDataSnapshot.items.filter((i) => (i.stats[stat] ?? 0) > 0).map((i) => `item:${i.id}`),
       );

@@ -100,7 +100,7 @@ it uses fixed Tiers set from a familiarity database plus LLM assistance and a ma
 ## Puzzle generation
 - Prompt *templates* = filter functions over the data snapshot, e.g. `champions labelled dash`,
   `items with tag=SpellBlock`, `skins in line=Star Guardian`, `Worlds-winning players from LCK`.
-- Generator picks 7 templates/day with constraints: answer-set size in a good range (≈8–80),
+- Generator picks 7 templates/day with constraints: answer-set size in a good range (≈8–100),
   category mix (**at most 1 esports prompt per day**; many players don't follow pro play),
   no repeat of a template within N days. Pre-generate a week ahead; allow manual override.
 - Answer normalization: see **Answer accuracy** below.

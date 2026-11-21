@@ -35,7 +35,7 @@ describe("Puzzle generator", () => {
     expect(ids(generatePuzzles(base)[0])).toEqual(ids(generatePuzzles(base)[0]));
   });
 
-  it("only uses Answer Sets of about 8-80 with at least a few Triple Kill-or-better answers", () => {
+  it("only uses Answer Sets of about 8-100 with at least a few Triple Kill-or-better answers", () => {
     const tooSmall = prompt("too-small", "item", 5, 3);
     const tooBig = prompt("too-big", "skin", 120, 30);
     const noRare = prompt("no-rare", "champion", 30, 1);
