@@ -44,6 +44,10 @@ export type TemplateFilter =
   | { kind: "all"; of: TemplateFilter[] }
   /** Skins whose name has `word` as a whole word, or (with `prefix`) a word starting with it. */
   | { kind: "skin-name-word"; word: string; prefix?: boolean }
+  /** Champions with at least `atLeast` and at most `atMost` skins in the data (base skin and re-issues such as "(2022)" editions not counted). */
+  | { kind: "champion-skin-count"; atMost?: number; atLeast?: number }
+  /** Champions with at least one skin whose name has `word` as a whole word (e.g. "Prestige"). */
+  | { kind: "champion-skin-name-word"; word: string }
   /** Pro players on any Worlds-winning roster (esports snapshot). */
   | { kind: "worlds-winner" };
 
@@ -54,6 +58,11 @@ export interface TemplateDefinition {
   answerType: AnswerType;
   rule: string;
   filter: TemplateFilter;
+  /**
+   * Overlap groups (e.g. "pull", "health"). Templates sharing a family have mostly the same answers, so
+   * the generator never puts two in one Puzzle and keeps them apart on nearby days. Defaults to none.
+   */
+  families?: readonly string[];
 }
 
 /** Everything the Builder reads. Labels, Familiarity and reviews are optional until they exist. */

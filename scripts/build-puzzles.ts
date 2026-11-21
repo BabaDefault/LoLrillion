@@ -121,6 +121,7 @@ async function main() {
     dataVersion: snapshot.patch,
     history: Object.fromEntries([...existing].map(([day, p]) => [day, p.prompts.map((x) => x.templateId)])),
     overrides: await readOptionalJson<Record<string, string[]>>(`${PUZZLES_DIR}/overrides.json`),
+    families: Object.fromEntries(allTemplates.map((t) => [t.id, t.families ?? []])),
   });
   for (const puzzle of generated) {
     await writeFile(`${PUZZLES_DIR}/${puzzle.puzzleDay}.json`, puzzleJson(puzzle));

@@ -22,6 +22,10 @@ _Avoid_: Question, category, clue
 A reusable, approved definition that produces a Prompt and its Answer Set from the game data.
 _Avoid_: Prompt type, question generator
 
+**Family**:
+A group of Templates whose Answer Sets mostly overlap (e.g. pull, melee pull, pull and stun). Two Templates of one Family never share a Puzzle, and the generator holds a Template back while a sibling ran recently.
+_Avoid_: Group, category
+
 **Rule**:
 The written clarification shown with a Prompt that settles borderline cases (e.g. what counts as a dash).
 _Avoid_: Fine print, note

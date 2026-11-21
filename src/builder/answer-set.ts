@@ -112,9 +112,36 @@ function select(filter: TemplateFilter, inputs: BuilderInputs): EntityId[] {
       const pattern = new RegExp(`\\b${escapeRegExp(filter.word)}${tail}`, "i");
       return snapshot.skins.filter((s) => pattern.test(s.name)).map((s) => skinEntityId(s.id));
     }
+    case "champion-skin-count": {
+      const { atMost = Infinity, atLeast = 0 } = filter;
+      const counts = new Map<string, number>();
+      for (const s of snapshot.skins) {
+        if (isReissue(s.name)) continue;
+        counts.set(s.championId, (counts.get(s.championId) ?? 0) + 1);
+      }
+      return champions
+        .filter((c) => {
+          const n = counts.get(c.id) ?? 0;
+          return n <= atMost && n >= atLeast;
+        })
+        .map((c) => championEntityId(c.id));
+    }
+    case "champion-skin-name-word": {
+      const pattern = new RegExp(`\\b${escapeRegExp(filter.word)}\\b`, "i");
+      const owners = new Set(snapshot.skins.filter((s) => pattern.test(s.name)).map((s) => s.championId));
+      return champions.filter((c) => owners.has(c.id)).map((c) => championEntityId(c.id));
+    }
     case "worlds-winner": {
       const winners = new Set(requireEsports(inputs).worldsWins.flatMap((w) => w.players));
       return [...winners].sort().map(proPlayerEntityId);
     }
   }
+}
+
+/**
+ * A skin entry that re-issues another skin rather than adding a new one: dated re-releases such as
+ * "Prestige K/DA Ahri (2022)" and model updates such as "Goth Annie Modern". Skin counts skip them.
+ */
+function isReissue(skinName: string): boolean {
+  return /\(\d{4}\)$/.test(skinName) || / Modern$/.test(skinName);
 }

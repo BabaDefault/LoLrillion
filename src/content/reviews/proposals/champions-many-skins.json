@@ -1,0 +1,155 @@
+{
+  "templateId": "champions-many-skins",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Ahri",
+    "champion:Akali",
+    "champion:Annie",
+    "champion:Ashe",
+    "champion:Blitzcrank",
+    "champion:Caitlyn",
+    "champion:Ezreal",
+    "champion:Katarina",
+    "champion:Kayle",
+    "champion:LeeSin",
+    "champion:Leona",
+    "champion:Lux",
+    "champion:MasterYi",
+    "champion:MissFortune",
+    "champion:Sivir",
+    "champion:Soraka",
+    "champion:Vayne",
+    "champion:Yasuo"
+  ],
+  "missing": [
+    {
+      "entity": "Jax",
+      "why": "17 skins, one short; players will expect him."
+    },
+    {
+      "entity": "Morgana",
+      "why": "17 skins, one short."
+    },
+    {
+      "entity": "Sona",
+      "why": "17 skins, one short."
+    },
+    {
+      "entity": "Janna",
+      "why": "17 skins, one short."
+    },
+    {
+      "entity": "Tristana",
+      "why": "17 skins, one short."
+    },
+    {
+      "entity": "Evelynn",
+      "why": "17 once her Prestige K/DA (2022) re-release counts once; players will expect her."
+    },
+    {
+      "entity": "Blitzcrank (data)",
+      "why": "His 18 includes Rustier and Rustiest Blitzcrank, which may be tiers of Rusty Blitzcrank rather than separate skins."
+    }
+  ],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Exact skin counts aren't common knowledge; champions at 17 will feel unfair.",
+      "suggestion": "Keep the Rule pointing to the in-game collection; consider listing near misses on the reveal."
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "ok",
+    "why": "Ezreal, Lux, Ahri and Miss Fortune come instantly; Blitzcrank, Soraka and Kayle reward people who remember old shop pages."
+  },
+  "typicality": {
+    "champion:Ahri": {
+      "value": 0.55,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Akali": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Annie": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Ashe": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Blitzcrank": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Caitlyn": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Ezreal": {
+      "value": 0.55,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Katarina": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Kayle": {
+      "value": 0.12,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:LeeSin": {
+      "value": 0.35,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Leona": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Lux": {
+      "value": 0.6,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:MasterYi": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:MissFortune": {
+      "value": 0.5,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Sivir": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Soraka": {
+      "value": 0.12,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Vayne": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Yasuo": {
+      "value": 0.35,
+      "why": "Estimate from simulating ~100 players."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Sivir",
+      "why": "Panel consensus 2-1: original champion with one skin to spare."
+    },
+    {
+      "entity": "champion:Soraka",
+      "why": "Backup."
+    },
+    {
+      "entity": "champion:MasterYi",
+      "why": "Backup."
+    }
+  ]
+}

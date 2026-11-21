@@ -91,7 +91,7 @@ describe("Templates on the committed data", () => {
     expect(added).toEqual({ "items-crit": ["Yun Tal Wildarrows"] });
   });
 
-  it("no lore Templates: kit labels, range, names, item stats, skin names, esports, visual traits, and combinations of them", () => {
+  it("no lore Templates: kit labels, range, names, item stats, skin counts, esports, visual traits, and combinations of them", () => {
     const kinds = (f: TemplateFilter): string[] => (f.kind === "all" ? [f.kind, ...f.of.flatMap(kinds)] : [f.kind]);
     const used = new Set(templates.flatMap((t) => kinds(t.filter)));
     expect([...used].sort()).toEqual([
@@ -100,8 +100,9 @@ describe("Templates on the committed data", () => {
       "champion-name-length",
       "champion-name-pattern",
       "champion-range",
+      "champion-skin-count",
+      "champion-skin-name-word",
       "item-stat",
-      "skin-name-word",
       "trait",
       "worlds-winner",
     ]);
@@ -166,10 +167,17 @@ describe("Templates on the committed data", () => {
     expect(winners).not.toContain(uzi.kind === "match" ? uzi.entity.id : "");
   });
 
-  it('"Dragon" skins include Dragonslayer Xin Zhao, Dragonblade Talon and Obsidian Dragon Sett', () => {
-    const skins = names(answerSetOf(template("skins-dragon"), inputs));
-    expect(skins).toEqual(
-      expect.arrayContaining(["Dragonslayer Xin Zhao", "Dragonblade Talon", "Obsidian Dragon Sett"]),
+  it("skin counts leave out the base skin: Miss Fortune has 18+, Smolder has five or fewer", () => {
+    const many = names(answerSetOf(template("champions-many-skins"), inputs));
+    const few = names(answerSetOf(template("champions-few-skins"), inputs));
+    expect(many).toEqual(expect.arrayContaining(["Miss Fortune", "Ezreal", "Lux"]));
+    expect(few).toEqual(expect.arrayContaining(["Smolder", "Hwei", "Mel"]));
+    expect(many.filter((n) => few.includes(n))).toEqual([]);
+  });
+
+  it("Prestige skins count for their champion", () => {
+    expect(names(answerSetOf(template("champions-prestige-skin"), inputs))).toEqual(
+      expect.arrayContaining(["Kai'Sa", "Ahri"]),
     );
   });
 });

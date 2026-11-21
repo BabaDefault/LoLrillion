@@ -1,0 +1,149 @@
+{
+  "templateId": "champions-few-skins",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akshan",
+    "champion:Ambessa",
+    "champion:Aurora",
+    "champion:Belveth",
+    "champion:Briar",
+    "champion:Hwei",
+    "champion:KSante",
+    "champion:Kled",
+    "champion:Locke",
+    "champion:Mel",
+    "champion:Milio",
+    "champion:Naafiri",
+    "champion:Nilah",
+    "champion:Ornn",
+    "champion:RekSai",
+    "champion:Rell",
+    "champion:Renata",
+    "champion:Smolder",
+    "champion:Vex",
+    "champion:Yunara",
+    "champion:Zaahen"
+  ],
+  "missing": [
+    {
+      "entity": "Skarner",
+      "why": "6 skins, one over; memed as unskinned."
+    },
+    {
+      "entity": "Udyr",
+      "why": "6 skins, one over."
+    },
+    {
+      "entity": "Ivern",
+      "why": "6 skins, one over; often named as neglected."
+    }
+  ],
+  "disputable": [],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Newest champions come first, then the fun part: older champions like Rek'Sai, Ornn and Kled that Riot rarely skins."
+  },
+  "typicality": {
+    "champion:Akshan": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Ambessa": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Aurora": {
+      "value": 0.4,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Belveth": {
+      "value": 0.25,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Briar": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Hwei": {
+      "value": 0.35,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:KSante": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Kled": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Locke": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Mel": {
+      "value": 0.4,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Milio": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Naafiri": {
+      "value": 0.25,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Nilah": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Ornn": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:RekSai": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Rell": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Renata": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Smolder": {
+      "value": 0.35,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Vex": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Yunara": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Zaahen": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:RekSai",
+      "why": "Panel consensus 2-1: 2014 champion famous for her skin drought."
+    },
+    {
+      "entity": "champion:Kled",
+      "why": "Skeptic pick: four skins, one of margin."
+    },
+    {
+      "entity": "champion:Ornn",
+      "why": "Backup."
+    }
+  ]
+}

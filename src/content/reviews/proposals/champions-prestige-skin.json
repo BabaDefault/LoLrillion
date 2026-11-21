@@ -1,0 +1,411 @@
+{
+  "templateId": "champions-prestige-skin",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:Ahri",
+    "champion:Akali",
+    "champion:Aphelios",
+    "champion:Brand",
+    "champion:Caitlyn",
+    "champion:Camille",
+    "champion:Cassiopeia",
+    "champion:Darius",
+    "champion:Diana",
+    "champion:Ekko",
+    "champion:Evelynn",
+    "champion:Ezreal",
+    "champion:Fiora",
+    "champion:Fizz",
+    "champion:Garen",
+    "champion:Irelia",
+    "champion:Janna",
+    "champion:JarvanIV",
+    "champion:Jax",
+    "champion:Jayce",
+    "champion:Jinx",
+    "champion:KSante",
+    "champion:Kaisa",
+    "champion:Katarina",
+    "champion:Kayle",
+    "champion:Kayn",
+    "champion:Kindred",
+    "champion:KogMaw",
+    "champion:Leblanc",
+    "champion:LeeSin",
+    "champion:Leona",
+    "champion:Lissandra",
+    "champion:Lucian",
+    "champion:Lulu",
+    "champion:Lux",
+    "champion:Malphite",
+    "champion:MasterYi",
+    "champion:Mel",
+    "champion:MissFortune",
+    "champion:Mordekaiser",
+    "champion:Morgana",
+    "champion:Nami",
+    "champion:Neeko",
+    "champion:Pantheon",
+    "champion:Pyke",
+    "champion:Qiyana",
+    "champion:Rakan",
+    "champion:Renata",
+    "champion:Riven",
+    "champion:Senna",
+    "champion:Seraphine",
+    "champion:Sett",
+    "champion:Shaco",
+    "champion:Sivir",
+    "champion:Sona",
+    "champion:Soraka",
+    "champion:Swain",
+    "champion:Sylas",
+    "champion:Syndra",
+    "champion:Talon",
+    "champion:Teemo",
+    "champion:Thresh",
+    "champion:Vayne",
+    "champion:Veigar",
+    "champion:Volibear",
+    "champion:Warwick",
+    "champion:Xayah",
+    "champion:Yasuo",
+    "champion:Yone",
+    "champion:Yuumi",
+    "champion:Zed",
+    "champion:Zeri",
+    "champion:Zoe",
+    "champion:Zyra"
+  ],
+  "missing": [],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "75 answers is near the top of the size range; most answers land in low Tiers.",
+      "suggestion": "Fine as an easy Prompt; keep for variety."
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "ok",
+    "why": "Big set so most players score; Kai'Sa, Ahri and Akali are easy, while Malphite, Kog'Maw or Teemo surprise."
+  },
+  "typicality": {
+    "champion:Aatrox": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Ahri": {
+      "value": 0.35,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Akali": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Aphelios": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Brand": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Caitlyn": {
+      "value": 0.25,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Camille": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Cassiopeia": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Darius": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Diana": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Ekko": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Evelynn": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Ezreal": {
+      "value": 0.25,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Fiora": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Fizz": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Garen": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Irelia": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Janna": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:JarvanIV": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Jax": {
+      "value": 0.12,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Jayce": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Jinx": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:KSante": {
+      "value": 0.04,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Kaisa": {
+      "value": 0.4,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Katarina": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Kayle": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Kayn": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Kindred": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:KogMaw": {
+      "value": 0.04,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Leblanc": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:LeeSin": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Leona": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Lissandra": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Lucian": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Lulu": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Lux": {
+      "value": 0.3,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Malphite": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:MasterYi": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Mel": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:MissFortune": {
+      "value": 0.25,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Mordekaiser": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Morgana": {
+      "value": 0.12,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Nami": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Neeko": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Pantheon": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Pyke": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Qiyana": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Rakan": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Renata": {
+      "value": 0.04,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Riven": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Senna": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Seraphine": {
+      "value": 0.25,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Sett": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Shaco": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Sivir": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Sona": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Soraka": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Swain": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Sylas": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Syndra": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Talon": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Teemo": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Thresh": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Vayne": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Veigar": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Volibear": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Warwick": {
+      "value": 0.06,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Xayah": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Yasuo": {
+      "value": 0.25,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Yone": {
+      "value": 0.15,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Yuumi": {
+      "value": 0.08,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Zed": {
+      "value": 0.2,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Zeri": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Zoe": {
+      "value": 0.1,
+      "why": "Estimate from simulating ~100 players."
+    },
+    "champion:Zyra": {
+      "value": 0.05,
+      "why": "Estimate from simulating ~100 players."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Fizz",
+      "why": "Panel consensus: Prestige Fuzz Fizz is the best-remembered joke Prestige."
+    },
+    {
+      "entity": "champion:Warwick",
+      "why": "Backup: players forget his Prestige Winterblessed skin."
+    },
+    {
+      "entity": "champion:Malphite",
+      "why": "Backup: surprising Prestige for a tank."
+    }
+  ]
+}

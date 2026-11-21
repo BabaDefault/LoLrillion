@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { AnswerType, Tier } from "@/engine";
+import { addDays, type AnswerType, type Tier } from "@/engine";
 import { generatePuzzles, type BuiltPrompt, type GenerateInput } from "./index";
 
 /** A built Prompt with `size` answers, `rare` of them Triple Kill or better. */
@@ -71,6 +71,56 @@ describe("Puzzle generator", () => {
     expect(ids(puzzles[0])).not.toContain("skin-0");
     const first = new Set(ids(puzzles[0]));
     expect(ids(puzzles[1]).filter((id) => first.has(id))).toEqual([]);
+  });
+
+  it("never puts two Templates of one family in a Puzzle", () => {
+    // champ-0..3 overlap (e.g. pull, melee pull, pull + stun); item-0 and item-1 share "health".
+    const families = {
+      "champ-0": ["pull"],
+      "champ-1": ["pull"],
+      "champ-2": ["pull", "stun"],
+      "champ-3": ["stun"],
+      "item-0": ["health"],
+      "item-1": ["armor", "health"],
+    };
+    const dates = Array.from({ length: 10 }, (_, i) => addDays("2026-11-20", i));
+    for (const puzzle of generatePuzzles({ ...base, dates, families, noRepeatDays: 1 })) {
+      const today = ids(puzzle).flatMap((id) => families[id as keyof typeof families] ?? []);
+      expect(new Set(today).size, puzzle.puzzleDay).toBe(today.length);
+    }
+  });
+
+  it("holds back a Template whose sibling ran yesterday while fresher Templates are free", () => {
+    const families = { "champ-0": ["pull"], "champ-1": ["pull"] };
+    const history = { "2026-11-19": ["champ-0"] };
+    const [puzzle] = generatePuzzles({ ...base, families, history });
+    expect(ids(puzzle)).not.toContain("champ-1");
+  });
+
+  it("spreads Templates evenly: over five weeks every Template is used about as often", () => {
+    const big = [
+      ...Array.from({ length: 30 }, (_, i) => prompt(`champ-${i}`, "champion")),
+      ...Array.from({ length: 20 }, (_, i) => prompt(`item-${i}`, "item")),
+    ];
+    const dates = Array.from({ length: 35 }, (_, i) => addDays("2026-11-20", i));
+    const uses = new Map<string, number>();
+    for (const p of generatePuzzles({ ...base, prompts: big, dates })) {
+      for (const id of ids(p)) uses.set(id, (uses.get(id) ?? 0) + 1);
+    }
+    // 245 Prompts over 50 Templates is 4.9 each.
+    expect(uses.size).toBe(50);
+    expect(Math.max(...uses.values()) - Math.min(...uses.values())).toBeLessThanOrEqual(2);
+  });
+
+  it("narrows the no-repeat window for a day when the pool is too small, repeating the stalest Templates", () => {
+    const small = [
+      ...Array.from({ length: 8 }, (_, i) => prompt(`champ-${i}`, "champion")),
+      ...Array.from({ length: 6 }, (_, i) => prompt(`item-${i}`, "item")),
+    ];
+    const dates = ["2026-11-20", "2026-11-21", "2026-11-22"];
+    const puzzles = generatePuzzles({ ...base, prompts: small, dates, noRepeatDays: 5 });
+    expect(ids(puzzles[1]).filter((id) => ids(puzzles[0]).includes(id))).toEqual([]);
+    expect(ids(puzzles[2]).filter((id) => ids(puzzles[1]).includes(id))).toEqual([]);
   });
 
   it("uses a manual override for a date as given", () => {
