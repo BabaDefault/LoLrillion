@@ -1,0 +1,142 @@
+{
+  "templateId": "skins-bewitching",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "skin:114060",
+    "skin:134025",
+    "skin:18011",
+    "skin:21018",
+    "skin:21020",
+    "skin:21033",
+    "skin:235036",
+    "skin:25011",
+    "skin:25041",
+    "skin:267032",
+    "skin:34037",
+    "skin:350028",
+    "skin:40013",
+    "skin:518022",
+    "skin:60006",
+    "skin:69028",
+    "skin:7045",
+    "skin:76005",
+    "skin:78024"
+  ],
+  "missing": [
+    {
+      "entity": "Witch's Brew Blitzcrank",
+      "why": "Witch-themed but not 'Bewitching'; correctly out under the Rule."
+    }
+  ],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Clear.",
+      "suggestion": "Name a skin with \"Bewitching\" in its name"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "skin:34037",
+      "alias": "Bewitching Anivia",
+      "why": "Players type the champion's real name; 'Batnivia' is a pun few remember."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "A recognisable Halloween line (Nami, Morgana, MF) but only 19 answers and most entries are mid-recall, so runs end fast."
+  },
+  "typicality": {
+    "skin:267032": {
+      "value": 0.3,
+      "why": "Recent, heavily marketed."
+    },
+    "skin:25011": {
+      "value": 0.3,
+      "why": "The line's oldest icon; witch Morgana is obvious."
+    },
+    "skin:21018": {
+      "value": 0.2,
+      "why": "Prestige release keeps it visible."
+    },
+    "skin:134025": {
+      "value": 0.15,
+      "why": "Mid-high recall."
+    },
+    "skin:60006": {
+      "value": 0.15,
+      "why": "Spider witch fits."
+    },
+    "skin:76005": {
+      "value": 0.15,
+      "why": "Original 2012-era skin."
+    },
+    "skin:350028": {
+      "value": 0.15,
+      "why": "A witch's cat is an obvious fit."
+    },
+    "skin:518022": {
+      "value": 0.12,
+      "why": "Mid recall."
+    },
+    "skin:40013": {
+      "value": 0.12,
+      "why": "Mid recall."
+    },
+    "skin:235036": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:114060": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:78024": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:7045": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:69028": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:18011": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:34037": {
+      "value": 0.06,
+      "why": "Name pun hides it; quiet."
+    },
+    "skin:25041": {
+      "value": 0.05,
+      "why": "Players name base Morgana."
+    },
+    "skin:21020": {
+      "value": 0.05,
+      "why": "Players name base MF."
+    },
+    "skin:21033": {
+      "value": 0.03,
+      "why": "Re-release; almost never typed."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "skin:34037",
+      "why": "A bat-familiar Anivia is a delightful 'oh, of course' Halloween reveal."
+    },
+    {
+      "entity": "skin:69028",
+      "why": "A snake witch fits perfectly; a few players reach it."
+    },
+    {
+      "entity": "skin:18011",
+      "why": "Tiny witch on a broom; a fun reveal some players know."
+    }
+  ]
+}

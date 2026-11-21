@@ -1,0 +1,126 @@
+{
+  "templateId": "items-armor-health",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1120",
+    "item:2502",
+    "item:2524",
+    "item:3050",
+    "item:3068",
+    "item:3075",
+    "item:3109",
+    "item:3143",
+    "item:3190",
+    "item:3742",
+    "item:6662",
+    "item:6665"
+  ],
+  "missing": [
+    {
+      "entity": "Warmog's Armor",
+      "why": "\"Armor\" is in its name, but its stats are Health and Base Health Regen only. Rule-correct out; no fix needed."
+    },
+    {
+      "entity": "Frozen Heart",
+      "why": "Tank Armor item players assume has Health; its stats are Armor, Mana and Ability Haste. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:2524",
+      "why": "Bandlepipes is Arena-origin; many players think it isn't on SR. It has 200 Health and 20 Armor, so it is in."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:3075",
+      "alias": "Thorns",
+      "why": "Very common short name."
+    },
+    {
+      "entity": "item:3068",
+      "alias": "Sunfire Cape",
+      "why": "Its name for many seasons before it became Sunfire Aegis."
+    },
+    {
+      "entity": "item:6662",
+      "alias": "IBG",
+      "why": "Common abbreviation."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Every tank or support player names Sunfire, Thornmail or Randuin's at once; few remember the support auras (Knight's Vow, Zeke's, Bandlepipes) or Doran's Helm."
+  },
+  "typicality": {
+    "item:3068": {
+      "value": 0.45,
+      "why": "The iconic health-and-armor tank item."
+    },
+    "item:3075": {
+      "value": 0.45,
+      "why": "The armor item; most remember it also gives Health."
+    },
+    "item:3143": {
+      "value": 0.4,
+      "why": "Anti-crit tank staple with big Health and Armor."
+    },
+    "item:3742": {
+      "value": 0.3,
+      "why": "Common tank item; its Health and Armor are well known."
+    },
+    "item:6665": {
+      "value": 0.2,
+      "why": "Both resists plus Health; tank players get it."
+    },
+    "item:6662": {
+      "value": 0.15,
+      "why": "Sheen tank item; Armor is remembered, Health less so."
+    },
+    "item:2502": {
+      "value": 0.12,
+      "why": "Newer tank item; top laners know it."
+    },
+    "item:3190": {
+      "value": 0.08,
+      "why": "Support item; players remember the resists more than the Health."
+    },
+    "item:3109": {
+      "value": 0.05,
+      "why": "Niche support item; few name it first."
+    },
+    "item:3050": {
+      "value": 0.04,
+      "why": "Niche support item."
+    },
+    "item:1120": {
+      "value": 0.06,
+      "why": "The tank starter; the pick players make to look clever."
+    },
+    "item:2524": {
+      "value": 0.02,
+      "why": "Arena-origin support item few know is on SR."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "item:1120",
+      "why": "Doran's Helm is the starter players reach for to feel clever (same call as the approved items-magic-resist)."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "item:3190",
+      "why": "Everyone has seen Locket; its Health and Armor land as an \"oh, of course\" on reveal."
+    },
+    {
+      "entity": "item:3109",
+      "why": "The bodyguard support item; support mains get it, others smile at the reveal."
+    },
+    {
+      "entity": "item:3050",
+      "why": "Support tank item with every defensive stat; a few support players find it."
+    }
+  ]
+}

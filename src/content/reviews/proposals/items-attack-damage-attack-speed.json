@@ -1,0 +1,105 @@
+{
+  "templateId": "items-attack-damage-attack-speed",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1086",
+    "item:3032",
+    "item:3051",
+    "item:3073",
+    "item:3078",
+    "item:3087",
+    "item:3095",
+    "item:3124",
+    "item:3153",
+    "item:3302",
+    "item:6631",
+    "item:6672"
+  ],
+  "missing": [
+    {
+      "entity": "Phantom Dancer",
+      "why": "Crit items without AD (Phantom Dancer, Navori, Rapid Firecannon, Runaan's) get named by ADC players. Rule-correct out."
+    },
+    {
+      "entity": "Wit's End",
+      "why": "On-hit fighter item players assume has AD; stats are Attack Speed, Magic Resist and Tenacity. Rule-correct out."
+    }
+  ],
+  "disputable": [],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "ADC players name BotRK, Kraken and Rageblade at once; Hearthbound Axe, Stridebreaker and Hexplate are hard to complete."
+  },
+  "typicality": {
+    "item:3153": {
+      "value": 0.45,
+      "why": "The classic AD-and-AS on-hit item."
+    },
+    "item:6672": {
+      "value": 0.35,
+      "why": "Common marksman item."
+    },
+    "item:3124": {
+      "value": 0.35,
+      "why": "The on-hit attack speed item; AD is remembered."
+    },
+    "item:3078": {
+      "value": 0.3,
+      "why": "Iconic; its AD and AS are known."
+    },
+    "item:3032": {
+      "value": 0.25,
+      "why": "Marksman first item."
+    },
+    "item:3087": {
+      "value": 0.15,
+      "why": "Thought of as AS/AP; AD less known."
+    },
+    "item:3302": {
+      "value": 0.12,
+      "why": "Hybrid on-hit item; on-hit players get it."
+    },
+    "item:3095": {
+      "value": 0.08,
+      "why": "Crit item; its AS is less known."
+    },
+    "item:3073": {
+      "value": 0.06,
+      "why": "AS often forgotten."
+    },
+    "item:6631": {
+      "value": 0.05,
+      "why": "AS often forgotten."
+    },
+    "item:3051": {
+      "value": 0.05,
+      "why": "Triforce component; few remember it."
+    },
+    "item:1086": {
+      "value": 0.05,
+      "why": "The starter players reach for to feel clever."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "item:1086",
+      "why": "Doran's Bow is the starter players reach for to feel clever (same call as the approved items-attack-speed)."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "item:3302",
+      "why": "On-hit hybrid item; its AD and AS are obvious once revealed."
+    },
+    {
+      "entity": "item:6631",
+      "why": "Known as a dash bruiser item; its Attack Speed is a satisfying \"oh, of course\"."
+    },
+    {
+      "entity": "item:3073",
+      "why": "Bruiser item whose Attack Speed most forget."
+    }
+  ]
+}

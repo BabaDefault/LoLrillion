@@ -1,0 +1,212 @@
+{
+  "templateId": "items-mana",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1027",
+    "item:2503",
+    "item:2522",
+    "item:2526",
+    "item:2530",
+    "item:3003",
+    "item:3004",
+    "item:3024",
+    "item:3040",
+    "item:3042",
+    "item:3070",
+    "item:3110",
+    "item:3118",
+    "item:3119",
+    "item:3121",
+    "item:3802",
+    "item:3803",
+    "item:6655",
+    "item:6657"
+  ],
+  "missing": [
+    {
+      "entity": "Faerie Charm",
+      "why": "Gives Base Mana Regen, not Mana; players mix up the two. Rule-correct out; no fix needed."
+    },
+    {
+      "entity": "Essence Reaver",
+      "why": "Long-time mana item (mana restore on hit, old Mana stat); players still name it. Current stats have no Mana, so Rule-correct out."
+    },
+    {
+      "entity": "Sheen",
+      "why": "Spellblade items (Sheen, Lich Bane) once had Mana; veterans may try them. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3042",
+      "why": "Transformed from Manamune, not bought directly; some players will say it isn't a shop item. It has Mana in its stats, so it is in."
+    },
+    {
+      "entity": "item:3040",
+      "why": "Transformed from Archangel's Staff; same argument as Muramana."
+    },
+    {
+      "entity": "item:3121",
+      "why": "Transformed from Winter's Approach; same argument as Muramana."
+    },
+    {
+      "entity": "item:3024",
+      "why": "Mostly thought of as an armor component; its Mana surprises players, but it is in."
+    }
+  ],
+  "wording": [
+    {
+      "why": "'Gives Mana' could be read to include Mana Regen (Faerie Charm, Forbidden Idol) or mana restore effects. The Rule means the Mana stat only.",
+      "suggestion": "Name an item with Mana in its stats"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "item:3070",
+      "alias": "Tear",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:3003",
+      "alias": "Archangel's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3003",
+      "alias": "AA Staff",
+      "why": "Common abbreviation."
+    },
+    {
+      "entity": "item:3040",
+      "alias": "Seraph's",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3042",
+      "alias": "Mura",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:6657",
+      "alias": "RoA",
+      "why": "Standard abbreviation."
+    },
+    {
+      "entity": "item:3121",
+      "alias": "Fimbul",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3803",
+      "alias": "Catalyst",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:2503",
+      "alias": "Blackfire",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:6655",
+      "alias": "Luden's Tempest",
+      "why": "Its name for several seasons before being renamed back."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "Tear, Manamune, Archangel's and Sapphire Crystal come instantly, and the Tear upgrades plus Frozen Heart, Luden's and Rod of Ages give most players four or five. Only 19 answers, and newer components (Actualizer, Whispering Circlet, Diadem of Songs) make a full set hard, but the set is narrow and leans on one item family."
+  },
+  "typicality": {
+    "item:1027": {
+      "value": 0.5,
+      "why": "The basic Mana component."
+    },
+    "item:2503": {
+      "value": 0.15,
+      "why": "Newer mage item; few think of its Mana."
+    },
+    "item:2522": {
+      "value": 0.04,
+      "why": "New component; few know it."
+    },
+    "item:2526": {
+      "value": 0.03,
+      "why": "New component; few know it."
+    },
+    "item:2530": {
+      "value": 0.05,
+      "why": "New support component; few know it."
+    },
+    "item:3003": {
+      "value": 0.45,
+      "why": "Tear item every AP mage player knows."
+    },
+    "item:3004": {
+      "value": 0.45,
+      "why": "Tear item every AD caster player knows."
+    },
+    "item:3024": {
+      "value": 0.1,
+      "why": "Thought of as an armor component."
+    },
+    "item:3040": {
+      "value": 0.25,
+      "why": "Known, but players name Archangel's first."
+    },
+    "item:3042": {
+      "value": 0.25,
+      "why": "Known, but players name Manamune first."
+    },
+    "item:3070": {
+      "value": 0.8,
+      "why": "The mana-stacking item; the reflex answer."
+    },
+    "item:3110": {
+      "value": 0.4,
+      "why": "Classic tank item famous for its Mana."
+    },
+    "item:3118": {
+      "value": 0.2,
+      "why": "Newer mage item; Mana isn't its headline."
+    },
+    "item:3119": {
+      "value": 0.15,
+      "why": "Tank Tear item; support and tank players know it."
+    },
+    "item:3121": {
+      "value": 0.12,
+      "why": "The transformed Winter's Approach; named after the Tear family clicks."
+    },
+    "item:3802": {
+      "value": 0.3,
+      "why": "Mage component built around Mana."
+    },
+    "item:3803": {
+      "value": 0.15,
+      "why": "Rod of Ages' component; Health and Mana."
+    },
+    "item:6655": {
+      "value": 0.35,
+      "why": "Core mage item; Mana is part of its identity."
+    },
+    "item:6657": {
+      "value": 0.35,
+      "why": "Stacking mage item, known for Health and Mana."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:3121",
+      "why": "The tank Tear's upgrade: 'oh, of course, it's a Tear item'. Known to tank and support players."
+    },
+    {
+      "entity": "item:3803",
+      "why": "Rod of Ages' component; players who build RoA find it with a smile."
+    },
+    {
+      "entity": "item:3024",
+      "why": "Frozen Heart's component; players remember it as armor and are pleased to recall its Mana."
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{"tier":"CHALLENGER","leagueId":"L-C","queue":"RANKED_SOLO_5x5","name":"Some League",
+ "entries":[
+  {"puuid":"PUUID-C1","leaguePoints":1500,"rank":"I","wins":300,"losses":250,"veteran":true,"inactive":false,"freshBlood":false,"hotStreak":false}
+ ]}

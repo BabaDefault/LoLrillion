@@ -1,0 +1,42 @@
+{
+  "templateId": "items-attack-damage-health",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1055",
+    "item:2021",
+    "item:2501",
+    "item:3044",
+    "item:3071",
+    "item:3073",
+    "item:3078",
+    "item:3161",
+    "item:3177",
+    "item:3181",
+    "item:3184",
+    "item:3748",
+    "item:3814",
+    "item:6609",
+    "item:6610",
+    "item:6631"
+  ],
+  "typicality": {
+    "item:3071": 0.4,
+    "item:3044": 0.3,
+    "item:3078": 0.3,
+    "item:3748": 0.3,
+    "item:1055": 0.3,
+    "item:6610": 0.2,
+    "item:3161": 0.15,
+    "item:6631": 0.15,
+    "item:3181": 0.12,
+    "item:2501": 0.12,
+    "item:3073": 0.1,
+    "item:3814": 0.08,
+    "item:6609": 0.06,
+    "item:2021": 0.03,
+    "item:3177": 0.02,
+    "item:3184": 0.02
+  },
+  "tooClever": [],
+  "gem": "item:3814"
+}

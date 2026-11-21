@@ -1,0 +1,30 @@
+{
+  "templateId": "champions-ranged-global-ult",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Ashe",
+    "champion:Draven",
+    "champion:Ezreal",
+    "champion:Jinx",
+    "champion:Karthus",
+    "champion:Lillia",
+    "champion:Mel",
+    "champion:Senna",
+    "champion:Soraka",
+    "champion:TwistedFate"
+  ],
+  "typicality": {
+    "champion:Jinx": 0.55,
+    "champion:Karthus": 0.5,
+    "champion:Ezreal": 0.45,
+    "champion:Soraka": 0.4,
+    "champion:Ashe": 0.35,
+    "champion:TwistedFate": 0.3,
+    "champion:Draven": 0.18,
+    "champion:Senna": 0.12,
+    "champion:Lillia": 0.05,
+    "champion:Mel": 0.05
+  },
+  "tooClever": [],
+  "gem": "champion:Senna"
+}

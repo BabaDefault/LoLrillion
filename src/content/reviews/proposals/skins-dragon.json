@@ -1,0 +1,314 @@
+{
+  "templateId": "skins-dragon",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "skin:10024",
+    "skin:106007",
+    "skin:106009",
+    "skin:114080",
+    "skin:117003",
+    "skin:131018",
+    "skin:136011",
+    "skin:143004",
+    "skin:145029",
+    "skin:157054",
+    "skin:157055",
+    "skin:18010",
+    "skin:201001",
+    "skin:2016",
+    "skin:22023",
+    "skin:29036",
+    "skin:3019",
+    "skin:38024",
+    "skin:412028",
+    "skin:42006",
+    "skin:43044",
+    "skin:48006",
+    "skin:497037",
+    "skin:497038",
+    "skin:50004",
+    "skin:5013",
+    "skin:59002",
+    "skin:62003",
+    "skin:63008",
+    "skin:64003",
+    "skin:64031",
+    "skin:67003",
+    "skin:67055",
+    "skin:74006",
+    "skin:77005",
+    "skin:80006",
+    "skin:82001",
+    "skin:875008",
+    "skin:875009",
+    "skin:91003",
+    "skin:92005"
+  ],
+  "missing": [
+    {
+      "entity": "Ice Drake Shyvana",
+      "why": "Shyvana is the dragon champion and players will try her skins, but 'Drake' doesn't start with 'Dragon'. Correctly out under the Rule; no fix needed, but it is the likeliest 'wrong' answer, along with Smolder/Aurelion Sol base names."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "skin:106009",
+      "why": "Prestige variants are separate Entities; players naming 'Duality Dragon Volibear' get the base one. Fine, but a player typing the Prestige name and being told it's a second answer may feel double-counted."
+    },
+    {
+      "entity": "skin:497038",
+      "why": "Same Prestige-duplicate question as Volibear."
+    },
+    {
+      "entity": "skin:875009",
+      "why": "Same Prestige-duplicate question; Sett's Prestige is fairly well known."
+    },
+    {
+      "entity": "skin:157055",
+      "why": "Recent (2025) pair with Truth Dragon Yasuo; some players may not know both are separate skins rather than forms of one."
+    }
+  ],
+  "wording": [
+    {
+      "why": "\"with 'Dragon' in its name\" reads as a whole word to many players, so they may not realise Dragonslayer/Dragonblade/Dragonmancer/Dragonwing count — those are about half the set.",
+      "suggestion": "Name a skin whose name contains \"Dragon\" (Dragonslayer counts)"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "skin:59002",
+      "alias": "Dragonslayer J4",
+      "why": "J4 is the universal short form for Jarvan IV."
+    },
+    {
+      "entity": "skin:136011",
+      "alias": "Storm Dragon Asol",
+      "why": "ASol/Asol is the standard short form."
+    },
+    {
+      "entity": "skin:106007",
+      "alias": "Duality Volibear",
+      "why": "The line is usually called 'Duality' in conversation."
+    },
+    {
+      "entity": "skin:74006",
+      "alias": "Dragon Trainer Heimer",
+      "why": "Heimer is the standard short form."
+    },
+    {
+      "entity": "skin:18010",
+      "alias": "Dragon Trainer Trist",
+      "why": "Trist is a common short form."
+    },
+    {
+      "entity": "skin:5013",
+      "alias": "Dragonslayer Xin",
+      "why": "Xin is the common short form."
+    },
+    {
+      "entity": "skin:64003",
+      "alias": "Dragon Fist Lee",
+      "why": "Lee is the common short form."
+    },
+    {
+      "entity": "skin:875008",
+      "alias": "Obsidian Sett",
+      "why": "Commonly shortened when the skin was released."
+    },
+    {
+      "entity": "skin:62003",
+      "alias": "Jade Dragon Wu",
+      "why": "Wu is a common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "41 answers spread over many champions and several sub-lines (Dragonslayer, Dragonmancer, Dragon Trainer, Dragonblade, Storm Dragon). Everyone can get one or two, and nobody remembers Dragon Oracle Udyr or Dragon Guardian Galio."
+  },
+  "typicality": {
+    "skin:10024": {
+      "value": 0.04,
+      "why": "Old, rarely seen."
+    },
+    "skin:106007": {
+      "value": 0.22,
+      "why": "Big recent Volibear skin with a Prestige."
+    },
+    "skin:106009": {
+      "value": 0.04,
+      "why": "Players type the base name first."
+    },
+    "skin:114080": {
+      "value": 0.1,
+      "why": "Mid-known line member."
+    },
+    "skin:117003": {
+      "value": 0.12,
+      "why": "Classic Dragon Trainer, memorable."
+    },
+    "skin:131018": {
+      "value": 0.08,
+      "why": "Moderately known."
+    },
+    "skin:136011": {
+      "value": 0.28,
+      "why": "Legendary skin on the dragon champion; obvious association."
+    },
+    "skin:143004": {
+      "value": 0.06,
+      "why": "Older skin, little visibility."
+    },
+    "skin:145029": {
+      "value": 0.12,
+      "why": "Popular champion, Legendary-adjacent visibility."
+    },
+    "skin:157054": {
+      "value": 0.18,
+      "why": "Recent high-tier Yasuo skin."
+    },
+    "skin:157055": {
+      "value": 0.12,
+      "why": "Paired with Truth Dragon, slightly less remembered."
+    },
+    "skin:18010": {
+      "value": 0.1,
+      "why": "Classic but quieter."
+    },
+    "skin:201001": {
+      "value": 0.2,
+      "why": "Well-known Braum skin."
+    },
+    "skin:2016": {
+      "value": 0.03,
+      "why": "Obscure."
+    },
+    "skin:22023": {
+      "value": 0.08,
+      "why": "Recent but not prominent."
+    },
+    "skin:29036": {
+      "value": 0.05,
+      "why": "Obscure."
+    },
+    "skin:3019": {
+      "value": 0.04,
+      "why": "Obscure."
+    },
+    "skin:38024": {
+      "value": 0.04,
+      "why": "Obscure line member."
+    },
+    "skin:412028": {
+      "value": 0.08,
+      "why": "Moderate on a popular champion."
+    },
+    "skin:42006": {
+      "value": 0.1,
+      "why": "Iconic old Corki skin to veterans."
+    },
+    "skin:43044": {
+      "value": 0.06,
+      "why": "Recent but quiet."
+    },
+    "skin:48006": {
+      "value": 0.03,
+      "why": "Obscure."
+    },
+    "skin:497037": {
+      "value": 0.08,
+      "why": "Moderate."
+    },
+    "skin:497038": {
+      "value": 0.02,
+      "why": "Prestige duplicate."
+    },
+    "skin:50004": {
+      "value": 0.06,
+      "why": "Old, veterans only."
+    },
+    "skin:5013": {
+      "value": 0.25,
+      "why": "Widely-owned classic; first Dragonslayer for many."
+    },
+    "skin:59002": {
+      "value": 0.18,
+      "why": "Well-known older Jarvan skin."
+    },
+    "skin:62003": {
+      "value": 0.12,
+      "why": "Classic, recognisable."
+    },
+    "skin:63008": {
+      "value": 0.08,
+      "why": "Moderate."
+    },
+    "skin:64003": {
+      "value": 0.15,
+      "why": "Classic Lee Sin skin; Lee Sin is ubiquitous."
+    },
+    "skin:64031": {
+      "value": 0.15,
+      "why": "Recent high-tier Lee Sin skin."
+    },
+    "skin:67003": {
+      "value": 0.3,
+      "why": "Very popular, often the first Dragonslayer named."
+    },
+    "skin:67055": {
+      "value": 0.08,
+      "why": "Overshadowed by Dragonslayer Vayne."
+    },
+    "skin:74006": {
+      "value": 0.1,
+      "why": "Memorable, dragon on his back."
+    },
+    "skin:77005": {
+      "value": 0.04,
+      "why": "Obscure."
+    },
+    "skin:80006": {
+      "value": 0.1,
+      "why": "Known older skin."
+    },
+    "skin:82001": {
+      "value": 0.06,
+      "why": "Old, veterans only."
+    },
+    "skin:875008": {
+      "value": 0.3,
+      "why": "Prestige-launch Legendary, heavily marketed."
+    },
+    "skin:875009": {
+      "value": 0.05,
+      "why": "Prestige duplicate."
+    },
+    "skin:91003": {
+      "value": 0.3,
+      "why": "Iconic, most-used Talon skin."
+    },
+    "skin:92005": {
+      "value": 0.18,
+      "why": "Iconic old Riven skin."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "skin:42006",
+      "why": "Veterans reach for it as the 'deep cut' old skin, so it's named more than its age suggests."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "skin:74006",
+      "why": "The baby dragon carrying Heimer is unmistakable once revealed: 'oh, of course!'"
+    },
+    {
+      "entity": "skin:62003",
+      "why": "Long-standing, recognisable skin that rarely comes to mind first."
+    },
+    {
+      "entity": "skin:64003",
+      "why": "Classic Lee Sin skin overshadowed by the newer Storm Dragon; satisfying to remember."
+    }
+  ]
+}

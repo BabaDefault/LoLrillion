@@ -1,0 +1,1502 @@
+/* ==========================================================================
+   LoLrillion design tokens: a retro CRT "dusk over the Rift" theme, with a
+   pixel sky and river behind glowing terminal panels in Hextech gold and
+   arcane cyan. Every colour, size, step and shadow used below comes from
+   here; components never hard-code their own. Contrast ratios are against
+   --surface-solid (panels are near-opaque, so they hold over any sky band)
+   unless noted.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  /* Colour: deep navy, Hextech gold, arcane cyan */
+  --bg: #0a0f1f;
+  --surface: rgba(14, 21, 48, 0.95); /* panels: --surface-solid, a touch see-through */
+  --surface-solid: #0e1530;
+  --border: #36457a;
+  --glow: rgba(79, 224, 239, 0.45);
+  --glow-soft: rgba(79, 224, 239, 0.15);
+  --text-glow: rgba(241, 236, 220, 0.35);
+
+  /* Action colour: the pink of the Lock in button, the current pip and kickers */
+  --action: #e2577f;
+  --action-hover: #ec6c91;
+  --action-deep: #8f2a4b;
+  --action-glow: rgba(226, 87, 127, 0.4);
+  --on-action: #0a0f1f; /* 5.2:1 on --action */
+  --action-text: #ff8fae; /* kickers on panels, 7:1 */
+
+  /* The backdrop (scene.tsx): sky bands top to bottom, river, depths bands */
+  --sky-1: #1a2452;
+  --sky-2: #232c60;
+  --sky-3: #2e346c;
+  --sky-4: #3a3f7a;
+  --sky-5: #6a4d84;
+  --sky-6: #b86a8e;
+  --cloud: rgba(205, 214, 245, 0.16);
+  --cloud-far: rgba(205, 214, 245, 0.1);
+  --cloud-farthest: rgba(205, 214, 245, 0.08);
+  --silhouette: #0b1024;
+  --river: #2f8f9d;
+  --river-light: #8fe6ee;
+  --depths-1: #0f2140;
+  --depths-2: #0d1a36;
+  --depths-3: #0b1530;
+  --scanline: rgba(0, 0, 0, 0.12);
+  --shadow: #04060d;
+  --text: #f1ecdc; /* 14:1 */
+  --muted: #a3acc9; /* 7.5:1 */
+  --accent: #e0b552; /* gold, 8.7:1 */
+  --accent-strong: #f5d27e;
+  --accent-soft: rgba(224, 181, 82, 0.14);
+  --on-accent: #0a0f1f; /* 9:1 on --accent */
+  --highlight: #4fe0ef; /* cyan, 10:1 */
+  --highlight-deep: #157f8c;
+  --highlight-soft: rgba(79, 224, 239, 0.12);
+  --bad: #ff6b6f; /* 6:1 */
+  --good: #4fd977;
+  --focus: #4fe0ef;
+
+  /* Tier colours, matching the share emoji (see tier-tone.ts). All >= 5:1. */
+  --tone-blue: #5b9bff; /* Minion 🟦 */
+  --tone-clown: #ff6fa8; /* Too Clever 🤡 */
+  --tone-green: #4fd977; /* Kill 🟩 */
+  --tone-yellow: #f5d63d; /* Triple 🟨 */
+  --tone-orange: #ff9d45; /* Quadra 🟧 */
+  --tone-gem: #8ff0ff; /* Pentakill / Gem 💎 */
+  --tone-miss: #8f97b3; /* Miss ⬛ */
+
+  /* Type: a chunky display face for headings and numbers, a readable pixel face for the rest */
+  --font-display: "Press Start 2P", ui-monospace, monospace;
+  --font-body: "Space Mono", ui-monospace, monospace;
+  --font-mono: var(--font-display);
+  --text-xs: 13px;
+  --text-sm: 15px;
+  --text-md: 18px;
+  --text-lg: 21px;
+  --text-2xs: 11px; /* HUD labels and hints: uppercase, bold, widely tracked */
+  --text-2xl: clamp(24px, 6vw, 34px);
+  --display-2xs: 8px;
+  --display-xs: 10px;
+  --display-sm: 12px;
+  --display-md: 16px;
+  --display-lg: 20px;
+  --display-xl: 32px; /* big Points on the score interlude */
+  --display-hero: 64px; /* the end screen total at full size */
+
+  /* Space and the pixel grid */
+  --px: 3px; /* one "pixel" of the art */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --horizon: 38vh; /* where the sky meets the river in the backdrop */
+  --content-width: 620px;
+  --river-height: 10px;
+  --header-height: 72px;
+  --pip: 14px;
+  --timer-size: 56px;
+  --curve-height: 80px;
+  --notch: 6px; /* the cut corner on panels */
+  --tracking: 0.2em; /* letter-spacing for uppercase terminal labels */
+  --tracking-wide: 0.3em;
+
+  /* Stepped borders and hard (blur-free) drop shadows */
+  --drop: calc(var(--px) * 2) calc(var(--px) * 2) 0 var(--shadow);
+  --drop-sm: var(--px) var(--px) 0 var(--shadow);
+  --hairline: 1px solid var(--border);
+  --hairline-dashed: 1px dashed var(--border);
+  --frame: 2px; /* the glowing frame on primary buttons, the CTA and the curve baseline */
+  /* Glow blur radii, small to large */
+  --blur-sm: 8px;
+  --blur-md: 12px;
+  --blur-lg: 20px;
+  /* The CRT split-colour ghost behind titles */
+  --ghost: -2px 0 0 var(--action), 2px 0 0 var(--highlight);
+  --ghost-lg: -4px 0 0 var(--action), 4px 0 0 var(--highlight);
+  /* A panel with its corners cut off by --notch */
+  --notched: polygon(
+    0 var(--notch), var(--notch) 0, calc(100% - var(--notch)) 0, 100% var(--notch),
+    100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, var(--notch) 100%, 0 calc(100% - var(--notch))
+  );
+
+  /* Motion: stepped, like sprite frames */
+  --duration: 120ms;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+img,
+svg,
+canvas {
+  image-rendering: pixelated;
+}
+
+main {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+
+/* The display face: hard pixel edges, no smoothing. */
+h1,
+.title,
+.wordmark,
+.badge,
+.countdown,
+.score-tier,
+.score-points,
+.total,
+.day-title,
+.stat,
+.rank,
+.leaderboard .score,
+.group-code,
+.hud-value,
+.countdown,
+button.cta,
+.hero-title,
+.hero-sub {
+  font-family: var(--font-display);
+  font-weight: 400;
+  -webkit-font-smoothing: none;
+  letter-spacing: 0;
+}
+
+/* Numbers inside body text (Points, counts, dates, Puzzle numbers) never break across lines. */
+.num {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: var(--highlight);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--accent-strong);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+/* Visible keyboard focus on everything focusable: a hard cyan frame. */
+:focus-visible {
+  outline: var(--px) solid var(--focus);
+  outline-offset: var(--px);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: -100px;
+  z-index: 10;
+  padding: var(--space-2) var(--space-3);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  box-shadow: var(--drop-sm);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+/* ==========================================================================
+   Site header: wordmark + navigation
+   ========================================================================== */
+.site-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) 0;
+}
+
+.wordmark {
+  font-size: var(--display-sm);
+  color: var(--text);
+  text-decoration: none;
+  text-shadow: var(--ghost);
+}
+
+.wordmark:hover {
+  color: var(--text);
+}
+
+.wordmark-lol {
+  color: var(--accent);
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Nav items are small bordered terminal tabs. */
+.site-nav a {
+  display: block;
+  padding: var(--space-1) var(--space-3);
+  border: var(--hairline);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  color: var(--text);
+  border-color: var(--highlight);
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--highlight);
+  border-color: var(--highlight);
+  box-shadow: 0 0 var(--blur-sm) var(--glow);
+}
+
+/* On phones the nav gets its own full-width row with evenly spread items. */
+@media (max-width: 479px) {
+  .site-nav {
+    width: 100%;
+  }
+
+  .site-nav ul {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .site-nav a {
+    padding: var(--space-1) var(--space-2);
+    letter-spacing: 0.06em;
+  }
+}
+
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
+.title {
+  margin: var(--space-4) 0 var(--space-6);
+  font-size: var(--display-lg);
+  line-height: 1.4;
+  color: var(--text);
+  letter-spacing: 0.08em;
+  text-shadow: var(--ghost);
+}
+
+/*
+ * Panels: dark near-opaque glass with cut (notched) corners. clip-path trims the corners, so
+ * the frame is an inset shadow rather than a border.
+ */
+.card,
+.prompt-panel {
+  background: var(--surface);
+  padding: var(--space-6);
+  clip-path: var(--notched);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+
+@media (max-width: 479px) {
+  .card {
+    padding: var(--space-4);
+  }
+
+  .title {
+    font-size: var(--display-md);
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Controls
+   ========================================================================== */
+input {
+  width: 100%;
+  font-size: var(--text-md);
+  padding: var(--space-3) 14px;
+  border: var(--hairline);
+  background: var(--surface-solid);
+  color: var(--text);
+}
+
+input::placeholder {
+  color: var(--muted);
+}
+
+input:focus-visible {
+  border-color: var(--highlight);
+  outline-offset: 0;
+}
+
+input:disabled {
+  opacity: 0.5;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+/*
+ * Buttons. Primary: a dark terminal key with a glowing cyan frame (the Start button, smaller).
+ * Secondary: the same key with a plain hairline frame.
+ */
+button.primary,
+button.secondary {
+  padding: var(--space-3) var(--space-6);
+  background: var(--surface-solid);
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  transition: box-shadow var(--duration) steps(2), color var(--duration) steps(2), border-color var(--duration) steps(2);
+}
+
+button.primary {
+  border: var(--frame) solid var(--highlight);
+  box-shadow: 0 0 var(--blur-md) var(--glow), inset 0 0 var(--blur-md) var(--highlight-soft);
+}
+
+button.primary:hover:not(:disabled) {
+  color: var(--highlight);
+  box-shadow: 0 0 var(--blur-lg) var(--highlight), inset 0 0 var(--blur-lg) var(--glow-soft);
+}
+
+button.secondary {
+  border: var(--hairline);
+  color: var(--muted);
+}
+
+button.secondary:hover:not(:disabled) {
+  border-color: var(--highlight);
+  color: var(--text);
+}
+
+/* Pressed: the key sinks by one art pixel. */
+button.primary:active:not(:disabled),
+button.secondary:active:not(:disabled),
+button.chip:active:not(:disabled) {
+  transform: translateY(var(--px));
+}
+
+button.primary:disabled,
+button.secondary:disabled {
+  opacity: 0.6;
+}
+
+/* Chips: small uppercase terminal tabs, like the site nav. The pressed one glows cyan. */
+.chip {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  border: var(--hairline);
+  background: var(--surface-solid);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+}
+
+button.chip:hover:not(:disabled) {
+  border-color: var(--highlight);
+  color: var(--text);
+}
+
+.chip.active,
+.chip[aria-pressed="true"],
+button.chip.active:hover {
+  border-color: var(--highlight);
+  color: var(--highlight);
+  box-shadow: 0 0 var(--blur-sm) var(--glow);
+}
+
+.chip:disabled {
+  opacity: 0.4;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.badge {
+  font-size: var(--display-xs);
+  line-height: 1;
+  padding: var(--space-1) var(--space-2);
+  background: var(--highlight);
+  color: var(--on-accent);
+  letter-spacing: 0;
+}
+
+/* Notices: a panel with a pink action bar down its left edge */
+.notice {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border: var(--hairline);
+  border-left: var(--px) solid var(--action);
+  background: var(--surface-solid);
+}
+
+.notice p {
+  margin: 0 0 var(--space-2);
+}
+
+.inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.inline-form label {
+  width: 100%;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.inline-form input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ==========================================================================
+   Loading / empty / error states (see status.tsx)
+   ========================================================================== */
+.state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  padding: var(--space-6) var(--space-4);
+  border: var(--hairline-dashed);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.state-error {
+  border-style: solid;
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+/* A four-frame pixel spinner: one lit corner block walking round a square. */
+.spinner {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: var(--border);
+  box-shadow: inset 6px 6px 0 var(--highlight);
+  animation: spin 0.8s steps(4) infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   Play screen
+   ========================================================================== */
+/* HUD: score panel, progress pips, round panel */
+.hud {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-6);
+}
+
+.hud-panel {
+  --notch: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-self: start;
+  min-width: 96px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+  clip-path: var(--notched);
+}
+
+.hud-panel-right {
+  justify-self: end;
+  text-align: right;
+}
+
+.hud-label {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hud-value {
+  font-size: var(--display-md);
+  color: var(--highlight);
+  text-shadow: 0 0 var(--blur-sm) var(--glow);
+}
+
+.hud-value small {
+  font-size: 0.6em;
+  color: var(--muted);
+  text-shadow: none;
+}
+
+.pips {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pip {
+  width: var(--pip);
+  height: var(--pip);
+  border: var(--hairline);
+  background: var(--tone, var(--surface-solid));
+  border-color: var(--tone, var(--border));
+}
+
+.pip-current {
+  background: var(--action);
+  border-color: var(--action-text);
+  box-shadow: 0 0 var(--blur-sm) var(--action);
+}
+
+/* A played Prompt's pip takes its Tier tone (see promptPips in hud.ts). */
+.pip-blue { --tone: var(--tone-blue); }
+.pip-clown { --tone: var(--tone-clown); }
+.pip-green { --tone: var(--tone-green); }
+.pip-yellow { --tone: var(--tone-yellow); }
+.pip-orange { --tone: var(--tone-orange); }
+.pip-gem { --tone: var(--tone-gem); }
+.pip-miss { --tone: var(--tone-miss); }
+
+/* The prompt panel: kicker, the Prompt itself in large glowing type, its Rule */
+.prompt-panel {
+  padding: var(--space-6) var(--space-6) var(--space-4);
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--action-text);
+}
+
+.prompt-text {
+  margin: var(--space-3) 0;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.3;
+  text-shadow: 0 0 var(--blur-md) var(--text-glow);
+}
+
+.rule {
+  margin: 0 0 var(--space-3);
+  color: var(--muted);
+  font-size: var(--text-sm);
+  padding-left: var(--space-3);
+  border-left: var(--px) solid var(--highlight-deep);
+}
+
+.prompt-hint {
+  margin: 0;
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking);
+  color: var(--muted);
+}
+
+/* The answer bar: timer ring, Guess input, Lock in. Sticks to the bottom of the screen while playing. */
+.answer-bar {
+  position: sticky;
+  bottom: var(--space-3);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding: var(--space-2);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border), 0 0 var(--blur-lg) var(--shadow);
+}
+
+.answer-bar input {
+  flex: 1;
+  min-width: 0;
+  border-color: var(--highlight-deep);
+  box-shadow: inset 0 -2px 0 var(--highlight);
+}
+
+.answer-bar input:focus-visible {
+  box-shadow: inset 0 -2px 0 var(--highlight), 0 0 var(--blur-md) var(--glow);
+}
+
+button.lock-in {
+  flex: none;
+  align-self: stretch;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--action-text);
+  background: var(--action);
+  color: var(--on-action);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  box-shadow: inset 0 calc(var(--px) * -1) 0 var(--action-deep), 0 0 var(--blur-md) var(--action-glow);
+}
+
+button.lock-in:hover:not(:disabled) {
+  background: var(--action-hover);
+}
+
+button.lock-in:disabled {
+  opacity: 0.45;
+  box-shadow: inset 0 calc(var(--px) * -1) 0 var(--action-deep);
+}
+
+/* The timer ring */
+.timer {
+  position: relative;
+  flex: none;
+  width: var(--timer-size);
+  height: var(--timer-size);
+}
+
+.timer svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-track {
+  fill: var(--surface-solid);
+  stroke: var(--border);
+  stroke-width: 4;
+}
+
+.timer-fill {
+  fill: none;
+  stroke: var(--highlight);
+  stroke-width: 4;
+  transition: stroke-dashoffset 100ms linear;
+  filter: drop-shadow(0 0 var(--px) var(--glow));
+}
+
+.timer.reading .timer-fill {
+  stroke: var(--muted);
+}
+
+.timer.low .timer-fill {
+  stroke: var(--action);
+}
+
+.countdown {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: var(--display-sm);
+  color: var(--highlight);
+  text-align: center;
+}
+
+.timer.reading .countdown {
+  color: var(--muted);
+}
+
+.timer.low .countdown {
+  color: var(--action-text);
+}
+
+.notices:empty {
+  display: none;
+}
+
+/* Before a Prompt starts: the launch button */
+.launch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  text-align: center;
+}
+
+.launch-meta {
+  margin: 0;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+button.cta {
+  width: 100%;
+  padding: var(--space-6) var(--space-4);
+  border: var(--frame) solid var(--highlight);
+  background: var(--surface-solid);
+  color: var(--text);
+  font-size: var(--display-md);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  box-shadow: 0 0 0 var(--frame) var(--surface-solid), 0 0 var(--blur-lg) var(--glow), inset 0 0 var(--blur-lg) var(--highlight-soft);
+  transition: box-shadow var(--duration) steps(2), color var(--duration) steps(2);
+}
+
+button.cta:hover:not(:disabled) {
+  color: var(--highlight);
+  box-shadow: 0 0 0 var(--frame) var(--surface-solid), 0 0 var(--blur-lg) var(--highlight), inset 0 0 var(--blur-lg) var(--glow-soft);
+}
+
+button.cta:active:not(:disabled) {
+  transform: translateY(var(--px));
+}
+
+button.cta:disabled {
+  opacity: 0.6;
+}
+
+/* The CTA at button size, for actions inside a panel (Share) */
+button.cta-inline {
+  width: auto;
+  padding: var(--space-3) var(--space-8);
+  font-size: var(--display-sm);
+}
+
+/* The home title over the sky: an outlined pixel wordmark with a split-colour (CRT) ghost */
+.hero {
+  /* Fill the sky so the launch button sits just under the river line. */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(var(--horizon) - var(--header-height));
+  padding: var(--space-6) 0;
+  text-align: center;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(var(--display-lg), 8vw, calc(var(--display-lg) * 2.6));
+  line-height: 1.1;
+  letter-spacing: 0.06em;
+  color: var(--surface-solid);
+  -webkit-text-stroke: 2px var(--text);
+  text-shadow: var(--ghost-lg);
+}
+
+.hero-sub {
+  margin: var(--space-4) 0 var(--space-2);
+  font-size: var(--display-sm);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--highlight);
+  text-shadow: 0 0 var(--blur-sm) var(--glow);
+}
+
+.hero-tagline {
+  margin: 0;
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  color: var(--text);
+}
+
+@media (max-width: 479px) {
+  .hud {
+    gap: var(--space-2);
+  }
+
+  .hud-panel {
+    min-width: 0;
+  }
+
+  .hud {
+    --pip: 10px;
+  }
+
+  .prompt-panel {
+    padding: var(--space-4);
+  }
+
+  button.lock-in {
+    padding: 0 var(--space-3);
+    letter-spacing: 0.1em;
+  }
+
+  .answer-bar {
+    --timer-size: 48px;
+  }
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.shake {
+  animation: shake 0.36s steps(1, end);
+  border-color: var(--bad);
+}
+
+/* Each keyframe holds still for one step: a choppy, sprite-like shake. */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-9px);
+  }
+  40% {
+    transform: translateX(9px);
+  }
+  60% {
+    transform: translateX(-6px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+/* Score animation between Prompts */
+.score-pop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-4) 0;
+  animation: score-pop 0.4s steps(4, end) both;
+}
+
+.score-emoji {
+  font-size: 56px;
+  line-height: 1;
+}
+
+.score-tier {
+  font-size: var(--display-lg);
+  line-height: 1.3;
+  color: var(--tone, var(--text));
+  text-shadow: 0 0 var(--blur-md) var(--tone, var(--glow));
+}
+
+.score-points {
+  font-size: var(--display-xl);
+  color: var(--accent);
+  text-shadow: var(--ghost);
+}
+
+/* Kickers centred in centred panels (score interlude, end screen) */
+.center .kicker {
+  justify-content: center;
+}
+
+@keyframes score-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==========================================================================
+   Tier tones (class from tierTone()): sets --tone for the element
+   ========================================================================== */
+.tone-blue {
+  --tone: var(--tone-blue);
+}
+.tone-clown {
+  --tone: var(--tone-clown);
+}
+.tone-green {
+  --tone: var(--tone-green);
+}
+.tone-yellow {
+  --tone: var(--tone-yellow);
+}
+.tone-orange {
+  --tone: var(--tone-orange);
+}
+.tone-gem {
+  --tone: var(--tone-gem);
+}
+.tone-miss {
+  --tone: var(--tone-miss);
+}
+
+/* ==========================================================================
+   End screen
+   ========================================================================== */
+.end-screen,
+.leaderboard-screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* The day's total: the home title's ghosted pixel style, in gold */
+.total {
+  font-size: clamp(var(--display-lg), 15vw, var(--display-hero));
+  line-height: 1;
+  margin: var(--space-4) 0 var(--space-2);
+  color: var(--accent);
+  text-shadow: var(--ghost-lg);
+}
+
+.day-title {
+  font-size: var(--display-md);
+  line-height: 1.5;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  color: var(--highlight);
+  text-shadow: 0 0 var(--blur-md) var(--glow);
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.reveal h3 {
+  margin: var(--space-2) 0 var(--space-3);
+  font-size: var(--text-lg);
+  line-height: 1.3;
+  text-shadow: 0 0 var(--blur-md) var(--text-glow);
+}
+
+.your-answer {
+  font-weight: 700;
+  padding-left: var(--space-2);
+  border-left: var(--px) solid var(--tone, var(--accent));
+  color: var(--tone, var(--text));
+}
+
+.answer-set {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.answer-set li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  padding: var(--space-1) var(--space-2);
+  border: var(--hairline);
+  border-left: var(--px) solid var(--tone, var(--border));
+  background: var(--surface-solid);
+  font-size: var(--text-sm);
+}
+
+.answer-set li.yours {
+  border-color: var(--accent);
+  box-shadow: 0 0 var(--blur-sm) var(--accent-soft);
+}
+
+.answer-set li.gem {
+  background: var(--highlight-soft);
+  border-color: var(--tone-gem);
+  box-shadow: 0 0 var(--blur-md) var(--glow);
+  font-weight: 700;
+}
+
+.gem-label {
+  font-size: var(--text-2xs);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  color: var(--tone-gem);
+  margin-left: var(--space-1);
+}
+
+/* Score-distribution curve: blocky bars on a glowing river-line baseline */
+.curve {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--px);
+  width: 100%;
+  height: var(--curve-height);
+  margin: var(--space-3) 0 var(--space-4);
+  padding: 0 var(--space-1);
+  border-bottom: var(--frame) solid var(--highlight);
+  box-shadow: 0 var(--space-2) var(--blur-md) calc(var(--space-2) * -1) var(--highlight);
+}
+
+.curve .bar {
+  flex: 1;
+  background: var(--border);
+  box-shadow: inset 0 var(--frame) 0 var(--muted);
+}
+
+.curve .bar.you {
+  background: var(--action);
+  box-shadow: inset 0 var(--frame) 0 var(--action-text), 0 0 var(--blur-md) var(--action-glow);
+}
+
+/* ==========================================================================
+   Leaderboards
+   ========================================================================== */
+/* Panel headings are kickers (see .kicker); they just need room below */
+h3.kicker {
+  margin-bottom: var(--space-3);
+}
+
+/* The board's meta line: Puzzle number, day, phase, player count */
+.board-meta {
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+}
+
+.scope-tabs {
+  margin-bottom: var(--space-2);
+}
+
+.group-code {
+  font-size: var(--display-sm);
+  letter-spacing: var(--tracking);
+  color: var(--highlight);
+  text-shadow: 0 0 var(--blur-sm) var(--glow);
+}
+
+.day-nav {
+  margin: var(--space-2) 0;
+}
+
+.leaderboard {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.leaderboard li {
+  display: grid;
+  grid-template-columns: 2.5em minmax(0, 1fr) auto 4em;
+  grid-template-areas: "rank name day score";
+  gap: var(--space-2);
+  align-items: center;
+  padding: var(--space-2);
+  border: var(--hairline);
+  background: var(--surface-solid);
+  font-size: var(--text-sm);
+}
+
+/* The podium: gold ranks with a gold edge */
+.leaderboard li:nth-child(-n + 3) {
+  border-left: var(--px) solid var(--accent);
+}
+
+.leaderboard li:nth-child(-n + 3) .rank {
+  color: var(--accent);
+  text-shadow: 0 0 var(--blur-sm) var(--accent-soft);
+}
+
+.leaderboard li.you {
+  border-color: var(--highlight);
+  box-shadow: 0 0 var(--blur-md) var(--glow), inset 0 0 var(--blur-md) var(--highlight-soft);
+}
+
+.leaderboard .rank {
+  grid-area: rank;
+  font-size: var(--display-xs);
+  color: var(--muted);
+}
+
+.leaderboard .name {
+  grid-area: name;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard .day {
+  grid-area: day;
+}
+
+.leaderboard .score {
+  grid-area: score;
+  text-align: right;
+  font-size: var(--display-sm);
+  color: var(--highlight);
+}
+
+/* On phones the day title drops under the nickname so names keep their room. */
+@media (max-width: 479px) {
+  .leaderboard li {
+    grid-template-columns: 2.5em minmax(0, 1fr) auto;
+    grid-template-areas:
+      "rank name score"
+      ". day day";
+    row-gap: 0;
+  }
+
+  .leaderboard .day {
+    font-size: var(--text-xs);
+  }
+}
+
+/* ==========================================================================
+   Archive
+   ========================================================================== */
+.archive-list {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Each past day is a terminal row that lights up cyan on hover */
+.archive-list a {
+  color: var(--text);
+  text-decoration: none;
+  padding: var(--space-3) var(--space-4);
+  transition: box-shadow var(--duration) steps(2);
+}
+
+.archive-list a:hover {
+  box-shadow: inset 0 0 0 1px var(--highlight), inset 0 0 var(--blur-lg) var(--highlight-soft);
+}
+
+/* The panel's notch clips the usual outside outline, so keyboard focus is a thick inset ring. */
+.archive-list a:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--px) var(--focus), inset 0 0 var(--blur-lg) var(--highlight-soft);
+}
+
+.archive-list a:hover .chip,
+.archive-list a:focus-visible .chip {
+  border-color: var(--highlight);
+  color: var(--highlight);
+}
+
+/* ==========================================================================
+   Stats
+   ========================================================================== */
+.stats-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Stat tiles: HUD panels, a label over a glowing number */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+  clip-path: var(--notched);
+}
+
+.stat-tile p {
+  margin: 0;
+}
+
+.stat-label {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stat {
+  font-size: var(--display-lg);
+  line-height: 1.4;
+  color: var(--highlight);
+  text-shadow: 0 0 var(--blur-sm) var(--glow);
+}
+
+.stats-view .answer-set li > span:first-child {
+  color: var(--tone, var(--text));
+}
+
+/* ==========================================================================
+   Footer: Riot "Legal Jibber Jabber"
+   ========================================================================== */
+.legal {
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-4);
+  border-top: var(--hairline-dashed);
+  font-size: var(--text-2xs);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ==========================================================================
+   The backdrop (scene.tsx): sky, clouds, turret, river, depths, scanlines.
+   Fixed behind everything; the horizon sits --horizon from the top.
+   ========================================================================== */
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+body > :not(.scene, .scanlines, .skip-link) {
+  position: relative;
+  z-index: 1;
+}
+
+.scene-sky {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--horizon);
+  /* Hard colour bands, not a smooth gradient: a pixel-art sky. */
+  background: linear-gradient(
+    var(--sky-1) 0 30%,
+    var(--sky-2) 30% 52%,
+    var(--sky-3) 52% 70%,
+    var(--sky-4) 70% 84%,
+    var(--sky-5) 84% 93%,
+    var(--sky-6) 93% 100%
+  );
+}
+
+.cloud {
+  position: absolute;
+  fill: var(--cloud);
+  animation: drift 160s linear infinite;
+}
+
+.cloud-a {
+  top: 14%;
+  left: 6%;
+}
+
+.cloud-b {
+  top: 34%;
+  left: 62%;
+  fill: var(--cloud-far);
+  animation-duration: 220s;
+}
+
+.cloud-c {
+  top: 4%;
+  left: 78%;
+  fill: var(--cloud-farthest);
+  animation-duration: 260s;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-120vw);
+  }
+}
+
+.turret {
+  position: absolute;
+  bottom: 0;
+  left: max(4%, calc(50% - 420px));
+  fill: var(--silhouette);
+}
+
+.scene-river {
+  position: absolute;
+  top: var(--horizon);
+  left: 0;
+  right: 0;
+  height: var(--river-height);
+  background: linear-gradient(var(--river-light) 0 2px, var(--river) 2px 100%);
+  box-shadow: 0 0 var(--blur-lg) var(--glow);
+}
+
+.scene-depths {
+  position: absolute;
+  top: calc(var(--horizon) + var(--river-height));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(var(--depths-1) 0 10%, var(--depths-2) 10% 30%, var(--depths-3) 30% 55%, var(--bg) 55% 100%);
+}
+
+/* Hextech sparks drifting up out of the depths */
+.spark {
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  background: var(--highlight);
+  box-shadow: 0 0 var(--blur-sm) var(--highlight);
+  opacity: 0;
+  animation: rise 14s steps(70) infinite;
+}
+
+.spark:nth-child(3n) {
+  background: var(--accent);
+  box-shadow: 0 0 var(--blur-sm) var(--accent);
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(-58vh);
+    opacity: 0;
+  }
+}
+
+/* CRT scanlines over the whole screen, panels included; never catches clicks */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background: repeating-linear-gradient(var(--scanline) 0 1px, transparent 1px 3px);
+}
+
+/* Text for screen readers only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Reduced motion: no shake, no score pop, no spinning, no press shift,
+   no drifting clouds or sparks. Feedback stays visible through colour
+   (the red border on a Rejected Attempt) and text.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .shake,
+  .score-pop,
+  .spinner,
+  .cloud,
+  .spark {
+    animation: none;
+  }
+
+  button:active:not(:disabled) {
+    transform: none;
+  }
+}

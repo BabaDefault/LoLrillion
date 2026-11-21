@@ -1,0 +1,28 @@
+{
+  "templateId": "champions-ranged-invisible",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akshan",
+    "champion:Aurora",
+    "champion:Kaisa",
+    "champion:Leblanc",
+    "champion:Neeko",
+    "champion:Senna",
+    "champion:Teemo",
+    "champion:Twitch",
+    "champion:Vayne"
+  ],
+  "typicality": {
+    "champion:Twitch": 0.6,
+    "champion:Teemo": 0.5,
+    "champion:Vayne": 0.45,
+    "champion:Akshan": 0.3,
+    "champion:Kaisa": 0.2,
+    "champion:Senna": 0.15,
+    "champion:Neeko": 0.1,
+    "champion:Leblanc": 0.1,
+    "champion:Aurora": 0.08
+  },
+  "tooClever": [],
+  "gem": "champion:Senna"
+}

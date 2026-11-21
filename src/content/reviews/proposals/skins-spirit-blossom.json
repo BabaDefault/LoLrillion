@@ -1,0 +1,328 @@
+{
+  "templateId": "skins-spirit-blossom",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "skin:10078",
+    "skin:103027",
+    "skin:103088",
+    "skin:103089",
+    "skin:106029",
+    "skin:110060",
+    "skin:11052",
+    "skin:11053",
+    "skin:122043",
+    "skin:134044",
+    "skin:143064",
+    "skin:157036",
+    "skin:16027",
+    "skin:17025",
+    "skin:17027",
+    "skin:17054",
+    "skin:18051",
+    "skin:203003",
+    "skin:22076",
+    "skin:238069",
+    "skin:25080",
+    "skin:28032",
+    "skin:37066",
+    "skin:39055",
+    "skin:412017",
+    "skin:427030",
+    "skin:43070",
+    "skin:432037",
+    "skin:523020",
+    "skin:523040",
+    "skin:67014",
+    "skin:69009",
+    "skin:76058",
+    "skin:777001",
+    "skin:804001",
+    "skin:83030",
+    "skin:84092",
+    "skin:875038",
+    "skin:875067",
+    "skin:876001",
+    "skin:910011",
+    "skin:92023",
+    "skin:99070"
+  ],
+  "missing": [
+    {
+      "entity": "Death Blossom Elise",
+      "why": "Players mix up Death Blossom with Spirit Blossom; correctly out under the Rule."
+    },
+    {
+      "entity": "Spirit Fire Brand",
+      "why": "Shares 'Spirit'; correctly out under the Rule."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "skin:103088",
+      "why": "The 2025 'Spirit Blossom Springs' sub-line (Ahri, Volibear, Teemo, Sona, Sett, Yunara, Prestige Aphelios) counts under the Rule; some players will argue it's a different line."
+    },
+    {
+      "entity": "skin:103089",
+      "why": "A third Ahri entry; players won't think of it as a separate answer."
+    },
+    {
+      "entity": "skin:238069",
+      "why": "Only the Prestige exists, so a player saying 'Spirit Blossom Zed' must land here (see aliases)."
+    },
+    {
+      "entity": "skin:99070",
+      "why": "Only the Prestige exists; same as Zed."
+    }
+  ],
+  "wording": [
+    {
+      "why": "Players may not realise 'Spirit Blossom Springs' skins count, or that Ahri/Teemo/Sett each have two or three answers.",
+      "suggestion": "Name a Spirit Blossom skin (Spirit Blossom Springs counts)"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "skin:238069",
+      "alias": "Spirit Blossom Zed",
+      "why": "No base version exists; players will type the line name plus Zed."
+    },
+    {
+      "entity": "skin:99070",
+      "alias": "Spirit Blossom Lux",
+      "why": "No base version exists; players will type the line name plus Lux."
+    },
+    {
+      "entity": "skin:523040",
+      "alias": "Spirit Blossom Springs Aphelios",
+      "why": "No base Springs Aphelios exists."
+    },
+    {
+      "entity": "skin:11052",
+      "alias": "Spirit Blossom Yi",
+      "why": "Yi is the standard short form."
+    },
+    {
+      "entity": "skin:69009",
+      "alias": "Spirit Blossom Cass",
+      "why": "Cass is the standard short form."
+    },
+    {
+      "entity": "skin:103027",
+      "alias": "SB Ahri",
+      "why": "SB is a common abbreviation in skin discussion."
+    },
+    {
+      "entity": "skin:157036",
+      "alias": "SB Yasuo",
+      "why": "SB is a common abbreviation in skin discussion."
+    },
+    {
+      "entity": "skin:106029",
+      "alias": "Spirit Blossom Volibear",
+      "why": "No non-Springs Volibear exists; players will drop 'Springs'."
+    },
+    {
+      "entity": "skin:37066",
+      "alias": "Spirit Blossom Sona",
+      "why": "No non-Springs Sona exists."
+    },
+    {
+      "entity": "skin:804001",
+      "alias": "Spirit Blossom Yunara",
+      "why": "No non-Springs Yunara exists."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Hugely popular line with a clear core (Ahri, Yasuo, Yone, Thresh, Kindred) and lots of forgettable members across four waves; 43 answers keeps a full list out of reach."
+  },
+  "typicality": {
+    "skin:10078": {
+      "value": 0.08,
+      "why": "2025 wave, quieter."
+    },
+    "skin:103027": {
+      "value": 0.45,
+      "why": "The face of the line."
+    },
+    "skin:103088": {
+      "value": 0.06,
+      "why": "Players type the original first."
+    },
+    "skin:103089": {
+      "value": 0.01,
+      "why": "Variant nobody names."
+    },
+    "skin:106029": {
+      "value": 0.04,
+      "why": "Recent, niche."
+    },
+    "skin:110060": {
+      "value": 0.06,
+      "why": "Less remembered."
+    },
+    "skin:11052": {
+      "value": 0.12,
+      "why": "Prestige-backed, popular champion."
+    },
+    "skin:11053": {
+      "value": 0.02,
+      "why": "Prestige duplicate."
+    },
+    "skin:122043": {
+      "value": 0.06,
+      "why": "Recent, less associated."
+    },
+    "skin:134044": {
+      "value": 0.08,
+      "why": "Moderate."
+    },
+    "skin:143064": {
+      "value": 0.05,
+      "why": "Quiet."
+    },
+    "skin:157036": {
+      "value": 0.3,
+      "why": "Original 2020 headliner."
+    },
+    "skin:16027": {
+      "value": 0.08,
+      "why": "Moderate."
+    },
+    "skin:17025": {
+      "value": 0.2,
+      "why": "Iconic 2020 member."
+    },
+    "skin:17027": {
+      "value": 0.02,
+      "why": "Prestige duplicate."
+    },
+    "skin:17054": {
+      "value": 0.03,
+      "why": "Players type the original."
+    },
+    "skin:18051": {
+      "value": 0.07,
+      "why": "Quiet."
+    },
+    "skin:203003": {
+      "value": 0.22,
+      "why": "Legendary from the 2020 launch."
+    },
+    "skin:22076": {
+      "value": 0.08,
+      "why": "2025 wave."
+    },
+    "skin:238069": {
+      "value": 0.08,
+      "why": "Zed players remember it."
+    },
+    "skin:25080": {
+      "value": 0.08,
+      "why": "2025 wave."
+    },
+    "skin:28032": {
+      "value": 0.1,
+      "why": "Memorable 2025 entry."
+    },
+    "skin:37066": {
+      "value": 0.04,
+      "why": "Niche."
+    },
+    "skin:39055": {
+      "value": 0.1,
+      "why": "Fits Ionian theme."
+    },
+    "skin:412017": {
+      "value": 0.25,
+      "why": "2020 launch Legendary-tier fan favourite."
+    },
+    "skin:427030": {
+      "value": 0.02,
+      "why": "Ivern is niche."
+    },
+    "skin:43070": {
+      "value": 0.06,
+      "why": "Quiet."
+    },
+    "skin:432037": {
+      "value": 0.06,
+      "why": "Quiet."
+    },
+    "skin:523020": {
+      "value": 0.1,
+      "why": "Mid-known."
+    },
+    "skin:523040": {
+      "value": 0.02,
+      "why": "Obscure variant."
+    },
+    "skin:67014": {
+      "value": 0.15,
+      "why": "2020 launch, popular champion."
+    },
+    "skin:69009": {
+      "value": 0.06,
+      "why": "2020 launch, quiet."
+    },
+    "skin:76058": {
+      "value": 0.05,
+      "why": "Quiet."
+    },
+    "skin:777001": {
+      "value": 0.3,
+      "why": "Yone's launch skin, very well known."
+    },
+    "skin:804001": {
+      "value": 0.04,
+      "why": "Launch skin of a new champion, niche."
+    },
+    "skin:83030": {
+      "value": 0.05,
+      "why": "Overlooked 2020 member."
+    },
+    "skin:84092": {
+      "value": 0.15,
+      "why": "2025 wave, popular champion."
+    },
+    "skin:875038": {
+      "value": 0.1,
+      "why": "Mid-known."
+    },
+    "skin:875067": {
+      "value": 0.04,
+      "why": "Players type the original."
+    },
+    "skin:876001": {
+      "value": 0.12,
+      "why": "Lillia's launch skin."
+    },
+    "skin:910011": {
+      "value": 0.05,
+      "why": "Niche champion."
+    },
+    "skin:92023": {
+      "value": 0.15,
+      "why": "Popular champion skin."
+    },
+    "skin:99070": {
+      "value": 0.1,
+      "why": "Lux is popular; people know she's in."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "skin:876001",
+      "why": "Her launch skin; obvious in hindsight given she's a spirit-forest fawn."
+    },
+    {
+      "entity": "skin:83030",
+      "why": "Ghost-and-spirits theme fits him perfectly; part of the original 2020 lineup but rarely named."
+    },
+    {
+      "entity": "skin:69009",
+      "why": "Original 2020 member that nearly everyone forgets."
+    }
+  ]
+}

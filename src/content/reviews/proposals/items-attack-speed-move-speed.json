@@ -1,0 +1,95 @@
+{
+  "templateId": "items-attack-speed-move-speed",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2512",
+    "item:3006",
+    "item:3046",
+    "item:3085",
+    "item:3086",
+    "item:3087",
+    "item:3094",
+    "item:3172",
+    "item:6672",
+    "item:6675"
+  ],
+  "missing": [
+    {
+      "entity": "Youmuu's Ghostblade",
+      "why": "The Move Speed item players think of; stats are AD, Lethality and Move Speed, no Attack Speed. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3172",
+      "why": "Gunmetal Greaves is a tier-3 upgrade of Berserker's Greaves from the boots upgrade system; players may argue it isn't a shop item."
+    },
+    {
+      "entity": "item:2512",
+      "why": "Fiendhunter Bolts is Arena-origin; many players think it's Arena-only."
+    }
+  ],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Berserker's Greaves, Phantom Dancer and Zeal come instantly; Kraken, Shiv and Gunmetal Greaves are harder to complete."
+  },
+  "typicality": {
+    "item:3006": {
+      "value": 0.45,
+      "why": "The boots with Attack Speed; first thought for many."
+    },
+    "item:3046": {
+      "value": 0.4,
+      "why": "The crit item known for Move Speed."
+    },
+    "item:3086": {
+      "value": 0.35,
+      "why": "The AS and MS component."
+    },
+    "item:3094": {
+      "value": 0.25,
+      "why": "Crit item with Move Speed."
+    },
+    "item:3085": {
+      "value": 0.2,
+      "why": "Crit item; Move Speed less remembered."
+    },
+    "item:6675": {
+      "value": 0.12,
+      "why": "Crit item; Move Speed less known."
+    },
+    "item:3087": {
+      "value": 0.12,
+      "why": "Move Speed often forgotten."
+    },
+    "item:6672": {
+      "value": 0.08,
+      "why": "Move Speed often forgotten."
+    },
+    "item:3172": {
+      "value": 0.04,
+      "why": "Tier-3 boots; few name it."
+    },
+    "item:2512": {
+      "value": 0.03,
+      "why": "Arena-origin; few know it is on SR."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:3087",
+      "why": "Everyone knows Shiv; the Move Speed is an \"oh, of course\" on reveal."
+    },
+    {
+      "entity": "item:6672",
+      "why": "Common marksman item whose Move Speed few remember."
+    },
+    {
+      "entity": "item:6675",
+      "why": "Crit item; ADC players get it, others nod at the reveal."
+    }
+  ]
+}

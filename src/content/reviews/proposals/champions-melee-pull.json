@@ -1,0 +1,137 @@
+{
+  "templateId": "champions-melee-pull",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:Blitzcrank",
+    "champion:Darius",
+    "champion:Diana",
+    "champion:KSante",
+    "champion:Kled",
+    "champion:Mordekaiser",
+    "champion:Nautilus",
+    "champion:Nilah",
+    "champion:Pyke",
+    "champion:Rell",
+    "champion:Sett",
+    "champion:Skarner",
+    "champion:Yone",
+    "champion:Zaahen"
+  ],
+  "missing": [
+    {
+      "entity": "Zac",
+      "why": "Stretching Strikes (Q) flings two enemies toward each other: moves an enemy toward a point, which fits the pull term, but Zac has no pull label. Fix: data (label)."
+    },
+    {
+      "entity": "Thresh",
+      "why": "The most-typed pull champion, but his base range is 450 (ranged), so correctly excluded. Expect many wrong guesses; not a data fix."
+    },
+    {
+      "entity": "Urgot",
+      "why": "R drags the target, but base range 350 makes him ranged; players think of him as a melee-ish bruiser. Correctly excluded by the Rule; players will dispute."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Skarner",
+      "why": "Impale pulls via a suppression-drag; most count it, a few see it as a 'carry' not a pull."
+    },
+    {
+      "entity": "champion:Nilah",
+      "why": "Apotheosis (R) pulls at the end; few players remember it as a pull."
+    },
+    {
+      "entity": "champion:Yone",
+      "why": "Fate Sealed pulls enemies toward the end point; some see it as a knock-up only."
+    }
+  ],
+  "wording": [
+    {
+      "why": "Many players don't know Thresh/Urgot count as ranged; 'melee' is defined by base range, not playstyle.",
+      "suggestion": "Keep; a reveal note naming Thresh as ranged would cut confusion."
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Blitzcrank, Nautilus, Darius are easy; Diana, Kled, Yone, K'Sante reward depth. The Thresh trap adds tension."
+  },
+  "typicality": {
+    "champion:Blitzcrank": {
+      "value": 0.75,
+      "why": "Rocket Grab is the definitive hook."
+    },
+    "champion:Nautilus": {
+      "value": 0.45,
+      "why": "Dredge Line hook."
+    },
+    "champion:Darius": {
+      "value": 0.4,
+      "why": "Apprehend is iconic for top laners."
+    },
+    "champion:Pyke": {
+      "value": 0.35,
+      "why": "Bone Skewer hook."
+    },
+    "champion:Sett": {
+      "value": 0.3,
+      "why": "Facebreaker pulls."
+    },
+    "champion:Mordekaiser": {
+      "value": 0.3,
+      "why": "Death's Grasp pull."
+    },
+    "champion:Aatrox": {
+      "value": 0.15,
+      "why": "Infernal Chains pull is known to top players."
+    },
+    "champion:Skarner": {
+      "value": 0.15,
+      "why": "Impale is a well-known drag."
+    },
+    "champion:Diana": {
+      "value": 0.12,
+      "why": "Moonfall pull is often forgotten."
+    },
+    "champion:Rell": {
+      "value": 0.1,
+      "why": "Magnet Storm pull is support-niche."
+    },
+    "champion:Kled": {
+      "value": 0.08,
+      "why": "Beartrap on a Rope is a real pull few remember."
+    },
+    "champion:KSante": {
+      "value": 0.08,
+      "why": "Q3 pull is niche."
+    },
+    "champion:Yone": {
+      "value": 0.06,
+      "why": "R pull overlooked in favour of knock-up."
+    },
+    "champion:Nilah": {
+      "value": 0.06,
+      "why": "R pull rarely remembered."
+    },
+    "champion:Zaahen": {
+      "value": 0.05,
+      "why": "Newest champion; few know his W."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Diana",
+      "why": "Moonfall's pull is an instant 'of course' once revealed."
+    },
+    {
+      "entity": "champion:Kled",
+      "why": "Beartrap on a Rope literally drags enemies; satisfying reveal."
+    },
+    {
+      "entity": "champion:Yone",
+      "why": "Fate Sealed pulls enemies together; known but rarely named."
+    }
+  ]
+}

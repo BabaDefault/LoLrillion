@@ -15,7 +15,7 @@ A calendar date in Sydney time; each Puzzle Day has exactly one live Puzzle.
 _Avoid_: Day (unqualified), UTC date
 
 **Prompt**:
-One player-facing question within a Puzzle (e.g. "Name a Yordle"), with its Answer Type and Rule. Never used for instructions given to the AI.
+One player-facing question within a Puzzle (e.g. "Name a champion with a dash"), with its Answer Type and Rule. Never used for instructions given to the AI.
 _Avoid_: Question, category, clue
 
 **Template**:
@@ -52,6 +52,10 @@ _Avoid_: Answer, submission, input
 The Entity a Guess was read as, or none.
 _Avoid_: Resolution, correction
 
+**Label**:
+An approved mechanics fact about a champion's own kit (e.g. has a dash), with an evidence quote from its ability text.
+_Avoid_: Tag, attribute
+
 ### Scoring
 
 **Prior**:
@@ -85,6 +89,10 @@ _Avoid_: Score (for a single Prompt), rarity points
 **Attempt**:
 One submitted Guess within a Prompt's answer window; a rejected Attempt lets the player try again until one is accepted or time runs out.
 _Avoid_: Try, life, strike
+
+**Miss**:
+A Prompt with no accepted Guess when its answer window closes; it scores 0 Points.
+_Avoid_: Fail, timeout, skip
 
 **Answer Share**:
 The percentage of today's players whose Guess matched a given Entity; shown for fun, separate from Points.

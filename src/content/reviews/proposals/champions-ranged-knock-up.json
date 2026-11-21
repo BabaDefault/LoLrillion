@@ -1,0 +1,118 @@
+{
+  "templateId": "champions-ranged-knock-up",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:AurelionSol",
+    "champion:Ivern",
+    "champion:Janna",
+    "champion:Lulu",
+    "champion:Nami",
+    "champion:Neeko",
+    "champion:Rakan",
+    "champion:Samira",
+    "champion:Taliyah",
+    "champion:Velkoz",
+    "champion:Zyra"
+  ],
+  "missing": [
+    {
+      "entity": "Kalista",
+      "why": "Fate's Call knocks enemies BACK (tooltip), not up; not missing."
+    },
+    {
+      "entity": "Orianna",
+      "why": "Shockwave pulls, not knocks up; not missing."
+    },
+    {
+      "entity": "Thresh",
+      "why": "Flay knocks back/pulls, not up; not missing."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Rakan",
+      "why": "Base range 300 makes him ranged by the Rule, but many players think of Rakan as melee."
+    },
+    {
+      "entity": "champion:Samira",
+      "why": "Knock-up is from her passive on immobilised targets; obscure and players may argue it doesn't count."
+    },
+    {
+      "entity": "champion:Ivern",
+      "why": "Daisy (his summoned ally) does the knock-up; some players argue that isn't Ivern's own ability."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "champion:Velkoz",
+      "alias": "vel",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Janna and Nami are easy; Neeko, Zyra, Aurelion Sol, Samira reward knowledge. Good spread across supports and mages."
+  },
+  "typicality": {
+    "champion:Janna": {
+      "value": 0.45,
+      "why": "Howling Gale is the classic ranged knock-up."
+    },
+    "champion:Nami": {
+      "value": 0.35,
+      "why": "Aqua Prison bubble."
+    },
+    "champion:Rakan": {
+      "value": 0.3,
+      "why": "Grand Entrance knock-up."
+    },
+    "champion:Lulu": {
+      "value": 0.2,
+      "why": "Wild Growth knock-up."
+    },
+    "champion:Taliyah": {
+      "value": 0.2,
+      "why": "Seismic Shove."
+    },
+    "champion:Velkoz": {
+      "value": 0.15,
+      "why": "Tectonic Disruption."
+    },
+    "champion:Zyra": {
+      "value": 0.12,
+      "why": "Stranglethorns knock-up is often forgotten."
+    },
+    "champion:Neeko": {
+      "value": 0.1,
+      "why": "Pop Blossom; players remember the stun."
+    },
+    "champion:AurelionSol": {
+      "value": 0.1,
+      "why": "The Skies Descend knock-up."
+    },
+    "champion:Samira": {
+      "value": 0.06,
+      "why": "Passive knock-up obscure."
+    },
+    "champion:Ivern": {
+      "value": 0.05,
+      "why": "Daisy's third hit, rarely named."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Neeko",
+      "why": "Pop Blossom's knock-up is a satisfying reveal for a champ people associate with disguise."
+    },
+    {
+      "entity": "champion:Zyra",
+      "why": "Stranglethorns knocks up; 'oh right' moment."
+    },
+    {
+      "entity": "champion:AurelionSol",
+      "why": "The Skies Descend knock-up is memorable once revealed."
+    }
+  ]
+}

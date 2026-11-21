@@ -1,0 +1,255 @@
+{
+  "templateId": "items-armor",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1029",
+    "item:1031",
+    "item:1120",
+    "item:2019",
+    "item:2420",
+    "item:2421",
+    "item:2502",
+    "item:2524",
+    "item:3024",
+    "item:3026",
+    "item:3047",
+    "item:3050",
+    "item:3068",
+    "item:3075",
+    "item:3076",
+    "item:3082",
+    "item:3109",
+    "item:3110",
+    "item:3143",
+    "item:3157",
+    "item:3174",
+    "item:3190",
+    "item:3742",
+    "item:6333",
+    "item:6662",
+    "item:6665"
+  ],
+  "missing": [
+    {
+      "entity": "Terminus",
+      "why": "Light attacks grant Armor via passive, not a base stat; Rule-correct out. Including it needs a Rule change."
+    },
+    {
+      "entity": "Black Cleaver",
+      "why": "Common wrong answer (it shreds armor). Rule-correct out."
+    },
+    {
+      "entity": "Lord Dominik's Regards",
+      "why": "Armor penetration items (LDR, Serylda's, Last Whisper) get confused with Armor. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:3174",
+      "why": "Armored Advance is a tier-3 upgrade of Plated Steelcaps from the boots upgrade system, not a normal purchase; players may argue it isn't a shop item."
+    },
+    {
+      "entity": "item:2524",
+      "why": "Bandlepipes is an Arena-origin item; many players think it's Arena-only."
+    },
+    {
+      "entity": "item:2019",
+      "why": "Steel Sigil is a new component; veterans may not know it exists."
+    },
+    {
+      "entity": "item:3157",
+      "why": "Players think of Zhonya's as an AP item; it has 50 Armor so membership is correct, but expect surprise."
+    },
+    {
+      "entity": "item:3026",
+      "why": "Guardian Angel's stats changed several times; it currently has Armor and is correctly in."
+    },
+    {
+      "entity": "item:2421",
+      "why": "Shattered Armguard is the transformed Seeker's Armguard (bought directly only after you have broken one); some players will say it is not a real shop item. It has 25 Armor in its stats, so it is in."
+    }
+  ],
+  "wording": [
+    {
+      "why": "'Gives Armor' could include passives (Terminus light attacks, Hullbreaker minions) or be confused with armor penetration. The Rule says stats only.",
+      "suggestion": "Name an item with Armor in its stats"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "item:3143",
+      "alias": "Randuin's",
+      "why": "Common short name."
+    },
+    {
+      "entity": "item:6333",
+      "alias": "DD",
+      "why": "Common abbreviation."
+    },
+    {
+      "entity": "item:6662",
+      "alias": "Iceborn",
+      "why": "Universal short name."
+    },
+    {
+      "entity": "item:3109",
+      "alias": "Knight's",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:2502",
+      "alias": "Unending",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:3024",
+      "alias": "Buckler",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:2420",
+      "alias": "Seeker's",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:3082",
+      "alias": "Warden's",
+      "why": "Short form."
+    },
+    {
+      "entity": "item:3076",
+      "alias": "Bramble",
+      "why": "Short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Easy entry points (Thornmail, Tabis, Cloth Armor, Randuin's), but 26 answers across tanks, AD fighters (Death's Dance, GA), mages (Zhonya's, Seeker's, Shattered Armguard) and supports make a full set hard."
+  },
+  "typicality": {
+    "item:1029": {
+      "value": 0.5,
+      "why": "The basic armor component; reflex answer."
+    },
+    "item:1031": {
+      "value": 0.35,
+      "why": "Classic armor component."
+    },
+    "item:1120": {
+      "value": 0.03,
+      "why": "New starter; few remember its armor."
+    },
+    "item:2019": {
+      "value": 0.02,
+      "why": "New component; little recognition."
+    },
+    "item:2420": {
+      "value": 0.1,
+      "why": "Mage armor component; some remember."
+    },
+    "item:2421": {
+      "value": 0.02,
+      "why": "What Seeker's Armguard becomes after its stasis is used; few think of it as its own item."
+    },
+    "item:2502": {
+      "value": 0.06,
+      "why": "Tank item, less top-of-mind."
+    },
+    "item:2524": {
+      "value": 0.02,
+      "why": "Obscure support item."
+    },
+    "item:3024": {
+      "value": 0.03,
+      "why": "Rarely built component."
+    },
+    "item:3026": {
+      "value": 0.12,
+      "why": "Known, but not thought of for Armor."
+    },
+    "item:3047": {
+      "value": 0.55,
+      "why": "Tabis are the armor boots; very common."
+    },
+    "item:3050": {
+      "value": 0.03,
+      "why": "Support item; armor minor."
+    },
+    "item:3068": {
+      "value": 0.3,
+      "why": "Iconic tank item."
+    },
+    "item:3075": {
+      "value": 0.7,
+      "why": "The archetypal armor item; most players' first answer."
+    },
+    "item:3076": {
+      "value": 0.2,
+      "why": "Common anti-heal armor component."
+    },
+    "item:3082": {
+      "value": 0.1,
+      "why": "Known component."
+    },
+    "item:3109": {
+      "value": 0.04,
+      "why": "Support item."
+    },
+    "item:3110": {
+      "value": 0.35,
+      "why": "Classic armor item."
+    },
+    "item:3143": {
+      "value": 0.4,
+      "why": "Classic anti-crit armor item."
+    },
+    "item:3157": {
+      "value": 0.15,
+      "why": "Known but thought of as AP."
+    },
+    "item:3174": {
+      "value": 0.02,
+      "why": "Tier-3 boots few name."
+    },
+    "item:3190": {
+      "value": 0.06,
+      "why": "Support item."
+    },
+    "item:3742": {
+      "value": 0.25,
+      "why": "Common tank item."
+    },
+    "item:6333": {
+      "value": 0.2,
+      "why": "Popular bruiser armor item."
+    },
+    "item:6662": {
+      "value": 0.12,
+      "why": "Known tank item."
+    },
+    "item:6665": {
+      "value": 0.12,
+      "why": "Dual-resist tank item."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "item:3024",
+      "why": "Glacial Buckler is the half-forgotten component players reach for to look clever."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "item:2421",
+      "why": "Maintainer pick: the broken Seeker's Armguard everyone has seen in their inventory but never names; a satisfying \"oh, that counts!\" on reveal."
+    },
+    {
+      "entity": "item:3157",
+      "why": "Everyone knows Zhonya's as an AP item; the Armor is an \"oh, of course\" once revealed."
+    },
+    {
+      "entity": "item:3026",
+      "why": "Iconic item whose current Armor stat most forget."
+    }
+  ]
+}

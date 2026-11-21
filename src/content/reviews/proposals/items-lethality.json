@@ -1,0 +1,107 @@
+{
+  "templateId": "items-lethality",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2020",
+    "item:2520",
+    "item:3134",
+    "item:3142",
+    "item:3179",
+    "item:3814",
+    "item:6676",
+    "item:6695",
+    "item:6696",
+    "item:6697",
+    "item:6698",
+    "item:6699"
+  ],
+  "missing": [
+    {
+      "entity": "Opportunity",
+      "why": "Removed from the shop. Rule-correct out; returning players will type it."
+    }
+  ],
+  "disputable": [],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:3134",
+      "alias": "Dirk",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:6695",
+      "alias": "Fang",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "Small set (12) that AD assassin players know by heart and others barely know; a good 'deep cut' Prompt now and then."
+  },
+  "typicality": {
+    "item:2020": {
+      "value": 0.2,
+      "why": "The Brutalizer."
+    },
+    "item:2520": {
+      "value": 0.05,
+      "why": "Bastionbreaker."
+    },
+    "item:3134": {
+      "value": 0.4,
+      "why": "Serrated Dirk: the lethality component."
+    },
+    "item:3142": {
+      "value": 0.5,
+      "why": "Youmuu's Ghostblade: the lethality item."
+    },
+    "item:3179": {
+      "value": 0.2,
+      "why": "Umbral Glaive."
+    },
+    "item:3814": {
+      "value": 0.3,
+      "why": "Edge of Night."
+    },
+    "item:6676": {
+      "value": 0.3,
+      "why": "The Collector."
+    },
+    "item:6695": {
+      "value": 0.22,
+      "why": "Serpent's Fang."
+    },
+    "item:6696": {
+      "value": 0.12,
+      "why": "Axiom Arc."
+    },
+    "item:6697": {
+      "value": 0.12,
+      "why": "Hubris."
+    },
+    "item:6698": {
+      "value": 0.18,
+      "why": "Profane Hydra."
+    },
+    "item:6699": {
+      "value": 0.1,
+      "why": "Voltaic Cyclosword."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:6698",
+      "why": "Profane Hydra: the fighter Hydra is a lethality item. 'Oh, of course.'"
+    },
+    {
+      "entity": "item:6697",
+      "why": "Hubris: players think of its stacking AD, not the lethality."
+    },
+    {
+      "entity": "item:6696",
+      "why": "Axiom Arc: known for ult haste, but it is a lethality item."
+    }
+  ]
+}

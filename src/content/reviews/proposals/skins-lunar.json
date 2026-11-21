@@ -1,0 +1,161 @@
+{
+  "templateId": "skins-lunar",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "skin:1013",
+    "skin:114050",
+    "skin:114051",
+    "skin:12029",
+    "skin:121069",
+    "skin:122024",
+    "skin:131002",
+    "skin:19010",
+    "skin:22052",
+    "skin:234001",
+    "skin:235026",
+    "skin:235027",
+    "skin:246030",
+    "skin:25010",
+    "skin:266021",
+    "skin:412039",
+    "skin:51010",
+    "skin:517001",
+    "skin:523009",
+    "skin:54037",
+    "skin:59021",
+    "skin:75011",
+    "skin:89011",
+    "skin:99008"
+  ],
+  "missing": [
+    {
+      "entity": "Firecracker Jinx",
+      "why": "Lunar Revel event skins (Firecracker, Warring Kingdoms) and moon-named lines (Blood Moon, Snow Moon) feel related but lack the word 'Lunar'; correctly out under the Rule."
+    }
+  ],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "'Lunar' could make players think of Lunar Revel event skins; the Prompt already says 'in its name', so it's clear.",
+      "suggestion": "Name a skin with \"Lunar\" in its name"
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Lunar Goddess Diana and Lunar Wraith Morgana are easy starters; the Beast/Guardian/Empress/Eclipse sublines make full recall hard; 24 answers."
+  },
+  "typicality": {
+    "skin:131002": {
+      "value": 0.35,
+      "why": "The moon champion's moon skin; the obvious first answer."
+    },
+    "skin:25010": {
+      "value": 0.25,
+      "why": "Long-standing popular skin."
+    },
+    "skin:266021": {
+      "value": 0.2,
+      "why": "Legendary-feel recent release."
+    },
+    "skin:114050": {
+      "value": 0.15,
+      "why": "Has a Prestige; well known."
+    },
+    "skin:122024": {
+      "value": 0.15,
+      "why": "Mid-high recall."
+    },
+    "skin:523009": {
+      "value": 0.15,
+      "why": "A moon-themed champion fits."
+    },
+    "skin:234001": {
+      "value": 0.12,
+      "why": "Mid recall."
+    },
+    "skin:412039": {
+      "value": 0.12,
+      "why": "Mid recall."
+    },
+    "skin:99008": {
+      "value": 0.12,
+      "why": "Lux skins well known."
+    },
+    "skin:235026": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:246030": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:517001": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:51010": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:59021": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:89011": {
+      "value": 0.08,
+      "why": "Sun champion with a lunar skin; few name it first."
+    },
+    "skin:75011": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:1013": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:121069": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:54037": {
+      "value": 0.06,
+      "why": "Quiet."
+    },
+    "skin:12029": {
+      "value": 0.06,
+      "why": "Quiet."
+    },
+    "skin:19010": {
+      "value": 0.05,
+      "why": "Quiet."
+    },
+    "skin:22052": {
+      "value": 0.05,
+      "why": "Quiet."
+    },
+    "skin:114051": {
+      "value": 0.05,
+      "why": "Players name base Fiora."
+    },
+    "skin:235027": {
+      "value": 0.03,
+      "why": "Players rarely type Prestige."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "skin:89011",
+      "why": "The Solari sun champion getting an eclipse skin is a satisfying 'oh, of course'."
+    },
+    {
+      "entity": "skin:75011",
+      "why": "A guardian-dog for the Lunar New Year fits once revealed."
+    },
+    {
+      "entity": "skin:1013",
+      "why": "Annie and Tibbers as lunar beasts; a few players remember."
+    }
+  ]
+}

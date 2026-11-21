@@ -1,0 +1,630 @@
+{
+  "templateId": "champions-dash",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:Ahri",
+    "champion:Akali",
+    "champion:Akshan",
+    "champion:Alistar",
+    "champion:Ambessa",
+    "champion:Amumu",
+    "champion:AurelionSol",
+    "champion:Aurora",
+    "champion:Azir",
+    "champion:Belveth",
+    "champion:Braum",
+    "champion:Briar",
+    "champion:Caitlyn",
+    "champion:Camille",
+    "champion:Corki",
+    "champion:Darius",
+    "champion:Diana",
+    "champion:Ekko",
+    "champion:Elise",
+    "champion:Evelynn",
+    "champion:Fiora",
+    "champion:Fizz",
+    "champion:Galio",
+    "champion:Gnar",
+    "champion:Gragas",
+    "champion:Graves",
+    "champion:Gwen",
+    "champion:Hecarim",
+    "champion:Illaoi",
+    "champion:Irelia",
+    "champion:Ivern",
+    "champion:JarvanIV",
+    "champion:Jax",
+    "champion:Jayce",
+    "champion:KSante",
+    "champion:Kaisa",
+    "champion:Kalista",
+    "champion:Kayn",
+    "champion:Khazix",
+    "champion:Kindred",
+    "champion:Kled",
+    "champion:Leblanc",
+    "champion:LeeSin",
+    "champion:Leona",
+    "champion:Locke",
+    "champion:Lucian",
+    "champion:Malphite",
+    "champion:Maokai",
+    "champion:MonkeyKing",
+    "champion:Naafiri",
+    "champion:Nautilus",
+    "champion:Nidalee",
+    "champion:Nilah",
+    "champion:Nocturne",
+    "champion:Ornn",
+    "champion:Pantheon",
+    "champion:Poppy",
+    "champion:Pyke",
+    "champion:Qiyana",
+    "champion:Quinn",
+    "champion:Rakan",
+    "champion:Rammus",
+    "champion:RekSai",
+    "champion:Rell",
+    "champion:Renekton",
+    "champion:Rengar",
+    "champion:Riven",
+    "champion:Samira",
+    "champion:Sejuani",
+    "champion:Shen",
+    "champion:Shyvana",
+    "champion:Sion",
+    "champion:Skarner",
+    "champion:Sylas",
+    "champion:Taliyah",
+    "champion:Talon",
+    "champion:Thresh",
+    "champion:Tristana",
+    "champion:Tryndamere",
+    "champion:Udyr",
+    "champion:Urgot",
+    "champion:Vayne",
+    "champion:Vex",
+    "champion:Vi",
+    "champion:Viego",
+    "champion:Volibear",
+    "champion:Warwick",
+    "champion:XinZhao",
+    "champion:Yasuo",
+    "champion:Yone",
+    "champion:Yunara",
+    "champion:Yuumi",
+    "champion:Zaahen",
+    "champion:Zac",
+    "champion:Zed",
+    "champion:Zeri",
+    "champion:Ziggs"
+  ],
+  "missing": [
+    {
+      "entity": "Ezreal",
+      "why": "Arcane Shift is a blink, which the dash term excludes, but many players call it a dash. Rule-correct out; likely the most common Miss."
+    },
+    {
+      "entity": "Katarina",
+      "why": "Shunpo is a blink (instant relocation). Rule-correct out; a frequent wrong answer."
+    },
+    {
+      "entity": "Master Yi",
+      "why": "Alpha Strike blinks between targets. Rule-correct out."
+    },
+    {
+      "entity": "Kassadin",
+      "why": "Riftwalk is a blink. Rule-correct out."
+    },
+    {
+      "entity": "Shaco",
+      "why": "Deceive is a blink. Rule-correct out."
+    },
+    {
+      "entity": "Tahm Kench",
+      "why": "Abyssal Dive dives down and re-appears (teleport-like); the label review excluded it."
+    },
+    {
+      "entity": "Xayah",
+      "why": "Featherstorm leaps into the air in place, with no travel. Rule-correct out."
+    },
+    {
+      "entity": "Bard",
+      "why": "Magical Journey moves him through a portal, not his own dash. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Caitlyn",
+      "why": "90 Caliber Net's recoil knocks her back: self-displacement, not a chosen dash."
+    },
+    {
+      "entity": "champion:Ziggs",
+      "why": "Satchel Charge knocks Ziggs himself away; players may not count a self-knockback."
+    },
+    {
+      "entity": "champion:Kalista",
+      "why": "Only the passive's short hop after attacks."
+    },
+    {
+      "entity": "champion:Ambessa",
+      "why": "Only the passive's short dash after casting."
+    },
+    {
+      "entity": "champion:Udyr",
+      "why": "Only Blazing Stampede's empowered attacks dash him to the target."
+    },
+    {
+      "entity": "champion:Yuumi",
+      "why": "W dashes to an ally to attach; players see it as attaching, not dashing."
+    },
+    {
+      "entity": "champion:Rammus",
+      "why": "Only Soaring Slam's hop counts; Powerball is a Move Speed roll, which the term excludes."
+    },
+    {
+      "entity": "champion:Taliyah",
+      "why": "Riding her R wall; some say that's terrain, not her dash."
+    },
+    {
+      "entity": "champion:Thresh",
+      "why": "Only Q's recast pulls Thresh in; the lantern moves the ally, not him."
+    },
+    {
+      "entity": "champion:Zed",
+      "why": "In by Death Mark's dash; his shadow swaps are teleports, which players think of first."
+    }
+  ],
+  "wording": [
+    {
+      "why": "Players count blinks (Ezreal, Katarina, Kassadin) as dashes; the Rule excludes them, so the biggest group of Misses will feel unfair.",
+      "suggestion": "Name a champion with a dash or leap (blinks and teleports don't count)"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:Kaisa",
+      "alias": "Kai",
+      "why": "Common short form in chat."
+    },
+    {
+      "entity": "champion:Belveth",
+      "alias": "Bel",
+      "why": "Common short form."
+    },
+    {
+      "entity": "champion:RekSai",
+      "alias": "Rek",
+      "why": "Common short form."
+    },
+    {
+      "entity": "champion:Camille",
+      "alias": "Cam",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "98 of 173 champions fit, so almost any guess lands and a full set is out of reach. Naming the obvious ones is easy; the interesting part is remembering tanks and supports (Ornn, Braum, Leona) and avoiding the blink trap."
+  },
+  "typicality": {
+    "champion:Aatrox": {
+      "value": 0.15,
+      "why": "Umbral Dash; it's in the name."
+    },
+    "champion:Ahri": {
+      "value": 0.35,
+      "why": "Spirit Rush: three dashes, very visible."
+    },
+    "champion:Akali": {
+      "value": 0.35,
+      "why": "Shuriken Flip and Perfect Execution dashes."
+    },
+    "champion:Akshan": {
+      "value": 0.06,
+      "why": "Heroic Swing grapple."
+    },
+    "champion:Alistar": {
+      "value": 0.08,
+      "why": "Headbutt rams; known for the W-Q combo."
+    },
+    "champion:Ambessa": {
+      "value": 0.06,
+      "why": "Passive dash after casting; players know her E/R more."
+    },
+    "champion:Amumu": {
+      "value": 0.12,
+      "why": "Bandage Toss pulls him in; widely known engage."
+    },
+    "champion:AurelionSol": {
+      "value": 0.03,
+      "why": "Astral Flight feels like flying more than a dash."
+    },
+    "champion:Aurora": {
+      "value": 0.06,
+      "why": "Across the Veil hop; newer champion."
+    },
+    "champion:Azir": {
+      "value": 0.06,
+      "why": "Shifting Sands dash to a soldier (the Shurima Shuffle)."
+    },
+    "champion:Belveth": {
+      "value": 0.08,
+      "why": "Void Surge dashes."
+    },
+    "champion:Braum": {
+      "value": 0.08,
+      "why": "Stand Behind Me leap to an ally."
+    },
+    "champion:Briar": {
+      "value": 0.08,
+      "why": "Head Rush leap."
+    },
+    "champion:Caitlyn": {
+      "value": 0.12,
+      "why": "90 Caliber Net recoil; ADC players know it."
+    },
+    "champion:Camille": {
+      "value": 0.2,
+      "why": "Hookshot wall dash."
+    },
+    "champion:Corki": {
+      "value": 0.1,
+      "why": "Valkyrie flight."
+    },
+    "champion:Darius": {
+      "value": 0.05,
+      "why": "Noxian Guillotine leap; players think dunk, not dash."
+    },
+    "champion:Diana": {
+      "value": 0.15,
+      "why": "Lunar Rush dash."
+    },
+    "champion:Ekko": {
+      "value": 0.15,
+      "why": "Phase Dive."
+    },
+    "champion:Elise": {
+      "value": 0.05,
+      "why": "Spider Q lunge; most remember Rappel."
+    },
+    "champion:Evelynn": {
+      "value": 0.08,
+      "why": "Empowered Whiplash dash; less remembered."
+    },
+    "champion:Fiora": {
+      "value": 0.25,
+      "why": "Lunge is in the ability's name."
+    },
+    "champion:Fizz": {
+      "value": 0.15,
+      "why": "Urchin Strike dash."
+    },
+    "champion:Galio": {
+      "value": 0.06,
+      "why": "Justice Punch dash; his R flight is better known."
+    },
+    "champion:Gnar": {
+      "value": 0.15,
+      "why": "Hop bounce."
+    },
+    "champion:Gragas": {
+      "value": 0.1,
+      "why": "Body Slam."
+    },
+    "champion:Graves": {
+      "value": 0.35,
+      "why": "Quickdraw dash is core to his kit."
+    },
+    "champion:Gwen": {
+      "value": 0.1,
+      "why": "Skip 'n Slash."
+    },
+    "champion:Hecarim": {
+      "value": 0.15,
+      "why": "Onslaught of Shadows charge."
+    },
+    "champion:Illaoi": {
+      "value": 0.03,
+      "why": "Harsh Lesson leap; rarely noticed."
+    },
+    "champion:Irelia": {
+      "value": 0.4,
+      "why": "Bladesurge resets are her identity."
+    },
+    "champion:Ivern": {
+      "value": 0.03,
+      "why": "Rootcaller recast dash onto the rooted enemy."
+    },
+    "champion:JarvanIV": {
+      "value": 0.2,
+      "why": "E-Q flag drag combo."
+    },
+    "champion:Jax": {
+      "value": 0.2,
+      "why": "Leap Strike; a first pick for 'leap'."
+    },
+    "champion:Jayce": {
+      "value": 0.08,
+      "why": "To the Skies leap."
+    },
+    "champion:KSante": {
+      "value": 0.08,
+      "why": "Footwork dash; newer, less-played champion."
+    },
+    "champion:Kaisa": {
+      "value": 0.2,
+      "why": "Killer Instinct R dash."
+    },
+    "champion:Kalista": {
+      "value": 0.05,
+      "why": "Martial Poise hop after attacks."
+    },
+    "champion:Kayn": {
+      "value": 0.25,
+      "why": "Reaping Slash dash; jungle main favourite."
+    },
+    "champion:Khazix": {
+      "value": 0.25,
+      "why": "Leap is famous."
+    },
+    "champion:Kindred": {
+      "value": 0.12,
+      "why": "Dance of Arrows tumble."
+    },
+    "champion:Kled": {
+      "value": 0.1,
+      "why": "Jousting dash."
+    },
+    "champion:Leblanc": {
+      "value": 0.15,
+      "why": "Distortion dash and return."
+    },
+    "champion:LeeSin": {
+      "value": 0.45,
+      "why": "Resonating Strike and Safeguard; 'Lee Sin dash' is a meme."
+    },
+    "champion:Leona": {
+      "value": 0.12,
+      "why": "Zenith Blade pulls her to the enemy."
+    },
+    "champion:Locke": {
+      "value": 0.03,
+      "why": "New champion; few know the kit yet."
+    },
+    "champion:Lucian": {
+      "value": 0.35,
+      "why": "Relentless Pursuit dash every few seconds."
+    },
+    "champion:Malphite": {
+      "value": 0.12,
+      "why": "Unstoppable Force charge; a strong 'oh yeah'."
+    },
+    "champion:Maokai": {
+      "value": 0.05,
+      "why": "Twisted Advance."
+    },
+    "champion:MonkeyKing": {
+      "value": 0.12,
+      "why": "Nimbus Strike."
+    },
+    "champion:Naafiri": {
+      "value": 0.06,
+      "why": "Eviscerate dash."
+    },
+    "champion:Nautilus": {
+      "value": 0.08,
+      "why": "Dredge Line pulls him to terrain or the enemy."
+    },
+    "champion:Nidalee": {
+      "value": 0.15,
+      "why": "Pounce in cougar form."
+    },
+    "champion:Nilah": {
+      "value": 0.06,
+      "why": "Jubilant Veil dash; low-pick champion."
+    },
+    "champion:Nocturne": {
+      "value": 0.05,
+      "why": "Paranoia flight to the target."
+    },
+    "champion:Ornn": {
+      "value": 0.05,
+      "why": "R recast headbutt dash."
+    },
+    "champion:Pantheon": {
+      "value": 0.12,
+      "why": "Shield Vault leap."
+    },
+    "champion:Poppy": {
+      "value": 0.08,
+      "why": "Heroic Charge."
+    },
+    "champion:Pyke": {
+      "value": 0.2,
+      "why": "Phantom Undertow dash."
+    },
+    "champion:Qiyana": {
+      "value": 0.2,
+      "why": "Terrashape dash."
+    },
+    "champion:Quinn": {
+      "value": 0.05,
+      "why": "Vault off a target."
+    },
+    "champion:Rakan": {
+      "value": 0.12,
+      "why": "Grand Entrance dash; known support engage."
+    },
+    "champion:Rammus": {
+      "value": 0.03,
+      "why": "Soaring Slam hop; Powerball (Move Speed) is what players think of."
+    },
+    "champion:RekSai": {
+      "value": 0.05,
+      "why": "Void Rush lunge; Tunnel is better known."
+    },
+    "champion:Rell": {
+      "value": 0.06,
+      "why": "Crash Down leap off the mount."
+    },
+    "champion:Renekton": {
+      "value": 0.15,
+      "why": "Slice and Dice."
+    },
+    "champion:Rengar": {
+      "value": 0.2,
+      "why": "Bush leap is iconic."
+    },
+    "champion:Riven": {
+      "value": 0.5,
+      "why": "Broken Wings and Valor: three dashes plus one; the dash champion."
+    },
+    "champion:Samira": {
+      "value": 0.12,
+      "why": "Wild Rush dash."
+    },
+    "champion:Sejuani": {
+      "value": 0.08,
+      "why": "Arctic Assault charge."
+    },
+    "champion:Shen": {
+      "value": 0.1,
+      "why": "Shadow Dash; it's in the name."
+    },
+    "champion:Shyvana": {
+      "value": 0.06,
+      "why": "Dragon's Descent leap; forgotten."
+    },
+    "champion:Sion": {
+      "value": 0.08,
+      "why": "Unstoppable Onslaught steerable charge."
+    },
+    "champion:Skarner": {
+      "value": 0.05,
+      "why": "Ixtal's Impact charge through walls."
+    },
+    "champion:Sylas": {
+      "value": 0.2,
+      "why": "Abscond dash."
+    },
+    "champion:Taliyah": {
+      "value": 0.03,
+      "why": "Rides her ultimate's wall; rarely thought of."
+    },
+    "champion:Talon": {
+      "value": 0.15,
+      "why": "Assassin's Path vault over walls."
+    },
+    "champion:Thresh": {
+      "value": 0.06,
+      "why": "Q recast pulls Thresh to the hooked enemy; players think hook, not dash."
+    },
+    "champion:Tristana": {
+      "value": 0.3,
+      "why": "Rocket Jump; 'Trist W' is iconic."
+    },
+    "champion:Tryndamere": {
+      "value": 0.15,
+      "why": "Spinning Slash."
+    },
+    "champion:Udyr": {
+      "value": 0.03,
+      "why": "Blazing Stampede attacks dash him to the target; few notice."
+    },
+    "champion:Urgot": {
+      "value": 0.05,
+      "why": "Disdain charge."
+    },
+    "champion:Vayne": {
+      "value": 0.4,
+      "why": "Tumble is the ADC dash everyone knows."
+    },
+    "champion:Vex": {
+      "value": 0.03,
+      "why": "Shadow Surge recast dash."
+    },
+    "champion:Vi": {
+      "value": 0.15,
+      "why": "Vault Breaker charge."
+    },
+    "champion:Viego": {
+      "value": 0.08,
+      "why": "Spectral Maw dash."
+    },
+    "champion:Volibear": {
+      "value": 0.05,
+      "why": "Stormbringer leap."
+    },
+    "champion:Warwick": {
+      "value": 0.08,
+      "why": "Infinite Duress leap."
+    },
+    "champion:XinZhao": {
+      "value": 0.15,
+      "why": "Audacious Charge."
+    },
+    "champion:Yasuo": {
+      "value": 0.6,
+      "why": "Sweeping Blade through minions is the textbook dash."
+    },
+    "champion:Yone": {
+      "value": 0.15,
+      "why": "Q3 dash; players also think of the E spirit."
+    },
+    "champion:Yunara": {
+      "value": 0.03,
+      "why": "Only in her Transcendent State; very new."
+    },
+    "champion:Yuumi": {
+      "value": 0.03,
+      "why": "You and Me! dash to attach."
+    },
+    "champion:Zaahen": {
+      "value": 0.03,
+      "why": "Newest champion; few know the kit yet."
+    },
+    "champion:Zac": {
+      "value": 0.12,
+      "why": "Elastic Slingshot; famous long-range engage."
+    },
+    "champion:Zed": {
+      "value": 0.25,
+      "why": "Death Mark dash; many think of his shadow swap first."
+    },
+    "champion:Zeri": {
+      "value": 0.12,
+      "why": "Spark Surge dash over walls."
+    },
+    "champion:Ziggs": {
+      "value": 0.03,
+      "why": "Satchel Charge knocks himself away."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "champion:Ziggs",
+      "why": "The 'actually, Ziggs W knocks himself' pick players make to look clever."
+    },
+    {
+      "entity": "champion:Yuumi",
+      "why": "Players pick her as a joke-clever answer."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "champion:Braum",
+      "why": "Everyone has seen Braum jump to an ally; nobody lists it as a dash. Strong 'oh, of course!'."
+    },
+    {
+      "entity": "champion:Ornn",
+      "why": "The R recast headbutt is a dash players use constantly without calling it one."
+    },
+    {
+      "entity": "champion:Thresh",
+      "why": "Players think 'hook', then remember Q pulls Thresh in too."
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "templateId": "items-heal-shield-power",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2526",
+    "item:2530",
+    "item:3107",
+    "item:3114",
+    "item:3222",
+    "item:3504",
+    "item:6616",
+    "item:6621"
+  ],
+  "missing": [
+    {
+      "entity": "Moonstone Renewer",
+      "why": "Its heal comes from a passive; no Heal and Shield Power in its stats. Rule-correct out."
+    },
+    {
+      "entity": "Echoes of Helia",
+      "why": "Same as Moonstone. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:2530",
+      "why": "A support quest upgrade rather than a normal shop purchase."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:3114",
+      "alias": "Idol",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "Only 8 answers and support-heavy, but enchanter players will enjoy it; non-supports get Ardent and stall."
+  },
+  "typicality": {
+    "item:2526": {
+      "value": 0.03,
+      "why": "Whispering Circlet: support quest item."
+    },
+    "item:2530": {
+      "value": 0.03,
+      "why": "Diadem of Songs: support quest upgrade."
+    },
+    "item:3107": {
+      "value": 0.3,
+      "why": "Redemption."
+    },
+    "item:3114": {
+      "value": 0.15,
+      "why": "Forbidden Idol: the component."
+    },
+    "item:3222": {
+      "value": 0.2,
+      "why": "Mikael's Blessing."
+    },
+    "item:3504": {
+      "value": 0.35,
+      "why": "Ardent Censer: the enchanter heal-and-shield item."
+    },
+    "item:6616": {
+      "value": 0.3,
+      "why": "Staff of Flowing Water."
+    },
+    "item:6621": {
+      "value": 0.1,
+      "why": "Dawncore."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:3114",
+      "why": "Forbidden Idol: the component every enchanter item builds from."
+    },
+    {
+      "entity": "item:6621",
+      "why": "Dawncore: the newest enchanter item."
+    },
+    {
+      "entity": "item:2526",
+      "why": "Whispering Circlet: a support quest item."
+    }
+  ]
+}

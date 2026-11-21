@@ -1,0 +1,36 @@
+{
+  "templateId": "champions-global-ult",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Ashe",
+    "champion:Draven",
+    "champion:Ezreal",
+    "champion:Gangplank",
+    "champion:Jinx",
+    "champion:Karthus",
+    "champion:Lillia",
+    "champion:Mel",
+    "champion:Nocturne",
+    "champion:Senna",
+    "champion:Shen",
+    "champion:Soraka",
+    "champion:TwistedFate"
+  ],
+  "typicality": {
+    "champion:Karthus": 0.7,
+    "champion:Jinx": 0.65,
+    "champion:Shen": 0.55,
+    "champion:Soraka": 0.5,
+    "champion:TwistedFate": 0.45,
+    "champion:Gangplank": 0.4,
+    "champion:Senna": 0.22,
+    "champion:Nocturne": 0.2,
+    "champion:Lillia": 0.08,
+    "champion:Mel": 0.06,
+    "champion:Ashe": 0.6,
+    "champion:Ezreal": 0.55,
+    "champion:Draven": 0.3
+  },
+  "tooClever": [],
+  "gem": "champion:Lillia"
+}

@@ -1,0 +1,113 @@
+{
+  "templateId": "champions-ranged-invisible",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akshan",
+    "champion:Aurora",
+    "champion:Kaisa",
+    "champion:Leblanc",
+    "champion:Neeko",
+    "champion:Senna",
+    "champion:Teemo",
+    "champion:Twitch",
+    "champion:Vayne"
+  ],
+  "missing": [
+    {
+      "entity": "Shaco",
+      "why": "Players may type him, but his base range is melee (Data Dragon), so correctly excluded; not missing."
+    },
+    {
+      "entity": "Evelynn",
+      "why": "Iconic stealth champion but melee by base range; correctly excluded. Expect wrong guesses, not a data fix."
+    },
+    {
+      "entity": "Ivern",
+      "why": "Brushmaker only makes brush; Ivern is not Invisible/Camouflaged, and the term excludes brush. Not missing."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Leblanc",
+      "why": "Her invisibility is only Mirror Image's passive (brief stealth at low health); many players don't think of it as 'can become invisible'."
+    },
+    {
+      "entity": "champion:Kaisa",
+      "why": "Only after evolving Supercharge (E); the Rule allows it but some players argue unevolved Kai'Sa can't."
+    },
+    {
+      "entity": "champion:Neeko",
+      "why": "Shapesplitter (W) makes her briefly Invisible; players more readily think of her disguise, which is not invisibility."
+    }
+  ],
+  "wording": [
+    {
+      "why": "'Ranged' is defined by base attack range, which players can't see; borderline 300-325 ranged champions may surprise.",
+      "suggestion": "Keep the Rule; consider a reveal note that ranged = base attack range 300+."
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:Twitch",
+      "alias": "rat",
+      "why": "Widely used nickname (the Plague Rat)."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Twitch/Teemo/Vayne are easy openers; Senna, Neeko, LeBlanc, Aurora reward knowledge. 9 answers is small but varied."
+  },
+  "typicality": {
+    "champion:Twitch": {
+      "value": 0.6,
+      "why": "Ambush is the stealth ADC everyone knows."
+    },
+    "champion:Teemo": {
+      "value": 0.5,
+      "why": "Guerrilla Warfare camouflage is a meme."
+    },
+    "champion:Vayne": {
+      "value": 0.45,
+      "why": "Final Hour + Tumble stealth is iconic."
+    },
+    "champion:Akshan": {
+      "value": 0.3,
+      "why": "Going Rogue camouflage is his signature."
+    },
+    "champion:Kaisa": {
+      "value": 0.2,
+      "why": "Evolved E invis is known to ADC players."
+    },
+    "champion:Senna": {
+      "value": 0.15,
+      "why": "Curse of the Black Mist camouflage is remembered by bot/support players."
+    },
+    "champion:Neeko": {
+      "value": 0.1,
+      "why": "Players think disguise first; W invis is secondary."
+    },
+    "champion:Leblanc": {
+      "value": 0.1,
+      "why": "Passive stealth is easily forgotten."
+    },
+    "champion:Aurora": {
+      "value": 0.08,
+      "why": "Newer champion; her W invisibility is not widely known."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Senna",
+      "why": "Camouflage from her E is an 'oh, of course' once revealed and a fair number of players get it."
+    },
+    {
+      "entity": "champion:Neeko",
+      "why": "Shapesplitter's stealth clone is recognisable on reveal."
+    },
+    {
+      "entity": "champion:Leblanc",
+      "why": "Mirror Image stealth is a classic mechanic most forget."
+    }
+  ]
+}

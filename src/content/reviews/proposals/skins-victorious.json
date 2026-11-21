@@ -1,0 +1,151 @@
+{
+  "templateId": "skins-victorious",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "skin:104014",
+    "skin:107049",
+    "skin:11106",
+    "skin:113036",
+    "skin:114098",
+    "skin:119068",
+    "skin:15008",
+    "skin:201051",
+    "skin:23027",
+    "skin:236025",
+    "skin:25006",
+    "skin:266009",
+    "skin:34046",
+    "skin:37056",
+    "skin:40004",
+    "skin:4045",
+    "skin:53036",
+    "skin:57007",
+    "skin:59004",
+    "skin:60002",
+    "skin:61008",
+    "skin:96055"
+  ],
+  "missing": [
+    {
+      "entity": "Triumphant Ryze",
+      "why": "Rewards-style skins (Triumphant Ryze, Triumphant General Darius) feel related but lack 'Victorious'; correctly out under the Rule."
+    }
+  ],
+  "disputable": [],
+  "wording": [
+    {
+      "why": "Clear. Players know Victorious skins as ranked season rewards; the Prompt doesn't need to say so.",
+      "suggestion": "Name a skin with \"Victorious\" in its name"
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "ok",
+    "why": "Everyone knows the line exists, but which champion got it each season is hard to recall, so answer spread is flat and most players name only a few."
+  },
+  "typicality": {
+    "skin:104014": {
+      "value": 0.2,
+      "why": "Memorable season reward."
+    },
+    "skin:119068": {
+      "value": 0.2,
+      "why": "Recent; Draven fits the glory theme."
+    },
+    "skin:236025": {
+      "value": 0.15,
+      "why": "Recent."
+    },
+    "skin:61008": {
+      "value": 0.15,
+      "why": "Mid-high recall."
+    },
+    "skin:25006": {
+      "value": 0.15,
+      "why": "Mid-high recall."
+    },
+    "skin:60002": {
+      "value": 0.15,
+      "why": "Mid-high recall."
+    },
+    "skin:15008": {
+      "value": 0.15,
+      "why": "Sivir 'Battle Mistress' fits."
+    },
+    "skin:266009": {
+      "value": 0.15,
+      "why": "Mid-high recall."
+    },
+    "skin:40004": {
+      "value": 0.12,
+      "why": "Old but iconic."
+    },
+    "skin:201051": {
+      "value": 0.12,
+      "why": "Recent."
+    },
+    "skin:96055": {
+      "value": 0.12,
+      "why": "Recent, memorable oddity."
+    },
+    "skin:53036": {
+      "value": 0.12,
+      "why": "Mid recall."
+    },
+    "skin:59004": {
+      "value": 0.12,
+      "why": "The first season reward; veterans remember."
+    },
+    "skin:57007": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:11106": {
+      "value": 0.1,
+      "why": "Recent."
+    },
+    "skin:23027": {
+      "value": 0.1,
+      "why": "Mid recall."
+    },
+    "skin:37056": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:34046": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:4045": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:113036": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:114098": {
+      "value": 0.08,
+      "why": "Quiet."
+    },
+    "skin:107049": {
+      "value": 0.06,
+      "why": "Quiet."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "skin:34046",
+      "why": "A golden phoenix is a natural 'victory' reveal a few players remember."
+    },
+    {
+      "entity": "skin:37056",
+      "why": "Recent support reward; some support mains get it."
+    },
+    {
+      "entity": "skin:107049",
+      "why": "The trophy hunter getting the trophy skin is a fun 'of course'."
+    }
+  ]
+}

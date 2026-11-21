@@ -1,0 +1,116 @@
+{
+  "templateId": "champions-ranged-global-ult",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Ashe",
+    "champion:Draven",
+    "champion:Ezreal",
+    "champion:Jinx",
+    "champion:Karthus",
+    "champion:Lillia",
+    "champion:Mel",
+    "champion:Senna",
+    "champion:Soraka",
+    "champion:TwistedFate"
+  ],
+  "missing": [
+    {
+      "entity": "Ziggs",
+      "why": "Mega Inferno Bomb is very long range but not global; not missing."
+    },
+    {
+      "entity": "Taliyah",
+      "why": "Weaver's Wall is long but limited; not missing."
+    },
+    {
+      "entity": "Gangplank",
+      "why": "Global ult (Cannon Barrage) but melee by base range; correctly excluded, expect wrong guesses."
+    },
+    {
+      "entity": "Shen",
+      "why": "Global shield ult but melee; correctly excluded."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Lillia",
+      "why": "Base range 325 makes her ranged, but players see her as a melee-ish skirmisher; R only affects Drowsy enemies, though anywhere on the map."
+    },
+    {
+      "entity": "champion:Mel",
+      "why": "Golden Eclipse hits all Overwhelmed enemies anywhere; players may not consider it a 'global ult'."
+    },
+    {
+      "entity": "champion:Draven",
+      "why": "Whirling Death travels the full map; widely known, but some argue it's not 'global' in the TF/Karthus sense."
+    }
+  ],
+  "wording": [
+    {
+      "why": "'global' is fuzzy for long-range ults (Ziggs, Jhin) versus conditional map-wide ones (Lillia, Mel).",
+      "suggestion": "Name a ranged champion whose ultimate can reach anywhere on the map"
+    }
+  ],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Jinx, Ezreal, Karthus are easy; Senna, Draven, Lillia, Mel are satisfying finds. Small set but most players can name a few."
+  },
+  "typicality": {
+    "champion:Jinx": {
+      "value": 0.55,
+      "why": "Super Mega Death Rocket is the iconic global snipe."
+    },
+    "champion:Karthus": {
+      "value": 0.5,
+      "why": "Requiem is the textbook global ult."
+    },
+    "champion:Ezreal": {
+      "value": 0.45,
+      "why": "Trueshot Barrage."
+    },
+    "champion:Soraka": {
+      "value": 0.4,
+      "why": "Wish."
+    },
+    "champion:Ashe": {
+      "value": 0.35,
+      "why": "Enchanted Crystal Arrow."
+    },
+    "champion:TwistedFate": {
+      "value": 0.3,
+      "why": "Destiny."
+    },
+    "champion:Draven": {
+      "value": 0.18,
+      "why": "Whirling Death forgotten next to the above."
+    },
+    "champion:Senna": {
+      "value": 0.12,
+      "why": "Dawning Shadow is global but less remembered."
+    },
+    "champion:Lillia": {
+      "value": 0.05,
+      "why": "Conditional, rarely thought of as global."
+    },
+    "champion:Mel": {
+      "value": 0.05,
+      "why": "New, conditional."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "champion:Senna",
+      "why": "Dawning Shadow crosses the map; a clear 'of course' on reveal."
+    },
+    {
+      "entity": "champion:Draven",
+      "why": "Whirling Death is global and players kick themselves for missing it."
+    },
+    {
+      "entity": "champion:Lillia",
+      "why": "Lilting Lullaby works map-wide on Drowsy targets; fun fact, a few players get it."
+    }
+  ]
+}

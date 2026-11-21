@@ -1,0 +1,50 @@
+{
+  "templateId": "champions-invisible",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Akali",
+    "champion:Akshan",
+    "champion:Aurora",
+    "champion:Evelynn",
+    "champion:Kaisa",
+    "champion:Khazix",
+    "champion:Leblanc",
+    "champion:MonkeyKing",
+    "champion:Neeko",
+    "champion:Pyke",
+    "champion:Qiyana",
+    "champion:Rengar",
+    "champion:Senna",
+    "champion:Shaco",
+    "champion:Talon",
+    "champion:Teemo",
+    "champion:Twitch",
+    "champion:Vayne",
+    "champion:Viego"
+  ],
+  "typicality": {
+    "champion:Twitch": 0.6,
+    "champion:Evelynn": 0.55,
+    "champion:Shaco": 0.5,
+    "champion:Teemo": 0.45,
+    "champion:Akali": 0.4,
+    "champion:Khazix": 0.4,
+    "champion:Vayne": 0.35,
+    "champion:Rengar": 0.35,
+    "champion:Talon": 0.25,
+    "champion:MonkeyKing": 0.25,
+    "champion:Kaisa": 0.2,
+    "champion:Pyke": 0.15,
+    "champion:Akshan": 0.12,
+    "champion:Leblanc": 0.12,
+    "champion:Neeko": 0.08,
+    "champion:Senna": 0.08,
+    "champion:Qiyana": 0.07,
+    "champion:Viego": 0.06,
+    "champion:Aurora": 0.05
+  },
+  "tooClever": [
+    "champion:Senna"
+  ],
+  "gem": "champion:Neeko"
+}

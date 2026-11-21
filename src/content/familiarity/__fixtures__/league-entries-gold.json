@@ -1,0 +1,4 @@
+[
+  {"leagueId":"L-1","puuid":"PUUID-G1","queueType":"RANKED_SOLO_5x5","tier":"GOLD","rank":"II","leaguePoints":42,"wins":30,"losses":28,"hotStreak":false,"veteran":false,"freshBlood":false,"inactive":false},
+  {"leagueId":"L-1","summonerId":"SUMMONER-NO-PUUID","queueType":"RANKED_SOLO_5x5","tier":"GOLD","rank":"II","leaguePoints":10,"wins":5,"losses":9,"hotStreak":false,"veteran":false,"freshBlood":true,"inactive":false}
+]

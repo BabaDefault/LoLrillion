@@ -1,0 +1,40 @@
+{
+  "templateId": "champions-melee-pull",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:Blitzcrank",
+    "champion:Darius",
+    "champion:Diana",
+    "champion:KSante",
+    "champion:Kled",
+    "champion:Mordekaiser",
+    "champion:Nautilus",
+    "champion:Nilah",
+    "champion:Pyke",
+    "champion:Rell",
+    "champion:Sett",
+    "champion:Skarner",
+    "champion:Yone",
+    "champion:Zaahen"
+  ],
+  "typicality": {
+    "champion:Blitzcrank": 0.75,
+    "champion:Nautilus": 0.45,
+    "champion:Darius": 0.4,
+    "champion:Pyke": 0.35,
+    "champion:Sett": 0.3,
+    "champion:Mordekaiser": 0.3,
+    "champion:Aatrox": 0.15,
+    "champion:Skarner": 0.15,
+    "champion:Diana": 0.12,
+    "champion:Rell": 0.1,
+    "champion:Kled": 0.08,
+    "champion:KSante": 0.08,
+    "champion:Yone": 0.06,
+    "champion:Nilah": 0.06,
+    "champion:Zaahen": 0.05
+  },
+  "tooClever": [],
+  "gem": "champion:Diana"
+}

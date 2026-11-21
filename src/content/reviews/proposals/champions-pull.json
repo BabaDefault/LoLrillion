@@ -1,0 +1,72 @@
+{
+  "templateId": "champions-pull",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Aatrox",
+    "champion:AurelionSol",
+    "champion:Blitzcrank",
+    "champion:Darius",
+    "champion:Diana",
+    "champion:Hwei",
+    "champion:KSante",
+    "champion:Kled",
+    "champion:Mordekaiser",
+    "champion:Nautilus",
+    "champion:Nilah",
+    "champion:Orianna",
+    "champion:Pyke",
+    "champion:Rell",
+    "champion:Sett",
+    "champion:Skarner",
+    "champion:Swain",
+    "champion:Thresh",
+    "champion:Urgot",
+    "champion:Yone",
+    "champion:Zaahen"
+  ],
+  "missing": [],
+  "disputable": [
+    { "entity": "champion:Skarner", "why": "His E and R drag a champion along with him rather than toward him. It fits 'forcibly moves an enemy' and was approved in L6, but some players call it a carry, not a pull." },
+    { "entity": "champion:Orianna", "why": "Shockwave launches enemies toward the Ball, not toward Orianna. It fits 'toward a point' (L7), but players who think of a pull as a hook will argue." },
+    { "entity": "champion:Urgot", "why": "Fear Beyond Death only reels the target in on the recast, after they fall below the execute threshold." }
+  ],
+  "wording": [],
+  "aliases": [
+    { "entity": "champion:AurelionSol", "alias": "Aurelion", "why": "Players often drop the 'Sol'." }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone gets Blitzcrank and Thresh at once, the hook supports follow, and then there's a long tail of pulls hidden in fighters' and mages' kits (Swain, Aatrox, Hwei, Zaahen) that few players name all of."
+  },
+  "typicality": {
+    "champion:Blitzcrank": { "value": 0.9, "why": "Rocket Grab is the defining pull in the game." },
+    "champion:Thresh": { "value": 0.85, "why": "Death Sentence is the other textbook hook." },
+    "champion:Pyke": { "value": 0.55, "why": "Bone Skewer is a well-known hook." },
+    "champion:Nautilus": { "value": 0.55, "why": "Dredge Line is a classic hook, though it also pulls Nautilus." },
+    "champion:Darius": { "value": 0.4, "why": "Apprehend is a famous pull on a top laner." },
+    "champion:Sett": { "value": 0.3, "why": "Facebreaker pulling both sides together is memorable." },
+    "champion:Urgot": { "value": 0.25, "why": "The ult reel-in is iconic for players who've been caught by it." },
+    "champion:Mordekaiser": { "value": 0.2, "why": "Death's Grasp is a well-known pull among top laners." },
+    "champion:Rell": { "value": 0.18, "why": "Magnet Storm is a big pull in teamfights, but Rell is less played." },
+    "champion:Diana": { "value": 0.15, "why": "Moonfall pulls enemies in; players often remember it as a slow." },
+    "champion:Yone": { "value": 0.15, "why": "Fate Sealed pulls enemies in, but players remember the blink." },
+    "champion:KSante": { "value": 0.12, "why": "The stacked Q pull is known to top laners only." },
+    "champion:Swain": { "value": 0.12, "why": "Nevermove's root-then-pull is a well-known combo, but players think of it as a root first." },
+    "champion:Kled": { "value": 0.1, "why": "Beartrap on a Rope yanks the target, but few players remember it." },
+    "champion:Aatrox": { "value": 0.1, "why": "Infernal Chains pull back players who don't escape; easy to forget." },
+    "champion:Orianna": { "value": 0.1, "why": "Shockwave's pull to the Ball is known, but rarely thought of as a pull." },
+    "champion:AurelionSol": { "value": 0.08, "why": "The black hole drags enemies; few players think of it." },
+    "champion:Skarner": { "value": 0.08, "why": "The rework drags enemies along; it's new, and players think of it as a suppress." },
+    "champion:Hwei": { "value": 0.06, "why": "Crushing Maw is one of many spells in his kit; few players recall it." },
+    "champion:Nilah": { "value": 0.05, "why": "The pull at the end of her ult is easy to miss." },
+    "champion:Zaahen": { "value": 0.03, "why": "A new champion whose kit few players know yet." }
+  },
+  "tooClever": [
+    { "entity": "champion:Orianna", "why": "Players reach for Shockwave as the clever non-hook answer." }
+  ],
+  "gemCandidates": [
+    { "entity": "champion:Swain", "why": "The 'oh, of course, the root-then-pull!' answer. Plenty of players know the combo but don't file it as a pull." },
+    { "entity": "champion:Aatrox", "why": "Everyone has been dragged back by Infernal Chains; few remember it here." },
+    { "entity": "champion:Kled", "why": "Beartrap on a Rope is a satisfying deep-ish cut that Kled and top-lane players get." }
+  ]
+}

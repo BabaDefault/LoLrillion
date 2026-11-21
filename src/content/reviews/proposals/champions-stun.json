@@ -1,0 +1,386 @@
+{
+  "templateId": "champions-stun",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "champion:Alistar",
+    "champion:Ambessa",
+    "champion:Amumu",
+    "champion:Anivia",
+    "champion:Annie",
+    "champion:Ashe",
+    "champion:AurelionSol",
+    "champion:Bard",
+    "champion:Brand",
+    "champion:Braum",
+    "champion:Briar",
+    "champion:Camille",
+    "champion:Cassiopeia",
+    "champion:Ekko",
+    "champion:Elise",
+    "champion:Fiora",
+    "champion:Gnar",
+    "champion:Heimerdinger",
+    "champion:Irelia",
+    "champion:Jax",
+    "champion:KSante",
+    "champion:Kennen",
+    "champion:Leona",
+    "champion:Lissandra",
+    "champion:Morgana",
+    "champion:Nami",
+    "champion:Nautilus",
+    "champion:Neeko",
+    "champion:Pantheon",
+    "champion:Poppy",
+    "champion:Pyke",
+    "champion:Qiyana",
+    "champion:Rell",
+    "champion:Renata",
+    "champion:Renekton",
+    "champion:Riven",
+    "champion:Sejuani",
+    "champion:Seraphine",
+    "champion:Sett",
+    "champion:Sion",
+    "champion:Skarner",
+    "champion:Sona",
+    "champion:Syndra",
+    "champion:TahmKench",
+    "champion:Taliyah",
+    "champion:Taric",
+    "champion:Thresh",
+    "champion:Tristana",
+    "champion:TwistedFate",
+    "champion:Udyr",
+    "champion:Urgot",
+    "champion:Vayne",
+    "champion:Veigar",
+    "champion:Vi",
+    "champion:Viego",
+    "champion:Viktor",
+    "champion:Volibear",
+    "champion:Xerath",
+    "champion:Zilean"
+  ],
+  "missing": [
+    {
+      "entity": "Lux",
+      "why": "Light Binding is a root, but many players call it a stun. Rule-correct out."
+    },
+    {
+      "entity": "Malphite",
+      "why": "Unstoppable Force is a knock-up that players loosely call a stun. Rule-correct out."
+    },
+    {
+      "entity": "Gragas",
+      "why": "Body Slam is a knock-up in its text, though many players remember it as a stun. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "champion:Zilean",
+      "why": "Only stuns when two Time Bombs detonate together; many players think he has no stun."
+    },
+    {
+      "entity": "champion:Fiora",
+      "why": "Riposte only stuns if she parries an immobilizing effect; otherwise it slows."
+    },
+    {
+      "entity": "champion:Vi",
+      "why": "Assault and Battery knocks up the target; only enemies she collides with on the way are stunned."
+    },
+    {
+      "entity": "champion:Seraphine",
+      "why": "Beat Competition only stuns already-immobilized enemies; players think of it as a root."
+    }
+  ],
+  "wording": [
+    {
+      "why": "Players loosely call any hard CC a 'stun' (roots, knock-ups, Morgana's binding). The Rule counts only effects named Stun, including conditional ones.",
+      "suggestion": "Name a champion with an ability that Stuns"
+    }
+  ],
+  "aliases": [
+    {
+      "entity": "champion:Alistar",
+      "alias": "Ali",
+      "why": "Common short form."
+    },
+    {
+      "entity": "champion:Lissandra",
+      "alias": "Liss",
+      "why": "Common short form."
+    },
+    {
+      "entity": "champion:Renekton",
+      "alias": "Renek",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "ok",
+    "why": "Easy to name a few (Annie, Leona, Ashe) and impossible to name all 59, but the set is so large that most first answers land on some valid stun, so the reveal has less tension."
+  },
+  "typicality": {
+    "champion:Annie": {
+      "value": 0.45,
+      "why": "Pyromania stun is the first stun new players learn."
+    },
+    "champion:Leona": {
+      "value": 0.4,
+      "why": "Leona is the stun support."
+    },
+    "champion:Amumu": {
+      "value": 0.35,
+      "why": "Bandage Toss stun is iconic."
+    },
+    "champion:Ashe": {
+      "value": 0.3,
+      "why": "Enchanted Crystal Arrow is a famous stun."
+    },
+    "champion:TwistedFate": {
+      "value": 0.3,
+      "why": "Gold Card is the textbook stun card."
+    },
+    "champion:Alistar": {
+      "value": 0.25,
+      "why": "Headbutt-Pulverize; Trample stun is known."
+    },
+    "champion:Veigar": {
+      "value": 0.25,
+      "why": "Event Horizon cage is a famous stun."
+    },
+    "champion:Morgana": {
+      "value": 0.2,
+      "why": "Players call Dark Binding a stun; the ult stuns anyway."
+    },
+    "champion:Nautilus": {
+      "value": 0.2,
+      "why": "Lots of CC; players recall stuns."
+    },
+    "champion:Sion": {
+      "value": 0.15,
+      "why": "Decimating Smash is well known."
+    },
+    "champion:Thresh": {
+      "value": 0.15,
+      "why": "Death Sentence stun; players think hook."
+    },
+    "champion:Vayne": {
+      "value": 0.15,
+      "why": "Condemn into wall is a classic stun."
+    },
+    "champion:Pantheon": {
+      "value": 0.15,
+      "why": "Shield Vault stun is well known."
+    },
+    "champion:Taric": {
+      "value": 0.15,
+      "why": "Dazzle is his stun."
+    },
+    "champion:Syndra": {
+      "value": 0.15,
+      "why": "Scatter the Weak stun is known."
+    },
+    "champion:Brand": {
+      "value": 0.15,
+      "why": "Sear stun on ablaze targets is known."
+    },
+    "champion:Sona": {
+      "value": 0.12,
+      "why": "Crescendo stun is known."
+    },
+    "champion:Irelia": {
+      "value": 0.12,
+      "why": "Flawless Duet stun is known."
+    },
+    "champion:Jax": {
+      "value": 0.12,
+      "why": "Counter Strike stun is classic."
+    },
+    "champion:Kennen": {
+      "value": 0.12,
+      "why": "Mark of the Storm stun is his identity."
+    },
+    "champion:Braum": {
+      "value": 0.12,
+      "why": "Concussive Blows stun is well known."
+    },
+    "champion:Poppy": {
+      "value": 0.12,
+      "why": "Heroic Charge wall stun is classic."
+    },
+    "champion:Anivia": {
+      "value": 0.12,
+      "why": "Flash Frost stun is classic."
+    },
+    "champion:Riven": {
+      "value": 0.1,
+      "why": "Ki Burst stun is known."
+    },
+    "champion:Cassiopeia": {
+      "value": 0.1,
+      "why": "Petrifying Gaze stun is known."
+    },
+    "champion:Lissandra": {
+      "value": 0.08,
+      "why": "Frozen Tomb stun is known to mid players."
+    },
+    "champion:Elise": {
+      "value": 0.08,
+      "why": "Cocoon stun."
+    },
+    "champion:Nami": {
+      "value": 0.08,
+      "why": "Aqua Prison is remembered as a bubble or knock-up."
+    },
+    "champion:Ekko": {
+      "value": 0.07,
+      "why": "Parallel Convergence stun is easy to forget."
+    },
+    "champion:Heimerdinger": {
+      "value": 0.07,
+      "why": "Grenade stun is easy to forget."
+    },
+    "champion:Bard": {
+      "value": 0.07,
+      "why": "Cosmic Binding stun; Bard is less played."
+    },
+    "champion:Renekton": {
+      "value": 0.07,
+      "why": "Ruthless Predator stun."
+    },
+    "champion:Sett": {
+      "value": 0.07,
+      "why": "Facebreaker stun; players think pull."
+    },
+    "champion:Udyr": {
+      "value": 0.07,
+      "why": "Bear stance stun is classic but Udyr is less played."
+    },
+    "champion:Volibear": {
+      "value": 0.07,
+      "why": "Thundering Smash stun is known."
+    },
+    "champion:Xerath": {
+      "value": 0.06,
+      "why": "Shocking Orb's stun is forgotten behind his poke."
+    },
+    "champion:Rell": {
+      "value": 0.06,
+      "why": "Rell's stun; less played."
+    },
+    "champion:Pyke": {
+      "value": 0.05,
+      "why": "Phantom Undertow stun; players think hook."
+    },
+    "champion:Camille": {
+      "value": 0.05,
+      "why": "Hookshot wall stun is easy to forget."
+    },
+    "champion:Gnar": {
+      "value": 0.05,
+      "why": "Mega Gnar's Wallop stun."
+    },
+    "champion:Neeko": {
+      "value": 0.05,
+      "why": "Pop Blossom stun."
+    },
+    "champion:Sejuani": {
+      "value": 0.05,
+      "why": "Permafrost stun."
+    },
+    "champion:TahmKench": {
+      "value": 0.05,
+      "why": "Three-stack Tongue Lash stun."
+    },
+    "champion:Viktor": {
+      "value": 0.05,
+      "why": "Gravity Field stun is easy to forget."
+    },
+    "champion:Vi": {
+      "value": 0.05,
+      "why": "Players think knock-up."
+    },
+    "champion:Skarner": {
+      "value": 0.04,
+      "why": "Wall stun after the rework; little known."
+    },
+    "champion:Tristana": {
+      "value": 0.04,
+      "why": "Buster Shot stun is overshadowed by the knock-back."
+    },
+    "champion:Urgot": {
+      "value": 0.04,
+      "why": "Disdain stun is easy to forget."
+    },
+    "champion:AurelionSol": {
+      "value": 0.03,
+      "why": "Falling Star stun is little known."
+    },
+    "champion:Qiyana": {
+      "value": 0.03,
+      "why": "Supreme Display of Talent wall stun."
+    },
+    "champion:Seraphine": {
+      "value": 0.03,
+      "why": "Conditional E stun."
+    },
+    "champion:Taliyah": {
+      "value": 0.03,
+      "why": "Mine stun is little known."
+    },
+    "champion:Viego": {
+      "value": 0.03,
+      "why": "Spectral Maw stun is little known."
+    },
+    "champion:Ambessa": {
+      "value": 0.02,
+      "why": "New champion; few know the ult stun."
+    },
+    "champion:Briar": {
+      "value": 0.02,
+      "why": "Head Rush stun; Briar is newer."
+    },
+    "champion:KSante": {
+      "value": 0.02,
+      "why": "Stacked Q stun is little known."
+    },
+    "champion:Renata": {
+      "value": 0.02,
+      "why": "Few know her kit."
+    },
+    "champion:Fiora": {
+      "value": 0.03,
+      "why": "Conditional Riposte stun."
+    },
+    "champion:Zilean": {
+      "value": 0.03,
+      "why": "Double-bomb stun."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "champion:Zilean",
+      "why": "The double-bomb stun is the trivia answer players reach for to show off."
+    },
+    {
+      "entity": "champion:Fiora",
+      "why": "Players pick the conditional Riposte stun because it feels like a gotcha."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "champion:Udyr",
+      "why": "Bear stance's stun is the 'oh, of course' answer everyone has been hit by."
+    },
+    {
+      "entity": "champion:Volibear",
+      "why": "Thundering Smash is an obvious stun once revealed, but rarely a first answer."
+    },
+    {
+      "entity": "champion:Camille",
+      "why": "Hookshot into a wall stuns; top and jungle players get it."
+    }
+  ]
+}

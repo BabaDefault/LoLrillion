@@ -1,0 +1,105 @@
+{
+  "templateId": "items-magic-resist-health",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1120",
+    "item:2504",
+    "item:2524",
+    "item:3050",
+    "item:3065",
+    "item:3190",
+    "item:3211",
+    "item:4401",
+    "item:6664",
+    "item:6665",
+    "item:8020"
+  ],
+  "missing": [
+    {
+      "entity": "Mikael's Blessing",
+      "why": "Long-time Magic Resist support item; current stats are Health, Heal and Shield Power, Ability Haste and mana regen, no Magic Resist. Rule-correct out."
+    },
+    {
+      "entity": "Maw of Malmortius",
+      "why": "Its passive magic-damage shield reads as bulk; stats are AD, Ability Haste and Magic Resist, no Health. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:2524",
+      "why": "Bandlepipes is Arena-origin; many players think it isn't on SR. It has 200 Health and 20 Magic Resist, so it is in."
+    }
+  ],
+  "wording": [],
+  "aliases": [],
+  "fun": {
+    "verdict": "fun",
+    "why": "Spirit Visage and Force of Nature come instantly; the support auras, Spectre's Cowl and Doran's Helm are harder to complete."
+  },
+  "typicality": {
+    "item:3065": {
+      "value": 0.5,
+      "why": "The Health-and-MR item everyone knows."
+    },
+    "item:4401": {
+      "value": 0.35,
+      "why": "Anti-mage tank staple."
+    },
+    "item:2504": {
+      "value": 0.3,
+      "why": "Popular newer MR tank item."
+    },
+    "item:8020": {
+      "value": 0.2,
+      "why": "Tank MR item; known to tank and support players."
+    },
+    "item:6664": {
+      "value": 0.15,
+      "why": "Newer tank item; known to tank players."
+    },
+    "item:6665": {
+      "value": 0.15,
+      "why": "Both resists plus Health; tank players get it."
+    },
+    "item:3211": {
+      "value": 0.12,
+      "why": "The Spirit Visage component; remembered on second thought."
+    },
+    "item:3190": {
+      "value": 0.1,
+      "why": "Support item; players remember the resists."
+    },
+    "item:1120": {
+      "value": 0.05,
+      "why": "The tank starter; the pick players make to look clever."
+    },
+    "item:3050": {
+      "value": 0.03,
+      "why": "Niche support item."
+    },
+    "item:2524": {
+      "value": 0.02,
+      "why": "Arena-origin support item few know is on SR."
+    }
+  },
+  "tooClever": [
+    {
+      "entity": "item:1120",
+      "why": "Doran's Helm is the starter players reach for to feel clever (matches the approved items-magic-resist call)."
+    }
+  ],
+  "gemCandidates": [
+    {
+      "entity": "item:3211",
+      "why": "The humble Spirit Visage component: \"oh, of course\" once revealed."
+    },
+    {
+      "entity": "item:3190",
+      "why": "Everyone has seen Locket; its Health and MR are obvious in hindsight."
+    },
+    {
+      "entity": "item:3050",
+      "why": "Support tank item with every defensive stat; a few support players find it."
+    }
+  ]
+}

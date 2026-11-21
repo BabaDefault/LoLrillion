@@ -1,0 +1,236 @@
+{
+  "templateId": "items-move-speed",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:1001",
+    "item:2065",
+    "item:2512",
+    "item:3006",
+    "item:3008",
+    "item:3009",
+    "item:3020",
+    "item:3046",
+    "item:3047",
+    "item:3066",
+    "item:3085",
+    "item:3086",
+    "item:3087",
+    "item:3094",
+    "item:3100",
+    "item:3111",
+    "item:3113",
+    "item:3142",
+    "item:3158",
+    "item:3168",
+    "item:3170",
+    "item:3171",
+    "item:3172",
+    "item:3173",
+    "item:3174",
+    "item:3175",
+    "item:3181",
+    "item:3504",
+    "item:3742",
+    "item:4401",
+    "item:4629",
+    "item:4646",
+    "item:6672",
+    "item:6675",
+    "item:6690"
+  ],
+  "missing": [
+    {
+      "entity": "Boots of Mobility",
+      "why": "Not in the shop this patch (its upgrade Swiftmarch is in). Rule-correct out; players will type it."
+    },
+    {
+      "entity": "Phage",
+      "why": "Its Move Speed comes from a passive. Rule-correct out."
+    }
+  ],
+  "disputable": [
+    {
+      "entity": "item:6690",
+      "why": "Rectrix is a new tier-3 boot that few players recognise."
+    }
+  ],
+  "wording": [],
+  "aliases": [
+    {
+      "entity": "item:3009",
+      "alias": "Swifties",
+      "why": "Common nickname for Boots of Swiftness."
+    },
+    {
+      "entity": "item:3020",
+      "alias": "Sorcs",
+      "why": "Common short form."
+    },
+    {
+      "entity": "item:3006",
+      "alias": "Zerks",
+      "why": "Common short form."
+    }
+  ],
+  "fun": {
+    "verdict": "fun",
+    "why": "Everyone starts with boots, then has to remember which completed items carry Move Speed. Tier-3 boots make a full set hard."
+  },
+  "typicality": {
+    "item:1001": {
+      "value": 0.5,
+      "why": "Boots are everyone's first answer."
+    },
+    "item:2065": {
+      "value": 0.12,
+      "why": "Shurelya's Battlesong: the team Move Speed item."
+    },
+    "item:2512": {
+      "value": 0.02,
+      "why": "Fiendhunter Bolts."
+    },
+    "item:3006": {
+      "value": 0.25,
+      "why": "Berserker's Greaves."
+    },
+    "item:3008": {
+      "value": 0.03,
+      "why": "Gluttonous Greaves."
+    },
+    "item:3009": {
+      "value": 0.35,
+      "why": "Boots of Swiftness: the Move Speed boots."
+    },
+    "item:3020": {
+      "value": 0.2,
+      "why": "Sorcerer's Shoes."
+    },
+    "item:3046": {
+      "value": 0.3,
+      "why": "Phantom Dancer is known for its Move Speed."
+    },
+    "item:3047": {
+      "value": 0.2,
+      "why": "Plated Steelcaps."
+    },
+    "item:3066": {
+      "value": 0.03,
+      "why": "Winged Moonplate."
+    },
+    "item:3085": {
+      "value": 0.08,
+      "why": "Runaan's Hurricane."
+    },
+    "item:3086": {
+      "value": 0.25,
+      "why": "Zeal is the Move Speed component."
+    },
+    "item:3087": {
+      "value": 0.12,
+      "why": "Statikk Shiv."
+    },
+    "item:3094": {
+      "value": 0.15,
+      "why": "Rapid Firecannon."
+    },
+    "item:3100": {
+      "value": 0.06,
+      "why": "Lich Bane: players forget it gives Move Speed."
+    },
+    "item:3111": {
+      "value": 0.2,
+      "why": "Mercury's Treads."
+    },
+    "item:3113": {
+      "value": 0.1,
+      "why": "Aether Wisp."
+    },
+    "item:3142": {
+      "value": 0.3,
+      "why": "Youmuu's Ghostblade is the Move Speed lethality item."
+    },
+    "item:3158": {
+      "value": 0.2,
+      "why": "Ionian Boots of Lucidity."
+    },
+    "item:3168": {
+      "value": 0.02,
+      "why": "Immortal Path."
+    },
+    "item:3170": {
+      "value": 0.04,
+      "why": "Swiftmarch."
+    },
+    "item:3171": {
+      "value": 0.05,
+      "why": "Crimson Lucidity."
+    },
+    "item:3172": {
+      "value": 0.03,
+      "why": "Gunmetal Greaves."
+    },
+    "item:3173": {
+      "value": 0.02,
+      "why": "Chainlaced Crushers."
+    },
+    "item:3174": {
+      "value": 0.02,
+      "why": "Armored Advance."
+    },
+    "item:3175": {
+      "value": 0.04,
+      "why": "Spellslinger's Shoes."
+    },
+    "item:3181": {
+      "value": 0.04,
+      "why": "Hullbreaker."
+    },
+    "item:3504": {
+      "value": 0.05,
+      "why": "Ardent Censer."
+    },
+    "item:3742": {
+      "value": 0.25,
+      "why": "Dead Man's Plate is the Move Speed tank item."
+    },
+    "item:4401": {
+      "value": 0.12,
+      "why": "Force of Nature."
+    },
+    "item:4629": {
+      "value": 0.08,
+      "why": "Cosmic Drive."
+    },
+    "item:4646": {
+      "value": 0.08,
+      "why": "Stormsurge."
+    },
+    "item:6672": {
+      "value": 0.06,
+      "why": "Kraken Slayer."
+    },
+    "item:6675": {
+      "value": 0.06,
+      "why": "Navori Flickerblade."
+    },
+    "item:6690": {
+      "value": 0.02,
+      "why": "Rectrix."
+    }
+  },
+  "tooClever": [],
+  "gemCandidates": [
+    {
+      "entity": "item:3100",
+      "why": "Lich Bane: mages build it every game without noticing the Move Speed."
+    },
+    {
+      "entity": "item:3504",
+      "why": "Ardent Censer: support players get it; for others it's an 'oh, right'."
+    },
+    {
+      "entity": "item:3181",
+      "why": "Hullbreaker: the split-push item carries Move Speed, a fun reveal."
+    }
+  ]
+}
