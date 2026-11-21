@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNod
 import { ANSWER_TYPE_LABEL, ANSWER_WINDOW_MS, NETWORK_GRACE_MS, READ_WINDOW_MS, type AnswerType } from "@/engine";
 import type { AttemptResponse, PromptResultView, PuzzleStateView } from "@/server/game-service";
 import { apiJson } from "./api-client";
+import { useDive } from "./dive";
 import { EndScreen } from "./end-screen";
 import { timerFraction } from "./hud";
 import { HudBar, TimerRing } from "./hud-bar";
@@ -57,6 +58,9 @@ export function PlayScreen({ archiveDay, hero }: { archiveDay?: string; hero?: R
     const id = setInterval(() => setNow(Date.now()), 100);
     return () => clearInterval(id);
   }, []);
+
+  // Each scored Prompt (accepted or missed) takes the backdrop one step deeper.
+  useDive(state ? state.results.filter((r) => r !== null).length : 0);
 
   const serverNow = now + offset;
   const current = state?.current ?? null;

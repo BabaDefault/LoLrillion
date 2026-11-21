@@ -65,6 +65,21 @@
   --poro-eye: #010a13;
   --poro-tongue: #e7708f;
   --poro-tongue-dark: #a8405e;
+  /* Tier poros on the score screen: fur and shade per Tier tone */
+  --poro-blue-fur: #8fb8ff;
+  --poro-blue-shade: #4a74c9;
+  --poro-clown-fur: #ffa3c8;
+  --poro-clown-shade: #c9558d;
+  --poro-green-fur: #8ef0a8;
+  --poro-green-shade: #3fa35d;
+  --poro-yellow-fur: #fbe68a;
+  --poro-yellow-shade: #c2a22e;
+  --poro-orange-fur: #ffbd80;
+  --poro-orange-shade: #cc6f2a;
+  --poro-gem-fur: #c8f8ff;
+  --poro-gem-shade: #56c8dc;
+  --poro-miss-fur: #9aa1b8;
+  --poro-miss-shade: #5d6379;
 
   --tone-blue: #5b9bff; /* Minion 🟦 */
   --tone-clown: #ff6fa8; /* Too Clever 🤡 */
@@ -101,6 +116,9 @@
   --space-6: 24px;
   --space-8: 32px;
   --horizon: 38vh; /* where the sky meets the river in the backdrop */
+  --dive-step: 6vh; /* how far the backdrop sinks per scored Prompt (--dive, set by useDive) */
+  --dive-dark: 0.08; /* how much darker the backdrop gets per scored Prompt */
+  --dive-time: 1.4s;
   --content-width: 620px;
   --river-height: 10px;
   --header-height: 72px;
@@ -965,9 +983,71 @@ button.cta-inline {
   animation: score-pop 0.4s steps(4, end) both;
 }
 
-.score-emoji {
-  font-size: 56px;
-  line-height: 1;
+/* The Tier poro: drops in, lands with a bounce, then bobs in place */
+.tier-poro {
+  display: block;
+  filter: drop-shadow(0 0 var(--blur-md) var(--tone, var(--glow)));
+  animation:
+    poro-drop 0.9s steps(9, end) both,
+    poro-bob 2s steps(2, end) 0.9s infinite;
+}
+
+.tier-poro-art {
+  display: block;
+}
+
+.poro-gem {
+  animation:
+    poro-drop 0.9s steps(9, end) both,
+    poro-bob 2s steps(2, end) 0.9s infinite,
+    gem-glow 1.2s steps(3, end) 0.9s infinite alternate;
+}
+
+.poro-blue { --poro-fur: var(--poro-blue-fur); --poro-shade: var(--poro-blue-shade); }
+.poro-clown { --poro-fur: var(--poro-clown-fur); --poro-shade: var(--poro-clown-shade); }
+.poro-green { --poro-fur: var(--poro-green-fur); --poro-shade: var(--poro-green-shade); }
+.poro-yellow { --poro-fur: var(--poro-yellow-fur); --poro-shade: var(--poro-yellow-shade); }
+.poro-orange { --poro-fur: var(--poro-orange-fur); --poro-shade: var(--poro-orange-shade); }
+.poro-gem { --poro-fur: var(--poro-gem-fur); --poro-shade: var(--poro-gem-shade); }
+.poro-miss { --poro-fur: var(--poro-miss-fur); --poro-shade: var(--poro-miss-shade); }
+
+@keyframes poro-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(var(--px) * -24));
+  }
+  20% {
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(calc(var(--px) * 2));
+  }
+  80% {
+    transform: translateY(calc(var(--px) * -2));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes poro-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(calc(var(--px) * -1));
+  }
+}
+
+@keyframes gem-glow {
+  from {
+    filter: drop-shadow(0 0 var(--blur-sm) var(--tone));
+  }
+  to {
+    filter: drop-shadow(0 0 var(--blur-lg) var(--tone)) brightness(1.15);
+  }
 }
 
 .score-tier {
@@ -1354,6 +1434,24 @@ body > :not(.scene, .scanlines, .skip-link) {
   z-index: 1;
 }
 
+/* Everything that sinks as the Puzzle goes deeper; it runs past the bottom of the screen so the
+   depths keep filling it at full dive. */
+.scene-world {
+  position: absolute;
+  inset: 0 0 calc(var(--dive-step) * -7);
+  transform: translateY(calc(var(--dive, 0) * var(--dive-step) * -1));
+  transition: transform var(--dive-time) steps(14, end);
+}
+
+/* Darkens the whole backdrop a little more with each scored Prompt */
+.scene-dark {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  opacity: calc(var(--dive, 0) * var(--dive-dark));
+  transition: opacity var(--dive-time) steps(14, end);
+}
+
 .scene-sky {
   position: absolute;
   inset: 0 0 auto;
@@ -1528,6 +1626,7 @@ body > :not(.scene, .scanlines, .skip-link) {
   .spinner,
   .cloud,
   .poro,
+  .tier-poro,
   .spark {
     animation: none;
   }
