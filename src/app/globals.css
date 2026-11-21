@@ -985,114 +985,100 @@ button.cta-inline {
 }
 
 /*
- * The Tier poro. A plain poro drops in (0–0.8s), charges up with a growing glow and a jitter
- * (0.8–1.6s), then flashes and is replaced by the Tier-coloured poro with a burst ring (1.6s).
- * The Tier name and Points only appear after the flash, so the colour is the reveal.
+ * The Tier poro (driven by tier-poro.tsx). A plain poro drops in, then glows up the Tier ladder,
+ * fur and glow snapping Minion → Kill → Triple → Quadra → Pentakill, and stops on the Tier earned
+ * with a white flash and a burst ring. On a Miss it dims and fades to grey. Nothing shows the
+ * Tier's colour before the climb reaches it.
  */
 .tier-poro {
-  --poro-reveal-at: 1.6s;
   position: relative;
   display: block;
   animation:
     poro-drop 0.8s steps(8, end) both,
-    poro-bob 2s steps(2, end) var(--poro-reveal-at) infinite;
+    poro-bob 2s steps(2, end) 0.8s infinite;
 }
 
 .tier-poro-charge {
   position: relative;
   display: block;
-  animation: poro-charge 0.8s steps(8, end) 0.8s both;
 }
 
 .tier-poro-art {
   display: block;
 }
 
-.tier-poro-reveal {
-  position: absolute;
-  inset: 0;
-  animation: poro-reveal 0.01s steps(1, end) var(--poro-reveal-at) both;
+.glow-blue { --glow-c: var(--tone-blue); }
+.glow-clown { --glow-c: var(--tone-clown); }
+.glow-green { --glow-c: var(--tone-green); }
+.glow-yellow { --glow-c: var(--tone-yellow); }
+.glow-orange { --glow-c: var(--tone-orange); }
+.glow-gem { --glow-c: var(--tone-gem); }
+.glow-miss { --glow-c: var(--tone-miss); }
+
+/* One rung of the climb: snap to the colour with a pulse of light */
+.tier-poro-charge[class*="glow-"] {
+  filter: drop-shadow(0 0 var(--blur-md) var(--glow-c)) brightness(1.2);
+  animation: poro-step 0.32s steps(4, end) both;
 }
 
-.charge-gem {
-  animation:
-    poro-charge 0.8s steps(8, end) 0.8s both,
-    gem-glow 1.2s steps(3, end) calc(var(--poro-reveal-at) + 0.4s) infinite alternate;
+.tier-poro-charge.is-flash {
+  filter: drop-shadow(0 0 var(--blur-lg) #fff) brightness(2.6);
 }
 
-/* A ring of the Tier colour bursting out of the poro as it transforms */
+.tier-poro-charge.is-settled {
+  filter: drop-shadow(0 0 var(--blur-md) var(--glow-c));
+  animation: none;
+}
+
+.tier-poro-charge.is-settled.glow-gem {
+  animation: gem-glow 1.2s steps(3, end) 0.4s infinite alternate;
+}
+
+.tier-poro-charge.is-fizzle {
+  animation: poro-fizzle 0.6s steps(6, end) both;
+}
+
+/* A ring of the Tier colour bursting out once the poro lands on its Tier */
 .tier-poro-burst {
   position: absolute;
   inset: calc(var(--px) * -4);
-  border: calc(var(--px) * 2) solid var(--tone, var(--glow));
-  box-shadow: 0 0 var(--blur-md) var(--tone, var(--glow));
+  border: calc(var(--px) * 2) solid var(--glow-c);
+  box-shadow: 0 0 var(--blur-md) var(--glow-c);
   pointer-events: none;
-  opacity: 0;
-  animation: poro-burst 0.5s steps(5, end) var(--poro-reveal-at) both;
+  animation: poro-burst 0.5s steps(5, end) forwards;
 }
 
-.is-miss .tier-poro-burst {
-  display: none;
-}
-
-/* On a Miss the charge sputters out: no flash, just a dim fade to grey */
-.charge-miss {
-  animation: poro-fizzle 0.8s steps(8, end) 0.8s both;
+/* The Tier name and Points wait for the poro */
+.is-pending {
+  visibility: hidden;
 }
 
 .score-reveal {
-  animation: score-pop 0.3s steps(3, end) 1.7s both; /* just after --poro-reveal-at */
+  animation: score-pop 0.3s steps(3, end) both;
 }
 
-@keyframes poro-charge {
+@keyframes poro-step {
   0% {
-    filter: drop-shadow(0 0 0 var(--glow)) brightness(1);
-    transform: translateX(0);
-  }
-  25% {
-    filter: drop-shadow(0 0 var(--blur-sm) var(--glow)) brightness(1.1);
-    transform: translateX(calc(var(--px) * -1));
-  }
-  50% {
-    filter: drop-shadow(0 0 var(--blur-md) var(--glow)) brightness(1.3);
-    transform: translateX(var(--px));
-  }
-  75% {
-    filter: drop-shadow(0 0 var(--blur-lg) var(--glow)) brightness(1.7);
-    transform: translateX(calc(var(--px) * -1));
-  }
-  /* The flash, right as the Tier poro takes over */
-  90% {
-    filter: drop-shadow(0 0 var(--blur-lg) #fff) brightness(3);
-    transform: translateX(0);
+    filter: drop-shadow(0 0 var(--blur-lg) var(--glow-c)) brightness(1.8);
+    transform: scale(1.06);
   }
   100% {
-    filter: drop-shadow(0 0 var(--blur-md) var(--tone, var(--glow))) brightness(1);
-    transform: translateX(0);
+    filter: drop-shadow(0 0 var(--blur-md) var(--glow-c)) brightness(1.2);
+    transform: scale(1);
   }
 }
 
 @keyframes poro-fizzle {
   0% {
-    filter: drop-shadow(0 0 0 var(--glow)) brightness(1);
+    filter: brightness(1.15);
   }
-  40% {
-    filter: drop-shadow(0 0 var(--blur-sm) var(--glow)) brightness(1.15);
-  }
-  70% {
-    filter: drop-shadow(0 0 0 var(--glow)) brightness(0.8);
+  50% {
+    filter: brightness(0.9);
+    transform: translateX(calc(var(--px) * -1));
   }
   100% {
-    filter: drop-shadow(0 0 var(--blur-sm) var(--tone, var(--glow))) brightness(1);
-  }
-}
-
-@keyframes poro-reveal {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+    filter: brightness(0.7);
+    transform: translateX(0);
   }
 }
 
@@ -1807,13 +1793,6 @@ body > :not(.scene, .scanlines, .skip-link) {
     animation: none;
   }
 
-  /* Skip the charge-up: show the Tier poro, name and Points straight away */
-  .tier-poro-charge,
-  .tier-poro-reveal,
-  .tier-poro-burst,
-  .score-reveal {
-    animation-delay: 0s !important;
-  }
 
   button:active:not(:disabled) {
     transform: none;

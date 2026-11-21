@@ -82,24 +82,6 @@ export const PORO_COLOURS: Readonly<Record<string, string>> = {
   t: "var(--poro-tongue-dark)",
 };
 
-/**
- * The poro shown when a Prompt is scored. It drops in plain, charges up with a glow, then flashes and
- * transforms into the Tier's colour (or greys out on a Miss). Decorative.
- */
-export function TierPoro({ tone, cell }: { tone: TierTone; cell: number }) {
-  return (
-    <span className={`tier-poro${tone === "miss" ? " is-miss" : ""}`} aria-hidden="true">
-      <span className={`tier-poro-charge charge-${tone}`}>
-        <PixelArt rows={PORO} cell={cell} className="tier-poro-art" palette={PORO_COLOURS} />
-        <span className={`tier-poro-reveal poro-${tone}`}>
-          <PixelArt rows={tone === "miss" ? PORO_MISS : PORO} cell={cell} className="tier-poro-art" palette={PORO_COLOURS} />
-        </span>
-      </span>
-      <span className="tier-poro-burst" />
-    </span>
-  );
-}
-
 /** A small, still Tier poro for lists (end screen, stats), sized to the text. Decorative. */
 export function PoroIcon({ tone }: { tone: TierTone }) {
   return (
