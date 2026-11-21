@@ -1,0 +1,26 @@
+{
+  "templateId": "items-heal-shield-power",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2526",
+    "item:2530",
+    "item:3107",
+    "item:3114",
+    "item:3222",
+    "item:3504",
+    "item:6616",
+    "item:6621"
+  ],
+  "typicality": {
+    "item:2526": 0.03,
+    "item:2530": 0.03,
+    "item:3107": 0.3,
+    "item:3114": 0.15,
+    "item:3222": 0.2,
+    "item:3504": 0.35,
+    "item:6616": 0.3,
+    "item:6621": 0.1
+  },
+  "tooClever": [],
+  "gem": "item:3114"
+}

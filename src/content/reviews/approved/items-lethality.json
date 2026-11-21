@@ -1,0 +1,34 @@
+{
+  "templateId": "items-lethality",
+  "dataVersion": "16.23.1",
+  "answerSet": [
+    "item:2020",
+    "item:2520",
+    "item:3134",
+    "item:3142",
+    "item:3179",
+    "item:3814",
+    "item:6676",
+    "item:6695",
+    "item:6696",
+    "item:6697",
+    "item:6698",
+    "item:6699"
+  ],
+  "typicality": {
+    "item:2020": 0.2,
+    "item:2520": 0.05,
+    "item:3134": 0.4,
+    "item:3142": 0.5,
+    "item:3179": 0.2,
+    "item:3814": 0.3,
+    "item:6676": 0.3,
+    "item:6695": 0.22,
+    "item:6696": 0.12,
+    "item:6697": 0.12,
+    "item:6698": 0.18,
+    "item:6699": 0.1
+  },
+  "tooClever": [],
+  "gem": "item:6698"
+}
