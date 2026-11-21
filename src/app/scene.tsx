@@ -1,5 +1,5 @@
 /**
- * The fixed pixel backdrop behind every page: a dusk sky with drifting clouds, a turret on the
+ * The fixed pixel backdrop behind every page: a night sky with drifting clouds, a poro on the
  * horizon, the river line, and the dark Rift below with rising Hextech sparks, plus CRT scanlines
  * laid over the whole screen. Purely decorative.
  */
@@ -7,28 +7,61 @@
 /** A cloud drawn on a pixel grid: each string is one row, "#" a filled cell. */
 const CLOUD = ["......####......", "...#########....", ".##############.", "################"];
 
-/** A turret silhouette on the same kind of grid. */
-const TURRET = [
-  "....##....",
-  "...####...",
-  "..######..",
-  "...####...",
-  "...#..#...",
-  "...####...",
-  "..######..",
-  "..######..",
-  "..######..",
-  ".########.",
-  "##########",
+/** A poro, one character per cell: each maps to a colour token in PORO_COLOURS, "." is empty. */
+const PORO = [
+  "..hh............hh..",
+  ".hHHh..WWWWWW..hHHh.",
+  ".hH..WWWWWWWWWW..Hh.",
+  "..HhWWWWWWWWWWWWhH..",
+  "...WWWWWWWWWWWWWW...",
+  "..WWWWKKWWWWKKWWWW..",
+  "..WWWWKKWWWWKKWWWW..",
+  ".WWWWWWWWWWWWWWWWWW.",
+  ".WWWWWWKKKKKKWWWWWW.",
+  ".SWWWWWKTTTTKWWWWWS.",
+  ".SWWWWWWTTTTWWWWWWS.",
+  "..SWWWWWTTTTWWWWWS..",
+  "..SSWWWWTttTWWWWSS..",
+  "...SSWWWWttWWWWSS...",
+  ".....SSSSSSSSSS.....",
+  ".....KK......KK.....",
 ];
 
-function PixelArt({ rows, cell, className }: { rows: string[]; cell: number; className: string }) {
+const PORO_COLOURS: Record<string, string> = {
+  W: "var(--poro-fur)",
+  S: "var(--poro-shade)",
+  H: "var(--poro-horn)",
+  h: "var(--poro-horn-dark)",
+  K: "var(--poro-eye)",
+  T: "var(--poro-tongue)",
+  t: "var(--poro-tongue-dark)",
+};
+
+/**
+ * Pixel art on a grid of cells. Without a palette, "#" cells are filled with the CSS fill; with one,
+ * each character is filled with its palette colour and characters missing from it are left empty.
+ */
+function PixelArt({
+  rows,
+  cell,
+  className,
+  palette,
+}: {
+  rows: string[];
+  cell: number;
+  className: string;
+  palette?: Record<string, string>;
+}) {
   const width = rows[0].length * cell;
   const height = rows.length * cell;
   return (
     <svg className={className} width={width} height={height} viewBox={`0 0 ${width} ${height}`} shapeRendering="crispEdges">
       {rows.flatMap((row, y) =>
-        [...row].map((c, x) => (c === "#" ? <rect key={`${x}-${y}`} x={x * cell} y={y * cell} width={cell} height={cell} /> : null)),
+        [...row].map((c, x) => {
+          const fill = palette ? palette[c] : undefined;
+          if (palette ? !fill : c !== "#") return null;
+          return <rect key={`${x}-${y}`} x={x * cell} y={y * cell} width={cell} height={cell} style={fill ? { fill } : undefined} />;
+        }),
       )}
     </svg>
   );
@@ -44,7 +77,7 @@ export function Scene() {
           <PixelArt rows={CLOUD} cell={8} className="cloud cloud-a" />
           <PixelArt rows={CLOUD} cell={6} className="cloud cloud-b" />
           <PixelArt rows={CLOUD} cell={10} className="cloud cloud-c" />
-          <PixelArt rows={TURRET} cell={5} className="turret" />
+          <PixelArt rows={PORO} cell={4} className="poro" palette={PORO_COLOURS} />
         </div>
         <div className="scene-river" />
         <div className="scene-depths">

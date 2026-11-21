@@ -1,7 +1,7 @@
 /* ==========================================================================
-   LoLrillion design tokens: a retro CRT "dusk over the Rift" theme, with a
-   pixel sky and river behind glowing terminal panels in Hextech gold and
-   arcane cyan. Every colour, size, step and shadow used below comes from
+   LoLrillion design tokens: a retro CRT "night over the Rift" theme, with a
+   pixel sky, river and a poro behind glowing terminal panels in Hextech gold and
+   Hextech teal. Every colour, size, step and shadow used below comes from
    here; components never hard-code their own. Contrast ratios are against
    --surface-solid (panels are near-opaque, so they hold over any sky band)
    unless noted.
@@ -9,55 +9,63 @@
 :root {
   color-scheme: dark;
 
-  /* Colour: deep navy, Hextech gold, arcane cyan */
-  --bg: #0a0f1f;
-  --surface: rgba(14, 21, 48, 0.95); /* panels: --surface-solid, a touch see-through */
-  --surface-solid: #0e1530;
-  --border: #36457a;
-  --glow: rgba(79, 224, 239, 0.45);
-  --glow-soft: rgba(79, 224, 239, 0.15);
-  --text-glow: rgba(241, 236, 220, 0.35);
+  /* Colour: the League client palette - void navy, Hextech gold, Hextech teal */
+  --bg: #010a13;
+  --surface: rgba(9, 20, 40, 0.95); /* panels: --surface-solid, a touch see-through */
+  --surface-solid: #091428;
+  --border: #785a28;
+  --glow: rgba(10, 200, 185, 0.4);
+  --glow-soft: rgba(10, 200, 185, 0.14);
+  --text-glow: rgba(240, 230, 210, 0.35);
 
-  /* Action colour: the pink of the Lock in button, the current pip and kickers */
-  --action: #e2577f;
-  --action-hover: #ec6c91;
-  --action-deep: #8f2a4b;
-  --action-glow: rgba(226, 87, 127, 0.4);
-  --on-action: #0a0f1f; /* 5.2:1 on --action */
-  --action-text: #ff8fae; /* kickers on panels, 7:1 */
+  /* Action colour: the Hextech gold of the Lock in button, the current pip and kickers */
+  --action: #c89b3c;
+  --action-hover: #dcb35a;
+  --action-deep: #785a28;
+  --action-glow: rgba(200, 155, 60, 0.4);
+  --on-action: #010a13; /* 7.8:1 on --action */
+  --action-text: #e8c372; /* kickers on panels, 10.9:1 */
 
   /* The backdrop (scene.tsx): sky bands top to bottom, river, depths bands */
-  --sky-1: #1a2452;
-  --sky-2: #232c60;
-  --sky-3: #2e346c;
-  --sky-4: #3a3f7a;
-  --sky-5: #6a4d84;
-  --sky-6: #b86a8e;
-  --cloud: rgba(205, 214, 245, 0.16);
-  --cloud-far: rgba(205, 214, 245, 0.1);
-  --cloud-farthest: rgba(205, 214, 245, 0.08);
-  --silhouette: #0b1024;
-  --river: #2f8f9d;
-  --river-light: #8fe6ee;
-  --depths-1: #0f2140;
-  --depths-2: #0d1a36;
-  --depths-3: #0b1530;
+  --sky-1: #010a13;
+  --sky-2: #04111f;
+  --sky-3: #07192e;
+  --sky-4: #0a2540;
+  --sky-5: #0c3a4e;
+  --sky-6: #1b5f66;
+  --cloud: rgba(240, 230, 210, 0.12);
+  --cloud-far: rgba(240, 230, 210, 0.08);
+  --cloud-farthest: rgba(240, 230, 210, 0.06);
+  --river: #0397ab;
+  --river-light: #7af0e6;
+  --depths-1: #0a1e32;
+  --depths-2: #08182a;
+  --depths-3: #061323;
   --scanline: rgba(0, 0, 0, 0.12);
-  --shadow: #04060d;
-  --text: #f1ecdc; /* 14:1 */
-  --muted: #a3acc9; /* 7.5:1 */
-  --accent: #e0b552; /* gold, 8.7:1 */
-  --accent-strong: #f5d27e;
-  --accent-soft: rgba(224, 181, 82, 0.14);
-  --on-accent: #0a0f1f; /* 9:1 on --accent */
-  --highlight: #4fe0ef; /* cyan, 10:1 */
-  --highlight-deep: #157f8c;
-  --highlight-soft: rgba(79, 224, 239, 0.12);
-  --bad: #ff6b6f; /* 6:1 */
+  --shadow: #000508;
+  --text: #f0e6d2; /* 14.8:1 */
+  --muted: #a09b8c; /* 6.6:1 */
+  --accent: #c8aa6e; /* gold, 8.3:1 */
+  --accent-strong: #f0e6d2;
+  --accent-soft: rgba(200, 170, 110, 0.14);
+  --on-accent: #010a13; /* 9:1 on --accent */
+  --highlight: #0ac8b9; /* teal, 8.7:1 */
+  --highlight-deep: #005a82;
+  --highlight-soft: rgba(10, 200, 185, 0.12);
+  --bad: #ff6b6f; /* 6.6:1 */
   --good: #4fd977;
-  --focus: #4fe0ef;
+  --focus: #0ac8b9;
 
   /* Tier colours, matching the share emoji (see tier-tone.ts). All >= 5:1. */
+  /* The poro on the horizon */
+  --poro-fur: #f4f0e8;
+  --poro-shade: #a9b6c9;
+  --poro-horn: #c8aa6e;
+  --poro-horn-dark: #785a28;
+  --poro-eye: #010a13;
+  --poro-tongue: #e7708f;
+  --poro-tongue-dark: #a8405e;
+
   --tone-blue: #5b9bff; /* Minion 🟦 */
   --tone-clown: #ff6fa8; /* Too Clever 🤡 */
   --tone-green: #4fd977; /* Kill 🟩 */
@@ -1395,11 +1403,38 @@ body > :not(.scene, .scanlines, .skip-link) {
   }
 }
 
-.turret {
+.poro {
   position: absolute;
   bottom: 0;
   left: max(4%, calc(50% - 420px));
-  fill: var(--silhouette);
+  filter: drop-shadow(0 0 var(--blur-sm) var(--glow-soft));
+  animation: hop 4s steps(1) infinite;
+}
+
+/* On phones the tagline reaches the horizon, so the poro shrinks and sits off to the right */
+@media (max-width: 640px) {
+  .poro {
+    left: auto;
+    right: var(--space-2);
+    width: calc(var(--space-4) * 3);
+    height: auto;
+  }
+}
+
+/* A little two-frame hop every few seconds */
+@keyframes hop {
+  0%,
+  88%,
+  100% {
+    transform: translateY(0);
+  }
+  90%,
+  96% {
+    transform: translateY(calc(var(--px) * -3));
+  }
+  93% {
+    transform: translateY(calc(var(--px) * -5));
+  }
 }
 
 .scene-river {
@@ -1492,6 +1527,7 @@ body > :not(.scene, .scanlines, .skip-link) {
   .score-pop,
   .spinner,
   .cloud,
+  .poro,
   .spark {
     animation: none;
   }
