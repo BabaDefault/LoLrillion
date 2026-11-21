@@ -15,6 +15,8 @@ import puzzle_2026_11_30 from "./2026-11-30.json";
 import puzzle_2026_12_01 from "./2026-12-01.json";
 import puzzle_2026_12_02 from "./2026-12-02.json";
 import puzzle_2026_12_03 from "./2026-12-03.json";
+import puzzle_2026_12_04 from "./2026-12-04.json";
+import puzzle_2026_12_05 from "./2026-12-05.json";
 
 export const datedPuzzles: Readonly<Record<string, GeneratedPuzzle>> = {
   "2026-11-20": puzzle_2026_11_20 as unknown as GeneratedPuzzle,
@@ -31,4 +33,6 @@ export const datedPuzzles: Readonly<Record<string, GeneratedPuzzle>> = {
   "2026-12-01": puzzle_2026_12_01 as unknown as GeneratedPuzzle,
   "2026-12-02": puzzle_2026_12_02 as unknown as GeneratedPuzzle,
   "2026-12-03": puzzle_2026_12_03 as unknown as GeneratedPuzzle,
+  "2026-12-04": puzzle_2026_12_04 as unknown as GeneratedPuzzle,
+  "2026-12-05": puzzle_2026_12_05 as unknown as GeneratedPuzzle,
 };
