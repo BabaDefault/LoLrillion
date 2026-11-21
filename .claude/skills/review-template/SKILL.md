@@ -21,7 +21,7 @@ Done when the command reports the answer count.
 
 ## 2. Review
 
-Judge the Answer Set against the **Rule**, not the Prompt's everyday meaning. Scope is the current patch: own base kit, items currently in the shop. For a `changed` Template, focus on the added and removed Entities, but still give every estimate.
+Judge the Answer Set against the **Rule**, not the Prompt's everyday meaning. Scope is the current patch: own base kit, items currently in the shop. Esports Templates (Answer Type `pro-player`) are scoped by the esports snapshot (Leaguepedia, dated by `dataVersion`): a player you'd expect who is missing points to the snapshot or the Rule, so say which. For a `changed` Template, focus on the added and removed Entities, but still give every estimate.
 
 Work through every section; each point needs a `why` a maintainer can check:
 

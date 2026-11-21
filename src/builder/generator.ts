@@ -1,9 +1,9 @@
-import { addDays, puzzleNumberOf, type Tier } from "@/engine";
+import { addDays, ESPORTS_ANSWER_TYPES, puzzleNumberOf, type Tier } from "@/engine";
 import type { BuiltPrompt } from "./types";
 
 export const PROMPTS_PER_PUZZLE = 7;
 
-/** Default generator constraints (spec: Answer Sets of about 8-100, a few rare answers, a type mix). */
+/** Default generator constraints (spec: Answer Sets of about 8-100, a few rare answers, a type mix, one esports Prompt at most). */
 export const GENERATOR_DEFAULTS = {
   minAnswers: 8,
   maxAnswers: 100,
@@ -11,6 +11,8 @@ export const GENERATOR_DEFAULTS = {
   minRareAnswers: 3,
   /** At most this many Prompts of one Answer Type, so every Puzzle mixes types. */
   maxPerAnswerType: 4,
+  /** At most this many esports Prompts (Pro Player), since many players don't follow pro play. */
+  maxEsports: 1,
   /** A Template used on day D isn't used again on days D+1 .. D+noRepeatDays. */
   noRepeatDays: 3,
 } as const;
@@ -40,6 +42,7 @@ export interface GenerateInput {
   maxAnswers?: number;
   minRareAnswers?: number;
   maxPerAnswerType?: number;
+  maxEsports?: number;
 }
 
 const RARE: ReadonlySet<Tier> = new Set(["triple-kill", "quadra-kill", "pentakill"]);
@@ -85,10 +88,14 @@ function pick(
 
   const chosen: BuiltPrompt[] = [];
   const perType = new Map<string, number>();
+  let esports = 0;
   for (const p of shuffle(eligible, seedOf(day))) {
     if (chosen.length === PROMPTS_PER_PUZZLE) break;
     const count = perType.get(p.answerType) ?? 0;
     if (count >= options.maxPerAnswerType) continue;
+    const isEsports = ESPORTS_ANSWER_TYPES.has(p.answerType);
+    if (isEsports && esports >= options.maxEsports) continue;
+    if (isEsports) esports++;
     perType.set(p.answerType, count + 1);
     chosen.push(p);
   }
@@ -108,8 +115,8 @@ function lookup(byId: ReadonlyMap<string, BuiltPrompt>, id: string, day: string)
 }
 
 function definedOnly(input: GenerateInput): Partial<typeof GENERATOR_DEFAULTS> {
-  const { noRepeatDays, minAnswers, maxAnswers, minRareAnswers, maxPerAnswerType } = input;
-  const all = { noRepeatDays, minAnswers, maxAnswers, minRareAnswers, maxPerAnswerType };
+  const { noRepeatDays, minAnswers, maxAnswers, minRareAnswers, maxPerAnswerType, maxEsports } = input;
+  const all = { noRepeatDays, minAnswers, maxAnswers, minRareAnswers, maxPerAnswerType, maxEsports };
   return Object.fromEntries(Object.entries(all).filter(([, v]) => v !== undefined));
 }
 

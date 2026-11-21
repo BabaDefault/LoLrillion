@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Tier } from "@/engine";
-import { fixtureInputs } from "./fixtures";
+import { fixtureEsports, fixtureInputs } from "./fixtures";
 import { bandByPrior, buildPrompt, type BuilderInputs, type TemplateDefinition } from "./index";
 
 const RANK: Record<Tier, number> = {
@@ -125,4 +125,21 @@ describe("banding by Prior", () => {
     ]);
     expect([...bandByPrior(prior, { minion: 0.5, kill: 0.5, "triple-kill": 0 }).values()]).toEqual(["minion", "kill"]);
   });
+
+  it("ranks pro players by pro games played (their Familiarity) and records the esports data version", () => {
+    const worlds: TemplateDefinition = {
+      id: "players-worlds-winners",
+      text: "Name a player who won Worlds",
+      answerType: "pro-player",
+      rule: "",
+      filter: { kind: "worlds-winner" },
+    };
+    const built = buildPrompt(worlds, { ...fixtureInputs, esports: fixtureEsports });
+    // Faker has the most games, Score the fewest, so Faker is a Minion and Score among the rarest.
+    expect(built.answerSet["pro-player:Faker"]).toBe("minion");
+    expect(RANK[built.answerSet["pro-player:Score"]]).toBeGreaterThanOrEqual(RANK["quadra-kill"]);
+    expect(built.provenance?.dataVersion).toBe("esports:2099-01-01");
+    expect(built.provenance?.familiarity).toMatchObject({ patch: "esports:2099-01-01" });
+  });
 });
+

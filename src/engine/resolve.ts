@@ -123,8 +123,8 @@ function skinsByExpansion(guess: string, entities: readonly Entity[], skins: rea
 /**
  * Read a Guess against the Entities of the given Answer Type: exact canonical name first,
  * then Alias, then (SKIN only) an exact match after expanding champion nicknames and skin line
- * abbreviations, then an exact name/Alias of another Answer Type, then near-misses
- * (length-scaled edit distance) for a "Did you mean".
+ * abbreviations, then near-misses (length-scaled edit distance) for a "Did you mean", then an exact
+ * name/Alias of another Answer Type.
  * An expansion that matches several skins is never Accepted: they are all offered in a "Did you mean".
  * Candidates come from every Entity of the Answer Type, never the Answer Set, so nothing leaks.
  */
@@ -144,10 +144,12 @@ export function readGuess(guess: string, answerType: AnswerType, entities: reado
       return { kind: "did-you-mean", candidates };
     }
   }
+  // A near-miss of the asked-for type wins over an exact name of another type: "Knight" on an item
+  // Prompt is more likely Knight's Vow than the pro player Knight.
+  const candidates = nearMisses(key, ofType);
+  if (candidates.length > 0) return { kind: "did-you-mean", candidates };
   if (exactMatch(key, entities.filter((e) => e.answerType !== answerType))) {
     return { kind: "wrong-answer-type" };
   }
-  const candidates = nearMisses(key, ofType);
-  if (candidates.length > 0) return { kind: "did-you-mean", candidates };
   return { kind: "none" };
 }

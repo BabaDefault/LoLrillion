@@ -54,6 +54,16 @@ describe("Puzzle generator", () => {
     }
   });
 
+  it("puts at most one esports Prompt in a Puzzle", () => {
+    const esports = Array.from({ length: 30 }, (_, i) => prompt(`pro-${i}`, "pro-player"));
+    const days = ["2026-11-20", "2026-11-21", "2026-11-22", "2026-11-23", "2026-11-24"];
+    const counts = days.map((day) => {
+      const [puzzle] = generatePuzzles({ ...base, dates: [day], prompts: [...esports, ...pool] });
+      return puzzle.prompts.filter((p) => p.answerType === "pro-player").length;
+    });
+    expect(counts.every((n) => n === 1)).toBe(true);
+  });
+
   it("never repeats a Template within the no-repeat window, counting earlier Puzzles", () => {
     const history = { "2026-11-19": ["champ-0", "item-0", "skin-0"] };
     const puzzles = generatePuzzles({ ...base, dates: ["2026-11-20", "2026-11-21"], history, noRepeatDays: 2 });

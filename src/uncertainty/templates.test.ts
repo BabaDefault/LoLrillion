@@ -72,6 +72,15 @@ describe("Template review queue, most uncertain first", () => {
     expect(queue[0].reasons).toContain("reviewed on patch 16.23.1, older than the current snapshot 16.24.1");
   });
 
+  it("compares an esports Template's review with the esports snapshot's date, not the game patch", () => {
+    const old = proposal("b-old", { dataVersion: "esports:2026-11-01" });
+    const current = proposal("a-current", { dataVersion: "esports:2026-11-21" });
+    const queue = templateQueue([current, old], { ...inputs, esportsVersion: "esports:2026-11-21" });
+    expect(order(queue)).toEqual(["b-old", "a-current"]);
+    expect(queue[0].reasons).toContain("reviewed on esports:2026-11-01, older than the current snapshot esports:2026-11-21");
+    expect(queue[1].reasons).toEqual([]);
+  });
+
   it("ranks a Template whose Gem candidate's Typicality sits near the Gem threshold above one whose doesn't", () => {
     const nearThreshold = proposal("b-near");
     nearThreshold.typicality["champion:H"] = { value: 0.27, why: "" };

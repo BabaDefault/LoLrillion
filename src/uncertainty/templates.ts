@@ -7,6 +7,8 @@ import { rankByUncertainty, uncertaintyTally, type Ranked, type Uncertainty } fr
 export interface TemplateUncertaintyInputs {
   /** The current snapshot's patch, e.g. "16.24.1". */
   patch: string;
+  /** The current esports snapshot's version, e.g. "esports:2026-11-21", for esports Templates' reviews. */
+  esportsVersion?: string;
   /**
    * Per Template ID: Entities whose Answer Set membership rests on a fact checked before the current
    * snapshot, with why (e.g. a mechanics label on a champion whose ability text changed since the
@@ -44,7 +46,12 @@ export function templateUncertainty(proposal: ReviewProposal, inputs: TemplateUn
   for (const point of proposal.missing ?? []) {
     raise(TEMPLATE_WEIGHTS.missing, `missing: ${point.entity ?? "(no entity)"} (${point.why})`);
   }
-  if (comparePatches(proposal.dataVersion, inputs.patch) < 0) {
+  if (proposal.dataVersion.startsWith("esports:")) {
+    // ISO dates compare as strings.
+    if (inputs.esportsVersion && proposal.dataVersion < inputs.esportsVersion) {
+      raise(TEMPLATE_WEIGHTS.olderPatch, `reviewed on ${proposal.dataVersion}, older than the current snapshot ${inputs.esportsVersion}`);
+    }
+  } else if (comparePatches(proposal.dataVersion, inputs.patch) < 0) {
     raise(TEMPLATE_WEIGHTS.olderPatch, `reviewed on patch ${proposal.dataVersion}, older than the current snapshot ${inputs.patch}`);
   }
   const staleFacts = inputs.staleFacts?.[proposal.templateId] ?? {};

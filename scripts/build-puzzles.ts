@@ -76,19 +76,20 @@ function manifest(days: readonly string[]): string {
 }
 
 async function main() {
-  const { snapshot, templates: allTemplates, labels, familiarity } = await readBuilderContent();
+  const { snapshot, esports, templates: allTemplates, labels, familiarity } = await readBuilderContent();
   // Only approved reviews: proposals never reach a Puzzle. Throws on an inconsistent approval.
   const reviews = await readApprovedReviews(content("reviews"));
   const includeUnreviewed = process.argv.includes("--include-unreviewed");
   const inputs = {
     snapshot,
+    esports,
     templates: puzzleTemplates(allTemplates, reviews, { includeUnreviewed }),
     labels,
     familiarity,
     reviews,
   };
   console.log(
-    `Data ${snapshot.patch}; Familiarity: ${familiarity ? "yes" : "none (Typicality only)"}; ` +
+    `Data ${snapshot.patch}${esports ? `, esports ${esports.fetchedAt}` : ""}; Familiarity: ${familiarity ? "yes" : "none (Typicality only)"}; ` +
       `reviews: ${Object.keys(reviews).length}; labels: ${labels.length}; ` +
       `Templates: ${inputs.templates.length} of ${allTemplates.length}` +
       (includeUnreviewed ? " (including unreviewed)" : " approved (--include-unreviewed for all)"),

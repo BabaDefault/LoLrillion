@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { GameDataSnapshot, SnapshotChampion, SnapshotItem } from "./snapshot";
+import type { EsportsSnapshot } from "@/content/esports/snapshot";
 import { buildRegistry } from "./build-registry";
 
 const champion = (id: string, name: string): SnapshotChampion => ({
@@ -85,5 +86,20 @@ describe("buildRegistry", () => {
     expect(byId("item:3031", nicknames)?.aliases).toEqual(["ie"]);
     expect(byId("item:3089", nicknames)?.aliases).toEqual(["dc"]);
     expect(byId("item:1036", nicknames)?.aliases).toEqual([]);
+  });
+
+  it("adds each pro player as a Pro Player Entity keyed by Leaguepedia page, with former IGNs as Aliases", () => {
+    const player = (id: string, name: string, formerNames: string[] = []) => ({ id, name, formerNames, proGames: 0, source: "" });
+    const esports: EsportsSnapshot = {
+      fetchedAt: "2026-11-21",
+      source: "",
+      players: [player("Zeka (Kim Geon-woo)", "Zeka", ["Dean"]), player("Faker", "Faker", ["faker"])],
+      worldsWins: [],
+    };
+    const proPlayers = buildRegistry(snapshot, {}, esports).filter((e) => e.answerType === "pro-player");
+    expect(proPlayers).toEqual([
+      { id: "pro-player:Zeka (Kim Geon-woo)", name: "Zeka", answerType: "pro-player", aliases: ["Dean"] },
+      { id: "pro-player:Faker", name: "Faker", answerType: "pro-player", aliases: [] },
+    ]);
   });
 });

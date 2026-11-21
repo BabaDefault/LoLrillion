@@ -1,3 +1,4 @@
+import type { EsportsPlayer, EsportsSnapshot } from "@/content/esports/snapshot";
 import type { GameDataSnapshot, SnapshotChampion, SnapshotItem, SnapshotSkin } from "@/content/game-data/snapshot";
 import type { BuilderInputs } from "./types";
 
@@ -66,3 +67,22 @@ export const fixtureSnapshot: GameDataSnapshot = {
 };
 
 export const fixtureInputs: BuilderInputs = { snapshot: fixtureSnapshot };
+
+const proPlayer = (id: string, proGames: number): EsportsPlayer => ({ id, name: id, formerNames: [], proGames, source: "" });
+
+/** Small hand-made esports data: twelve Worlds winners across three years, plus one non-winner. */
+export const fixtureEsports: EsportsSnapshot = {
+  fetchedAt: "2099-01-01",
+  source: "fixture",
+  players: [
+    ...["Faker", "Bengi", "Impact", "Piglet", "PoohManDu", "Deft", "BeryL", "Zeka", "Kingen", "Pyosik", "Ruler", "Score"].map(
+      (id, i) => proPlayer(id, 1200 - i * 100),
+    ),
+    proPlayer("Uzi", 900),
+  ],
+  worldsWins: [
+    { year: 2013, team: "SK Telecom T1", players: ["Bengi", "Faker", "Impact", "Piglet", "PoohManDu"], source: "" },
+    { year: 2017, team: "Samsung Galaxy", players: ["Ruler", "Score"], source: "" },
+    { year: 2022, team: "DRX", players: ["BeryL", "Deft", "Kingen", "Pyosik", "Zeka"], source: "" },
+  ],
+};

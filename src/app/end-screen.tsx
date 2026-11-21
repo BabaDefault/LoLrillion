@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { shareLine, TIER_EMOJI, TIER_NAMES } from "@/engine";
+import { ANSWER_TYPE_LABEL, shareLine, TIER_EMOJI, TIER_NAMES } from "@/engine";
 import type { AnswerSetEntryView, PuzzleResultsView, ResultsResponse } from "@/server/game-service";
 import { ErrorState, Loading } from "./status";
 import { tierTone } from "./tier-tone";
@@ -169,7 +169,7 @@ export function EndScreen({ archiveDay }: { archiveDay?: string } = {}) {
       {results.prompts.map((prompt, i) => (
         <section className="card reveal" key={i}>
           <p className="kicker">
-            Prompt <span className="num">{i + 1}</span> · {prompt.answerType.toUpperCase()}
+            Prompt <span className="num">{i + 1}</span> · {ANSWER_TYPE_LABEL[prompt.answerType].toUpperCase()}
           </p>
           <h3>{prompt.text}</h3>
           {prompt.result && (

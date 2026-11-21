@@ -6,6 +6,7 @@ import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import type { FamiliarityData, TemplateDefinition } from "../../src/builder";
+import type { EsportsSnapshot } from "../../src/content/esports/snapshot";
 import type { GameDataSnapshot } from "../../src/content/game-data/snapshot";
 import { approvedLabels } from "../../src/content/labels";
 
@@ -22,12 +23,14 @@ export async function readOptionalJson<T>(path: string): Promise<T | undefined> 
 
 /**
  * Today's Builder inputs apart from reviews (each script decides how strictly to read those): the
- * snapshot, Template definitions, approved labels, and Familiarity for the snapshot's patch if any.
+ * snapshot, the esports snapshot if any, Template definitions, approved labels, and Familiarity for
+ * the snapshot's patch if any.
  */
 export async function readBuilderContent() {
   const snapshot = await readJson<GameDataSnapshot>(content("game-data/snapshot.json"));
   return {
     snapshot,
+    esports: await readOptionalJson<EsportsSnapshot>(content("esports/snapshot.json")),
     templates: await readJson<TemplateDefinition[]>(content("templates/templates.json")),
     labels: approvedLabels,
     familiarity: await readOptionalJson<FamiliarityData>(content(`familiarity/${snapshot.patch}.json`)),

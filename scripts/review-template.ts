@@ -17,8 +17,9 @@
  */
 import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
-import { answerSetOf, buildPrompt, type BuilderInputs, type TemplateDefinition } from "../src/builder";
+import { answerSetOf, buildPrompt, esportsVersion, isEsportsAnswerType, type BuilderInputs, type TemplateDefinition } from "../src/builder";
 import { entityRegistry } from "../src/content/game-data";
+import { esportsSnapshot } from "../src/content/esports";
 import { gameDataSnapshot } from "../src/content/game-data/snapshot-data";
 import { approvedLabels } from "../src/content/labels";
 import { changedChampions, mechanicsTerm, type TaggedBaseline } from "../src/labels";
@@ -40,7 +41,7 @@ const json = (value: unknown) => JSON.stringify(value, null, 2) + "\n";
 async function loadInputs() {
   const templates = await readJson<TemplateDefinition[]>(content("templates/templates.json"));
   const { valid: reviews, invalid } = await readApprovedReviewFiles(REVIEWS_DIR);
-  const inputs: BuilderInputs = { snapshot: gameDataSnapshot, labels: approvedLabels, reviews };
+  const inputs: BuilderInputs = { snapshot: gameDataSnapshot, esports: esportsSnapshot, labels: approvedLabels, reviews };
   const answerSets = Object.fromEntries(templates.map((t) => [t.id, answerSetOf(t, inputs).sort()]));
   return { templates, inputs, reviews, invalid, answerSets };
 }
@@ -96,7 +97,11 @@ async function queue() {
     proposals.push(await readProposal(e.templateId));
     staleFacts[e.templateId] = await staleFactsFor(template(templates, e.templateId), answerSets[e.templateId]);
   }
-  const ranked = templateQueue(proposals, { patch: gameDataSnapshot.patch, staleFacts });
+  const ranked = templateQueue(proposals, {
+    patch: gameDataSnapshot.patch,
+    esportsVersion: esportsVersion(esportsSnapshot),
+    staleFacts,
+  });
   if (ranked.length) console.log("Proposals to approve, most uncertain first (work top-down):");
   for (const { item, score, reasons } of ranked) {
     console.log(`${String(score).padStart(3)}  ${describe(entries.find((e) => e.templateId === item.templateId)!)}`);
@@ -123,7 +128,7 @@ async function worklist(id: string | undefined) {
 
   const work = {
     templateId: t.id,
-    dataVersion: gameDataSnapshot.patch,
+    dataVersion: built.provenance!.dataVersion,
     text: t.text,
     answerType: t.answerType,
     rule: t.rule,
@@ -142,7 +147,7 @@ async function worklist(id: string | undefined) {
   await mkdir(`${REVIEWS_DIR}/proposals`, { recursive: true });
   const file = `${REVIEWS_DIR}/proposals/${t.id}.worklist.json`;
   await writeFile(file, json(work));
-  console.log(`${t.id}: ${work.answerSet.length} Entities on patch ${work.dataVersion} -> ${file}`);
+  console.log(`${t.id}: ${work.answerSet.length} Entities on ${work.dataVersion} -> ${file}`);
 }
 
 async function readProposal(id: string): Promise<ReviewProposal> {

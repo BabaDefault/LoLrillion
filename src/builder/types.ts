@@ -1,3 +1,4 @@
+import type { EsportsSnapshot } from "@/content/esports/snapshot";
 import type { GameDataSnapshot } from "@/content/game-data/snapshot";
 import type { FamiliarityFile } from "@/content/familiarity/types";
 import type { MechanicsLabel } from "@/labels";
@@ -30,7 +31,9 @@ export type TemplateFilter =
   | { kind: "champion-name-length"; atMost: number }
   | { kind: "item-stat"; stat: string }
   /** Skins whose name has `word` as a whole word, or (with `prefix`) a word starting with it. */
-  | { kind: "skin-name-word"; word: string; prefix?: boolean };
+  | { kind: "skin-name-word"; word: string; prefix?: boolean }
+  /** Pro players on any Worlds-winning roster (esports snapshot). */
+  | { kind: "worlds-winner" };
 
 /** A reusable definition that produces a Prompt and its Answer Set from the game data. */
 export interface TemplateDefinition {
@@ -44,6 +47,8 @@ export interface TemplateDefinition {
 /** Everything the Builder reads. Labels, Familiarity and reviews are optional until they exist. */
 export interface BuilderInputs {
   snapshot: GameDataSnapshot;
+  /** Leaguepedia data; esports Template filters need it. */
+  esports?: EsportsSnapshot;
   labels?: readonly ApprovedLabel[];
   familiarity?: FamiliarityData;
   reviews?: Readonly<Record<string, TemplateReview>>;
@@ -67,13 +72,16 @@ export interface ScoringConstants {
  * never served to a player.
  */
 export interface PromptProvenance {
-  /** The game data patch. */
+  /** The game data patch, or `esports:<fetchedAt>` for a Template built from the esports snapshot. */
   dataVersion: string;
   /** Hash of the Template's approved review, or `"unreviewed"` when defaults were used. */
   review: string;
   /** Hash of the approved labels a `champion-label` filter read, or `"unused"` for other filters. */
   labels: string;
-  /** The Familiarity file used (its patch and a hash of its contents), or `"none"`. */
+  /**
+   * The Familiarity file used (its patch and a hash of its contents), or `"none"`. For pro players it
+   * is the esports snapshot's pro game counts (`patch` is `esports:<fetchedAt>`).
+   */
   familiarity: { patch: string; hash: string } | "none";
   /** Hash of the scoring constants. */
   scoring: string;

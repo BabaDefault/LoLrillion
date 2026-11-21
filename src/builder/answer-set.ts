@@ -1,6 +1,7 @@
-import { championEntityId, itemEntityId, skinEntityId } from "@/content/game-data/build-registry";
+import { championEntityId, itemEntityId, proPlayerEntityId, skinEntityId } from "@/content/game-data/build-registry";
 import type { EntityId } from "@/engine";
 import { entitiesWithTerm } from "@/labels";
+import { requireEsports } from "./esports";
 import type { BuilderInputs, TemplateDefinition, TemplateFilter } from "./types";
 
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -42,7 +43,8 @@ export function answerSetOf(template: TemplateDefinition, inputs: BuilderInputs)
   return select(template.filter, inputs);
 }
 
-function select(filter: TemplateFilter, { snapshot, labels = [] }: BuilderInputs): EntityId[] {
+function select(filter: TemplateFilter, inputs: BuilderInputs): EntityId[] {
+  const { snapshot, labels = [] } = inputs;
   const champions = snapshot.champions;
   switch (filter.kind) {
     case "champion-label": {
@@ -61,6 +63,10 @@ function select(filter: TemplateFilter, { snapshot, labels = [] }: BuilderInputs
       const tail = filter.prefix ? "" : "\\b";
       const pattern = new RegExp(`\\b${escapeRegExp(filter.word)}${tail}`, "i");
       return snapshot.skins.filter((s) => pattern.test(s.name)).map((s) => skinEntityId(s.id));
+    }
+    case "worlds-winner": {
+      const winners = new Set(requireEsports(inputs).worldsWins.flatMap((w) => w.players));
+      return [...winners].sort().map(proPlayerEntityId);
     }
   }
 }

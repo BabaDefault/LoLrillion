@@ -256,6 +256,15 @@ describe("Did you mean", () => {
     expect(out.play).toEqual(openPrompt(T0));
   });
 
+  it("prefers a near-miss of the Prompt's Answer Type over naming another Answer Type exactly", () => {
+    const withPro: Entity[] = [
+      ...entities,
+      { id: "pro-player:Kassadi", name: "Kassadi", answerType: "pro-player", aliases: [] },
+    ];
+    const out = submitAttempt({ prompt: ranged, entities: withPro, play: openPrompt(T0), guess: "Kassadi", now: answering });
+    expect(out.result).toEqual({ kind: "did-you-mean", candidates: [{ id: "kassadin", name: "Kassadin" }] });
+  });
+
   it("confirming an offered suggestion submits that Entity as the Attempt", () => {
     const yes = (entityId: string) =>
       confirmSuggestion({ prompt: ranged, entities, play: openPrompt(T0), entityId, offered: ["missfortune", "kassadin"], now: answering });

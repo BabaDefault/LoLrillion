@@ -1,9 +1,20 @@
-/** The kind of Entity a Prompt accepts. Pro Player / Team arrive in v1.1. */
-export type AnswerType = "champion" | "item" | "skin";
+/** The kind of Entity a Prompt accepts. A Team Answer Type isn't needed yet (#17). */
+export type AnswerType = "champion" | "item" | "skin" | "pro-player";
+
+/** How an Answer Type reads in player-facing text, e.g. "pro player" (badges upper-case it). */
+export const ANSWER_TYPE_LABEL: Readonly<Record<AnswerType, string>> = {
+  champion: "champion",
+  item: "item",
+  skin: "skin",
+  "pro-player": "pro player",
+};
+
+/** Answer Types about pro play: at most one such Prompt per Puzzle (many players don't follow it). */
+export const ESPORTS_ANSWER_TYPES: ReadonlySet<AnswerType> = new Set(["pro-player"]);
 
 export type EntityId = string;
 
-/** One canonical champion, item or skin, with a stable identity and its Aliases. */
+/** One canonical champion, item, skin or pro player, with a stable identity and its Aliases. */
 export interface Entity {
   id: EntityId;
   name: string;

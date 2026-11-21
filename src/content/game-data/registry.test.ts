@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { openPrompt, submitAttempt, type AnswerType, type EntityId, type PromptDefinition } from "@/engine";
+import { esportsSnapshot } from "@/content/esports";
 import { buildRegistry } from "./build-registry";
 import { entityRegistry } from "./index";
 import { gameDataSnapshot } from "./snapshot-data";
@@ -65,6 +66,13 @@ describe("resolving Guesses against the real Entity registry", () => {
   it("resolves skins by name", () => {
     expect(resolve("Volcanic Wukong", "skin")).toBe("skin:62001");
   });
+
+  it("resolves pro players by current or former IGN, ignoring case", () => {
+    expect(resolve("faker", "pro-player")).toBe("pro-player:Faker");
+    expect(resolve("xpeke", "pro-player")).toBe("pro-player:XPeke");
+    expect(resolve("Dean", "pro-player")).toBe("pro-player:Zeka (Kim Geon-woo)");
+    expect(resolve("BangBang", "pro-player")).toBe("pro-player:Bang");
+  });
 });
 
 describe("the committed registry", () => {
@@ -81,6 +89,6 @@ describe("the committed registry", () => {
   });
 
   it("is up to date with the snapshot and nicknames (run `npm run data:registry` if not)", () => {
-    expect(entityRegistry).toEqual(buildRegistry(gameDataSnapshot, NICKNAMES));
+    expect(entityRegistry).toEqual(buildRegistry(gameDataSnapshot, NICKNAMES, esportsSnapshot));
   });
 });

@@ -24,7 +24,7 @@ approved/<templateId>.json             the maintainer's approval: the only revie
    | --- | --- |
    | each `disputable` entry | 2 |
    | each `missing` entry | 2 |
-   | proposal reviewed on an older patch than the current snapshot | 2 |
+   | proposal reviewed on an older patch than the current snapshot (esports Templates: an older esports snapshot) | 2 |
    | a Gem candidate's Typicality within 0.05 of the Gem threshold (0.25) | 2 each |
    | a Gem candidate in the likeliest half of the Answer Set, or one a Typicality change of 0.05 would put there | 2 each |
    | an Answer Set entry resting on a mechanics label checked (`tagged.json`) before its ability text changed | 1 each |

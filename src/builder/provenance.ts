@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { esportsVersion, isEsportsAnswerType, requireEsports } from "./esports";
 import type { BuilderInputs, BuiltPrompt, PromptProvenance, ScoringConstants, TemplateDefinition } from "./types";
 
 /**
@@ -7,13 +8,22 @@ import type { BuilderInputs, BuiltPrompt, PromptProvenance, ScoringConstants, Te
  */
 export function provenanceOf(template: TemplateDefinition, inputs: BuilderInputs, scoring: ScoringConstants): PromptProvenance {
   const review = inputs.reviews?.[template.id];
-  const { familiarity } = inputs;
-  return {
-    dataVersion: inputs.snapshot.patch,
+  const common = {
     review: review ? contentHash(review) : "unreviewed",
     labels: template.filter.kind === "champion-label" ? contentHash(labelsUsed(template.filter.term, inputs)) : "unused",
-    familiarity: familiarity ? { patch: familiarity.patch, hash: contentHash(familiarity) } : "none",
     scoring: contentHash(scoring),
+  };
+  if (isEsportsAnswerType(template.answerType)) {
+    // Esports Answer Sets and Familiarity both come from the esports snapshot.
+    const esports = requireEsports(inputs);
+    const version = esportsVersion(esports);
+    return { ...common, dataVersion: version, familiarity: { patch: version, hash: contentHash(esports) } };
+  }
+  const { familiarity } = inputs;
+  return {
+    ...common,
+    dataVersion: inputs.snapshot.patch,
+    familiarity: familiarity ? { patch: familiarity.patch, hash: contentHash(familiarity) } : "none",
   };
 }
 

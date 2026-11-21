@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { ANSWER_WINDOW_MS, NETWORK_GRACE_MS, READ_WINDOW_MS } from "@/engine";
+import { ANSWER_TYPE_LABEL, ANSWER_WINDOW_MS, NETWORK_GRACE_MS, READ_WINDOW_MS, type AnswerType } from "@/engine";
 import type { AttemptResponse, PromptResultView, PuzzleStateView } from "@/server/game-service";
 import { apiJson } from "./api-client";
 import { EndScreen } from "./end-screen";
@@ -18,7 +18,7 @@ type Interlude = { index: number; result: PromptResultView } | null;
 /** A popup that isn't an Attempt: the answer window keeps counting down while it's shown. */
 type Notice =
   | { kind: "did-you-mean"; candidates: Array<{ id: string; name: string }> }
-  | { kind: "wrong-answer-type"; expected: string }
+  | { kind: "wrong-answer-type"; expected: AnswerType }
   | null;
 
 /**
@@ -233,7 +233,7 @@ export function PlayScreen({ archiveDay, hero }: { archiveDay?: string; hero?: R
       <section className="prompt-panel">
         <p className="kicker">
           Prompt <span className="num">{live.index + 1}</span> of <span className="num">{state.promptCount}</span>
-          <span className="badge">{live.answerType.toUpperCase()}</span>
+          <span className="badge">{ANSWER_TYPE_LABEL[live.answerType].toUpperCase()}</span>
         </p>
         <h2 className="prompt-text">{live.text}</h2>
         <p className="rule">{live.rule}</p>
@@ -265,7 +265,7 @@ export function PlayScreen({ archiveDay, hero }: { archiveDay?: string; hero?: R
         )}
         {answering && notice?.kind === "wrong-answer-type" && (
           <p className="notice" role="status">
-            This asks for {/^[aeiou]/.test(notice.expected) ? "an" : "a"} {notice.expected}.
+            This asks for {/^[aeiou]/.test(ANSWER_TYPE_LABEL[notice.expected]) ? "an" : "a"} {ANSWER_TYPE_LABEL[notice.expected]}.
           </p>
         )}
       </section>

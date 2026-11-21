@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fixtureInputs } from "./fixtures";
+import { fixtureEsports, fixtureInputs } from "./fixtures";
 import { answerSetOf, type ApprovedLabel, type TemplateDefinition } from "./index";
 
 const template = (filter: TemplateDefinition["filter"], answerType: TemplateDefinition["answerType"]): TemplateDefinition => ({
@@ -82,4 +82,16 @@ describe("Template filters", () => {
     ];
     expect(answerSetOf(labelled, { ...fixtureInputs, labels })).toEqual(["champion:Kaisa"]);
   });
+
+  it("Worlds winners are every player on any Worlds-winning roster, once each", () => {
+    const set = answerSetOf(template({ kind: "worlds-winner" }, "pro-player"), { ...fixtureInputs, esports: fixtureEsports });
+    expect(set).toHaveLength(12);
+    expect(set).toContain("pro-player:Faker");
+    expect(set).not.toContain("pro-player:Uzi");
+  });
+
+  it("an esports filter without an esports snapshot is an error, not an empty Answer Set", () => {
+    expect(() => answerSetOf(template({ kind: "worlds-winner" }, "pro-player"), fixtureInputs)).toThrow(/esports/);
+  });
 });
+

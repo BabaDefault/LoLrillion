@@ -1,23 +1,29 @@
 import { normalizeGuess, type Entity, type EntityId } from "@/engine";
+import type { EsportsSnapshot } from "@/content/esports/snapshot";
 import type { GameDataSnapshot } from "./snapshot";
 
 /** Hand-curated nicknames per Entity ID (e.g. `{"champion:MissFortune": ["MF"]}`). */
 export type Nicknames = Readonly<Record<EntityId, readonly string[]>>;
 
-/** Entity IDs are namespaced by Answer Type: `champion:<DDragon id>`, `item:<Riot id>`, `skin:<Riot id>`. */
+/**
+ * Entity IDs are namespaced by Answer Type: `champion:<DDragon id>`, `item:<Riot id>`, `skin:<Riot id>`,
+ * `pro-player:<Leaguepedia player page>`.
+ */
 export const championEntityId = (ddragonId: string): EntityId => `champion:${ddragonId}`;
 export const itemEntityId = (riotId: string): EntityId => `item:${riotId}`;
 export const skinEntityId = (riotId: number): EntityId => `skin:${riotId}`;
+export const proPlayerEntityId = (leaguepediaPage: string): EntityId => `pro-player:${leaguepediaPage}`;
 
 /**
- * Build the Entity registry from a game data snapshot, with Aliases from internal names (`MonkeyKing`)
- * and the curated `nicknames` (Data Dragon item `colloq` is too noisy to use). Pure.
+ * Build the Entity registry from a game data snapshot and (when given) the esports snapshot, with
+ * Aliases from internal names (`MonkeyKing`), pro players' former IGNs, and the curated `nicknames`
+ * (Data Dragon item `colloq` is too noisy to use). Pure.
  *
  * An Alias must resolve to exactly one Entity, so any Alias that normalizes to another Entity's name,
  * or that two Entities of the same Answer Type share, is dropped. Aliases that normalize to the
  * Entity's own name (e.g. "Kai Sa" for Kai'Sa) are dropped as redundant: matching already ignores them.
  */
-export function buildRegistry(snapshot: GameDataSnapshot, nicknames: Nicknames): Entity[] {
+export function buildRegistry(snapshot: GameDataSnapshot, nicknames: Nicknames, esports?: EsportsSnapshot): Entity[] {
   const candidates: Entity[] = [
     ...snapshot.champions.map((c) => ({
       id: championEntityId(c.id),
@@ -36,6 +42,12 @@ export function buildRegistry(snapshot: GameDataSnapshot, nicknames: Nicknames):
       name: s.name,
       answerType: "skin" as const,
       aliases: [],
+    })),
+    ...(esports?.players ?? []).map((p) => ({
+      id: proPlayerEntityId(p.id),
+      name: p.name,
+      answerType: "pro-player" as const,
+      aliases: p.formerNames,
     })),
   ].map((e) => ({ ...e, aliases: [...e.aliases, ...(nicknames[e.id] ?? [])] }));
 

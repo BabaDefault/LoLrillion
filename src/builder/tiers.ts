@@ -1,7 +1,8 @@
 import type { GameDataSnapshot } from "@/content/game-data/snapshot";
-import { championEntityId, itemEntityId, skinEntityId } from "@/content/game-data/build-registry";
+import { championEntityId, itemEntityId, proPlayerEntityId, skinEntityId } from "@/content/game-data/build-registry";
 import type { EntityId, Tier } from "@/engine";
 import { answerSetOf } from "./answer-set";
+import { isEsportsAnswerType, requireEsports } from "./esports";
 import { provenanceOf } from "./provenance";
 import type { BuilderInputs, BuiltPrompt, FamiliarityData, ScoringConstants, TemplateDefinition } from "./types";
 
@@ -32,7 +33,7 @@ export function buildPrompt(template: TemplateDefinition, inputs: BuilderInputs)
   const scoring = inputs.scoring ?? SCORING_CONSTANTS;
   const entities = answerSetOf(template, inputs);
   const review = inputs.reviews?.[template.id];
-  const prior = priorOf(entities, inputs, review?.typicality ?? {}, scoring.familiarityWeight);
+  const prior = priorOf(template, entities, inputs, review?.typicality ?? {}, scoring.familiarityWeight);
   // Likeliest first; Entity ID keeps the order deterministic.
   const byPrior = [...entities].sort((a, b) => prior.get(b)! - prior.get(a)! || a.localeCompare(b));
 
@@ -93,24 +94,30 @@ function bandAt(position: number, shares: ScoringConstants["bandShares"]): Tier 
 
 /**
  * Prior per Entity: Typicality (approved, else a default), blended with Familiarity normalized over
- * the Answer Set when Familiarity data exists. Champion pick rate only breaks ties.
+ * the Answer Set when Familiarity data exists (for pro players: pro games played, from the esports
+ * snapshot). Champion pick rate only breaks ties.
  */
 function priorOf(
+  template: TemplateDefinition,
   entities: readonly EntityId[],
   inputs: BuilderInputs,
   approved: Readonly<Record<EntityId, number>>,
   familiarityWeight: number,
 ): Map<EntityId, number> {
-  const defaults = defaultTypicality(entities, inputs.snapshot);
+  const defaults = defaultTypicality(entities, inputs);
   const typicality = (id: EntityId) => approved[id] ?? defaults.get(id) ?? 0;
-  const familiarity = inputs.familiarity ? familiarityRanks(entities, inputs.familiarity, inputs.snapshot) : undefined;
+  const familiarity = isEsportsAnswerType(template.answerType)
+    ? { rank: rankPercentiles(proGamesOf(entities, inputs)), tiebreak: undefined }
+    : inputs.familiarity
+      ? familiarityRanks(entities, inputs.familiarity, inputs.snapshot)
+      : undefined;
 
   return new Map(
     entities.map((id) => {
       const blended = familiarity
         ? familiarityWeight * familiarity.rank.get(id)! + (1 - familiarityWeight) * typicality(id)
         : typicality(id);
-      return [id, blended + (familiarity?.tiebreak.get(id) ?? 0)];
+      return [id, blended + (familiarity?.tiebreak?.get(id) ?? 0)];
     }),
   );
 }
@@ -120,6 +127,12 @@ function rankPercentiles(values: Map<EntityId, number>): Map<EntityId, number> {
   const sorted = [...new Set(values.values())].sort((a, b) => a - b);
   const top = Math.max(sorted.length - 1, 1);
   return new Map([...values].map(([id, v]) => [id, sorted.indexOf(v) / top]));
+}
+
+/** Pro games played per pro player in the Answer Set: their Familiarity. */
+function proGamesOf(entities: readonly EntityId[], inputs: BuilderInputs): Map<EntityId, number> {
+  const games = new Map(requireEsports(inputs).players.map((p) => [proPlayerEntityId(p.id), p.proGames]));
+  return new Map(entities.map((id) => [id, games.get(id) ?? 0]));
 }
 
 function familiarityRanks(entities: readonly EntityId[], data: FamiliarityData, snapshot: GameDataSnapshot) {
@@ -149,9 +162,10 @@ const SKIN_RARITY_WEIGHT: Record<string, number> = {
 /**
  * Placeholder Typicality until a Template's review is approved, so the pipeline runs end-to-end.
  * Crude proxies: older champions (lower key), pricier items, and skins of a rarer tier on an older
- * champion come to mind first. Small tie-breakers keep big Answer Sets from collapsing into one band.
+ * champion, and pro players with more pro games come to mind first. Small tie-breakers keep big Answer
+ * Sets from collapsing into one band.
  */
-function defaultTypicality(entities: readonly EntityId[], snapshot: GameDataSnapshot): Map<EntityId, number> {
+function defaultTypicality(entities: readonly EntityId[], { snapshot, esports }: BuilderInputs): Map<EntityId, number> {
   const championKey = new Map(snapshot.champions.map((c) => [c.id, c.key]));
   const signal = new Map<EntityId, number>();
   for (const c of snapshot.champions) signal.set(championEntityId(c.id), -c.key);
@@ -160,5 +174,6 @@ function defaultTypicality(entities: readonly EntityId[], snapshot: GameDataSnap
     const rarity = SKIN_RARITY_WEIGHT[s.rarity] ?? 0;
     signal.set(skinEntityId(s.id), rarity * 1e4 - (championKey.get(s.championId) ?? 9999) - (s.id % 1000) / 1e3);
   }
+  for (const p of esports?.players ?? []) signal.set(proPlayerEntityId(p.id), p.proGames);
   return rankPercentiles(new Map(entities.map((id) => [id, signal.get(id) ?? 0])));
 }
