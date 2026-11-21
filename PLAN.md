@@ -250,7 +250,8 @@ never runs while people are playing. Every output is a *suggestion with evidence
   (e.g. `🟦🟨💎⬛🤡🟧🟩`) · optional link.
 - **Personal stats page** (per device ID): games played, average score, Tier counts, Gems found, best day.
 - **No streaks.**
-- Archive: past days playable for fun but not on that day's leaderboard.
+- Archive: past days playable for fun but not on that day's leaderboard. Admin-only: it opens only
+  in a browser that has unlocked `/admin`, and is a 404 for everyone else.
 
 ## Proposed stack (all free tiers, $0/month)
 | Piece | Service | Free-tier notes |

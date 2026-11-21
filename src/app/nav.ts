@@ -1,7 +1,6 @@
-/** The site-wide navigation, in display order. */
+/** The site-wide navigation, in display order. The archive is admin-only, so it is linked from /admin instead. */
 export const NAV_ITEMS = [
   { href: "/", label: "Today" },
-  { href: "/archive", label: "Archive" },
   { href: "/stats", label: "Stats" },
   { href: "/leaderboard", label: "Leaderboard" },
 ] as const;

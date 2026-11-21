@@ -44,7 +44,7 @@ $env:PLAYWRIGHT_BASE_URL="https://<deployment>.vercel.app"; npm run test:smoke  
 With `PLAYWRIGHT_BASE_URL` set, no server is started and only `e2e/deployed.spec.ts` runs. A deployed site
 has no test hooks, so this run is a reduced, read-only check: the home page offers today's Puzzle without
 revealing it, the state API sends no Answer Set, results stay locked before the Puzzle is finished, the
-leaderboards, stats and archive pages load, and the `/api/test/*` routes return 404. It never starts a
+leaderboards and stats pages load, the admin-only archive is a 404, and the `/api/test/*` routes return 404. It never starts a
 Prompt or submits a Guess, so it leaves no plays in Supabase. The gameplay flows (Attempts, Did-you-mean,
 timeouts, the end screen, share line and group leaderboards) are covered only by the local run. If the
 preview has Vercel Deployment Protection, also set `VERCEL_AUTOMATION_BYPASS_SECRET`.

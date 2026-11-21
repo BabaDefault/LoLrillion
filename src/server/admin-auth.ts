@@ -34,3 +34,12 @@ export function isAdminKey(typed: string, key: string): boolean {
 export function isAdminToken(cookie: string | undefined, key: string): boolean {
   return cookie !== undefined && same(cookie, adminToken(key));
 }
+
+/**
+ * Whether a request's admin cookie unlocks admin-only pages (the dashboard and the archive). Never
+ * true when LOLRILLION_ADMIN_KEY isn't set.
+ */
+export function hasAdminAccess(cookie: string | undefined, env: Record<string, string | undefined>): boolean {
+  const key = adminKey(env);
+  return key !== null && isAdminToken(cookie, key);
+}

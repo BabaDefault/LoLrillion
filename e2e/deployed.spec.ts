@@ -28,13 +28,14 @@ test("results stay locked until the Puzzle is finished", async ({ request }) => 
   expect(JSON.stringify(body)).not.toContain("answerSet");
 });
 
-test("the leaderboards, stats and archive pages load", async ({ page }) => {
+test("the leaderboards and stats pages load, and the admin-only archive is hidden", async ({ page, request }) => {
   await page.goto("/leaderboard");
   await expect(page.getByRole("heading", { name: "Leaderboards" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Global" })).toBeVisible();
-  for (const path of ["/stats", "/archive"]) {
-    const res = await page.goto(path);
-    expect(res?.ok(), path).toBeTruthy();
+  const stats = await page.goto("/stats");
+  expect(stats?.ok(), "/stats").toBeTruthy();
+  for (const path of ["/archive", "/api/archive", "/api/puzzle/state?day=2026-11-20"]) {
+    expect((await request.get(path)).status(), path).toBe(404);
   }
 });
 

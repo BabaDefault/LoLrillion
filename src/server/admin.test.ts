@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { GeneratedPuzzle } from "@/builder";
 import type { AcceptedResult, Entity } from "@/engine";
-import { adminKey, adminToken, isAdminKey, isAdminToken } from "./admin-auth";
+import { adminKey, adminToken, hasAdminAccess, isAdminKey, isAdminToken } from "./admin-auth";
 import { adminDay } from "./admin-dashboard";
 import type { AttemptLogEntry } from "./storage/play-store";
 
@@ -24,6 +24,14 @@ describe("the admin key", () => {
     expect(isAdminToken(adminToken("other-key-of-enough-length"), KEY)).toBe(false);
     expect(isAdminToken(undefined, KEY)).toBe(false);
     expect(isAdminToken(KEY, KEY)).toBe(false);
+  });
+
+  it("grants access only to the right cookie, and never when no key is configured", () => {
+    const env = { LOLRILLION_ADMIN_KEY: KEY };
+    expect(hasAdminAccess(adminToken(KEY), env)).toBe(true);
+    expect(hasAdminAccess(undefined, env)).toBe(false);
+    expect(hasAdminAccess(adminToken("other-key-of-enough-length"), env)).toBe(false);
+    expect(hasAdminAccess(adminToken(KEY), {})).toBe(false);
   });
 });
 

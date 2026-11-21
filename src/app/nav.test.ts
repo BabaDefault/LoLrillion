@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { activeNavHref } from "./nav";
+import { activeNavHref, NAV_ITEMS } from "./nav";
 
 describe("activeNavHref", () => {
   it("marks Today on the home page", () => {
     expect(activeNavHref("/")).toBe("/");
   });
 
-  it("marks Archive on the archive list and on a past Puzzle Day being replayed", () => {
-    expect(activeNavHref("/archive")).toBe("/archive");
-    expect(activeNavHref("/archive/2026-11-01")).toBe("/archive");
+  it("leaves out the archive, which is admin-only", () => {
+    expect(NAV_ITEMS.map((i) => i.href)).not.toContain("/archive");
+    expect(activeNavHref("/archive")).toBeNull();
   });
 
   it("marks Stats and Leaderboard on their pages", () => {

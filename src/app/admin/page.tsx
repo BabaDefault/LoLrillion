@@ -43,6 +43,9 @@ export default async function AdminPage({ searchParams }: Props) {
     <div className="admin">
       <div className="admin-head">
         <h1 className="title">Admin</h1>
+        <Link href="/archive" className="chip">
+          Archive
+        </Link>
         <form action={lock}>
           <button className="secondary" type="submit">
             Lock
