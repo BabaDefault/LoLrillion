@@ -6,8 +6,9 @@ import { TierPoro } from "./poro";
 import { tierTone } from "./tier-tone";
 
 /**
- * The score animation between Prompts: a poro in the Tier's colour drops in with the Tier name and
- * Points, while the backdrop sinks one step deeper. Never reveals the Answer Set.
+ * The score animation between Prompts: a plain poro drops in, glows, and transforms into the Tier's
+ * colour, then the Tier name and Points appear, while the backdrop sinks one step deeper. Never
+ * reveals the Answer Set.
  */
 export function ScoreInterlude({
   index,
@@ -31,8 +32,8 @@ export function ScoreInterlude({
       </p>
       <div className={`score-pop tone-${tone}`} key={index} aria-live="polite">
         <TierPoro tone={tone} cell={5} />
-        <span className="score-tier">{accepted ? TIER_NAMES[result.tier] : "Miss"}</span>
-        <span className="score-points">+{result.points}</span>
+        <span className="score-tier score-reveal">{accepted ? TIER_NAMES[result.tier] : "Miss"}</span>
+        <span className="score-points score-reveal">+{result.points}</span>
       </div>
       <p className="muted">{accepted ? `Locked in: ${result.entityName}` : "Time's up."}</p>
       <button className="primary" onClick={onContinue} autoFocus>
