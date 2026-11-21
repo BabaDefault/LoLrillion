@@ -17,6 +17,27 @@ import puzzle_2026_12_02 from "./2026-12-02.json";
 import puzzle_2026_12_03 from "./2026-12-03.json";
 import puzzle_2026_12_04 from "./2026-12-04.json";
 import puzzle_2026_12_05 from "./2026-12-05.json";
+import puzzle_2026_12_06 from "./2026-12-06.json";
+import puzzle_2026_12_07 from "./2026-12-07.json";
+import puzzle_2026_12_08 from "./2026-12-08.json";
+import puzzle_2026_12_09 from "./2026-12-09.json";
+import puzzle_2026_12_10 from "./2026-12-10.json";
+import puzzle_2026_12_11 from "./2026-12-11.json";
+import puzzle_2026_12_12 from "./2026-12-12.json";
+import puzzle_2026_12_13 from "./2026-12-13.json";
+import puzzle_2026_12_14 from "./2026-12-14.json";
+import puzzle_2026_12_15 from "./2026-12-15.json";
+import puzzle_2026_12_16 from "./2026-12-16.json";
+import puzzle_2026_12_17 from "./2026-12-17.json";
+import puzzle_2026_12_18 from "./2026-12-18.json";
+import puzzle_2026_12_19 from "./2026-12-19.json";
+import puzzle_2026_12_20 from "./2026-12-20.json";
+import puzzle_2026_12_21 from "./2026-12-21.json";
+import puzzle_2026_12_22 from "./2026-12-22.json";
+import puzzle_2026_12_23 from "./2026-12-23.json";
+import puzzle_2026_12_24 from "./2026-12-24.json";
+import puzzle_2026_12_25 from "./2026-12-25.json";
+import puzzle_2026_12_26 from "./2026-12-26.json";
 
 export const datedPuzzles: Readonly<Record<string, GeneratedPuzzle>> = {
   "2026-11-20": puzzle_2026_11_20 as unknown as GeneratedPuzzle,
@@ -35,4 +56,25 @@ export const datedPuzzles: Readonly<Record<string, GeneratedPuzzle>> = {
   "2026-12-03": puzzle_2026_12_03 as unknown as GeneratedPuzzle,
   "2026-12-04": puzzle_2026_12_04 as unknown as GeneratedPuzzle,
   "2026-12-05": puzzle_2026_12_05 as unknown as GeneratedPuzzle,
+  "2026-12-06": puzzle_2026_12_06 as unknown as GeneratedPuzzle,
+  "2026-12-07": puzzle_2026_12_07 as unknown as GeneratedPuzzle,
+  "2026-12-08": puzzle_2026_12_08 as unknown as GeneratedPuzzle,
+  "2026-12-09": puzzle_2026_12_09 as unknown as GeneratedPuzzle,
+  "2026-12-10": puzzle_2026_12_10 as unknown as GeneratedPuzzle,
+  "2026-12-11": puzzle_2026_12_11 as unknown as GeneratedPuzzle,
+  "2026-12-12": puzzle_2026_12_12 as unknown as GeneratedPuzzle,
+  "2026-12-13": puzzle_2026_12_13 as unknown as GeneratedPuzzle,
+  "2026-12-14": puzzle_2026_12_14 as unknown as GeneratedPuzzle,
+  "2026-12-15": puzzle_2026_12_15 as unknown as GeneratedPuzzle,
+  "2026-12-16": puzzle_2026_12_16 as unknown as GeneratedPuzzle,
+  "2026-12-17": puzzle_2026_12_17 as unknown as GeneratedPuzzle,
+  "2026-12-18": puzzle_2026_12_18 as unknown as GeneratedPuzzle,
+  "2026-12-19": puzzle_2026_12_19 as unknown as GeneratedPuzzle,
+  "2026-12-20": puzzle_2026_12_20 as unknown as GeneratedPuzzle,
+  "2026-12-21": puzzle_2026_12_21 as unknown as GeneratedPuzzle,
+  "2026-12-22": puzzle_2026_12_22 as unknown as GeneratedPuzzle,
+  "2026-12-23": puzzle_2026_12_23 as unknown as GeneratedPuzzle,
+  "2026-12-24": puzzle_2026_12_24 as unknown as GeneratedPuzzle,
+  "2026-12-25": puzzle_2026_12_25 as unknown as GeneratedPuzzle,
+  "2026-12-26": puzzle_2026_12_26 as unknown as GeneratedPuzzle,
 };
