@@ -169,6 +169,7 @@
   { "entityId": "champion:Riven", "term": "stun", "ability": "W", "quote": "Riven emits a Ki Burst, damaging and stunning nearby enemies.", "sourceField": "description" },
   { "entityId": "champion:Riven", "term": "knock-up", "ability": "Q", "quote": "The first Recast is the same as the original, but the second has a different effect: Recast: Riven leaps forward and slams, dealing {{ firstslashdamage }} physical damage and Knocks Up nearby enemies for 0.75 seconds.{{ spellmodifierdescriptionappend }}", "sourceField": "tooltip" },
   { "entityId": "champion:Riven", "term": "dash", "ability": "E", "quote": "Riven quickly dashes and gains {{ totalshield }} Shield for 1.5 seconds.{{ spellmodifierdescriptionappend }}", "sourceField": "tooltip" },
+  { "entityId": "champion:Samira", "term": "knock-up", "ability": "P", "quote": "If the enemy is Knocked Up, she also keeps them Knocked Up briefly.", "sourceField": "description" },
   { "entityId": "champion:Samira", "term": "dash", "ability": "E", "quote": "Samira dashes through an enemy (including structures), slashing enemies she passes through and gaining Attack Speed.", "sourceField": "description" },
   { "entityId": "champion:Sejuani", "term": "stun", "ability": "E", "quote": "Sejuani freezes and stuns an enemy champion that has maximum Frost stacks.", "sourceField": "description" },
   { "entityId": "champion:Sejuani", "term": "knock-up", "ability": "Q", "quote": "Sejuani charges forward, knocking enemies into the air", "sourceField": "description" },
