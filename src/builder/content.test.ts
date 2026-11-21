@@ -15,6 +15,7 @@ import {
   PROMPTS_PER_PUZZLE,
   type BuilderInputs,
   type TemplateDefinition,
+  type TemplateFilter,
 } from "./index";
 
 /** The committed content: real snapshots and Templates. */
@@ -65,9 +66,56 @@ describe("Templates on the committed data", () => {
     expect(added).toEqual({ "items-crit": ["Yun Tal Wildarrows"] });
   });
 
-  it("no lore Templates: kit labels, name length, item stats, skin names and esports", () => {
-    const kinds = new Set(templates.map((t) => t.filter.kind));
-    expect([...kinds].sort()).toEqual(["champion-label", "champion-name-length", "item-stat", "skin-name-word", "worlds-winner"]);
+  it("no lore Templates: kit labels, range, name length, item stats and build paths, skin names, esports, and combinations of them", () => {
+    const kinds = (f: TemplateFilter): string[] => (f.kind === "all" ? [f.kind, ...f.of.flatMap(kinds)] : [f.kind]);
+    const used = new Set(templates.flatMap((t) => kinds(t.filter)));
+    expect([...used].sort()).toEqual([
+      "all",
+      "champion-label",
+      "champion-name-length",
+      "champion-range",
+      "item-builds-from",
+      "item-stat",
+      "skin-name-word",
+      "worlds-winner",
+    ]);
+  });
+
+  it("every Template's Answer Set fits the generator's size range", () => {
+    const withLabels = { ...inputs, labels: approvedLabels };
+    for (const t of templates) {
+      const size = answerSetOf(t, withLabels).length;
+      expect(size, t.id).toBeGreaterThanOrEqual(GENERATOR_DEFAULTS.minAnswers);
+      expect(size, t.id).toBeLessThanOrEqual(GENERATOR_DEFAULTS.maxAnswers);
+    }
+  });
+
+  it("combined filters keep only what every part selects: ranged champions who can become invisible", () => {
+    const set = names(answerSetOf(template("champions-ranged-invisible"), { ...inputs, labels: approvedLabels }));
+    expect(set).toEqual(expect.arrayContaining(["Twitch", "Vayne", "Kai'Sa"]));
+    expect(set).not.toContain("Evelynn"); // melee
+    expect(set).not.toContain("Jinx"); // ranged, never invisible
+  });
+
+  it("champion range uses the base form: Kayle and Jayce melee, Nidalee ranged", () => {
+    const melee = names(answerSetOf({ ...template("champions-melee-pull"), filter: { kind: "champion-range", ranged: false } }, inputs));
+    expect(melee).toEqual(expect.arrayContaining(["Kayle", "Jayce", "Garen"]));
+    expect(melee).not.toContain("Nidalee");
+    expect(melee).not.toContain("Ashe");
+  });
+
+  it("items with two stats need both", () => {
+    const set = names(answerSetOf(template("items-armor-health"), inputs));
+    expect(set).toEqual(expect.arrayContaining(["Sunfire Aegis", "Randuin's Omen"]));
+    expect(set).not.toContain("Warmog's Armor"); // Health only
+    expect(set).not.toContain("Chain Vest"); // Armor only
+  });
+
+  it("build paths are one step: Kindlegem builds into Spirit Visage, not into what Spirit Visage builds into", () => {
+    const set = names(answerSetOf(template("items-from-kindlegem"), inputs));
+    expect(set).toEqual(expect.arrayContaining(["Spirit Visage", "Locket of the Iron Solari"]));
+    expect(set).not.toContain("Kindlegem");
+    expect(set).not.toContain("Ruby Crystal");
   });
 
   it("Worlds winners: every winning roster's players, in the generator's size range, each a registry Entity", () => {

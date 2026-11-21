@@ -30,6 +30,12 @@ export type TemplateFilter =
   | { kind: "champion-label"; term: string }
   | { kind: "champion-name-length"; atMost: number }
   | { kind: "item-stat"; stat: string }
+  /** Champions whose base attack range is ranged (`RANGED_ATTACK_RANGE` or more) or melee (less). */
+  | { kind: "champion-range"; ranged: boolean }
+  /** Items that list `item` (a Riot item id) among their direct shop components. */
+  | { kind: "item-builds-from"; item: string }
+  /** Entities every sub-filter selects (all sub-filters must share one Answer Type). */
+  | { kind: "all"; of: TemplateFilter[] }
   /** Skins whose name has `word` as a whole word, or (with `prefix`) a word starting with it. */
   | { kind: "skin-name-word"; word: string; prefix?: boolean }
   /** Pro players on any Worlds-winning roster (esports snapshot). */

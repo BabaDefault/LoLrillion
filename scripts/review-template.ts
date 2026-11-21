@@ -17,7 +17,7 @@
  */
 import { existsSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
-import { answerSetOf, buildPrompt, esportsVersion, isEsportsAnswerType, type BuilderInputs, type TemplateDefinition } from "../src/builder";
+import { answerSetOf, buildPrompt, esportsVersion, labelTermsOf, isEsportsAnswerType, type BuilderInputs, type TemplateDefinition } from "../src/builder";
 import { entityRegistry } from "../src/content/game-data";
 import { esportsSnapshot } from "../src/content/esports";
 import { gameDataSnapshot } from "../src/content/game-data/snapshot-data";
@@ -57,15 +57,15 @@ function template(templates: TemplateDefinition[], id: string | undefined): Temp
  * label was last checked (`tagged.json`) before their ability text changed.
  */
 async function staleFactsFor(t: TemplateDefinition, answerSet: readonly string[]): Promise<Record<string, string>> {
-  if (t.filter.kind !== "champion-label") return {};
+  const terms = labelTermsOf(t.filter);
+  if (terms.length === 0) return {};
   const baseline = await readJson<TaggedBaseline>(content("labels/tagged.json"));
   if (!baseline.patch) return {};
   const changed = new Set(changedChampions(gameDataSnapshot, baseline));
-  const term = t.filter.term;
   return Object.fromEntries(
     answerSet
       .filter((id) => changed.has(id))
-      .map((id) => [id, `its ${term} label was checked on ${baseline.patch}; its ability text changed since`]),
+      .map((id) => [id, `its ${terms.join(" and ")} labels were checked on ${baseline.patch}; its ability text changed since`]),
   );
 }
 
@@ -124,7 +124,7 @@ async function worklist(id: string | undefined) {
   const inSet = new Set(answerSets[t.id]);
   const built = buildPrompt(t, inputs);
   const [entry] = reviewQueue({ [t.id]: answerSets[t.id] }, reviews, invalid);
-  const term = t.filter.kind === "champion-label" ? mechanicsTerm(t.filter.term) : undefined;
+  const terms = labelTermsOf(t.filter).flatMap((id) => mechanicsTerm(id) ?? []);
 
   const work = {
     templateId: t.id,
@@ -133,7 +133,7 @@ async function worklist(id: string | undefined) {
     answerType: t.answerType,
     rule: t.rule,
     filter: t.filter,
-    term: term && { id: term.id, definition: term.definition, excludes: term.excludes },
+    terms: terms.map((term) => ({ id: term.id, definition: term.definition, excludes: term.excludes })),
     queue: entry?.status === "unreviewed" ? { status: entry.status } : (entry ?? { status: "approved, unchanged" }),
     approved: reviews[t.id] ?? invalid[t.id]?.review ?? null,
     answerSet: answerSets[t.id].map((entity) => ({

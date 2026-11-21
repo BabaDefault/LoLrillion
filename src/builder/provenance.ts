@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { labelTermsOf } from "./answer-set";
 import { esportsVersion, isEsportsAnswerType, requireEsports } from "./esports";
 import type { BuilderInputs, BuiltPrompt, PromptProvenance, ScoringConstants, TemplateDefinition } from "./types";
 
@@ -10,7 +11,7 @@ export function provenanceOf(template: TemplateDefinition, inputs: BuilderInputs
   const review = inputs.reviews?.[template.id];
   const common = {
     review: review ? contentHash(review) : "unreviewed",
-    labels: template.filter.kind === "champion-label" ? contentHash(labelsUsed(template.filter.term, inputs)) : "unused",
+    labels: labelsHash(labelTermsOf(template.filter), inputs),
     scoring: contentHash(scoring),
   };
   if (isEsportsAnswerType(template.answerType)) {
@@ -51,6 +52,13 @@ export function explainPrompt(stored: BuiltPrompt, rebuilt: BuiltPrompt): Prompt
 const PROVENANCE_FIELDS: readonly (keyof PromptProvenance)[] = ["dataVersion", "review", "labels", "familiarity", "scoring"];
 
 /** The approved labels a `champion-label` filter reads: those with its term, in a stable order. */
+/** One term hashes its labels alone (as before combined filters), several hash the list per term. */
+function labelsHash(terms: readonly string[], inputs: BuilderInputs): string {
+  if (terms.length === 0) return "unused";
+  if (terms.length === 1) return contentHash(labelsUsed(terms[0], inputs));
+  return contentHash(terms.map((term) => labelsUsed(term, inputs)));
+}
+
 function labelsUsed(term: string, { labels = [] }: BuilderInputs): string[] {
   return labels
     .filter((l) => l.term === term)

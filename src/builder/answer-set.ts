@@ -38,6 +38,20 @@ function tooltipStatLabels(description: string): Set<string> {
   );
 }
 
+/**
+ * Base attack range from which a champion counts as ranged. Riot's melee champions sit at 125-250 and
+ * its ranged ones from 300 (Rakan) up. Transforming champions count by their base form (Data Dragon's
+ * range): Kayle, Gnar and Jayce are melee, Nidalee and Elise ranged.
+ */
+export const RANGED_ATTACK_RANGE = 300;
+
+/** The mechanics terms a filter reads, in order (nested `all` filters included). */
+export function labelTermsOf(filter: TemplateFilter): string[] {
+  if (filter.kind === "champion-label") return [filter.term];
+  if (filter.kind === "all") return filter.of.flatMap(labelTermsOf);
+  return [];
+}
+
 /** The Entities a Template's filter selects from the game data and approved labels. */
 export function answerSetOf(template: TemplateDefinition, inputs: BuilderInputs): EntityId[] {
   return select(template.filter, inputs);
@@ -59,6 +73,18 @@ function select(filter: TemplateFilter, inputs: BuilderInputs): EntityId[] {
       return snapshot.items
         .filter((i) => (i.stats[filter.stat] ?? 0) > 0 || tooltipStatLabels(i.description).has(TOOLTIP_STAT_LABEL[filter.stat]))
         .map((i) => itemEntityId(i.id));
+    case "champion-range":
+      return champions
+        .filter((c) => c.attackRange >= RANGED_ATTACK_RANGE === filter.ranged)
+        .map((c) => championEntityId(c.id));
+    case "item-builds-from":
+      return snapshot.items.filter((i) => i.from.includes(filter.item)).map((i) => itemEntityId(i.id));
+    case "all": {
+      const [first, ...rest] = filter.of.map((f) => select(f, inputs));
+      if (!first) throw new Error(`An "all" filter needs at least one sub-filter.`);
+      const others = rest.map((ids) => new Set(ids));
+      return first.filter((id) => others.every((set) => set.has(id)));
+    }
     case "skin-name-word": {
       const tail = filter.prefix ? "" : "\\b";
       const pattern = new RegExp(`\\b${escapeRegExp(filter.word)}${tail}`, "i");
